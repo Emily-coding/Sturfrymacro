@@ -3,16 +3,19 @@
 Bigger items here; day-to-day to-dos go in GitHub Issues.
 
 ## Nowcasts
-- **Published nowcasts and short-term forecasts** (free sources only), next two
-  quarters of GDP growth and CPI inflation, each vintage kept:
-  - Bank of England staff nowcasts: Monetary Policy Report chart-data spreadsheet (quarterly).
-  - OBR: quarterly GDP and CPI path from the Economic and Fiscal Outlook detailed
-    tables (twice a year; `ukmacro/obr.py` already downloads these).
-  - NIESR monthly GDP tracker.
-  - Bank of England Market Participants Survey medians (in place of Bloomberg consensus,
-    which can't be republished).
+- ~~Published forecasts: Bank of England MPR (incl. staff near-term projections),
+  outside forecasters' average, OBR~~ done (dashboard, builders/dashboard/).
+- NIESR monthly GDP tracker: published only as an article (no data file), so not
+  included. Could parse the article text if it's wanted.
+- Keep past forecast vintages (the BoE databank already holds every report since 2004;
+  the OBR historical forecasts database has the rest) for forecast-vs-outturn charts.
 - **Our own bottom-up model**: method to be agreed first (written up as a short note
-  next to the code), then built.
+  next to the code), then built; add it to the dashboard as another forecaster.
+
+## Investment
+- A monthly indicator: the ONS publishes business investment quarterly only. Candidates
+  to look at: capital goods imports (monthly trade), construction new work, and the
+  DMP's investment expectations.
 
 ## Inflation
 - Bank Rate alongside CPI (BoE data is daily-dated: convert to monthly first).

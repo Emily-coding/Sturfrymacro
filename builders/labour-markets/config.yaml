@@ -15,6 +15,17 @@ charts:
       - {source: ons, key: employment, label: Employment rate, cdid: LF24, dataset: LMS}
       - {source: ons, key: inactivity, label: Inactivity rate, cdid: LF2S, dataset: LMS}
 
+  - slug: lm-rates-16plus
+    title: Employment and unemployment rates, aged 16+
+    units: "%"
+    freq: M
+    start: "2015-01"
+    source: ONS Labour Force Survey (LMS)
+    note: Rolling three-month averages, dated by the final month. Employment rate is a share of everyone aged 16+; unemployment rate is a share of the economically active. LFS estimates are official statistics in development.
+    series:
+      - {source: ons, key: employment, label: Employment rate, cdid: MGSR, dataset: LMS}
+      - {source: ons, key: unemployment, label: Unemployment rate, cdid: MGSX, dataset: LMS}
+
   - slug: unemployment
     title: Unemployment rate, aged 16+
     units: "%"
@@ -34,14 +45,15 @@ charts:
       - {source: ons, key: vacancies, label: Vacancies, cdid: AP2Y, dataset: LMS}
 
   - slug: pay-growth
-    title: Average weekly earnings growth, whole economy
+    title: Average weekly earnings growth
     units: "% year on year, 3-month average"
     freq: M
     start: "2015-01"
     source: ONS Average Weekly Earnings
-    note: Total pay, nominal.
+    note: Nominal. Total pay includes bonuses; private-sector regular pay excludes them and is the Bank of England's preferred measure of wage pressure.
     series:
       - {source: ons, key: awe_total, label: Total pay, cdid: KAC3, dataset: LMS}
+      - {source: ons, key: awe_private_regular, label: Private-sector regular pay, cdid: KAJ4, dataset: LMS}
 
   - slug: unemployment-g7
     title: Unemployment rate, G7

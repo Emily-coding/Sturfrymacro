@@ -73,3 +73,41 @@ def historical_forecasts(sheet: str) -> dict[str, dict[int, float]]:
     if not out:
         raise ValueError(f"OBR sheet {sheet!r}: no forecast vintages found")
     return out
+
+
+# ---------------------------------------------------------------- latest EFO forecast
+
+EFO_PAGE = "https://obr.uk/efo/economic-and-fiscal-outlook-{month}-{year}/"
+MONTHS = ["january", "february", "march", "april", "may", "june", "july", "august",
+          "september", "october", "november", "december"]
+
+
+def latest_efo_economy(lookback: int = 14) -> tuple[str, bytes, str]:
+    """The newest Economic and fiscal outlook's detailed economy tables (a spreadsheet
+    with quarterly forecasts for GDP, inflation, the labour market...).
+
+    EFO pages are named by month (e.g. .../economic-and-fiscal-outlook-october-2026/),
+    so walk back month by month from today until a page with the economy tables
+    turns up. Returns (label e.g. 'October 2026', file bytes, download url).
+    """
+    import urllib.error
+    from datetime import date
+
+    y, m = date.today().year, date.today().month
+    for _ in range(lookback):
+        page = EFO_PAGE.format(month=MONTHS[m - 1], year=y)
+        try:
+            links = find(r"detailed-forecast-tables-economy$", page)
+        except urllib.error.HTTPError as e:
+            if e.code != 404:
+                raise
+            links = {}
+        # the page also links older forecasts: keep the one named after this month
+        links = {s: u for s, u in links.items() if s.startswith(f"{MONTHS[m - 1]}-{y}")}
+        if links:
+            url = next(iter(links.values()))
+            return f"{MONTHS[m - 1].title()} {y}", get(url, timeout=180), url
+        m -= 1
+        if m == 0:
+            y, m = y - 1, 12
+    raise LookupError(f"no OBR EFO economy tables found in the last {lookback} months")

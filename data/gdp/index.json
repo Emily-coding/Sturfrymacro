@@ -29,6 +29,13 @@
    "data_through": "2026-Q3",
    "next_release": null,
    "status": "ok"
+  },
+  {
+   "slug": "gdp-g7-qoq",
+   "title": "Real GDP growth, G7",
+   "data_through": "2026-Q3",
+   "next_release": null,
+   "status": "ok"
   }
  ]
 }

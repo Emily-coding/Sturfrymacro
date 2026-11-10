@@ -10,6 +10,13 @@
    "status": "ok"
   },
   {
+   "slug": "lm-rates-16plus",
+   "title": "Employment and unemployment rates, aged 16+",
+   "data_through": "2026-07",
+   "next_release": "2026-11-17",
+   "status": "ok"
+  },
+  {
    "slug": "unemployment",
    "title": "Unemployment rate, aged 16+",
    "data_through": "2026-07",
@@ -25,7 +32,7 @@
   },
   {
    "slug": "pay-growth",
-   "title": "Average weekly earnings growth, whole economy",
+   "title": "Average weekly earnings growth",
    "data_through": "2026-08",
    "next_release": "2026-11-17",
    "status": "ok"

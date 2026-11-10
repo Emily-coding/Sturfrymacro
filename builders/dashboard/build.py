@@ -1,0 +1,419 @@
+#!/usr/bin/env python3
+"""Dashboard builder: combines outturn data with published forecasts.
+
+Reads the chart files the other builders write (data/gdp, data/inflation, ...),
+fetches the latest forecasts (forecasts.py), and writes one file the dashboard page
+(index.html at the repo root) draws from:
+
+    data/dashboard/dashboard.json   sections -> charts (outturn + forecast lines) + summary box
+    data/dashboard/forecasts.json   the raw forecasts, as published (kept for reuse)
+
+How forecasts are drawn:
+- Levels (GDP, business investment): forecasters publish their own level paths,
+  which don't match today's ONS data exactly (revisions, different base years). So
+  each path is rescaled to equal the latest ONS figure in that quarter: the line
+  shows the forecaster's *growth* from where the data are now.
+- Rates (inflation, unemployment, pay growth) are drawn as published.
+- Only forecast points after the latest outturn are shown, and each forecast line
+  starts from the latest outturn point so it joins the data.
+- Quarterly forecasts on monthly charts sit at the middle month of the quarter for
+  CPI (a quarterly average) and the last month for LFS and earnings figures (which
+  are three-month averages dated by their final month, so Q3 = "3 months to Sep").
+
+Run after the other builders. If a forecast source fails, its last good forecasts
+are kept from the previous forecasts.json and the run exits 1.
+"""
+
+from __future__ import annotations
+
+import json
+import sys
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+REPO = HERE.parent.parent
+sys.path.insert(0, str(REPO))
+
+import forecasts  # noqa: E402
+
+OUT = REPO / "data" / "dashboard"
+START_M, START_Q = "2022-01", "2022-Q1"  # charts start here (late enough for forecasts to be legible)...
+END_Q = "2028-Q4"                         # ...and forecasts stop here
+
+# Fixed colour per forecaster, so each looks the same on every chart (house palette)
+FORECASTERS = {
+    "boe": {"colour": "#DE911D"},  # amber
+    "obr": {"colour": "#27AB83"},  # teal
+    "ext": {"colour": "#BA2525"},  # red
+}
+OUTTURN = "#186FAF"        # blue
+OUTTURN_SECOND = "#9FB3C8"  # grey: a second outturn measure on the same chart
+
+
+# ---------------------------------------------------------------- reading outturn
+
+def chart_file(category: str, slug: str) -> dict:
+    return json.loads((REPO / "data" / category / f"{slug}.json").read_text())
+
+
+def series(chart: dict, key: str) -> list[list]:
+    """[[date, value], ...] for one series of a chart file, gaps dropped."""
+    return [[row["date"], row[key]] for row in chart["data"] if row.get(key) is not None]
+
+
+# ---------------------------------------------------------------- dates
+
+def q_to_month(q: str, where: str) -> str:
+    """'2026-Q3' -> '2026-08' (where='mid') or '2026-09' (where='end')."""
+    y, n = q.split("-Q")
+    month = int(n) * 3 - (1 if where == "mid" else 0)
+    return f"{y}-{month:02d}"
+
+
+def q_add(q: str, k: int) -> str:
+    """Quarter arithmetic: q_add('2026-Q4', 1) == '2027-Q1'."""
+    y, n = int(q[:4]), int(q[-1]) - 1 + k
+    return f"{y + n // 4}-Q{n % 4 + 1}"
+
+
+def month_label(m: str) -> str:
+    import calendar
+    return f"{calendar.month_abbr[int(m[5:7])]} {m[:4]}"
+
+
+def q_label(q: str) -> str:
+    return f"{q[-2:]} {q[:4]}"
+
+
+# ---------------------------------------------------------------- building lines
+
+def rescale(path: list, outturn: list) -> list:
+    """Rescale a forecaster's level path so it equals the latest outturn in the
+    latest quarter both share, and keep only the quarters after it."""
+    have = dict(map(tuple, path))
+    anchor = next((d for d, _ in reversed(outturn) if d in have), None)
+    if anchor is None:
+        return []
+    factor = dict(map(tuple, outturn))[anchor] / have[anchor]
+    return [[d, round(v * factor, 3)] for d, v in path if d > anchor]
+
+
+def after(points: list, last: str, end: str) -> list:
+    """Points dated after the latest outturn and no later than `end`."""
+    return [[d, v] for d, v in points if last < d <= end]
+
+
+def line(name: str, points: list, colour: str, kind: str, join: list | None = None) -> dict | None:
+    """One chart line. Forecast lines start from `join` (the latest outturn point)."""
+    if kind == "forecast":
+        if not points:
+            return None
+        points = [join] + points if join else points
+    return {"name": name, "kind": kind, "colour": colour, "data": points}
+
+
+def forecast_lines(fc: dict, sources: dict, var: str, last_point: list, end: str,
+                   place=None, rescale_to: list | None = None, extra: dict | None = None) -> list:
+    """Forecast lines for one variable, one per forecaster.
+    place: turns a quarter into the chart's date format (None = keep quarters).
+    rescale_to: outturn to rescale level paths onto. extra: {forecaster: points}
+    to put in front (e.g. Bank staff monthly near-term projections)."""
+    out = []
+    for who, pts in fc.get(var, {}).items():
+        pts = rescale(pts, rescale_to) if rescale_to else [list(p) for p in pts]
+        pts = [[place(d) if place else d, round(v, 3)] for d, v in pts if d <= END_Q]
+        pts = after(pts, last_point[0], end)
+        if extra and who in extra:  # near-term detail first, then the quarterly path beyond it
+            near = after([list(p) for p in extra[who]], last_point[0], end)
+            pts = near + [p for p in pts if not near or p[0] > near[-1][0]]
+        name = f"{sources[who]['name']} ({sources[who]['vintage']})"
+        ln = line(name, pts, FORECASTERS[who]["colour"], "forecast", last_point)
+        if ln:
+            out.append(ln)
+    return out
+
+
+# ---------------------------------------------------------------- summary-box helpers
+
+def qoq_from_levels(path: list, q: str) -> float | None:
+    """Quarter-on-quarter % growth in quarter q from a level path."""
+    d = dict(map(tuple, path))
+    prev = q_add(q, -1)
+    return round((d[q] / d[prev] - 1) * 100, 1) if q in d and prev in d else None
+
+
+def calendar_year_growth(path: list, year: int) -> float | None:
+    """% growth in the annual total of a quarterly level path (calendar year)."""
+    d = dict(map(tuple, path))
+    cur = [d.get(f"{year}-Q{n}") for n in range(1, 5)]
+    prev = [d.get(f"{year - 1}-Q{n}") for n in range(1, 5)]
+    if None in cur or None in prev:
+        return None
+    return round((sum(cur) / sum(prev) - 1) * 100, 1)
+
+
+def value_at(points: list, when) -> float | None:
+    return next((round(v, 1) for d, v in points if d == when), None)
+
+
+def items(sources: dict, values: dict) -> list:
+    """[{who, colour, value}] for the forecasters that have a value."""
+    return [{"who": sources[w]["name"], "colour": FORECASTERS[w]["colour"], "value": v}
+            for w, v in values.items() if v is not None and w in sources]
+
+
+# ---------------------------------------------------------------- sections
+
+def gdp_section(fc, sources):
+    monthly_chart, level_chart = chart_file("gdp", "gdp-monthly"), chart_file("gdp", "gdp-level")
+    growth_chart, g7_chart = chart_file("gdp", "gdp-growth"), chart_file("gdp", "gdp-g7-qoq")
+
+    # Monthly GDP rebased so that the average of Oct-Dec 2019 = 100, matching the
+    # quarterly chart's 2019 Q4 = 100
+    m = series(monthly_chart, "gva")
+    base = sum(v for d, v in m if d in ("2019-10", "2019-11", "2019-12")) / 3
+    m = [[d, round(v / base * 100, 2)] for d, v in m if d >= START_M]
+
+    q = [p for p in series(level_chart, "gdp") if p[0] >= START_Q]
+    last_q = q[-1][0]
+    q_fc = forecast_lines(fc, sources, "gdp_level", q[-1], END_Q, rescale_to=q)
+
+    # G7: compound quarterly growth over the latest year's quarters to date
+    year = max(row["date"] for row in g7_chart["data"])[:4]
+    bars = []
+    for s in g7_chart["series"]:
+        qs = [(d, v) for d, v in series(g7_chart, s["key"]) if d.startswith(year)]
+        if not qs:
+            continue
+        growth = 1.0
+        for _, v in qs:
+            growth *= 1 + v / 100
+        span = qs[0][0][-2:] if len(qs) == 1 else f"{qs[0][0][-2:]}–{qs[-1][0][-2:]}"
+        bars.append({"name": s["label"], "value": round((growth - 1) * 100, 2), "period": f"{span} {year}",
+                     "colour": OUTTURN if s["key"] == "gbr" else "#9FB3C8"})
+    bars.sort(key=lambda b: -b["value"])
+
+    # Box: latest quarter and month, then forecasts for the next two quarters
+    qoq = series(growth_chart, "qoq")
+    nxt, nxt2 = q_add(last_q, 1), q_add(last_q, 2)
+    levels = {w: fc["gdp_level"][w] for w in fc.get("gdp_level", {})}
+    def quarter_forecasts(qq):
+        vals = {w: qoq_from_levels(p, qq) for w, p in levels.items()}
+        for w, p in fc.get("gdp_qoq", {}).items():  # near-term nowcasts beat the rounded index
+            vals[w] = value_at(p, qq) if value_at(p, qq) is not None else vals.get(w)
+        return items(sources, vals)
+    mom = round((m[-1][1] / m[-2][1] - 1) * 100, 1)
+    box = {
+        "latest": [
+            {"label": "GDP, quarter on quarter", "period": q_label(qoq[-1][0]), "value": qoq[-1][1], "unit": "%"},
+            {"label": "Monthly GDP, month on month", "period": month_label(m[-1][0]), "value": mom, "unit": "%"},
+        ],
+        "forecasts": [
+            {"heading": f"{q_label(nxt)} GDP growth, q/q", "release": level_chart.get("next_release"),
+             "unit": "%", "items": quarter_forecasts(nxt)},
+            {"heading": f"{q_label(nxt2)} GDP growth, q/q", "unit": "%", "items": quarter_forecasts(nxt2)},
+        ],
+    }
+    return {
+        "id": "gdp", "title": "GDP",
+        "box": box,
+        "charts": [
+            {"title": "Real GDP, quarterly", "units": "Index, 2019 Q4 = 100", "freq": "Q",
+             "lines": [line("ONS outturn", q, OUTTURN, "outturn")] + q_fc,
+             "note": "Chained volumes, seasonally adjusted. Forecast lines apply each forecaster's growth to the latest ONS level.",
+             "source": "ONS; Bank of England; OBR"},
+            {"title": "Real GDP, monthly", "units": "Index, Oct–Dec 2019 average = 100", "freq": "M",
+             "lines": [line("ONS outturn", m, OUTTURN, "outturn")],
+             "note": "Monthly GVA at basic prices, chained volumes, seasonally adjusted. None of the forecasters publish monthly GDP forecasts.",
+             "source": "ONS Monthly GDP estimate"},
+            {"title": f"Real GDP growth so far in {year}, G7", "units": "% change since the end of last year", "type": "bars",
+             "bars": bars,
+             "note": "Quarterly growth compounded over the quarters published so far this year; countries publish at different times.",
+             "source": "OECD Quarterly National Accounts"},
+        ],
+    }
+
+
+def inflation_section(fc, sources):
+    chart = chart_file("inflation", "cpi-headline")
+    cpi = [p for p in series(chart, "cpi") if p[0] >= START_M]
+    last = cpi[-1]
+    lines = forecast_lines(fc, sources, "cpi", last, q_to_month(END_Q, "mid"),
+                           place=lambda d: q_to_month(d, "mid"), extra=fc.get("cpi_monthly"))
+    nxt_month = f"{int(last[0][:4]) + (last[0][5:] == '12')}-{int(last[0][5:]) % 12 + 1:02d}"
+    q_now = f"{nxt_month[:4]}-Q{(int(nxt_month[5:]) - 1) // 3 + 1}"
+    box = {
+        "latest": [{"label": "CPI inflation, 12-month rate", "period": month_label(last[0]), "value": last[1], "unit": "%"}],
+        "forecasts": [
+            {"heading": f"{month_label(nxt_month)} CPI inflation", "release": chart.get("next_release"), "unit": "%",
+             "items": items(sources, {w: value_at(p, nxt_month) for w, p in fc.get("cpi_monthly", {}).items()})},
+            {"heading": f"{q_label(q_now)} average CPI inflation", "unit": "%",
+             "items": items(sources, {w: value_at(p, q_now) for w, p in fc.get("cpi", {}).items()})},
+        ],
+    }
+    return {
+        "id": "inflation", "title": "Inflation", "box": box,
+        "charts": [{"title": "CPI inflation", "units": "% change on a year earlier", "freq": "M",
+                    "lines": [line("ONS outturn", cpi, OUTTURN, "outturn")] + lines,
+                    "note": "Bank of England line is Bank staff's monthly projection for the next six months, then its quarterly projection. OBR and outside forecasters are quarterly averages, plotted mid-quarter.",
+                    "source": "ONS; Bank of England; OBR"}],
+    }
+
+
+def investment_section(fc, sources):
+    chart = chart_file("investment", "investment-level")
+    bi = [p for p in series(chart, "business") if p[0] >= START_Q]
+    last_q = bi[-1][0]
+    lines = forecast_lines(fc, sources, "business_investment_level", bi[-1], END_Q, rescale_to=bi)
+    nxt = q_add(last_q, 1)
+    year = int(nxt[:4])
+    obr_path = fc.get("business_investment_level", {}).get("obr", [])
+    box = {
+        "latest": [{"label": "Business investment, quarter on quarter", "period": q_label(last_q),
+                    "value": round((bi[-1][1] / bi[-2][1] - 1) * 100, 1), "unit": "%"}],
+        "forecasts": [
+            {"heading": f"{q_label(nxt)} business investment, q/q", "release": chart.get("next_release"), "unit": "%",
+             "items": items(sources, {"obr": qoq_from_levels(obr_path, nxt)})},
+            {"heading": f"{year} business investment growth", "unit": "%",
+             "items": items(sources, {"boe": value_at(fc.get("business_investment_annual", {}).get("boe", []), year),
+                                      "obr": calendar_year_growth(obr_path, year)})},
+        ],
+    }
+    return {
+        "id": "investment", "title": "Investment", "box": box,
+        "charts": [{"title": "Business investment", "units": "Index, 2019 Q4 = 100", "freq": "Q",
+                    "lines": [line("ONS outturn", bi, OUTTURN, "outturn")] + lines,
+                    "note": "Chained volumes, seasonally adjusted. The ONS publishes business investment quarterly only: there is no official monthly series. The Bank of England publishes calendar-year growth only (in the box).",
+                    "source": "ONS Business investment; OBR; Bank of England"}],
+    }
+
+
+def labour_section(fc, sources):
+    chart = chart_file("labour-markets", "lm-rates-16plus")
+    unemp = [p for p in series(chart, "unemployment") if p[0] >= START_M]
+    emp = [p for p in series(chart, "employment") if p[0] >= START_M]
+    end = q_to_month(END_Q, "end")
+    place = lambda d: q_to_month(d, "end")  # noqa: E731
+    u_lines = forecast_lines(fc, sources, "unemployment", unemp[-1], end, place=place,
+                             extra=fc.get("unemployment_monthly"))
+    e_lines = forecast_lines(fc, sources, "employment_rate", emp[-1], end, place=place)
+    m = unemp[-1][0]
+    q_next = f"{m[:4]}-Q{(int(m[5:]) - 1) // 3 + 1}"
+    if q_to_month(q_next, "end") <= m:  # latest data already cover that quarter
+        q_next = q_add(q_next, 1)
+    q_end = q_to_month(q_next, "end")
+    box = {
+        "latest": [
+            {"label": "Unemployment rate, 16+", "period": f"3 months to {month_label(m)}", "value": unemp[-1][1], "unit": "%"},
+            {"label": "Employment rate, 16+", "period": f"3 months to {month_label(emp[-1][0])}", "value": emp[-1][1], "unit": "%"},
+        ],
+        "forecasts": [
+            {"heading": f"Unemployment rate, {q_label(q_next)} (3 months to {month_label(q_end)[:3]})",
+             "release": chart.get("next_release"), "unit": "%",
+             "items": items(sources, {w: value_at(p, q_next) for w, p in fc.get("unemployment", {}).items()})},
+            {"heading": f"Employment rate, {q_label(q_next)}", "unit": "%",
+             "items": items(sources, {w: value_at(p, q_next) for w, p in fc.get("employment_rate", {}).items()})},
+        ],
+    }
+    note = "Rolling three-month averages, dated by the final month; quarterly forecasts sit at the quarter's last month. LFS estimates are official statistics in development."
+    return {
+        "id": "labour", "title": "Labour market", "box": box,
+        "charts": [
+            {"title": "Unemployment rate, aged 16+", "units": "% of the economically active", "freq": "M",
+             "lines": [line("ONS outturn", unemp, OUTTURN, "outturn")] + u_lines, "note": note,
+             "source": "ONS Labour Force Survey; Bank of England; OBR"},
+            {"title": "Employment rate, aged 16+", "units": "% of people aged 16+", "freq": "M",
+             "lines": [line("ONS outturn", emp, OUTTURN, "outturn")] + e_lines,
+             "note": note + " Only the OBR forecasts the employment rate.", "source": "ONS Labour Force Survey; OBR"},
+        ],
+    }
+
+
+def wages_section(fc, sources):
+    chart = chart_file("labour-markets", "pay-growth")
+    total = [p for p in series(chart, "awe_total") if p[0] >= START_M]
+    private = [p for p in series(chart, "awe_private_regular") if p[0] >= START_M]
+    end = q_to_month(END_Q, "end")
+    lines = forecast_lines(fc, sources, "pay_total", total[-1], end, place=lambda d: q_to_month(d, "end"))
+    for ln in lines:
+        ln["name"] = ln["name"].replace(" (", ", total pay (", 1)
+    # Bank of England: private-sector regular pay growth in the year to Q4, drawn at December
+    boe_q4 = [[f"{y}-12", v] for y, v in fc.get("pay_private_regular_q4", {}).get("boe", [])]
+    boe_line = line(f"Bank of England, private regular pay ({sources['boe']['vintage']})" if "boe" in sources else "",
+                    after(boe_q4, private[-1][0], end), FORECASTERS["boe"]["colour"], "forecast", private[-1])
+    m = total[-1][0]
+    q_next = f"{m[:4]}-Q{(int(m[5:]) - 1) // 3 + 1}"
+    if q_to_month(q_next, "end") <= m:
+        q_next = q_add(q_next, 1)
+    year = int(q_next[:4])
+    box = {
+        "latest": [
+            {"label": "Total pay growth", "period": f"3 months to {month_label(m)}", "value": total[-1][1], "unit": "%"},
+            {"label": "Private-sector regular pay growth", "period": f"3 months to {month_label(private[-1][0])}",
+             "value": private[-1][1], "unit": "%"},
+        ],
+        "forecasts": [
+            {"heading": f"Total pay growth, {q_label(q_next)}", "release": chart.get("next_release"), "unit": "%",
+             "items": items(sources, {"obr": value_at(fc.get("pay_total", {}).get("obr", []), q_next)})},
+            {"heading": f"Private-sector regular pay, year to Q4 {year}", "unit": "%",
+             "items": items(sources, {"boe": value_at(fc.get("pay_private_regular_q4", {}).get("boe", []), year)})},
+        ],
+    }
+    return {
+        "id": "wages", "title": "Wages", "box": box,
+        "charts": [{"title": "Average weekly earnings growth", "units": "% change on a year earlier, 3-month average", "freq": "M",
+                    "lines": [line("Total pay (ONS)", total, OUTTURN, "outturn"),
+                              line("Private-sector regular pay (ONS)", private, OUTTURN_SECOND, "outturn")]
+                             + lines + ([boe_line] if boe_line else []),
+                    "note": "Nominal. The OBR forecasts whole-economy total pay (quarterly); the Bank of England forecasts private-sector regular pay growth in the year to each Q4 (dots at December).",
+                    "source": "ONS Average Weekly Earnings; OBR; Bank of England"}],
+    }
+
+
+# ---------------------------------------------------------------- main
+
+def load_forecasts() -> tuple[dict, dict, bool]:
+    """Fetch forecasts; for any source that fails, keep its previous forecasts."""
+    sources, data, failures = forecasts.collect()
+    path = OUT / "forecasts.json"
+    if failures:
+        for f in failures:
+            print(f"forecasts: {f}", file=sys.stderr)
+        if path.exists():
+            prev = json.loads(path.read_text())
+            for who, info in prev["sources"].items():
+                if who not in sources:
+                    sources[who] = {**info, "stale": True}
+                    for var, by in prev["data"].items():
+                        if who in by:
+                            data.setdefault(var, {})[who] = by[who]
+    # lists of tuples -> lists, so the comparison with the saved file is like for like
+    data = json.loads(json.dumps(data))
+    return sources, data, not failures
+
+
+def write_if_changed(path: Path, obj) -> None:
+    """Only rewrite when content changes, so a quiet day makes no commit."""
+    text = json.dumps(obj, indent=1, ensure_ascii=False) + "\n"
+    if not path.exists() or path.read_text() != text:
+        path.write_text(text)
+
+
+if __name__ == "__main__":
+    OUT.mkdir(parents=True, exist_ok=True)
+    sources, fc, ok = load_forecasts()
+    write_if_changed(OUT / "forecasts.json", {"sources": sources, "data": fc})
+    sections = []
+    for build in (gdp_section, inflation_section, investment_section, labour_section, wages_section):
+        try:
+            sections.append(build(fc, sources))
+        except Exception as e:  # noqa: BLE001
+            print(f"{build.__name__} failed: {e!r}", file=sys.stderr)
+            ok = False
+    for s in sections:  # drop empty forecast lines
+        for c in s["charts"]:
+            if "lines" in c:
+                c["lines"] = [ln for ln in c["lines"] if ln]
+    write_if_changed(OUT / "dashboard.json", {"sources": sources, "sections": sections})
+    print(f"[dashboard] {len(sections)} sections, forecasts from {', '.join(s['vintage'] for s in sources.values())}")
+    sys.exit(0 if ok else 1)

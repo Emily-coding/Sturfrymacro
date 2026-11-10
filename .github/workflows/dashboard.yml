@@ -1,0 +1,20 @@
+name: dashboard
+
+# Rebuilds data/dashboard/ (forecasts + the file the dashboard page reads) whenever
+# one of the areas it draws on has refreshed, plus once a day as a fallback.
+on:
+  workflow_run:
+    workflows: [gdp, inflation, investment, labour-markets]
+    types: [completed]
+  schedule:
+    - cron: "15 9 * * 1-5"   # weekdays, after all the area refreshes
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    uses: ./.github/workflows/_refresh.yml
+    with:
+      category: dashboard

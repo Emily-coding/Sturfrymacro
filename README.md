@@ -27,6 +27,7 @@ ukmacro/                 shared source clients + the chart builder
   obr.py                 OBR spreadsheet downloads (no API: scrapes /download/ links),
                          incl. the historical forecasts database
   dmp.py                 Decision Maker Panel spreadsheets
+  boe_mpr.py             Bank of England Monetary Policy Report forecasts
   lastgood.py            last-good store (see below)
   builder.py             config.yaml -> chart JSON
   bics.py                BICS wave download, parsing and the harvest store
@@ -42,6 +43,28 @@ scripts/check_sources.py one known-good request per source: run when something g
 .github/workflows/       one workflow per area, sharing _refresh.yml
 NEXT.md                  to-do list + "Decided against"
 ```
+
+## Dashboard
+
+**https://emily-coding.github.io/Sturfrymacro/** (the page is `index.html`; GitHub Pages
+serves it straight from `main`).
+
+Five sections (GDP, inflation, investment, labour market, wages), each with a box
+of the latest outturn and forecasts for the next releases, and charts showing ONS
+outturn (solid) with the latest published forecasts (dashed):
+
+- **Bank of England**, latest Monetary Policy Report: central projections, plus Bank
+  staff near-term projections (CPI monthly for six months, GDP for this quarter and
+  next). Reader: `ukmacro/boe_mpr.py`.
+- **Outside forecasters' average**, the Bank's survey of about 20 forecasters,
+  published with each MPR.
+- **OBR**, latest Economic and fiscal outlook detailed economy tables (`ukmacro/obr.py`).
+
+`builders/dashboard/build.py` combines these with the other areas' chart files into
+`data/dashboard/dashboard.json`; its docstring explains how forecasts are lined up
+with outturn (level forecasts are rescaled to the latest ONS figure). The
+`dashboard` workflow reruns it after each area refresh. To view it locally:
+`python3 -m http.server` in the repo, then open http://localhost:8000.
 
 ## BICS dataset
 

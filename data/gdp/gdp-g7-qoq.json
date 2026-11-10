@@ -1,0 +1,222 @@
+{
+ "slug": "gdp-g7-qoq",
+ "category": "gdp",
+ "title": "Real GDP growth, G7",
+ "type": "line",
+ "freq": "Q",
+ "units": "% change on previous quarter",
+ "source": "OECD Quarterly National Accounts",
+ "note": "Chained volumes, seasonally adjusted. The dashboard compounds these into growth so far this year.",
+ "series": [
+  {
+   "key": "gbr",
+   "label": "United Kingdom",
+   "_source": "live",
+   "_date": "2026-Q2",
+   "source_url": "https://data-explorer.oecd.org"
+  },
+  {
+   "key": "usa",
+   "label": "United States",
+   "_source": "live",
+   "_date": "2026-Q3",
+   "source_url": "https://data-explorer.oecd.org"
+  },
+  {
+   "key": "deu",
+   "label": "Germany",
+   "_source": "live",
+   "_date": "2026-Q3",
+   "source_url": "https://data-explorer.oecd.org"
+  },
+  {
+   "key": "fra",
+   "label": "France",
+   "_source": "live",
+   "_date": "2026-Q3",
+   "source_url": "https://data-explorer.oecd.org"
+  },
+  {
+   "key": "ita",
+   "label": "Italy",
+   "_source": "live",
+   "_date": "2026-Q3",
+   "source_url": "https://data-explorer.oecd.org"
+  },
+  {
+   "key": "jpn",
+   "label": "Japan",
+   "_source": "live",
+   "_date": "2026-Q2",
+   "source_url": "https://data-explorer.oecd.org"
+  },
+  {
+   "key": "can",
+   "label": "Canada",
+   "_source": "live",
+   "_date": "2026-Q3",
+   "source_url": "https://data-explorer.oecd.org"
+  }
+ ],
+ "data_through": "2026-Q3",
+ "next_release": null,
+ "status": "ok",
+ "data": [
+  {
+   "date": "2023-Q1",
+   "gbr": 0.147777145,
+   "usa": 0.827889187,
+   "deu": -0.679141931,
+   "fra": 0.130626124,
+   "ita": 0.611739376,
+   "jpn": 0.873823993,
+   "can": 1.05267407
+  },
+  {
+   "date": "2023-Q2",
+   "gbr": 0.042278946,
+   "usa": 0.537107953,
+   "deu": -0.104839542,
+   "fra": 0.941069025,
+   "ita": -0.042279872,
+   "jpn": 0.065501635,
+   "can": 0.159574645
+  },
+  {
+   "date": "2023-Q3",
+   "gbr": -0.155837729,
+   "usa": 1.112786521,
+   "deu": 0.152646141,
+   "fra": 0.394936199,
+   "ita": 0.207643527,
+   "jpn": -1.250382719,
+   "can": 0.050143347
+  },
+  {
+   "date": "2023-Q4",
+   "gbr": -0.258696188,
+   "usa": 0.895596947,
+   "deu": -0.304824784,
+   "fra": 0.474128163,
+   "ita": 0.506894663,
+   "jpn": 0.476226385,
+   "can": 0.051696088
+  },
+  {
+   "date": "2024-Q1",
+   "gbr": 0.732174789,
+   "usa": 0.3591547,
+   "deu": 0.212596031,
+   "fra": 0.229142375,
+   "ita": 0.139364754,
+   "jpn": -0.094233095,
+   "can": 0.728641975
+  },
+  {
+   "date": "2024-Q2",
+   "gbr": 0.62042339,
+   "usa": 0.882934853,
+   "deu": -0.133488795,
+   "fra": 0.228221048,
+   "ita": 0.251344153,
+   "jpn": -0.115712122,
+   "can": 0.815991707
+  },
+  {
+   "date": "2024-Q3",
+   "gbr": 0.171330747,
+   "usa": 0.779097013,
+   "deu": 0.105029425,
+   "fra": 0.479867439,
+   "ita": 0.103093695,
+   "jpn": 0.83525054,
+   "can": 0.819154584
+  },
+  {
+   "date": "2024-Q4",
+   "gbr": 0.359536658,
+   "usa": 0.595695812,
+   "deu": 0.219359019,
+   "fra": -0.053750416,
+   "ita": 0.077584617,
+   "jpn": 0.39858609,
+   "can": 0.701430953
+  },
+  {
+   "date": "2025-Q1",
+   "gbr": 0.600186317,
+   "usa": 0.035758761,
+   "deu": 0.118949564,
+   "fra": 0.166638443,
+   "ita": 0.355241828,
+   "jpn": 0.502532887,
+   "can": 0.715585037
+  },
+  {
+   "date": "2025-Q2",
+   "gbr": 0.007081372,
+   "usa": 0.990900167,
+   "deu": -0.019007482,
+   "fra": 0.235198256,
+   "ita": -0.011716325,
+   "jpn": 0.123506452,
+   "can": -0.242322459
+  },
+  {
+   "date": "2025-Q3",
+   "gbr": 0.18206007,
+   "usa": 0.956278748,
+   "deu": -0.028519924,
+   "fra": 0.467734687,
+   "ita": 0.291367819,
+   "jpn": -0.373694818,
+   "can": 0.471919791
+  },
+  {
+   "date": "2025-Q4",
+   "gbr": 0.011009773,
+   "usa": 0.051893243,
+   "deu": 0.266259706,
+   "fra": 0.229609198,
+   "ita": 0.266583094,
+   "jpn": 0.261897427,
+   "can": -0.246475531
+  },
+  {
+   "date": "2026-Q1",
+   "gbr": 0.641214693,
+   "usa": 0.617206398,
+   "deu": 0.426784546,
+   "fra": -0.169716853,
+   "ita": 0.30188957,
+   "jpn": 0.47819799,
+   "can": 0.081188916
+  },
+  {
+   "date": "2026-Q2",
+   "gbr": 0.532606626,
+   "usa": 0.55048979,
+   "deu": 0.321083645,
+   "fra": 0.000511611,
+   "ita": 0.163435996,
+   "jpn": 0.360456187,
+   "can": 0.819738265
+  },
+  {
+   "date": "2026-Q3",
+   "gbr": null,
+   "usa": 0.831964555,
+   "deu": 0.225930033,
+   "fra": -0.13101693,
+   "ita": 0.017266273,
+   "jpn": null,
+   "can": 0.299984906
+  }
+ ],
+ "theme": "blue-amber",
+ "size_cm": [
+  25,
+  15
+ ],
+ "style_version": 10
+}

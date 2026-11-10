@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sturfrymacro dashboard</title>
+<meta name="description" content="UK economy: latest data and published forecasts for GDP, inflation, investment, the labour market and wages.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  /* House style: white background, Source Sans 3, the "blue-amber" palette */
+  :root {
+    --ink: #102A43;      /* titles, main text */
+    --ink-2: #486581;    /* secondary text */
+    --ink-3: #627D98;    /* source lines */
+    --grid: #D9E2EC;     /* hairlines */
+    --panel: #F7F9FB;    /* boxes */
+    --blue: #186FAF;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: #FFFFFF; color: var(--ink);
+         font-family: "Source Sans 3", system-ui, sans-serif; font-size: 16px; line-height: 1.45; }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 16px; }
+  header { padding: 32px 0 12px; }
+  h1 { font-size: 30px; font-weight: 700; margin: 0; letter-spacing: -0.01em; }
+  .sub { color: var(--ink-2); margin: 4px 0 0; }
+  nav { position: sticky; top: 0; background: rgba(255,255,255,0.96); border-bottom: 1px solid var(--grid);
+        z-index: 5; }
+  nav .wrap { display: flex; gap: 22px; overflow-x: auto; padding-top: 10px; padding-bottom: 10px; }
+  nav a { color: var(--ink-2); text-decoration: none; font-weight: 600; white-space: nowrap; }
+  nav a:hover { color: var(--blue); }
+  section { padding: 34px 0 10px; border-bottom: 1px solid var(--grid); scroll-margin-top: 50px; }
+  h2 { font-size: 24px; font-weight: 700; margin: 0 0 14px; }
+
+  /* Summary box: latest outturn, then forecasts for the next releases */
+  .box { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; margin-bottom: 22px; }
+  .card { background: var(--panel); border-radius: 8px; padding: 14px 16px; }
+  .card h3 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-3);
+             margin: 0 0 8px; font-weight: 600; }
+  .stat { margin: 0 0 8px; }
+  .stat .v { font-size: 30px; font-weight: 700; line-height: 1.1; color: var(--blue); }
+  .stat .l { color: var(--ink-2); font-size: 14px; }
+  .fc-head { font-weight: 600; font-size: 15px; margin-bottom: 2px; }
+  .fc-rel { color: var(--ink-3); font-size: 13px; margin-bottom: 6px; }
+  .fc-row { display: flex; justify-content: space-between; align-items: baseline; gap: 10px;
+            padding: 3px 0; border-top: 1px solid var(--grid); font-size: 15px; }
+  .fc-row:first-of-type { border-top: 0; }
+  .fc-row .who { color: var(--ink-2); display: flex; align-items: center; gap: 7px; }
+  .fc-row .who i { width: 14px; height: 0; border-top: 2.5px dashed; display: inline-block; }
+  .fc-row .val { font-weight: 700; font-variant-numeric: tabular-nums; }
+  .none { color: var(--ink-3); font-size: 14px; }
+
+  /* Charts */
+  .charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 520px), 1fr)); gap: 28px; }
+  figure { margin: 0 0 18px; min-width: 0; }
+  figure h4 { font-size: 18px; font-weight: 600; margin: 0; }
+  figure .units { color: var(--ink-2); font-size: 14px; margin: 1px 0 8px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 13.5px; color: var(--ink-2); margin-bottom: 6px; }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .legend i { width: 18px; height: 0; display: inline-block; border-top: 2.5px solid; }
+  .legend i.dash { border-top-style: dashed; }
+  .canvas { position: relative; height: 300px; }
+  figcaption { color: var(--ink-3); font-size: 12.5px; margin-top: 8px; }
+  footer { color: var(--ink-3); font-size: 13px; padding: 24px 0 40px; }
+  footer a, figcaption a { color: var(--ink-3); }
+  .error { color: #BA2525; padding: 40px 0; }
+</style>
+</head>
+<body>
+<header class="wrap">
+  <h1>UK economy dashboard</h1>
+  <p class="sub" id="sub">Latest data and published forecasts.</p>
+</header>
+<nav><div class="wrap" id="nav"></div></nav>
+<main class="wrap" id="main"></main>
+<footer class="wrap" id="foot"></footer>
+
+<script>
+// Everything on this page comes from data/dashboard/dashboard.json, which the
+// dashboard builder (builders/dashboard/build.py) rewrites every weekday.
+
+const fmt = v => (v < 0 ? "−" : "") + Math.abs(v).toFixed(1);   // real minus sign
+const fmtDate = s => new Date(s + "T12:00").toLocaleDateString("en-GB", {day: "numeric", month: "short"});
+
+// Dates to positions on a timeline: '2026-08' -> 2026.625, '2026-Q3' -> 2026.625
+function toX(d) {
+  const y = +d.slice(0, 4);
+  if (d.includes("Q")) return y + (+d.slice(-1) - 0.5) / 4;
+  return y + (+d.slice(5, 7) - 0.5) / 12;
+}
+function niceLabel(d) {
+  if (d.includes("Q")) return d.slice(-2) + " " + d.slice(0, 4);
+  return new Date(+d.slice(0, 4), +d.slice(5, 7) - 1).toLocaleDateString("en-GB", {month: "short", year: "numeric"});
+}
+
+Chart.defaults.font.family = '"Source Sans 3", system-ui, sans-serif';
+Chart.defaults.font.size = 13;
+Chart.defaults.color = "#486581";
+
+function el(tag, cls, html) { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; }
+
+function renderBox(box) {
+  const wrap = el("div", "box");
+  const latest = el("div", "card");
+  latest.append(el("h3", null, "Latest outturn"));
+  box.latest.forEach(s => latest.append(el("div", "stat",
+    `<div class="v">${fmt(s.value)}${s.unit}</div><div class="l">${s.label}, ${s.period}</div>`)));
+  wrap.append(latest);
+  box.forecasts.forEach((f, i) => {
+    const c = el("div", "card");
+    c.append(el("h3", null, i === 0 ? "Next release: forecasts" : "Further ahead"));
+    c.append(el("div", "fc-head", f.heading));
+    if (f.release) c.append(el("div", "fc-rel", `ONS release due ${fmtDate(f.release)}`));
+    if (!f.items.length) c.append(el("div", "none", "No published forecast for this period."));
+    f.items.forEach(it => c.append(el("div", "fc-row",
+      `<span class="who"><i style="border-color:${it.colour}"></i>${it.who}</span><span class="val">${fmt(it.value)}${f.unit}</span>`)));
+    wrap.append(c);
+  });
+  return wrap;
+}
+
+function renderLineChart(canvas, chart) {
+  const xs = chart.lines.flatMap(l => l.data.map(p => toX(p[0])));
+  const datasets = chart.lines.map(l => {
+    const sparse = l.kind === "forecast" && l.data.length <= 6;   // few points: show them
+    return {
+      label: l.name,
+      data: l.data.map(p => ({x: toX(p[0]), y: p[1], d: p[0]})),
+      borderColor: l.colour, backgroundColor: l.colour,
+      borderWidth: 2, borderDash: l.kind === "forecast" ? [6, 4] : [],
+      pointRadius: ctx => (sparse && ctx.dataIndex > 0) ? 3 : 0, pointHoverRadius: 4,
+      tension: 0, spanGaps: false,
+    };
+  });
+  new Chart(canvas, {
+    type: "line",
+    data: {datasets},
+    options: {
+      maintainAspectRatio: false, animation: false,
+      interaction: {mode: "nearest", axis: "x", intersect: false},
+      plugins: {
+        legend: {display: false},
+        tooltip: {callbacks: {
+          title: items => niceLabel(items[0].raw.d),
+          label: it => ` ${it.dataset.label}: ${fmt(it.raw.y)}`,
+        }},
+      },
+      scales: {
+        x: {type: "linear", min: Math.floor(Math.min(...xs)), max: Math.ceil(Math.max(...xs)),
+            grid: {display: false}, border: {color: "#627D98"},
+            ticks: {stepSize: 1, callback: v => Number.isInteger(v) ? v : ""}},
+        y: {grid: {color: "#D9E2EC"}, border: {display: false},
+            ticks: {callback: v => fmt(v).replace(".0", "")}},
+      },
+    },
+  });
+}
+
+function renderBarChart(canvas, chart) {
+  // Horizontal bars, UK highlighted; value and period labels drawn at bar ends
+  const labelsPlugin = {
+    id: "barLabels",
+    afterDatasetsDraw(c) {
+      const {ctx} = c; const meta = c.getDatasetMeta(0);
+      ctx.save(); ctx.font = '13px "Source Sans 3", sans-serif'; ctx.fillStyle = "#486581"; ctx.textBaseline = "middle";
+      meta.data.forEach((bar, i) => {
+        const b = chart.bars[i]; const right = b.value >= 0;
+        ctx.textAlign = right ? "left" : "right";
+        ctx.fillText(`${b.value >= 0 ? "+" : ""}${fmt(b.value)}%  (${b.period})`.replace("+−", "−"),
+                     bar.x + (right ? 6 : -6), bar.y);
+      });
+      ctx.restore();
+    },
+  };
+  const vals = chart.bars.map(b => b.value);
+  new Chart(canvas, {
+    type: "bar",
+    data: {labels: chart.bars.map(b => b.name),
+           datasets: [{data: vals, backgroundColor: chart.bars.map(b => b.colour), borderRadius: 2, barPercentage: 0.7}]},
+    options: {
+      indexAxis: "y", maintainAspectRatio: false, animation: false,
+      layout: {padding: {right: 120, left: 4}},
+      plugins: {legend: {display: false}, tooltip: {callbacks: {label: it => ` ${fmt(it.raw)}%`}}},
+      scales: {
+        x: {suggestedMin: Math.min(0, ...vals) - 0.5, grid: {color: ctx => ctx.tick.value === 0 ? "#9FB3C8" : "#D9E2EC"},
+            border: {display: false}, ticks: {callback: v => fmt(v).replace(".0", "")}},
+        y: {grid: {display: false}, border: {display: false}, ticks: {color: "#102A43", font: {size: 14}}},
+      },
+    },
+    plugins: [labelsPlugin],
+  });
+}
+
+function renderChart(chart) {
+  const fig = el("figure");
+  fig.append(el("h4", null, chart.title), el("div", "units", chart.units));
+  if (chart.lines && chart.lines.length > 1) {
+    const lg = el("div", "legend");
+    chart.lines.forEach(l => lg.append(el("span", null,
+      `<i class="${l.kind === "forecast" ? "dash" : ""}" style="border-color:${l.colour}"></i>${l.name}`)));
+    fig.append(lg);
+  }
+  const holder = el("div", "canvas"); const canvas = el("canvas");
+  canvas.setAttribute("role", "img"); canvas.setAttribute("aria-label", chart.title);
+  holder.append(canvas); fig.append(holder);
+  fig.append(el("figcaption", null, `Source: ${chart.source}. ${chart.note || ""}`));
+  return {fig, draw: () => chart.type === "bars" ? renderBarChart(canvas, chart) : renderLineChart(canvas, chart)};
+}
+
+fetch("data/dashboard/dashboard.json", {cache: "no-cache"})
+  .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+  .then(d => {
+    const main = document.getElementById("main"), nav = document.getElementById("nav");
+    const vintages = Object.values(d.sources).map(s => `${s.name}: ${s.vintage}${s.stale ? " (could not refresh)" : ""}`);
+    document.getElementById("sub").textContent =
+      "Latest ONS data (solid lines) and the most recent published forecasts (dashed). Refreshed every weekday.";
+    d.sections.forEach(s => {
+      nav.append(el("a", null, s.title)); nav.lastChild.href = "#" + s.id;
+      const sec = el("section"); sec.id = s.id;
+      sec.append(el("h2", null, s.title), renderBox(s.box));
+      const grid = el("div", "charts");
+      s.charts.forEach(c => { const r = renderChart(c); grid.append(r.fig); requestAnimationFrame(r.draw); });
+      sec.append(grid); main.append(sec);
+    });
+    document.getElementById("foot").innerHTML =
+      `Forecasts: ${vintages.join(" · ")}. Outturn: ONS and OECD. ` +
+      `Built from <a href="https://github.com/Emily-coding/Sturfrymacro">github.com/Emily-coding/Sturfrymacro</a>.`;
+  })
+  .catch(e => { document.getElementById("main").innerHTML = `<p class="error">Couldn't load the dashboard data (${e.message}).</p>`; });
+</script>
+</body>
+</html>

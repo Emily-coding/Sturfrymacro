@@ -323,11 +323,6 @@ def labour_section(fc, sources):
         ],
     }
     note = "Rolling three-month averages, dated by the final month; quarterly forecasts sit at the quarter's last month. LFS estimates are official statistics in development."
-    # Real pay growth by pay percentile from ASHE (annual; builders/labour-markets/ashe_distribution.py)
-    ashe = chart_file("labour-markets", "ashe-pay-distribution")
-    ashe_lines = [line(s["label"], [[r["percentile"], r[s["key"]]] for r in ashe["data"] if r.get(s["key"]) is not None],
-                       colour, "outturn")
-                  for s, colour in zip(ashe["series"], [OUTTURN, "#DE911D"])]
     return {
         "id": "labour", "title": "Labour market", "box": box,
         "charts": [
@@ -337,8 +332,6 @@ def labour_section(fc, sources):
             {"title": "Employment rate, aged 16+", "units": "% of people aged 16+", "freq": "M",
              "lines": [line("ONS outturn", emp, OUTTURN, "outturn")] + e_lines,
              "note": note + " Only the OBR forecasts the employment rate.", "source": "ONS Labour Force Survey; OBR"},
-            {"title": ashe["title"], "units": ashe["units"], "type": "percentile", "lines": ashe_lines,
-             "note": ashe["note"], "source": ashe["source"]},
         ],
     }
 
@@ -355,6 +348,12 @@ def wages_section(fc, sources):
     boe_q4 = [[f"{y}-12", v] for y, v in fc.get("pay_private_regular_q4", {}).get("boe", [])]
     boe_line = line(f"Bank of England, private regular pay ({sources['boe']['vintage']})" if "boe" in sources else "",
                     after(boe_q4, private[-1][0], end), FORECASTERS["boe"]["colour"], "forecast", private[-1])
+
+    # Real pay growth by pay percentile from ASHE (annual; builders/labour-markets/ashe_distribution.py)
+    ashe = chart_file("labour-markets", "ashe-pay-distribution")
+    ashe_lines = [line(s["label"], [[r["percentile"], r[s["key"]]] for r in ashe["data"] if r.get(s["key"]) is not None],
+                       colour, "outturn")
+                  for s, colour in zip(ashe["series"], [OUTTURN, "#102A43"])]
     m = total[-1][0]
     q_next = f"{m[:4]}-Q{(int(m[5:]) - 1) // 3 + 1}"
     if q_to_month(q_next, "end") <= m:
@@ -380,7 +379,10 @@ def wages_section(fc, sources):
                               line("Private-sector regular pay (ONS)", private, OUTTURN_SECOND, "outturn")]
                              + lines + ([boe_line] if boe_line else []),
                     "note": "Nominal. The OBR forecasts whole-economy total pay (quarterly); the Bank of England forecasts private-sector regular pay growth in the year to each Q4 (dots at December).",
-                    "source": "ONS Average Weekly Earnings; OBR; Bank of England"}],
+                    "source": "ONS Average Weekly Earnings; OBR; Bank of England"},
+                   {"title": ashe["title"], "units": ashe["units"], "type": "percentile", "lines": ashe_lines,
+                    "note": ashe["note"], "source": ashe["source"]},
+                  ],
     }
 
 

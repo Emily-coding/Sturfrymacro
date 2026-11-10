@@ -85,6 +85,17 @@ with outturn (level forecasts are rescaled to the latest ONS figure). The
 `dashboard` workflow reruns it after each area refresh. To view it locally:
 `python3 -m http.server` in the repo, then open http://localhost:8000.
 
+## Market commentary
+
+**https://emily-coding.github.io/Sturfrymacro/commentary.html** (linked from the dashboard
+nav). A fortnightly summary of free external commentary on gilts, the Bank of England,
+fiscal policy and sterling: themes, then one row per note with key points in our own words,
+one short quote and a link to the original. Data live in `data/commentary/editions.json`.
+
+A Claude Code cloud routine ("Sturfrymacro market commentary (fortnightly)", manage at
+claude.ai/code/routines) fires every Tuesday at 07:00 UTC, adds an edition when the last one
+is at least 13 days old, and commits only that file. It has no connectors attached.
+
 ## Short-term inflation forecast
 
 `builders/inflation/stif.py`, run with the inflation builder every weekday. CPI

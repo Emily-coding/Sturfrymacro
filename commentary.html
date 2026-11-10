@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Market commentary · Sturfrymacro</title>
+<meta name="description" content="Fortnightly summary of external commentary on UK gilts, the Bank of England, fiscal policy and sterling.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:ital,opsz,wght@1,8..60,400&display=swap" rel="stylesheet">
+<style>
+  /* Same house style as the dashboard (index.html): white page, Source Sans 3, blue-amber palette.
+     Layout: themes for the fortnight up top, then one row per note: who and when on the
+     left, key points on the right. */
+  :root {
+    --ink: #102A43; --ink-2: #486581; --ink-3: #627D98; --grid: #D9E2EC;
+    --panel: #F7F9FB; --blue: #186FAF; --blue-soft: #E3EEF8; --amber: #DE911D;
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  body { margin: 0; background: #FFFFFF; color: var(--ink);
+         font-family: "Source Sans 3", system-ui, sans-serif; font-size: 16px; line-height: 1.5; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
+  header { padding: 32px 0 12px; display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 16px; }
+  h1 { font-size: 30px; font-weight: 700; margin: 0; letter-spacing: -0.01em; }
+  .sub { color: var(--ink-2); margin: 4px 0 0; }
+  nav { position: sticky; top: 0; background: rgba(255,255,255,0.96); border-bottom: 1px solid var(--grid); z-index: 5; }
+  nav .wrap { display: flex; gap: 22px; padding-top: 10px; padding-bottom: 10px; }
+  nav a { color: var(--ink-2); text-decoration: none; font-weight: 600; white-space: nowrap; }
+  nav a:hover, nav a[aria-current] { color: var(--blue); }
+  label.picker { display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: var(--ink-3); }
+  select { font: inherit; font-size: 15px; color: var(--ink); background: var(--panel); border: 1px solid var(--grid);
+           border-radius: 6px; padding: 7px 10px; min-width: 230px; }
+  select:focus-visible, a:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+
+  h2 { font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3);
+       margin: 28px 0 0; padding-bottom: 8px; border-bottom: 1px solid var(--grid); }
+  .themes { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 12px; margin-top: 14px; }
+  .theme { background: var(--panel); border-radius: 8px; padding: 14px 16px; min-width: 0; }
+  .theme h3 { font-size: 15.5px; margin: 0 0 4px; line-height: 1.3; }
+  .theme p { margin: 0; font-size: 14.5px; color: var(--ink-2); }
+
+  .note { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 8px 28px; padding: 18px 0; border-bottom: 1px solid var(--grid); }
+  .src { font-weight: 700; font-size: 17px; line-height: 1.25; }
+  .author { color: var(--ink-2); font-size: 14px; }
+  .date { font-variant-numeric: tabular-nums; color: var(--ink-3); font-size: 14px; margin-top: 4px; }
+  .tag { display: inline-block; margin-top: 8px; font-size: 12px; font-weight: 600; color: var(--blue);
+         background: var(--blue-soft); border-radius: 999px; padding: 1px 9px; }
+  .body { min-width: 0; }
+  .body h3 { font-size: 17px; margin: 0 0 6px; line-height: 1.3; }
+  .body h3 a { color: inherit; text-decoration: none; border-bottom: 1px solid var(--grid); }
+  .body h3 a:hover { color: var(--blue); border-color: var(--blue); }
+  .body ul { margin: 0; padding-left: 18px; display: grid; gap: 4px; }
+  .body li { max-width: 72ch; }
+  blockquote { margin: 10px 0 0; padding-left: 12px; border-left: 3px solid var(--amber);
+               font-family: "Source Serif 4", Georgia, serif; font-style: italic; color: var(--ink-2); max-width: 70ch; }
+  .state { padding: 40px 0; color: var(--ink-2); }
+  footer { color: var(--ink-3); font-size: 13px; padding: 24px 0 40px; max-width: 80ch; }
+  footer a { color: var(--ink-3); }
+
+  @media (max-width: 640px) {
+    h1 { font-size: 25px; }
+    .note { grid-template-columns: 1fr; }
+    .who { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; }
+    .date, .tag { margin-top: 0; }
+    label.picker, select { width: 100%; min-width: 0; }
+  }
+</style>
+</head>
+<body>
+<header class="wrap">
+  <div>
+    <h1>Market commentary</h1>
+    <p class="sub" id="period">What external analysts said about UK markets, every fortnight.</p>
+  </div>
+  <label class="picker" id="picker-wrap" hidden>Fortnight
+    <select id="picker"></select>
+  </label>
+</header>
+<nav><div class="wrap">
+  <a href="./">Dashboard</a>
+  <a href="commentary.html" aria-current="page">Market commentary</a>
+</div></nav>
+<main class="wrap" id="main"><p class="state">Loading commentary…</p></main>
+<footer class="wrap">
+  Summaries are in our own words, with a short quote and a link to each original. Free sources only;
+  paywalled research is not included. A new fortnight is added every other Tuesday.
+  Built from <a href="https://github.com/Emily-coding/Sturfrymacro">github.com/Emily-coding/Sturfrymacro</a>
+  (data in <code>data/commentary/editions.json</code>).
+</footer>
+
+<script>
+// Everything comes from data/commentary/editions.json: {editions: [{id, period_start,
+// period_end, themes: [{title, text}], entries: [{source, author, date, title, url, tag,
+// points: [...], quote}]}]}. A scheduled job adds a new edition every fortnight.
+const $ = id => document.getElementById(id);
+const fmtDate = iso => new Date(iso + "T12:00:00").toLocaleDateString("en-GB", {day: "numeric", month: "short", year: "numeric"});
+const short = iso => new Date(iso + "T12:00:00").toLocaleDateString("en-GB", {day: "numeric", month: "long"});
+function el(tag, cls, text) { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+
+let editions = [];
+
+function render(id) {
+  const d = editions.find(e => e.id === id) || editions[0];
+  $("period").textContent = `Summary: ${short(d.period_start)} to ${fmtDate(d.period_end)}`;
+  const main = $("main"); main.replaceChildren();
+  if ((d.themes || []).length) {
+    main.append(el("h2", null, "Themes this fortnight"));
+    const grid = el("div", "themes");
+    d.themes.forEach(t => { const c = el("div", "theme"); c.append(el("h3", null, t.title), el("p", null, t.text)); grid.append(c); });
+    main.append(grid);
+  }
+  main.append(el("h2", null, `Notes (${(d.entries || []).length})`));
+  [...(d.entries || [])].sort((a, b) => (a.date < b.date ? -1 : 1)).forEach(n => {
+    const row = el("article", "note"), who = el("div", "who"), body = el("div", "body");
+    who.append(el("div", "src", n.source));
+    if (n.author) who.append(el("div", "author", n.author));
+    who.append(el("div", "date", fmtDate(n.date)));
+    if (n.tag) who.append(el("span", "tag", n.tag));
+    const h = el("h3");
+    if (n.url) { const a = el("a", null, n.title); a.href = n.url; a.target = "_blank"; a.rel = "noopener"; h.append(a); }
+    else h.textContent = n.title;
+    const ul = el("ul"); (n.points || []).forEach(p => ul.append(el("li", null, p)));
+    body.append(h, ul);
+    if (n.quote) body.append(el("blockquote", null, `“${n.quote}”`));
+    row.append(who, body); main.append(row);
+  });
+}
+
+fetch("data/commentary/editions.json", {cache: "no-cache"})
+  .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+  .then(data => {
+    editions = [...data.editions].sort((a, b) => (a.period_end < b.period_end ? 1 : -1));  // newest first
+    if (!editions.length) { $("main").innerHTML = '<p class="state">No summaries yet.</p>'; return; }
+    const sel = $("picker");
+    editions.forEach(e => { const o = el("option", null, `${short(e.period_start)} – ${fmtDate(e.period_end)}`); o.value = e.id; sel.append(o); });
+    $("picker-wrap").hidden = editions.length < 2;
+    sel.addEventListener("change", () => render(sel.value));
+    render(editions[0].id);
+  })
+  .catch(e => { $("main").innerHTML = `<p class="state">Couldn't load the commentary (${e.message}).</p>`; });
+</script>
+</body>
+</html>

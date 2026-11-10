@@ -32,6 +32,7 @@
   nav .wrap { display: flex; gap: 22px; overflow-x: auto; padding-top: 10px; padding-bottom: 10px; }
   nav a { color: var(--ink-2); text-decoration: none; font-weight: 600; white-space: nowrap; }
   nav a:hover { color: var(--blue); }
+  nav a.nav-page { margin-left: auto; color: var(--blue); }
   section { padding: 34px 0 10px; border-bottom: 1px solid var(--grid); scroll-margin-top: 50px; }
   h2 { font-size: 24px; font-weight: 700; margin: 0 0 14px; }
 
@@ -236,6 +237,10 @@ fetch("data/dashboard/dashboard.json", {cache: "no-cache"})
       "Latest data (solid lines) and the most recent published forecasts (dashed). Refreshed every weekday.";
     d.sections.forEach(s => {
       nav.append(el("a", null, s.title)); nav.lastChild.href = "#" + s.id;
+    });
+    // separate page: fortnightly summary of external market commentary
+    nav.append(el("a", "nav-page", "Market commentary →")); nav.lastChild.href = "commentary.html";
+    d.sections.forEach(s => {
       const sec = el("section"); sec.id = s.id;
       sec.append(el("h2", null, s.title), renderBox(s.box));
       const grid = el("div", "charts");

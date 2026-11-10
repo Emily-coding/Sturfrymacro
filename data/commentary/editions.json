@@ -1,0 +1,170 @@
+{
+ "editions": [
+  {
+   "compiled": "2026-11-10",
+   "entries": [
+    {
+     "author": "James Smith, Developed Markets Economist",
+     "date": "2026-10-28",
+     "points": [
+      "OBR sees the deficit falling to 3.4% of GDP in 2027 from 4.2%, almost entirely through fiscal drag from frozen thresholds.",
+      "Net loosening is small (about 0.2% of GDP this year), mostly temporary energy support; the £312bn gross financing requirement was below most expectations.",
+      "Departmental budgets and defence are pushed to the Spending Review; the implied 2.6% a year real cuts for unprotected departments look unlikely to happen."
+     ],
+     "quote": "doesn't do anything that could make life harder for the Bank of England",
+     "source": "ING",
+     "tag": "Budget",
+     "title": "UK Chancellor sticks to script but leaves more questions than answers",
+     "url": "https://think.ing.com/articles/uk-chancellor-sticks-to-script-but-leaves-more-questions-than-answers/"
+    },
+    {
+     "author": "Helen Miller, Director",
+     "date": "2026-10-29",
+     "points": [
+      "Broadly the Budget many expected: the Chancellor accepted higher borrowing over five years in the face of bad economic news.",
+      "Welcomed the commitment to consolidation, but very tight public service spending plans are its weak point.",
+      "Higher borrowing leaves less scope to absorb future bad news; little in the Budget to move the dial on growth."
+     ],
+     "quote": "has an Achilles' heel in the form of very tight plans for public service spending",
+     "source": "Institute for Fiscal Studies",
+     "tag": "Budget",
+     "title": "Initial response to the Autumn Budget (via House of Commons Library)",
+     "url": "https://commonslibrary.parliament.uk/research-briefings/cbp-12266/"
+    },
+    {
+     "author": "",
+     "date": "2026-10-29",
+     "points": [
+      "Mild fiscal loosening, mainly through energy bills and council tax, gave households some breathing space.",
+      "The buffer against the fiscal rules fell from £23.6bn in March to £14.5bn.",
+      "No attempt to bring debt-to-GDP down in the medium term, so the public finances depend on good fortune."
+     ],
+     "quote": "leaves the UK government more exposed to renewed market scrutiny",
+     "source": "NIESR",
+     "tag": "Budget",
+     "title": "Budget response (via House of Commons Library)",
+     "url": "https://commonslibrary.parliament.uk/research-briefings/cbp-12266/"
+    },
+    {
+     "author": "",
+     "date": "2026-10-29",
+     "points": [
+      "Cost of living support was poorly targeted and spread thinly across the income distribution.",
+      "Little was done to repair the damage to the public finances from higher debt interest costs.",
+      "The Chancellor has left himself little room to absorb further negative news."
+     ],
+     "quote": "remarkable for its lack of action, rather than its radicalism",
+     "source": "Resolution Foundation",
+     "tag": "Budget",
+     "title": "Spread Thin: response to the Autumn Budget (via House of Commons Library)",
+     "url": "https://commonslibrary.parliament.uk/research-briefings/cbp-12266/"
+    },
+    {
+     "author": "Thomas Pugh and Jack Wellard",
+     "date": "2026-11-02",
+     "points": [
+      "A rise to 4% was almost certain; expect at least one more hike in 2027 and no cuts until 2028.",
+      "The Budget did little to bring gilt yields down, and headroom shrank from about £24bn to £15bn, leaving the Chancellor exposed to further rises in rates or inflation.",
+      "Growth slows over the winter; GDP growth of 1.5% in 2026 and real household disposable income up only about 0.3% in 2027."
+     ],
+     "quote": "inflation above 4% is simply too high for the Bank to sit back and ignore",
+     "source": "RSM UK",
+     "tag": "Rates",
+     "title": "The Week Ahead: UK interest rates going higher, the only question is how high",
+     "url": "https://www.rsmuk.com/insights/economic-voice/uk-interest-rates-going-higher"
+    },
+    {
+     "author": "Michiel Tukker, Senior UK & Eurozone Rates Strategist",
+     "date": "2026-11-04",
+     "points": [
+      "After repeated losses on dovish positions, the front end carries a risk premium beyond the fundamentals; markets price more hikes than ING expects.",
+      "Two-year rates should ease in the first half of 2027 as energy prices fall, with a bigger dovish shift in the second half.",
+      "Persistent deficits and heavy gilt supply keep upward pressure on long yields and steepen the curve; recent QT changes mainly help 30-year gilts."
+     ],
+     "quote": "we therefore see rates lower across the curve, but only once inflation risks settle",
+     "source": "ING",
+     "tag": "Gilts",
+     "title": "A delayed landing for GBP rates",
+     "url": "https://think.ing.com/articles/a-delayed-landing-for-gbp-rates/"
+    },
+    {
+     "author": "James Smith, Developed Markets Economist",
+     "date": "2026-11-05",
+     "points": [
+      "Bank Rate up from 3.75% to 4%; the Bank sees inflation peaking at 4.9%, mostly energy, and wants more data on second-round effects.",
+      "ING expects one more hike by February (December if energy re-spikes), then cuts from late 2027 or early 2028 towards 3.25%.",
+      "Markets price about a 50:50 chance of a December hike, about four hikes over the next year and no cuts after that, which ING thinks is too hawkish."
+     ],
+     "quote": "this is a hike solely about the risks",
+     "source": "ING",
+     "tag": "Bank of England",
+     "title": "Hawkish Bank of England hikes rates, and there's more to come",
+     "url": "https://think.ing.com/snaps/hawkish-bank-of-england-hikes-rates-and-theres-more-to-come/"
+    },
+    {
+     "author": "Sanjay Raja, Chief UK Economist (via MoneyWeek)",
+     "date": "2026-11-05",
+     "points": [
+      "The hike adds restriction to a stance that was already restrictive; Governor Bailey also played down a long sequence of rises.",
+      "Financial conditions have tightened since March, so the case to go much further is weaker than in 2022.",
+      "Expects one more rise to 4.25%, in December or February."
+     ],
+     "quote": "we don't think this is the start of a long hiking cycle",
+     "source": "Deutsche Bank",
+     "tag": "Bank of England",
+     "title": "Today's hike is not the start of a long hiking cycle",
+     "url": "https://moneyweek.com/economy/news/live/uk-interest-rates-november-bank-of-england"
+    },
+    {
+     "author": "Suren Thiru, Chief Economist (via MoneyWeek)",
+     "date": "2026-11-05",
+     "points": [
+      "Strong backing for the hike and the tone of the minutes suggest further increases are probable.",
+      "US-Iran hostilities hold the key: unless energy prices retreat, more hikes move from a risk to a real prospect.",
+      "With the Bank forecasting inflation to keep rising, a February hike looks increasingly likely."
+     ],
+     "quote": "the path for interest rates is hanging in the balance",
+     "source": "ICAEW",
+     "tag": "Bank of England",
+     "title": "November hike signals a sizeable shift in direction",
+     "url": "https://moneyweek.com/economy/news/live/uk-interest-rates-november-bank-of-england"
+    },
+    {
+     "author": "James Smith, Developed Markets Economist",
+     "date": "2026-11-10",
+     "points": [
+      "Base case: a February hike, then a cut before end-2027 as weak wage growth lets the Bank look through inflation of about 4.5% in early 2027.",
+      "Risky call: Prime Minister Burnham calls a snap election; markets would likely dislike it because it exposes questions about long-term borrowing.",
+      "Bold call (not the base case): the UK agrees an EU customs union, which ING thinks would strengthen sterling."
+     ],
+     "quote": "Brexit is unpopular, but rejoining the EU still looks remote",
+     "source": "ING",
+     "tag": "Outlook",
+     "title": "Brexit, elections and rate hikes: 3 calls for the UK",
+     "url": "https://think.ing.com/articles/brexit-elections-and-rate-hikes-3-calls-for-the-uk/"
+    }
+   ],
+   "period_end": "2026-11-10",
+   "period_start": "2026-10-27",
+   "themes": [
+    {
+     "text": "Commentators called the 28 October Budget cautious and largely as expected. ING noted gilt financing came in below expectations, but headroom against the fiscal rules fell to roughly £15bn, leaving less room to absorb bad news.",
+     "title": "Budget passed without a gilt scare"
+    },
+    {
+     "text": "The Bank raised Bank Rate to 4% on 5 November, driven by energy prices, with inflation projected to peak near 5% in 2027. Most see one more hike by February; markets price more than economists expect.",
+     "title": "First Bank Rate rise since 2023"
+    },
+    {
+     "text": "Nearly every note ties the rate outlook to oil and gas prices. If energy eases, ING and Deutsche Bank expect a short cycle with cuts from late 2027; if not, the ICAEW sees further hikes becoming a real prospect.",
+     "title": "Energy and the Middle East set the path"
+    },
+    {
+     "text": "ING flags a possible snap election under Prime Minister Burnham as its 'risky call' for 2027, which it thinks markets would dislike because it reopens questions about long-term borrowing.",
+     "title": "Political risk is back in view"
+    }
+   ],
+   "id": "2026-11-10"
+  }
+ ]
+}

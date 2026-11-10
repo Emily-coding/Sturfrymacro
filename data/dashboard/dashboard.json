@@ -1971,6 +1971,7 @@
      "title": "Average weekly earnings growth",
      "units": "% change on a year earlier, 3-month average",
      "freq": "M",
+     "y_min": 0,
      "lines": [
       {
        "name": "Total pay (ONS)",

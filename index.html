@@ -163,7 +163,8 @@ function renderLineChart(canvas, chart) {
           : {type: "linear", min: Math.floor(Math.min(...xs)), max: Math.ceil(Math.max(...xs)),
              grid: {display: false}, border: {color: "#627D98"},
              ticks: {stepSize: 1, callback: v => Number.isInteger(v) ? v : ""}},
-        y: {grid: {color: ctx => ctx.tick.value === 0 ? "#9FB3C8" : "#D9E2EC"}, border: {display: false},
+        y: {min: chart.y_min,   // set in dashboard.json for charts that should start at zero
+            grid: {color: ctx => ctx.tick.value === 0 ? "#9FB3C8" : "#D9E2EC"}, border: {display: false},
             ticks: {callback: v => fmt(v).replace(".0", "")}},
       },
     },

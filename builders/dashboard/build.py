@@ -375,6 +375,7 @@ def wages_section(fc, sources):
     return {
         "id": "wages", "title": "Wages", "box": box,
         "charts": [{"title": "Average weekly earnings growth", "units": "% change on a year earlier, 3-month average", "freq": "M",
+                    "y_min": 0,  # start the axis at zero
                     "lines": [line("Total pay (ONS)", total, OUTTURN, "outturn"),
                               line("Private-sector regular pay (ONS)", private, OUTTURN_SECOND, "outturn")]
                              + lines + ([boe_line] if boe_line else []),

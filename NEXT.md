@@ -18,6 +18,10 @@ Bigger items here; day-to-day to-dos go in GitHub Issues.
   DMP's investment expectations.
 
 ## Inflation
+- Short-term forecast (builders/inflation/stif.py) next steps: item-level data
+  (~700 items instead of 84 components) like the OBR; our own fuel model from weekly
+  pump prices and Ofgem cap assumptions, instead of the Bank's energy paths; a
+  services/goods split of the contributions; track our forecast errors each month.
 - Bank Rate alongside CPI (BoE data is daily-dated: convert to monthly first).
 - G7 inflation comparison: the OECD price dataset is out of date for France, Italy
   and Japan (checked 2026-11-10); find another source.

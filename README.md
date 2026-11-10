@@ -66,6 +66,27 @@ with outturn (level forecasts are rescaled to the latest ONS figure). The
 `dashboard` workflow reruns it after each area refresh. To view it locally:
 `python3 -m http.server` in the repo, then open http://localhost:8000.
 
+## Short-term inflation forecast
+
+`builders/inflation/stif.py`, run with the inflation builder every weekday. CPI
+inflation for the next six months, built bottom-up in the style of the OBR's
+short-term inflation forecast:
+
+1. All 84 CPI components and their weights, from the ONS MM23 file (`ukmacro/mm23.py`).
+2. Each component's month-on-month change = its usual pattern for that calendar month
+   (last 8 years, skipping 2020-21) + its average monthly change over the past year.
+3. Electricity, gas and motor fuels follow the Bank of England's latest staff
+   projections (which build in the Ofgem price cap and oil and gas futures).
+4. Known policy changes can be set by hand in `builders/inflation/stif_assumptions.yaml`.
+5. Components are added up with CPI's January chain-linking; only the change from
+   the latest month is used, applied to the published headline index.
+
+Backtest (forecasts made monthly since 2017, excluding 2020-21, with no energy
+information): average error 0.23 percentage points one month ahead and 0.89 six
+months ahead, against 0.31 and 1.10 for assuming inflation stays where it is. The
+figures are refreshed each month in `data/inflation/stif.json`. The forecast appears
+on the dashboard as "Sturfrymacro" and in `img/inflation/cpi-stif.png`.
+
 ## BICS dataset
 
 BICS is published as one spreadsheet per fortnightly wave, with questions rotating

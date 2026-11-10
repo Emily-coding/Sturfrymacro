@@ -173,3 +173,23 @@ def other_forecasters(zf: zipfile.ZipFile) -> dict[str, list[tuple[str, float]]]
             target = "gdp_qoq" if names[key] == "gdp_yoy" else names[key]
             out.setdefault(target, []).insert(0, (q, float(nums[0])))
     return out
+
+
+def near_term_components(zf: zipfile.ZipFile) -> dict[str, list[tuple[str, float]]]:
+    """Bank staff near-term projections of 12-month inflation for CPI components, from
+    the chart data ('Annual inflation rates for components of CPI'): {'Electricity and
+    gas': [(month, %)], 'Fuels and lubricants': [...], 'Food': [...], ...}. Projected
+    months only."""
+    import openpyxl
+
+    wb = openpyxl.load_workbook(io.BytesIO(_member(zf, r"MPR chart data\.xlsx$")), read_only=True, data_only=True)
+    ws = _sheet_by_title(wb, "Annual inflation rates for components of CPI")
+    rows = list(ws.iter_rows(values_only=True))
+    header = next(r for r in rows if r and r[0] == "Date")
+    out: dict[str, list] = {}
+    for r in rows:
+        if isinstance(r[0], str) and "projection" in r[0].lower():
+            for name, v in zip(header[1:], r[1:]):
+                if name and isinstance(v, (int, float)):
+                    out.setdefault(name.strip(), []).append((_month(r[0]), float(v)))
+    return out

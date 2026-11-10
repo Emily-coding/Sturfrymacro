@@ -310,10 +310,11 @@ def _line(chart):
         colour = _colour(s, i)
         (h,) = ax.plot(x, [y if y is not None else float("nan") for y in ys],
                        color=colour, linewidth=2, solid_capstyle="round",
+                       linestyle="--" if s.get("dash") else "-",  # dashed = a forecast
                        zorder=3 if colour != BASELINE else 2)  # coloured lines above grey ones
         handles.append(h)
         present = [j for j, y in enumerate(ys) if y is not None]
-        if present:
+        if present and not s.get("no_end_label"):  # e.g. outturn that forecasts continue from
             j = present[-1]
             text = s["label"] if colour == BASELINE else f"{ys[j]:.{chart.get('decimals', 1)}f}".replace("-", "\u2212")
             ends.append((j, ys[j], text))

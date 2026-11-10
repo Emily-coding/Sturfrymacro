@@ -1,0 +1,97 @@
+{
+ "data_through": "2026-09",
+ "next_release": "18 November 2026",
+ "forecast": [
+  {
+   "month": "2026-10",
+   "cpi": 3.45,
+   "contributions": {
+    "Energy": 1.16,
+    "Food and non-alcoholic drinks": 0.08,
+    "Everything else": 2.21
+   }
+  },
+  {
+   "month": "2026-11",
+   "cpi": 3.63,
+   "contributions": {
+    "Energy": 1.16,
+    "Food and non-alcoholic drinks": 0.12,
+    "Everything else": 2.35
+   }
+  },
+  {
+   "month": "2026-12",
+   "cpi": 3.47,
+   "contributions": {
+    "Energy": 1.12,
+    "Food and non-alcoholic drinks": 0.08,
+    "Everything else": 2.27
+   }
+  },
+  {
+   "month": "2027-01",
+   "cpi": 3.9,
+   "contributions": {
+    "Energy": 1.67,
+    "Food and non-alcoholic drinks": 0.08,
+    "Everything else": 2.14
+   }
+  },
+  {
+   "month": "2027-02",
+   "cpi": 3.95,
+   "contributions": {
+    "Energy": 1.69,
+    "Food and non-alcoholic drinks": 0.12,
+    "Everything else": 2.14
+   }
+  },
+  {
+   "month": "2027-03",
+   "cpi": 3.55,
+   "contributions": {
+    "Energy": 1.26,
+    "Food and non-alcoholic drinks": 0.08,
+    "Everything else": 2.21
+   }
+  }
+ ],
+ "energy": "Electricity, gas and motor fuels follow Bank of England staff projections (November 2026 MPR).",
+ "overrides": [],
+ "backtest": {
+  "note": "Mean absolute error in the 12-month CPI rate (percentage points) of forecasts made each month since 2017 (excluding 2020-21), using only data available then and no energy information. 'no_change' assumes inflation stays at its latest rate.",
+  "by_horizon": {
+   "1": {
+    "stif": 0.23,
+    "no_change": 0.31,
+    "n": 92
+   },
+   "2": {
+    "stif": 0.38,
+    "no_change": 0.5,
+    "n": 91
+   },
+   "3": {
+    "stif": 0.49,
+    "no_change": 0.66,
+    "n": 90
+   },
+   "4": {
+    "stif": 0.64,
+    "no_change": 0.81,
+    "n": 89
+   },
+   "5": {
+    "stif": 0.78,
+    "no_change": 0.96,
+    "n": 88
+   },
+   "6": {
+    "stif": 0.89,
+    "no_change": 1.1,
+    "n": 87
+   }
+  }
+ }
+}

@@ -14,7 +14,8 @@ Series spec, by source:
 
 Chart options: slug, title, units, freq (A/Q/M), type (line/bar/stacked-bar), start,
 rebase (a date: divide by the value then and multiply by 100), source, note.
-A series can set `mark: line` to be drawn as a line over the bars of a bar chart.
+A series can set `mark: line` to be drawn as a line over the bars of a bar chart,
+and `dash: true` to be drawn dashed (used for forecasts).
 """
 
 from __future__ import annotations

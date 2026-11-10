@@ -1,0 +1,204 @@
+{
+ "slug": "cpi-stif",
+ "category": "inflation",
+ "type": "line",
+ "freq": "M",
+ "title": "CPI inflation: short-term forecast",
+ "units": "% change on a year earlier",
+ "source": "ONS; Bank of England; Sturfrymacro short-term inflation forecast",
+ "note": "Our forecast adds up projections for 84 CPI components (seasonal pattern plus recent trend). Electricity, gas and motor fuels follow Bank of England staff projections (November 2026 MPR).",
+ "series": [
+  {
+   "key": "cpi",
+   "label": "CPI inflation (ONS)",
+   "no_end_label": true
+  },
+  {
+   "key": "stif",
+   "label": "Our forecast",
+   "dash": true,
+   "slot": 2
+  },
+  {
+   "key": "boe",
+   "label": "Bank of England staff",
+   "dash": true,
+   "slot": 1
+  }
+ ],
+ "data_through": "2026-09",
+ "next_release": "18 November 2026",
+ "status": "ok",
+ "data": [
+  {
+   "date": "2024-01",
+   "cpi": 4.0
+  },
+  {
+   "date": "2024-02",
+   "cpi": 3.4
+  },
+  {
+   "date": "2024-03",
+   "cpi": 3.2
+  },
+  {
+   "date": "2024-04",
+   "cpi": 2.3
+  },
+  {
+   "date": "2024-05",
+   "cpi": 2.0
+  },
+  {
+   "date": "2024-06",
+   "cpi": 2.0
+  },
+  {
+   "date": "2024-07",
+   "cpi": 2.2
+  },
+  {
+   "date": "2024-08",
+   "cpi": 2.2
+  },
+  {
+   "date": "2024-09",
+   "cpi": 1.7
+  },
+  {
+   "date": "2024-10",
+   "cpi": 2.3
+  },
+  {
+   "date": "2024-11",
+   "cpi": 2.6
+  },
+  {
+   "date": "2024-12",
+   "cpi": 2.5
+  },
+  {
+   "date": "2025-01",
+   "cpi": 3.0
+  },
+  {
+   "date": "2025-02",
+   "cpi": 2.8
+  },
+  {
+   "date": "2025-03",
+   "cpi": 2.6
+  },
+  {
+   "date": "2025-04",
+   "cpi": 3.5
+  },
+  {
+   "date": "2025-05",
+   "cpi": 3.4
+  },
+  {
+   "date": "2025-06",
+   "cpi": 3.6
+  },
+  {
+   "date": "2025-07",
+   "cpi": 3.8
+  },
+  {
+   "date": "2025-08",
+   "cpi": 3.8
+  },
+  {
+   "date": "2025-09",
+   "cpi": 3.8
+  },
+  {
+   "date": "2025-10",
+   "cpi": 3.6
+  },
+  {
+   "date": "2025-11",
+   "cpi": 3.2
+  },
+  {
+   "date": "2025-12",
+   "cpi": 3.4
+  },
+  {
+   "date": "2026-01",
+   "cpi": 3.0
+  },
+  {
+   "date": "2026-02",
+   "cpi": 3.0
+  },
+  {
+   "date": "2026-03",
+   "cpi": 3.3
+  },
+  {
+   "date": "2026-04",
+   "cpi": 2.8
+  },
+  {
+   "date": "2026-05",
+   "cpi": 2.8
+  },
+  {
+   "date": "2026-06",
+   "cpi": 2.6
+  },
+  {
+   "date": "2026-07",
+   "cpi": 2.9
+  },
+  {
+   "date": "2026-08",
+   "cpi": 3.1
+  },
+  {
+   "date": "2026-09",
+   "cpi": 3.5,
+   "stif": 3.5,
+   "boe": 3.5
+  },
+  {
+   "date": "2026-10",
+   "stif": 3.5,
+   "boe": 3.7
+  },
+  {
+   "date": "2026-11",
+   "stif": 3.6,
+   "boe": 3.8
+  },
+  {
+   "date": "2026-12",
+   "stif": 3.5,
+   "boe": 3.8
+  },
+  {
+   "date": "2027-01",
+   "stif": 3.9,
+   "boe": 4.3
+  },
+  {
+   "date": "2027-02",
+   "stif": 4.0,
+   "boe": 4.5
+  },
+  {
+   "date": "2027-03",
+   "stif": 3.5,
+   "boe": 4.4
+  }
+ ],
+ "theme": "blue-amber",
+ "size_cm": [
+  25,
+  15
+ ],
+ "style_version": 10
+}

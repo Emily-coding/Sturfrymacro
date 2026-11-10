@@ -14,6 +14,10 @@
    "name": "OBR",
    "vintage": "October 2026 EFO",
    "url": "https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/"
+  },
+  "own": {
+   "name": "Sturfrymacro",
+   "vintage": "short-term forecast, data to Sep 2026"
   }
  },
  "sections": [
@@ -582,6 +586,11 @@
         "who": "Bank of England",
         "colour": "#DE911D",
         "value": 3.7
+       },
+       {
+        "who": "Sturfrymacro",
+        "colour": "#102A43",
+        "value": 3.5
        }
       ]
      },
@@ -602,6 +611,11 @@
        {
         "who": "OBR",
         "colour": "#27AB83",
+        "value": 3.5
+       },
+       {
+        "who": "Sturfrymacro",
+        "colour": "#102A43",
         "value": 3.5
        }
       ]
@@ -981,9 +995,44 @@
          1.914
         ]
        ]
+      },
+      {
+       "name": "Sturfrymacro (short-term forecast, data to Sep 2026)",
+       "kind": "forecast",
+       "colour": "#102A43",
+       "data": [
+        [
+         "2026-09",
+         3.5
+        ],
+        [
+         "2026-10",
+         3.45
+        ],
+        [
+         "2026-11",
+         3.63
+        ],
+        [
+         "2026-12",
+         3.47
+        ],
+        [
+         "2027-01",
+         3.9
+        ],
+        [
+         "2027-02",
+         3.95
+        ],
+        [
+         "2027-03",
+         3.55
+        ]
+       ]
       }
      ],
-     "note": "Bank of England line is Bank staff's monthly projection for the next six months, then its quarterly projection. OBR and outside forecasters are quarterly averages, plotted mid-quarter.",
+     "note": "Bank of England line is Bank staff's monthly projection for the next six months, then its quarterly projection. OBR and outside forecasters are quarterly averages, plotted mid-quarter. Sturfrymacro is our own short-term forecast, built up from 84 CPI components.",
      "source": "ONS; Bank of England; OBR"
     }
    ]

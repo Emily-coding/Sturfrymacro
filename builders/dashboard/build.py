@@ -45,6 +45,7 @@ FORECASTERS = {
     "boe": {"colour": "#DE911D"},  # amber
     "obr": {"colour": "#27AB83"},  # teal
     "ext": {"colour": "#BA2525"},  # red
+    "own": {"colour": "#102A43"},  # navy: our own short-term inflation forecast
 }
 OUTTURN = "#186FAF"        # blue
 OUTTURN_SECOND = "#9FB3C8"  # grey: a second outturn measure on the same chart
@@ -261,7 +262,7 @@ def inflation_section(fc, sources):
         "id": "inflation", "title": "Inflation", "box": box,
         "charts": [{"title": "CPI inflation", "units": "% change on a year earlier", "freq": "M",
                     "lines": [line("ONS outturn", cpi, OUTTURN, "outturn")] + lines,
-                    "note": "Bank of England line is Bank staff's monthly projection for the next six months, then its quarterly projection. OBR and outside forecasters are quarterly averages, plotted mid-quarter.",
+                    "note": "Bank of England line is Bank staff's monthly projection for the next six months, then its quarterly projection. OBR and outside forecasters are quarterly averages, plotted mid-quarter. Sturfrymacro is our own short-term forecast, built up from 84 CPI components.",
                     "source": "ONS; Bank of England; OBR"}],
     }
 
@@ -398,6 +399,23 @@ def load_forecasts() -> tuple[dict, dict, bool]:
     return sources, data, not failures
 
 
+def add_own_forecast(fc: dict, sources: dict) -> None:
+    """Add our short-term inflation forecast (builders/inflation/stif.py) as one more
+    forecaster: monthly CPI for six months, plus averages for the quarters it covers."""
+    path = REPO / "data" / "inflation" / "stif.json"
+    if not path.exists():
+        return
+    stif = json.loads(path.read_text())
+    monthly = [[row["month"], row["cpi"]] for row in stif["forecast"]]
+    by_q: dict[str, list] = {}
+    for m, v in monthly:
+        by_q.setdefault(f"{m[:4]}-Q{(int(m[5:]) - 1) // 3 + 1}", []).append(v)
+    quarterly = [[q, round(sum(v) / 3, 2)] for q, v in by_q.items() if len(v) == 3]  # whole quarters only
+    fc.setdefault("cpi_monthly", {})["own"] = monthly
+    fc.setdefault("cpi", {})["own"] = quarterly
+    sources["own"] = {"name": "Sturfrymacro", "vintage": f"short-term forecast, data to {month_label(stif['data_through'])}"}
+
+
 def write_if_changed(path: Path, obj) -> None:
     """Only rewrite when content changes, so a quiet day makes no commit."""
     text = json.dumps(obj, indent=1, ensure_ascii=False) + "\n"
@@ -409,6 +427,7 @@ if __name__ == "__main__":
     OUT.mkdir(parents=True, exist_ok=True)
     sources, fc, ok = load_forecasts()
     write_if_changed(OUT / "forecasts.json", {"sources": sources, "data": fc})
+    add_own_forecast(fc, sources)  # after saving: forecasts.json holds published forecasts only
     sections = []
     for build in (gdp_section, inflation_section, investment_section, labour_section, wages_section):
         try:

@@ -1,0 +1,15 @@
+# Hand-set assumptions for the short-term inflation forecast (stif.py).
+#
+# Energy (electricity, gas and motor fuels) follows the Bank of England's latest
+# staff projections automatically. Use this file for things the seasonal baseline
+# won't get right, e.g. a duty change or an unusually large April price reset.
+#
+# Each override replaces the baseline month-on-month % change for one CPI
+# component in one month. Component codes are COICOP codes as the ONS publishes
+# them (see the component list printed by `python builders/inflation/stif.py`).
+#
+# Example (commented out):
+# overrides:
+#   - {component: "02.2", month: "2027-03", change: 4.5, why: "Tobacco duty rise announced in the Budget"}
+
+overrides: []

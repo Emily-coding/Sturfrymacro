@@ -1,0 +1,174 @@
+{
+ "slug": "ai_headcount_up",
+ "category": "bics",
+ "topic": "ai",
+ "title": "AI users: AI has increased overall headcount",
+ "type": "line",
+ "freq": "irregular (BICS waves)",
+ "units": "% of businesses",
+ "source": "ONS Business Insights and Conditions Survey (BICS), weighted estimates",
+ "source_url": "https://www.ons.gov.uk/economy/economicoutputandproductivity/output/datasets/businessinsightsandimpactontheukeconomy",
+ "note": null,
+ "measure": "share",
+ "answers": [
+  "Increased headcount"
+ ],
+ "exclude": null,
+ "breaks": null,
+ "versions": [
+  {
+   "version": 1,
+   "question": "What impact, if any, have artificial intelligence technologies had on your business's overall workforce headcount?",
+   "population": "As a percentage of businesses not permanently stopped trading that are using some form of artificial intelligence or are not sure if they are doing so",
+   "weighting": "count",
+   "waves_used": "141-165 (5)"
+  }
+ ],
+ "version_breaks": [],
+ "series": [
+  {
+   "key": "all-businesses",
+   "label": "All businesses",
+   "group": "total"
+  },
+  {
+   "key": "0-9",
+   "label": "0 - 9",
+   "group": "size"
+  },
+  {
+   "key": "10-49",
+   "label": "10 - 49",
+   "group": "size"
+  },
+  {
+   "key": "50-99",
+   "label": "50 - 99",
+   "group": "size"
+  },
+  {
+   "key": "100-249",
+   "label": "100 - 249",
+   "group": "size"
+  },
+  {
+   "key": "250",
+   "label": "250 +",
+   "group": "size"
+  },
+  {
+   "key": "all-size-bands-excluding-0-9",
+   "label": "All size bands excluding 0 - 9",
+   "group": "size"
+  },
+  {
+   "key": "accommodation-and-food-service-activities",
+   "label": "Accommodation and food service activities",
+   "group": "industry"
+  },
+  {
+   "key": "administrative-and-support-service-activities",
+   "label": "Administrative and support service activities",
+   "group": "industry"
+  },
+  {
+   "key": "arts-entertainment-and-recreation",
+   "label": "Arts, entertainment and recreation",
+   "group": "industry"
+  },
+  {
+   "key": "construction",
+   "label": "Construction",
+   "group": "industry"
+  },
+  {
+   "key": "information-and-communication",
+   "label": "Information and communication",
+   "group": "industry"
+  },
+  {
+   "key": "manufacturing",
+   "label": "Manufacturing",
+   "group": "industry"
+  },
+  {
+   "key": "professional-scientific-and-technical-activities",
+   "label": "Professional, scientific and technical activities",
+   "group": "industry"
+  },
+  {
+   "key": "wholesale-and-retail-trade-repair-of-motor-vehicles-and-motorcycles",
+   "label": "Wholesale and retail trade; repair of motor vehicles and motorcycles",
+   "group": "industry"
+  }
+ ],
+ "data_through": "2026-08-31",
+ "status": "ok",
+ "data": [
+  {
+   "date": "2025-08-31",
+   "wave": 141,
+   "10-49": 1.8,
+   "100-249": 1.4,
+   "250": 1.4,
+   "50-99": 2.2,
+   "accommodation-and-food-service-activities": 6.3,
+   "all-businesses": 1.0,
+   "all-size-bands-excluding-0-9": 1.8,
+   "arts-entertainment-and-recreation": 0.0,
+   "construction": 0.0
+  },
+  {
+   "date": "2025-11-30",
+   "wave": 147,
+   "0-9": 1.3,
+   "100-249": 2.4,
+   "250": 1.7,
+   "50-99": 2.4,
+   "all-businesses": 1.3,
+   "all-size-bands-excluding-0-9": 1.1,
+   "arts-entertainment-and-recreation": 0.0,
+   "construction": 0.0,
+   "information-and-communication": 4.1,
+   "professional-scientific-and-technical-activities": 1.4,
+   "wholesale-and-retail-trade-repair-of-motor-vehicles-and-motorcycles": 1.9
+  },
+  {
+   "date": "2026-02-28",
+   "wave": 153,
+   "0-9": 1.0,
+   "100-249": 1.1,
+   "250": 1.3,
+   "50-99": 1.4,
+   "administrative-and-support-service-activities": 2.6,
+   "all-businesses": 1.0,
+   "arts-entertainment-and-recreation": 0.0,
+   "information-and-communication": 1.2,
+   "professional-scientific-and-technical-activities": 1.2,
+   "wholesale-and-retail-trade-repair-of-motor-vehicles-and-motorcycles": 1.4
+  },
+  {
+   "date": "2026-05-31",
+   "wave": 159,
+   "0-9": 1.0,
+   "250": 1.2,
+   "accommodation-and-food-service-activities": 0.0,
+   "administrative-and-support-service-activities": 2.2,
+   "all-businesses": 1.0,
+   "construction": 0.0,
+   "information-and-communication": 1.3,
+   "manufacturing": 3.3,
+   "professional-scientific-and-technical-activities": 1.5
+  },
+  {
+   "date": "2026-08-31",
+   "wave": 165,
+   "250": 1.3,
+   "50-99": 1.4,
+   "arts-entertainment-and-recreation": 0.0,
+   "construction": 0.0,
+   "manufacturing": 4.6,
+   "wholesale-and-retail-trade-repair-of-motor-vehicles-and-motorcycles": 0.0
+  }
+ ]
+}

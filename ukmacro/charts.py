@@ -1,0 +1,585 @@
+"""Render chart JSON (the repo's common chart format) to PNG.
+
+House style, used for every PNG:
+    size      25 x 15 cm at 200 dpi (1969 x 1181 px), saved as a 256-colour PNG
+    font      Source Sans 3 (SIL Open Font License, in assets/fonts/), so output is
+              identical on a laptop and on GitHub Actions
+    colours   a theme from THEMES (DEFAULT_THEME is used unless render() is given
+              one): series colours in fixed order (colour follows the series' position
+              in the chart, never its value), totals / reference lines in the theme's
+              ink, and its grey scale for text, axes and gridlines
+    marks     2pt lines, hairline horizontal gridlines only, no chart border,
+              legend above the plot, direct value labels at line ends
+
+A chart can set "events": [{"date": "YYYY-MM-DD", "label": ...}] for thin vertical
+reference lines (e.g. product launches).
+
+A series can set "slot": n to pin its colour, so one category keeps the same colour
+across related charts, or "color": "neutral" for a grey (e.g. data not available).
+Series beyond the fourth are grey (see _colour).
+
+Chart types: line; bar (several series sit side by side); stacked-bar (positive and
+negative parts stack away from zero); in both bar types a series with "mark": "line" is
+drawn as a line on top; grouped-hbar (categories down the side); ranked-bars (groups of
+ranked horizontal bars, each bar with its own label, e.g. top partners by product group);
+flow-grid (supply-chain stages across, places down, a text cell for each).
+"""
+
+from __future__ import annotations
+
+import io
+import json
+import textwrap
+from pathlib import Path
+
+import matplotlib
+
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt  # noqa: E402
+from matplotlib import font_manager  # noqa: E402
+from PIL import Image  # noqa: E402
+
+FONTS = Path(__file__).resolve().parent.parent / "assets" / "fonts"
+for f in FONTS.glob("*.ttf"):
+    font_manager.fontManager.addfont(str(f))
+
+# Colour themes. Series colours are used in this fixed order; neutrals carry all
+# text, axes and gridlines. "reference" is the dataviz skill's validated palette; the
+# others are built from the "Professional UI colour palettes" scales (Refactoring UI
+# style) by svengraziani/ui-design: one or two strong hues for data plus the matching
+# grey scale. Every series pair below passes a colour-blind check (worst simulated
+# separation >= 8 in OKLab x100; normal-vision separation >= 15).
+THEMES = {
+    "reference": {
+        "series": ["#2a78d6", "#eb6834", "#1baf7a", "#eda100"],
+        "ink": "#0b0b0b", "text_2": "#52514e", "muted": "#898781",
+        "grid": "#e1e0d9", "baseline": "#c3c2b7", "surface": "#fcfcfb"},
+    # Blue + Yellow Vivid + Blue Grey (palette 2), teal as the third series
+    "blue-amber": {
+        "series": ["#186FAF", "#DE911D", "#27AB83", "#BA2525"],
+        "ink": "#102A43", "text_2": "#486581", "muted": "#627D98",
+        "grid": "#D9E2EC", "baseline": "#9FB3C8", "surface": "#FFFFFF"},
+    # Cyan + Warm Grey (palette 7), amber and red as supporting series
+    "cyan-warm": {
+        "series": ["#0E7C86", "#DE911D", "#BA2525", "#486581"],
+        "ink": "#27241D", "text_2": "#625D52", "muted": "#857F72",
+        "grid": "#E8E6E1", "baseline": "#B8B2A7", "surface": "#FAF9F7"},
+    # Blue Vivid + Cool Grey (palette 8), red vivid and teal as supporting series
+    "blue-red": {
+        "series": ["#0967D2", "#E12D39", "#27AB83", "#DE911D"],
+        "ink": "#1F2933", "text_2": "#52606D", "muted": "#7B8794",
+        "grid": "#E4E7EB", "baseline": "#9AA5B1", "surface": "#F5F7FA"},
+}
+DEFAULT_THEME = "blue-amber"
+STYLE_VERSION = 10  # bump when the drawing code changes, so every PNG is redrawn
+
+# Figure size. Layout below is in centimetres (margins) and scales with the width
+# (how much text fits per line), so changing the size keeps the layout intact.
+WIDTH_CM, HEIGHT_CM = 25, 15
+SIZE = (WIDTH_CM / 2.54, HEIGHT_CM / 2.54)
+LEFT_CM, RIGHT_CM = 1.95, 1.35          # plot margins
+TEXT_SCALE = (WIDTH_CM - LEFT_CM - RIGHT_CM) / 26.7  # usable width relative to the original 30 cm design
+
+
+def _x(cm: float) -> float:
+    """A horizontal position in cm from the left edge, as a figure fraction."""
+    return cm / WIDTH_CM
+
+DPI = 200
+
+
+def use_theme(name: str) -> None:
+    """Switch every colour used below (they are module-level so the drawing code stays short)."""
+    global SERIES, INK, TEXT_2, MUTED, GRID, BASELINE, SURFACE
+    t = THEMES[name]
+    SERIES, INK, TEXT_2, MUTED = t["series"], t["ink"], t["text_2"], t["muted"]
+    GRID, BASELINE, SURFACE = t["grid"], t["baseline"], t["surface"]
+    plt.rcParams.update({
+        "font.family": "Source Sans 3",
+        "font.size": 11,
+        "axes.edgecolor": BASELINE,
+        "axes.labelcolor": TEXT_2,
+        "xtick.color": MUTED,
+        "ytick.color": MUTED,
+        "xtick.labelcolor": TEXT_2,
+        "ytick.labelcolor": TEXT_2,
+        "xtick.labelsize": 10.5,
+        "ytick.labelsize": 10.5,
+        "figure.facecolor": SURFACE,
+        "axes.facecolor": SURFACE,
+        "savefig.facecolor": SURFACE,
+    })
+
+
+use_theme(DEFAULT_THEME)
+
+
+# ---------------------------------------------------------------- frame
+
+def _colour(series: dict, position: int) -> str:
+    """A series' colour: "color": "neutral" -> grey; else its pinned "slot", else its
+    position. Past the palette (more than 4 series) it is grey too: rather than invent
+    more colours, extra series become context (e.g. UK in colour, other countries grey)."""
+    slot = series.get("slot", position)
+    if series.get("color") == "neutral" or slot >= len(SERIES):
+        return BASELINE
+    return SERIES[slot]
+
+
+def _frame(chart: dict, left_cm: float = LEFT_CM):
+    """Figure with title, units line and source footer; returns (fig, ax).
+    `left_cm` widens the plot's left margin (for long category labels)."""
+    fig = plt.figure(figsize=SIZE, dpi=DPI)
+    foot = f"Source: {chart['source']}."
+    if chart.get("note"):
+        foot += f" {chart['note']}"
+    foot_lines = textwrap.wrap(foot, int(190 * TEXT_SCALE))
+    # room below the plot: footer lines (~0.026 of the height each) plus two-line date labels
+    bottom = 0.035 + 0.026 * len(foot_lines) + 0.105
+    ax = fig.add_axes([_x(left_cm), bottom, 1 - _x(left_cm) - _x(RIGHT_CM), 0.79 - bottom])
+    fig.text(_x(LEFT_CM), 0.93, chart["title"], fontsize=16, fontweight="semibold", color=INK, va="baseline")
+    fig.text(_x(LEFT_CM), 0.875, chart["units"], fontsize=11.5, color=TEXT_2, va="baseline")
+    fig.text(_x(LEFT_CM), 0.035, "\n".join(foot_lines), fontsize=9, color=MUTED, va="bottom")
+    for side in ("top", "right", "left"):
+        ax.spines[side].set_visible(False)
+    ax.spines["bottom"].set_color(BASELINE)
+    ax.tick_params(axis="both", length=0, pad=6)
+    ax.grid(axis="y", color=GRID, linewidth=0.6, linestyle="-")
+    ax.set_axisbelow(True)
+    return fig, ax
+
+
+def _legend(fig, handles, labels):
+    """Legend in rows above the plot. One series needs none (the title names it). Uses as
+    many columns as fit across the chart (roughly 130 characters including the colour
+    keys at 30 cm wide, scaled to the width); each extra row shrinks the plot a little."""
+    if len(handles) < 2:
+        return
+    n = len(handles)
+    for ncol in range(n, 0, -1):
+        nrows = -(-n // ncol)
+        cols = [labels[c * nrows:(c + 1) * nrows] for c in range(ncol)]  # filled column by column
+        if sum(max(len(lab) for lab in col) + 8 for col in cols if col) <= 130 * TEXT_SCALE:
+            break
+    for ax in fig.axes:
+        x0, y0, w, h = ax.get_position().bounds
+        ax.set_position([x0, y0, w, h - 0.05 * (nrows - 1)])
+    fig.legend(handles, labels, loc="upper left", bbox_to_anchor=(_x(LEFT_CM - 0.2), 0.86), ncol=ncol,
+               frameon=False, fontsize=11, labelcolor=TEXT_2, handlelength=1.6, columnspacing=1.8)
+
+
+MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+MAX_LABELS = 16            # roughly how many quarterly date labels fit across a 25 cm chart
+MAX_HALF_YEAR_LABELS = 24  # half-year labels are mostly short ("Q3", "Jul"), so more fit
+
+
+def _period_ticks(ax, dates: list[str]):
+    """Date labels on the x-axis, as fine as fits: every quarter, else every half-year
+    (Q1/Q3, Jan/Jul), else every year. The year is written under the first label of
+    each year (e.g. "Q1" over "2024", then "Q3"). Works for quarters (2024-Q1), months
+    (2024-01), exact dates (2024-01-31, e.g. BICS waves), years and plain categories."""
+    n = len(dates)
+    ax.set_xlim(-0.6, n - 0.4)
+    if not dates:
+        return
+
+    def kind(d):
+        if not d[:4].isdigit():  # categories (e.g. "Imports"), labelled as they are
+            return "A"
+        if len(d) == 7 and d[5] == "Q":
+            return "Q"
+        if len(d) == 7:
+            return "M"
+        return "D" if len(d) == 10 else "A"
+
+    k = kind(dates[0])
+    if k == "A":
+        step = max(1, -(-n // MAX_LABELS))
+        ax.set_xticks(range(0, n, step), [dates[i] for i in range(0, n, step)])
+        return
+
+    def sub(d):  # position within the year: quarter number, or month number
+        return int(d[6]) if k == "Q" else int(d[5:7])
+
+    def text(d):
+        return f"Q{d[6]}" if k == "Q" else MONTHS[int(d[5:7]) - 1]
+
+    if k == "D":  # irregular exact dates: label every point if they fit, else every other
+        picks = list(range(0, n, max(1, -(-n // MAX_LABELS))))
+    else:
+        per_year = 4 if k == "Q" else 12
+        options = ([(1, 2, 3, 4), (1, 3)] if k == "Q" else [(1, 4, 7, 10), (1, 7)]) + [(1,)]
+        picks = None
+        for keep in options:  # finest spacing that fits
+            cand = [i for i, d in enumerate(dates) if sub(d) in keep]
+            # quarterly labels need room; half-year ones are short ("Q3", "Jul"), so more fit
+            limit = {4: MAX_LABELS, 2: MAX_HALF_YEAR_LABELS}.get(len(keep), MAX_LABELS * per_year)
+            if len(cand) <= limit:
+                picks = cand
+                break
+        if len(keep) == 1:  # only one label per year fits: show just the year (thinned if needed)
+            picks = picks[::max(1, -(-len(picks) // MAX_LABELS))]
+            ax.set_xticks(picks, [dates[i][:4] for i in picks])
+            return
+    labels, last_year = [], None
+    for i in picks:
+        year = dates[i][:4]
+        labels.append(f"{text(dates[i])}\n{year}" if year != last_year else text(dates[i]))
+        last_year = year
+    ax.set_xticks(picks, labels)
+
+
+def _event_index(event_date: str, dates: list[str]) -> int | None:
+    """Position on the x-axis for an event (YYYY-MM-DD): the period containing it for
+    quarterly / monthly / annual data, or the first observation on or after it for
+    exact dates (e.g. survey waves). None if it falls outside the chart."""
+    y, m = event_date[:4], int(event_date[5:7])
+    for key in (f"{y}-Q{(m - 1) // 3 + 1}", f"{y}-{m:02d}", y):
+        if key in dates:
+            return dates.index(key)
+    if dates and len(dates[0]) == 10:  # exact dates
+        later = [i for i, d in enumerate(dates) if d >= event_date]
+        return later[0] if later and event_date >= dates[0] else None
+    return None
+
+
+def _events(ax, chart: dict, dates: list[str]) -> None:
+    """Thin vertical reference lines for chart["events"] ([{date, label}]). Labels sit
+    in a band above the data (the y-axis is extended to make room), beside their line:
+    to the right, or to the left near the right edge. A label that would overlap another
+    moves down a row, and labels have a background so other lines don't run through them."""
+    events = [(i, ev["label"]) for ev in chart.get("events") or []
+              if (i := _event_index(str(ev["date"]), dates)) is not None]
+    if not events:
+        return
+    fig = ax.figure
+    fig.canvas.draw()  # final axis limits and a renderer to measure the labels with
+    renderer = fig.canvas.get_renderer()
+    to_pt = 72 / fig.dpi
+    rows: list[list[tuple[float, float]]] = []  # text spans (points) already used on each row
+    placed = []
+    for i, label in events:
+        ax.axvline(i, color=MUTED, linewidth=0.9, zorder=1)
+        right_side = i > 0.7 * (len(dates) - 1)
+        x = ax.transData.transform((i, 0))[0] * to_pt
+        probe = ax.text(0, 0, label, fontsize=9.5)
+        width = probe.get_window_extent(renderer).width * to_pt + 6  # plus a little space
+        probe.remove()
+        span = (x - 4 - width, x - 4) if right_side else (x + 4, x + 4 + width)
+        row = next((r for r, used in enumerate(rows)
+                    if all(span[1] < a or span[0] > b for a, b in used)), len(rows))
+        if row == len(rows):
+            rows.append([])
+        rows[row].append(span)
+        placed.append((i, label, right_side, row))
+    # extend the top of the y-axis so the data stay below the label band
+    band = (6 + 13 * len(rows) + 4) / (ax.get_window_extent(renderer).height * to_pt)
+    lo, hi = ax.get_ylim()
+    ax.set_ylim(lo, (hi - band * lo) / (1 - band))
+    for i, label, right_side, row in placed:
+        ax.annotate(label, (i, 1), xycoords=("data", "axes fraction"),
+                    xytext=(-4 if right_side else 4, -4 - 13 * row), textcoords="offset points",
+                    ha="right" if right_side else "left", va="top", fontsize=9.5, color=MUTED,
+                    zorder=4, bbox={"boxstyle": "square,pad=0.1", "fc": SURFACE, "ec": "none"})
+
+
+def _save(fig, path: Path) -> Path:
+    """Save as a palette PNG: flat colours quantise cleanly and the file stays small."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    buf = io.BytesIO()
+    fig.savefig(buf, format="png", dpi=DPI)
+    plt.close(fig)
+    buf.seek(0)
+    Image.open(buf).convert("RGB").quantize(colors=256, method=Image.Quantize.MEDIANCUT).save(
+        path, format="PNG", optimize=True)
+    return path
+
+
+# ---------------------------------------------------------------- chart types
+
+def _line(chart):
+    """Lines, one per series. Each line ends in a direct label: its latest value for a
+    coloured series, its name for a grey context series (greys can't be told apart by
+    colour). Labels that would overlap are spread apart vertically."""
+    fig, ax = _frame(chart)
+    dates = [d["date"] for d in chart["data"]]
+    x = range(len(dates))
+    handles, ends = [], []
+    for i, s in enumerate(chart["series"]):
+        ys = [d.get(s["key"]) for d in chart["data"]]
+        colour = _colour(s, i)
+        (h,) = ax.plot(x, [y if y is not None else float("nan") for y in ys],
+                       color=colour, linewidth=2, solid_capstyle="round",
+                       zorder=3 if colour != BASELINE else 2)  # coloured lines above grey ones
+        handles.append(h)
+        present = [j for j, y in enumerate(ys) if y is not None]
+        if present:
+            j = present[-1]
+            text = s["label"] if colour == BASELINE else f"{ys[j]:.{chart.get('decimals', 1)}f}".replace("-", "\u2212")
+            ends.append((j, ys[j], text))
+    _period_ticks(ax, dates)
+    _events(ax, chart, dates)
+    _end_labels(fig, ax, ends)
+    # grey context lines are named at their ends, so they stay out of the legend
+    keep = [i for i, s in enumerate(chart["series"]) if _colour(s, i) != BASELINE]
+    _legend(fig, [handles[i] for i in keep], [chart["series"][i]["label"] for i in keep])
+    return fig
+
+
+def _end_labels(fig, ax, ends: list[tuple[int, float, str]], min_gap_pt: float = 13):
+    """Place labels just right of each line's last point. Labels that would overlap
+    (their text spans the same horizontal space and they are closer than `min_gap_pt`
+    vertically) are nudged upwards; labels on lines that end in different places are
+    left where they are."""
+    if not ends:
+        return
+    fig.canvas.draw()  # fix the axis limits so data -> screen positions are final
+    to_pt = 72 / fig.dpi
+    char_pt = 5.6  # rough width of one character at 10.5pt
+    placed = []  # (x0, x1, y) in points of labels already placed
+    final = {}
+    for k, (j, y, text) in sorted(enumerate(ends), key=lambda e: e[1][1]):
+        x_pt, y_pt = (v * to_pt for v in ax.transData.transform((j, y)))
+        x0, x1 = x_pt + 6, x_pt + 6 + len(text) * char_pt
+        # move up past every label it collides with; labels are placed bottom-up, so
+        # one pass over them in height order is enough (no loop that could fail to end)
+        for px0, px1, py in sorted(placed, key=lambda p: p[2]):
+            if x0 < px1 and px0 < x1 and py - min_gap_pt < y_pt < py + min_gap_pt - 0.01:
+                y_pt = py + min_gap_pt
+        placed.append((x0, x1, y_pt))
+        final[k] = y_pt
+    for k, (j, y, text) in enumerate(ends):
+        dy = final[k] - ax.transData.transform((j, y))[1] * to_pt
+        ax.annotate(text, (j, y), xytext=(6, dy), textcoords="offset points",
+                    va="center", fontsize=10.5, color=TEXT_2, annotation_clip=False)
+
+
+def _bars(chart):
+    """bar / stacked-bar. In a stacked-bar chart, bars stack away from zero by sign; in
+    a plain bar chart, several series sit side by side. Either way a series with
+    "mark": "line" is drawn as a line (in ink) on top."""
+    fig, ax = _frame(chart)
+    dates = [d["date"] for d in chart["data"]]
+    x = list(range(len(dates)))
+    stacked = chart["type"] == "stacked-bar"
+    bar_series = [s for s in chart["series"] if s.get("mark") != "line"]
+    n_side = 1 if stacked else max(1, len(bar_series))
+    width = (0.72 if len(x) > 20 else 0.6) / n_side
+    pos, neg = [0.0] * len(x), [0.0] * len(x)
+    handles, labels, slot = [], [], 0
+    for s in chart["series"]:
+        ys = [d.get(s["key"]) or 0.0 for d in chart["data"]]  # a missing bar is drawn as nothing
+        if s.get("mark") == "line":  # missing periods break the line rather than drop to zero
+            line_ys = [d.get(s["key"]) if d.get(s["key"]) is not None else float("nan") for d in chart["data"]]
+            (h,) = ax.plot(x, line_ys, color=INK, linewidth=1.6, marker="o", markersize=4.5,
+                           markerfacecolor=INK, markeredgecolor=SURFACE, markeredgewidth=1.2, zorder=4)
+        else:
+            if stacked:
+                xs = x
+                bottoms = [pos[j] if y >= 0 else neg[j] for j, y in enumerate(ys)]
+                for j, y in enumerate(ys):
+                    if y >= 0:
+                        pos[j] += y
+                    else:
+                        neg[j] += y
+            else:  # side by side, centred on the period
+                k = bar_series.index(s)
+                xs = [j + (k - (n_side - 1) / 2) * width for j in x]
+                bottoms = [0.0] * len(x)
+            h = ax.bar(xs, ys, bottom=bottoms, width=width, color=_colour(s, slot),
+                       edgecolor=SURFACE, linewidth=1.0, zorder=3)  # surface gap between segments
+            slot += s.get("color") != "neutral"  # a grey series doesn't use up a colour
+        handles.append(h)
+        labels.append(s["label"])
+    ax.axhline(0, color=BASELINE, linewidth=0.9, zorder=2)
+    _period_ticks(ax, dates)
+    _events(ax, chart, dates)
+    _legend(fig, handles, labels)
+    return fig
+
+
+def _grouped_hbar(chart):
+    """Categories down the side (data[].date holds the category), one bar per series."""
+    longest = max(len(str(d["date"])) for d in chart["data"])
+    fig, ax = _frame(chart, left_cm=max(LEFT_CM, 0.6 + longest * 0.186))  # room for category labels
+    ax.grid(axis="y", visible=False)
+    ax.grid(axis="x", color=GRID, linewidth=0.6)
+    cats = [d["date"] for d in chart["data"]]
+    n = len(chart["series"])
+    h_bar = 0.8 / n
+    handles = []
+    # show "+" only when the chart has negative values (i.e. the sign carries information)
+    signed = any((d.get(s["key"]) or 0) < 0 for d in chart["data"] for s in chart["series"])
+    fmt = f"{{:{'+' if signed else ''}.{chart.get('decimals', 2)}f}}"
+    for i, s in enumerate(chart["series"]):
+        ys = [d.get(s["key"]) or 0.0 for d in chart["data"]]
+        pos = [c + (i - (n - 1) / 2) * h_bar for c in range(len(cats))]
+        handles.append(ax.barh(pos, ys, height=h_bar * 0.92, color=_colour(s, i), zorder=3))
+        for p, y in zip(pos, ys):
+            ax.annotate(fmt.format(y).replace("-", "\u2212"), (y, p), xytext=(5 if y >= 0 else -5, 0), textcoords="offset points",
+                        ha="left" if y >= 0 else "right", va="center", fontsize=10, color=TEXT_2)
+    ax.set_yticks(range(len(cats)), cats)
+    ax.invert_yaxis()
+    ax.spines["bottom"].set_visible(False)
+    ax.axvline(0, color=BASELINE, linewidth=0.9, zorder=2)
+    lo, hi = ax.get_xlim()
+    pad = (hi - lo) * 0.08  # room for the value labels
+    ax.set_xlim(lo - pad, hi + pad)
+    _legend(fig, handles, [s["label"] for s in chart["series"]])
+    return fig
+
+
+def _ranked_bars(chart):
+    """Groups of labelled horizontal bars, e.g. the top partners for each product group.
+    data[].date holds the group's name and data[].ranks its rows, as [{label, value,
+    key}] (one bar, coloured as the series whose key it names) or [{label, values:
+    {key: value}}] (one bar per series, side by side, e.g. imports and exports). The
+    legend explains the colours. chart["value_format"] formats the value labels
+    (default "{:.1f}")."""
+    from matplotlib.patches import Patch
+    rows, heads, y = [], [], 0.0
+    for d in chart["data"]:
+        heads.append((y, d["date"]))
+        y += 1
+        for r in d["ranks"]:
+            rows.append((y, r["label"], r.get("values") or {r["key"]: r["value"]}))
+            y += 1
+        y += 0.5   # space between groups
+    longest = max(len(r[1]) for r in rows)
+    fig, ax = _frame(chart, left_cm=max(LEFT_CM, 0.6 + longest * 0.186))  # room for the bar labels
+    ax.grid(axis="y", visible=False)
+    ax.grid(axis="x", color=GRID, linewidth=0.6)
+    colours = {s["key"]: _colour(s, i) for i, s in enumerate(chart["series"])}
+    order = [s["key"] for s in chart["series"]]
+    fmt = chart.get("value_format", "{:.1f}")
+    for yy, _, values in rows:
+        keys = [k for k in order if k in values]
+        h = 0.72 / len(keys)
+        for i, k in enumerate(keys):
+            pos = yy + (i - (len(keys) - 1) / 2) * h
+            ax.barh(pos, values[k], height=h * 0.92, color=colours[k], zorder=3)
+            neg = values[k] < 0
+            ax.annotate(fmt.format(values[k]).replace("-", "\u2212"), (values[k], pos), xytext=(-5 if neg else 5, 0),
+                        textcoords="offset points", ha="right" if neg else "left", va="center",
+                        fontsize=10 if len(keys) == 1 else 8.5, color=TEXT_2)
+    ax.set_yticks([r[0] for r in rows], [r[1] for r in rows])
+    for yy, text in heads:   # group names, in bold, above their bars
+        ax.text(0, yy + 0.1, text, fontsize=11, fontweight="semibold", color=INK, va="center", ha="left")
+    ax.set_ylim(y - 0.5, -0.8)
+    ax.spines["bottom"].set_visible(False)
+    ax.axvline(0, color=BASELINE, linewidth=0.9, zorder=2)
+    lo, hi = ax.get_xlim()
+    low = min(v for r in rows for v in r[2].values())
+    ax.set_xlim(min(0, low) - (hi - lo) * 0.08 * (low < 0), hi * 1.08)  # room for the value labels
+    used = [s for s in chart["series"] if any(s["key"] in r[2] for r in rows)]
+    _legend(fig, [Patch(color=colours[s["key"]]) for s in used], [s["label"] for s in used])
+    return fig
+
+
+def _flow_grid(chart):
+    """A supply-chain grid: stages across the top (chart["columns"]: [{label, sub}]),
+    one row per place (chart["data"]: [{label, cells: [{headline, lines, key}]}]). A
+    cell's tint is that of the series whose key it names (explained in the legend); a
+    cell without a key is plain (e.g. a context row). A row's "weight" sets its relative
+    height. Arrows join the stages."""
+    from matplotlib.patches import FancyBboxPatch, Patch
+    fig, ax = _frame(chart)
+    ax.set_axis_off()
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    x0, y0, w, h = ax.get_position().bounds
+    ax.set_position([x0, y0 - 0.08, w, h + 0.08])   # no date labels below, so use their space
+    cols, rows = chart["columns"], chart["data"]
+    label_w = 0.11                       # row-label column
+    gap = 0.018
+    col_w = (1 - label_w - gap * (len(cols) - 1)) / len(cols)
+    head_h = 0.15
+    weights = [r.get("weight", 1.0) for r in rows]   # relative row heights
+    unit_h = (1 - head_h - 0.01) / sum(weights)
+    width_cm = (WIDTH_CM - LEFT_CM - RIGHT_CM) * col_w
+    chars = int(width_cm * 6.2)          # roughly how many 8pt characters fit across a cell
+    tint = {s["key"]: _colour(s, i) for i, s in enumerate(chart["series"])}
+
+    def soft(colour, a=0.16):
+        r, g, b = (int(colour[i:i + 2], 16) / 255 for i in (1, 3, 5))
+        return (1 - a + a * r, 1 - a + a * g, 1 - a + a * b)
+    for j, col in enumerate(cols):
+        x = label_w + j * (col_w + gap)
+        ax.text(x, 1 - 0.01, col["label"], fontsize=10, fontweight="semibold", color=INK, va="top")
+        ax.text(x, 1 - 0.06, "\n".join(textwrap.wrap(col.get("sub", ""), chars)), fontsize=8, color=MUTED,
+                va="top", linespacing=1.15)
+        if j < len(cols) - 1:            # arrow to the next stage
+            ax.annotate("", xy=(x + col_w + gap * 0.95, 1 - head_h / 2 + 0.03), xytext=(x + col_w + gap * 0.05, 1 - head_h / 2 + 0.03),
+                        arrowprops={"arrowstyle": "-|>", "color": MUTED, "lw": 0.9})
+    y_top = 1 - head_h
+    for row in rows:
+        row_h = unit_h * row.get("weight", 1.0)
+        ax.text(0, y_top - 0.015, "\n".join(textwrap.wrap(row["label"], 12)), fontsize=10,
+                fontweight="semibold", color=INK, va="top")
+        for j, cell in enumerate(row["cells"]):
+            x = label_w + j * (col_w + gap)
+            key = cell.get("key")
+            ax.add_patch(FancyBboxPatch((x, y_top - row_h + 0.012), col_w, row_h - 0.024,
+                                        boxstyle="round,pad=0,rounding_size=0.008",
+                                        fc=soft(tint[key]) if key else SURFACE,
+                                        ec=GRID if not key else soft(tint[key], 0.45), lw=0.8))
+            text_y = y_top - 0.025
+            if cell.get("headline"):
+                head = "\n".join(textwrap.wrap(cell["headline"], chars - 2))
+                ax.text(x + 0.006, text_y, head, fontsize=8.5, fontweight="semibold", color=INK, va="top",
+                        linespacing=1.15)
+                text_y -= 0.045 * (head.count("\n") + 1) + 0.006
+            body = "\n".join(line for ln in cell.get("lines", []) for line in textwrap.wrap(ln, chars))
+            ax.text(x + 0.006, text_y, body, fontsize=8, color=TEXT_2 if key else MUTED, va="top",
+                    linespacing=1.2, style="normal" if key else "italic")
+        y_top -= row_h
+    used = [s for s in chart["series"] if any(c.get("key") == s["key"] for r in rows for c in r["cells"])]
+    _legend(fig, [Patch(fc=soft(tint[s["key"]], 0.5), ec="none") for s in used], [s["label"] for s in used])
+    return fig
+
+
+def _fill_periods(chart: dict) -> dict:
+    """Insert empty rows for missing quarters/months so the x-axis is a true timeline."""
+    dates = [d["date"] for d in chart["data"]]
+    if chart["type"] in ("grouped-hbar", "ranked-bars", "flow-grid") or not dates:
+        return chart
+    # `step` gives the next period after d
+    if all(len(d) == 7 and d[5] == "Q" for d in dates):
+        step = lambda d: f"{d[:4]}-Q{int(d[6]) % 4 + 1}" if d[6] != "4" else f"{int(d[:4]) + 1}-Q1"  # noqa: E731
+    elif all(len(d) == 7 and d[4] == "-" and d[5:].isdigit() for d in dates):
+        step = lambda d: f"{d[:4]}-{int(d[5:]) + 1:02d}" if d[5:] != "12" else f"{int(d[:4]) + 1}-01"  # noqa: E731
+    else:
+        return chart  # annual or irregular dates (e.g. BICS waves): leave as they are
+    have = {d["date"]: d for d in chart["data"]}
+    full, d = [], dates[0]
+    while d <= dates[-1]:
+        full.append(have.get(d, {"date": d}))
+        d = step(d)
+    return {**chart, "data": full}
+
+
+RENDERERS = {"line": _line, "bar": _bars, "stacked-bar": _bars, "grouped-hbar": _grouped_hbar,
+             "ranked-bars": _ranked_bars, "flow-grid": _flow_grid}
+
+
+def render(chart: dict, path: Path, theme: str | None = None) -> Path:
+    """Render a chart (common JSON format) to a PNG at `path`; returns the path."""
+    use_theme(theme or DEFAULT_THEME)
+    return _save(RENDERERS[chart["type"]](_fill_periods(chart)), path)
+
+
+def publish(chart: dict, json_path: Path, png_path: Path) -> None:
+    """Write a chart's JSON and its PNG. The PNG is only re-rendered when the JSON
+    changed: PNG bytes vary slightly between machines, and an unchanged chart
+    shouldn't produce a daily commit. The theme and size are stored in the JSON so
+    that changing either also counts as a change."""
+    chart["theme"] = DEFAULT_THEME
+    chart["size_cm"] = [WIDTH_CM, HEIGHT_CM]
+    chart["style_version"] = STYLE_VERSION
+    text = json.dumps(chart, indent=1) + "\n"
+    if png_path.exists() and json_path.exists() and json_path.read_text() == text:
+        return
+    json_path.parent.mkdir(parents=True, exist_ok=True)
+    json_path.write_text(text)
+    if chart.get("type") in RENDERERS and chart.get("series") and chart.get("data"):
+        render(chart, png_path)

@@ -1,0 +1,254 @@
+# AI-relevant trade: tiers and product codes, built on the ONS AI thematic account
+# definition (definitions/ai_cpa.yaml). Edit here to change what is counted; the
+# builder is builders/trade/ai_trade.py.
+#
+# Every tier is an UPPER BOUND: whole product groups containing AI and non-AI output.
+# Construction (CPA F41-F43, data centres) is left out: trade data only has generic
+# "construction services", with nothing identifying data centres. Data-centre
+# equipment (servers, power, cooling) is in the goods tiers.
+
+# --------------------------------------------------------------------- goods
+# ONS "UK trade in goods by CPA" (MQ10): exact CPA, EU / non-EU / world, current prices
+# (CP) and chained volume measures (CVM), seasonally adjusted. Finest level = 3-digit.
+# https://www.ons.gov.uk/businessindustryandtrade/internationaltrade/datasets/uktradeingoodsbyclassificationofproductbyactivity
+goods_tiers:
+  core:
+    label: "Core: AI hardware (chips, computers, phones, sensors, medical, cameras)"
+    cpa: ["26.1", "26.2", "26.3", "26.5", "26.6", "26.7"]
+  extended:
+    label: "Extended: all electronics, electrical equipment and machinery"
+    cpa: ["26", "27", "28"]          # broad version: includes data-centre power and cooling
+  full:
+    label: "Full ONS list: adds vehicles, ships, aircraft and other transport"
+    cpa: ["26", "27", "28", "29", "30"]
+
+# --------------------------------------------------------------------- services
+# ONS trade in services by broad type (EBOPS), EU / non-EU, CP and CVM, seasonally
+# adjusted (QNA dataset). No CPA detail exists, so these tiers APPROXIMATE the CPA ones.
+services_tiers:
+  core:
+    label: "Core: telecoms, computer and information services; IP charges"
+    types: [telecoms_computer_information, intellectual_property]
+  extended:
+    label: "Extended: adds other business services (R&D, consulting, engineering, advertising...)"
+    types: [telecoms_computer_information, intellectual_property, other_business]
+  full:
+    label: "Full: adds personal, cultural and recreational services (education, health)"
+    types: [telecoms_computer_information, intellectual_property, other_business, personal_cultural]
+
+# ONS series IDs (CDIDs, QNA dataset): type -> {EU|NonEU}_{exports|imports}_{CP|CVM}
+services_series:
+  telecoms_computer_information:
+    ebops: "9"   # service type code in the services-by-country file
+    name: Telecoms, computer and information services
+    EU_exports_CP: P5Y3
+    EU_exports_CVM: P5W5
+    EU_imports_CP: P5Y4
+    EU_imports_CVM: P5W6
+    NonEU_exports_CP: P5Z2
+    NonEU_exports_CVM: P5X4
+    NonEU_imports_CP: P5Z3
+    NonEU_imports_CVM: P5X5
+  intellectual_property:
+    ebops: "8"   # service type code in the services-by-country file
+    name: Charges for the use of intellectual property
+    EU_exports_CP: P5XY
+    EU_exports_CVM: P5W2
+    EU_imports_CP: P5XZ
+    EU_imports_CVM: P5W3
+    NonEU_exports_CP: P5YX
+    NonEU_exports_CVM: P5WZ
+    NonEU_imports_CP: P5YY
+    NonEU_imports_CVM: P5X2
+  other_business:
+    ebops: "10"   # service type code in the services-by-country file
+    name: Other business services
+    EU_exports_CP: P5Y6
+    EU_exports_CVM: P5W8
+    EU_imports_CP: P5Y7
+    EU_imports_CVM: P5W9
+    NonEU_exports_CP: P5Z5
+    NonEU_exports_CVM: P5X7
+    NonEU_imports_CP: P5Z6
+    NonEU_imports_CVM: P5X8
+  personal_cultural:
+    ebops: "11"   # service type code in the services-by-country file
+    name: Personal, cultural and recreational services
+    EU_exports_CP: P5Y9
+    EU_exports_CVM: P5WB
+    EU_imports_CP: P5YA
+    EU_imports_CVM: P5WC
+    NonEU_exports_CP: P5Z8
+    NonEU_exports_CVM: P5XA
+    NonEU_imports_CP: P5Z9
+    NonEU_imports_CVM: P5XB
+
+# --------------------------------------------------------------------- products
+# HMRC Overseas Trade Statistics, selected directly by commodity code (HS6 = the first
+# six digits of the 8-digit code), so no crosswalk is needed. Values, quantities
+# (supplementary units, e.g. number of items) and net mass; no official volumes or
+# prices. `from: 2022` marks codes created in the 2022 HS revision (no earlier series).
+#
+# Inclusion rule: a code is included when the ONS AI product is a type of device with
+# its own trade code (phones, drones, robots, scanners...). It is left out when only
+# "autonomous"/"AI" distinguishes the product within a broad code (cars, ships, trains,
+# armoured vehicles), because then the code is essentially all non-AI. See `coverage`.
+products:
+  # C26: AI chips, servers and storage
+  - {id: chips_processors, label: "Processors and controllers (chips)", cpa: "26.1", hs6: ["854231"]}
+  - {id: chips_memory, label: "Memory chips", cpa: "26.1", hs6: ["854232"]}
+  - {id: chips_other, label: "Other integrated circuits (incl. some AI accelerators)", cpa: "26.1", hs6: ["854239"]}
+  - {id: servers, label: "Processing units (incl. servers)", cpa: "26.2", hs6: ["847150"]}
+  - {id: computer_systems, label: "Computer systems", cpa: "26.2", hs6: ["847149"]}
+  - {id: computer_units_other, label: "Other computer units (incl. accelerator units)", cpa: "26.2", hs6: ["847180"]}
+  - {id: storage, label: "Storage units", cpa: "26.2", hs6: ["847170"]}
+  - {id: computer_assemblies, label: "Computer electronic assemblies (incl. graphics cards)", cpa: "26.2", hs6: ["847330"]}
+  # C26: other AI-embedded devices (incl. smartphones)
+  - {id: laptops_tablets, label: "Laptops and tablets", cpa: "26.2", hs6: ["847130"]}
+  - {id: mobile_phones, label: "Mobile phones (incl. smartphones)", cpa: "26.3", hs6: ["851712", "851713", "851714"]}  # 851712 split into 851713/14 in 2022
+  - {id: smartphones, label: "Smartphones", cpa: "26.3", hs6: ["851713"], from: 2022}
+  - {id: network_equipment, label: "Network equipment (switches, routers)", cpa: "26.3", hs6: ["851762"]}
+  # C26: AI-enabled sensors, 3D/4D cameras
+  - {id: sensors, label: "Semiconductor-based sensors", cpa: "26.1", hs6: ["854151"], from: 2022}
+  - {id: cameras, label: "Digital and video cameras", cpa: "26.7", hs6: ["852580", "852589"]}  # 852580 renumbered 852589 in 2022
+  # C26: AI-embedded medical devices
+  - {id: mri_ultrasound, label: "MRI and ultrasound scanners", cpa: "26.6", hs6: ["901812", "901813"]}
+  - {id: ct_scanners, label: "CT scanners", cpa: "26.6", hs6: ["902212"]}
+  - {id: medical_diagnostics, label: "Electro-diagnostic and medical X-ray equipment", cpa: "26.6", hs6: ["901819", "902214"]}
+  # C27: AI-embedded or autonomous electrical equipment (incl. domestic appliances)
+  - {id: vacuum_cleaners, label: "Vacuum cleaners (incl. robotic)", cpa: "27.5", hs6: ["850811"]}
+  # C28: autonomous robotics
+  - {id: robots, label: "Industrial robots", cpa: "28.9", hs6: ["847950"]}
+  - {id: handling_robots, label: "Handling robots", cpa: "28.2", hs6: ["842870"], from: 2022}
+  # C30.3: autonomous drones
+  - {id: drones, label: "Unmanned aircraft (drones)", cpa: "30.3", hs6: ["880621", "880622", "880623", "880624", "880629", "880691", "880692", "880693", "880694", "880699"], from: 2022}
+
+# IMF "AI Hardware" basket: a narrower, supply-chain view (compute hardware plus the
+# machines that make chips), charted separately and NOT added to the products above.
+# Differs from the ONS-based list: no consumer devices (phones, laptops, network kit),
+# and adds semiconductor manufacturing equipment (8486), which ONS doesn't count as an
+# AI product. Codes as given by the IMF; add the paper reference to `source`.
+imf_hardware:
+  label: "AI compute hardware (IMF basket)"
+  source: "IMF AI Hardware basket"   # TODO: paper title and link
+  hs6: ["847150", "847170", "847180", "847330", "848610", "848620", "848640", "848690", "854231", "854232"]
+  # components for the stacked bar charts (together = the codes above); cpa = the ONS
+  # product group whose implied price deflates the component to volumes
+  components:
+    - {label: "Servers and processing units", cpa: "26.2", hs6: ["847150"]}
+    - {label: "Storage and other computer units", cpa: "26.2", hs6: ["847170", "847180"]}
+    - {label: "Computer assemblies (incl. graphics cards)", cpa: "26.2", hs6: ["847330"]}
+    - {label: "Processor and memory chips", cpa: "26.1", hs6: ["854231", "854232"]}
+    - {label: "Chip-making equipment", cpa: "28.9", hs6: ["848610", "848620", "848640", "848690"]}
+
+# Categories for the "top partners" charts: the IMF basket plus the ONS-based products
+# (above) grouped by type. Products are listed by id; `imf: true` = the IMF basket.
+# Together they cover every product above (smartphones are inside mobile phones).
+partner_categories:
+  - {label: "AI compute hardware (IMF definition)", imf: true}
+  - {label: "Networking and telecom equipment (ONS definition)", products: [network_equipment]}
+  - {label: "Computers, phones and other devices (ONS definition)",
+     products: [computer_systems, laptops_tablets, mobile_phones, cameras, chips_other]}
+  - {label: "Medical, robotic and autonomous equipment (ONS definition)",
+     products: [mri_ultrasound, ct_scanners, medical_diagnostics, robots, handling_robots, vacuum_cleaners, drones, sensors]}
+
+# Every AI product in the ONS article, and how it is covered by the product layer.
+coverage:
+  - {ons: "AI chips, servers and storage manufacturing (C26)", products: [chips_processors, chips_memory, chips_other, servers, computer_systems, computer_units_other, storage, computer_assemblies]}
+  - {ons: "AI-enabled sensors, 3D and 4D cameras (C26)", products: [sensors, cameras], note: "sensors only from 2022 (new code)"}
+  - {ons: "AI embedded medical devices (C26)", products: [mri_ultrasound, ct_scanners, medical_diagnostics]}
+  - {ons: "Other AI embedded electrical products, incl. smartphones (C26)", products: [mobile_phones, smartphones, laptops_tablets, network_equipment]}
+  - {ons: "AI embedded or autonomous electrical equipment, incl. domestic appliances (C27)", products: [vacuum_cleaners], note: "only robotic appliances have an identifiable code (inside vacuum cleaners); other smart appliances cannot be separated"}
+  - {ons: "Autonomous robotics (C28)", products: [robots, handling_robots], note: "handling robots only from 2022 (new code)"}
+  - {ons: "Autonomous motor vehicles, civilian (C29)", products: [], note: "not covered: no code distinguishes autonomous cars from all cars"}
+  - {ons: "Autonomous water-based drones and boats (C30.1)", products: [], note: "not covered: no specific code"}
+  - {ons: "Autonomous drones, civilian or military (C30.3)", products: [drones], note: "only from 2022 (new code)"}
+  - {ons: "Autonomous (driverless) trains (C30 other)", products: [], note: "not covered: no specific code"}
+  - {ons: "Autonomous military fighting vehicles (C30 other)", products: [], note: "not covered: code 8710 is all armoured vehicles (defence purchases, not AI)"}
+  - {ons: "Construction of data centres (F41-F43)", products: [], note: "not goods trade"}
+  - {ons: "Robotaxi and drone delivery services (H49.3-H49.5, H53)", products: [], note: "services; not operating in 2023"}
+  - {ons: "AI software, IT, information, consulting, R&D, other services (J, M, N, P, Q)", products: [], note: "services: covered by the services tiers"}
+
+# --------------------------------------------------------------------- origins
+# HMRC records EU imports by country of DISPATCH, so goods made in Asia or the US but
+# shipped via EU distribution hubs count as imports from the hub. "Origin-adjusted"
+# outputs reassign UK imports recorded from these hubs to likely countries of origin,
+# using each hub's own imports by origin (Eurostat Comext); the part the hub makes
+# itself stays with it: products it genuinely makes (`keep_with_hub`) are not reassigned,
+# and for the rest a small made-in-hub share is estimated from its net exports. Germany is left out: it makes
+# much of what it exports, so treating it as a hub would misattribute real production.
+origin_hubs:
+  # Ireland: a pass-through for servers and computer assemblies (imports nearly double
+  # exports, mainly from Mexico and Taiwan); its chips (Intel) are kept, see below.
+  # Hubs trade with each other, so reassignment repeats until no hub-routed trade is left.
+  countries: [NL, BE, IE]
+  # Goods the hubs genuinely make are NOT reassigned (kept as recorded), by HS prefix:
+  # chips (NXP in the Netherlands, Intel in Ireland), chip-making machines (ASML), medical
+  # scanners and diagnostics (Philips). Net exports understate production where a hub
+  # both makes and redistributes a product, so these are exempted outright.
+  keep_with_hub: ["8542", "8486", "9018", "9022"]
+
+# --------------------------------------------------------------------- countries
+# Partner groups for the country split (one chart set per option) (services by country, and products).
+# Services: ONS "UK trade in services: service type by partner country" (quarterly, not
+# seasonally adjusted); EU = its "Total EU27" row; rest of world = world total minus the
+# named groups. Products: HMRC, where EU vs non-EU comes from the flow type and non-EU
+# countries from HMRC country codes. HMRC records EU trade by country of dispatch, so
+# goods made in East Asia but shipped via the EU count as EU.
+# https://www.ons.gov.uk/businessindustryandtrade/internationaltrade/datasets/uktradeinservicesservicetypebypartnercountrynonseasonallyadjusted
+country_groups:
+  option1:   # EU, US, East Asia, rest of world
+    EU: [EU]
+    US: [US]
+    East Asia: [CN, HK, MO, JP, KR, TW]
+    Rest of world: [REST]
+# (An East Asia-by-country option was tried and dropped: too small to read. To bring
+# it back, add e.g. option2: {China incl. Hong Kong: [CN, HK, MO], Japan: [JP], ...}.)
+
+# --------------------------------------------------------------------- chip supply chain
+# "Following an AI chip" diagram: each stage of the supply chain as trade codes, and what
+# each country's trade shows at each stage (EU members from Eurostat Comext, the UK from
+# HMRC, the US from UN Comtrade; all in £ at annual average exchange rates). `context` is background on who makes
+# each stage worldwide (general knowledge, not trade data).
+chip_supply_chain:
+  # GB = HMRC; US = UN Comtrade (as the US reports it); others = Eurostat Comext
+  countries: {NL: Netherlands, GB: United Kingdom, US: United States}
+  top: 2   # partners shown per flow (2 or 3; 3 only fits with fewer countries)
+  stages:
+    - label: "1. Materials"
+      sub: "Silicon, wafers, neon, gallium, photoresists"
+      hs6: ["280461", "381800", "280429", "811292", "370790"]
+      context: "Wafers: Japan, Taiwan, Germany. Gallium: China"
+    - label: "2. Chip machines"
+      sub: "Lithography, deposition, etching, and parts"
+      hs6: ["848620", "848690"]
+      context: "EUV: only the Netherlands (ASML). Etching: US, Japan"
+    - label: "3. Chips"
+      sub: "Processors (incl. GPUs) and memory"
+      hs6: ["854231", "854232"]
+      context: "AI GPUs: Taiwan (TSMC). Memory (HBM): Korea"
+    - label: "4. GPU boards"
+      sub: "Boards, modules and other computer assemblies"
+      hs6: ["847330"]
+      context: "Contract makers in Taiwan, China, Vietnam"
+    - label: "5. Servers"
+      sub: "Processing units, incl. AI servers"
+      hs6: ["847150"]
+      context: "Taiwan, Mexico, China, central Europe"
+
+# --------------------------------------------------------------------- UK AI stack (CMA levels)
+# The UK's AI trade arranged by the CMA's foundation-model value chain: inputs, model
+# development, deployment (CMA, AI foundation models review, 2023-24). Each row is goods
+# (`goods`: imf = IMF hardware basket; ons_products = the other ONS-based AI products) or
+# services types (`services`: EBOPS codes in ONS "trade in services by partner country",
+# scaled to the latest QNA total for their broad type). Expertise isn't traded, so has no
+# row. Licences for R&D outcomes (EBOPS 8.2) are left out: mostly pharmaceutical patents.
+cma_stack:
+  - {level: Inputs, label: "Compute hardware (IMF)", goods: imf}
+  - {level: Inputs, label: "Data (information services)", services: ["9.3"]}
+  - {level: Model development, label: "R&D services", services: ["10.1"]}
+  - {level: Model development, label: "Software licensing", services: ["8.3"]}
+  - {level: Deployment, label: "Cloud, software, AI services", services: ["9.2"]}
+  - {level: Deployment, label: "Telecoms networks", services: ["9.1"]}
+  - {level: Deployment, label: "AI-embedded goods (ONS)", goods: ons_products}
+  - {level: Deployment, label: "Consulting and technical*", services: ["10.2", "10.3.1"]}

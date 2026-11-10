@@ -1,0 +1,561 @@
+# BICS curated series: edit this file to change what goes in data/bics/bics_series.csv.
+#
+# To add a series:
+#   1. Find the question in data/bics/catalogue.csv (one row per question ever asked,
+#      with its answer options and the waves it covers).
+#   2. Copy a few distinctive words of the question into `question:` and the answer
+#      option(s) you want into `answers:`.
+#   3. Run  .venv/bin/python builders/bics/build.py --no-fetch  and check for errors.
+#      If the match is ambiguous or an answer is misspelt, the error lists the options.
+#
+# Fields:
+#   id         short name, used as the file name and in the CSV
+#   label      chart title
+#   topic      grouping: labour, costs, ai, wfh, health, ...
+#   question   any part of the question text (matching ignores case and punctuation;
+#              months and years appear as [month] [year])
+#   answers    list of answers to add up. For measure: net, give {up: [...], down: [...]}.
+#              End an answer with * to match every answer starting with that text.
+#   measure    share (default) | complement (100 minus the answers) | net (up minus down)
+#              | depth (multi-select only: sum of the answers / (100 - the `none` answers),
+#              the average number of answers per firm that gave at least one)
+#   none       for measure: depth, the answers that mean "none of these" (incl. Not sure)
+#   exclude    answers to remove from the base before computing, e.g. [Not sure, Not applicable]
+#   weighting  count (default: each business counts once) | employment (weighted by
+#              headcount). Only some questions have employment weighting; see catalogue.
+#   population part of the "As a percentage of ..." text, only needed if a question
+#              is asked of two different groups
+#   breakdowns all (default: total + every industry + every size band) or a list
+#   waves      [from, to]: keep only these waves (inclusive); [from] = open-ended
+#   note, breaks  free text carried into the chart file
+#
+# Questions that ONS reworded or re-based: list `versions`, preferred first. Each
+# version takes the series' fields unless it sets its own (question, population,
+# answers, exclude, ...). Where versions cover the same wave, the earlier one wins.
+#   wave       the wave file to read this version from. Only needed for an old
+#              version; otherwise the builder uses the last wave that asked the question.
+#   exclude    also works as a re-base: [Business did not experience*] turns
+#              "% of all businesses" into "% of businesses that did experience it".
+#
+# Joining versions does not make their levels comparable. Each chart file lists
+# `version_breaks` and the CSV has a `version` column: check the levels either side.
+#
+# Which file to download is worked out automatically: the newest wave's question log
+# says where each question was last asked, and only that file is fetched.
+#
+# Every series is published for "All businesses", each industry and each size band.
+# BICS percentages are shares of businesses (a sole trader counts the same as a large
+# firm) unless weighting: employment. Compare "All businesses" with the
+# "250 +" or "All size bands excluding 0 - 9" lines before drawing conclusions.
+
+defaults:
+  weighting: count
+  breakdowns: all
+
+series:
+
+  # ---------------------------------------------------------------- labour market
+  - id: worker_shortage
+    label: Businesses experiencing a shortage of workers
+    topic: labour
+    question: currently experiencing a shortage of workers
+    population: As a percentage of businesses not permanently stopped trading
+    answers: [Yes]
+
+  - id: worker_shortage_10plus
+    label: Businesses experiencing a shortage of workers (10+ employees)
+    topic: labour
+    question: currently experiencing a shortage of workers
+    population: with 10 or more employees
+    wave: 162   # the question log doesn't distinguish this version; it is in even waves
+    answers: [Yes]
+
+  - id: recruitment_difficulty
+    label: Businesses with difficulty recruiting employees
+    topic: labour
+    question: experience any difficulties recruiting employees
+    answers: [Yes]
+
+  # Recruitment difficulties by type and reason. ONS changed who these follow-up
+  # questions are asked of, and levels shift 15-25 points between periods, so each
+  # period is its own series rather than one joined line:
+  #   2021-23 (waves to 100)  firms that had difficulties
+  #   2024-26 (waves 109-157) a broader group, probably also firms "not sure" whether
+  #                           they had difficulties; "which employees" is re-based to
+  #                           firms with difficulties using its own "did not
+  #                           experience" answer, but still runs lower
+  #   from Jul 2026 (163+)    firms that had difficulties again
+  # The 2021-23 and 2026 series share a base, so their levels are comparable.
+  # Wave 157 of the "why" question is left out: it is published on the 2024-26 base
+  # but its level matches the 2026 base, so it can't be placed in either series.
+
+  # which types of employee are hard to recruit
+  - &recruit_type_2021
+    id: recruit_type_skilled_2021_23
+    label: "Hard to recruit: skilled, manual or technical employees (% of firms with difficulties, 2021-23)"
+    topic: labour
+    answers: ["Skilled, manual or technical employees"]
+    question: which of the following employees has your business had difficulties in recruiting
+    population: that had difficulties recruiting employees
+    wave: 100
+  - <<: *recruit_type_2021
+    id: recruit_type_professional_2021_23
+    label: "Hard to recruit: professional or managerial employees (% of firms with difficulties, 2021-23)"
+    answers: [Professional or managerial employees]
+  - <<: *recruit_type_2021
+    id: recruit_type_unskilled_2021_23
+    label: "Hard to recruit: semi-skilled or unskilled employees (% of firms with difficulties, 2021-23)"
+    answers: [Semi-skilled or unskilled employees]
+
+  - &recruit_type_2024
+    id: recruit_type_skilled_2024_26
+    label: "Hard to recruit: skilled, manual or technical employees (2024-26 basis)"
+    topic: labour
+    answers: ["Skilled, manual or technical employees"]
+    question: which, if any, of the following employees has your business had difficulties recruiting in [month] [year]
+    wave: 157
+    exclude: [Business did not experience any difficulties*]   # all firms -> firms with difficulties
+  - <<: *recruit_type_2024
+    id: recruit_type_professional_2024_26
+    label: "Hard to recruit: professional or managerial employees (2024-26 basis)"
+    answers: [Professional or managerial employees]
+  - <<: *recruit_type_2024
+    id: recruit_type_unskilled_2024_26
+    label: "Hard to recruit: semi-skilled or unskilled employees (2024-26 basis)"
+    answers: [Semi-skilled or unskilled employees]
+
+  - &recruit_type_2026
+    id: recruit_type_skilled_2026
+    label: "Hard to recruit: skilled, manual or technical employees (% of firms with difficulties, from 2026)"
+    topic: labour
+    answers: ["Skilled, manual or technical employees"]
+    question: which of the following employees has your business had difficulties recruiting in [month] [year]
+  - <<: *recruit_type_2026
+    id: recruit_type_professional_2026
+    label: "Hard to recruit: professional or managerial employees (% of firms with difficulties, from 2026)"
+    answers: [Professional or managerial employees]
+  - <<: *recruit_type_2026
+    id: recruit_type_unskilled_2026
+    label: "Hard to recruit: semi-skilled or unskilled employees (% of firms with difficulties, from 2026)"
+    answers: [Semi-skilled or unskilled employees]
+
+  # why recruitment was difficult
+  - &recruit_reason_2021
+    id: recruit_reason_qualified_2021_23
+    label: "Recruitment difficulty reason: lack of qualified applicants (% of firms with difficulties, 2021-23)"
+    topic: labour
+    answers: [Lack of qualified applicants*]
+    question: why did your business experience difficulties in recruiting employees
+    population: that had difficulties recruiting employees
+    wave: 100
+  - <<: *recruit_reason_2021
+    id: recruit_reason_applications_2021_23
+    label: "Recruitment difficulty reason: low number of applications (% of firms with difficulties, 2021-23)"
+    answers: [Low number of applications*]
+  - <<: *recruit_reason_2021
+    id: recruit_reason_pay_2021_23
+    label: "Recruitment difficulty reason: cannot offer an attractive pay package (% of firms with difficulties, 2021-23)"
+    answers: [Business cannot offer an attractive pay package*]
+
+  - &recruit_reason_2024
+    id: recruit_reason_qualified_2024_26
+    label: "Recruitment difficulty reason: lack of qualified applicants (2024-26 basis)"
+    topic: labour
+    answers: [Lack of qualified applicants*]
+    versions:   # same numbers published under two base descriptions; the 157 file adds wave 151
+      - question: why did your business experience difficulties recruiting employees in [month] [year]
+        population: that had difficulties recruiting employees
+        wave: 145
+      - question: why did your business experience difficulties recruiting employees in [month] [year]
+        population: or not sure if they were experiencing difficulties
+        wave: 157
+        waves: [109, 151]
+  - <<: *recruit_reason_2024
+    id: recruit_reason_applications_2024_26
+    label: "Recruitment difficulty reason: low number of applications (2024-26 basis)"
+    answers: [Low number of applications*]
+  - <<: *recruit_reason_2024
+    id: recruit_reason_pay_2024_26
+    label: "Recruitment difficulty reason: cannot offer an attractive pay package (2024-26 basis)"
+    answers: [Business cannot offer an attractive pay package*]
+
+  - &recruit_reason_2026
+    id: recruit_reason_qualified_2026
+    label: "Recruitment difficulty reason: lack of qualified applicants (% of firms with difficulties, from 2026)"
+    topic: labour
+    answers: [Lack of qualified applicants*]
+    question: why did your business experience difficulties recruiting employees in [month] [year]
+    population: that experienced difficulties recruiting employees
+  - <<: *recruit_reason_2026
+    id: recruit_reason_applications_2026
+    label: "Recruitment difficulty reason: low number of applications (% of firms with difficulties, from 2026)"
+    answers: [Low number of applications*]
+  - <<: *recruit_reason_2026
+    id: recruit_reason_pay_2026
+    label: "Recruitment difficulty reason: cannot offer an attractive pay package (% of firms with difficulties, from 2026)"
+    answers: [Business cannot offer an attractive pay package*]
+
+  - id: employee_expectations_net
+    label: Expected number of employees, net balance (increase minus decrease)
+    topic: labour
+    question: expectations for the number of employees
+    measure: net
+    answers: {up: [Number of employees will increase], down: [Number of employees will decrease]}
+
+  - id: hourly_wages_net
+    label: Hourly wages vs previous month, net balance (increased minus decreased)
+    topic: labour
+    question: hourly wages in [month] [year] compare
+    measure: net
+    answers: {up: [Wages increased], down: [Wages decreased]}
+
+  # ---------------------------------------------------------------- costs
+  - id: staffing_costs_net
+    label: Staffing costs over the last three months, net balance
+    topic: costs
+    question: staffing costs changed over the last three months
+    measure: net
+    answers: {up: [Costs have increased], down: [Costs have decreased]}
+
+  - id: staffing_costs_expected_net
+    label: Expected staffing costs over the next three months, net balance
+    topic: costs
+    question: expect staffing costs to change over the next three months
+    measure: net
+    answers: {up: [Costs will increase], down: [Costs will decrease]}
+
+  - id: employment_costs_absorb
+    label: "Response to higher employment costs: absorb within profit margins"
+    topic: costs
+    question: adapt to any future increases in employment costs
+    answers: [Absorb within profit margins]
+
+  - id: employment_costs_prices
+    label: "Response to higher employment costs: increase prices"
+    topic: costs
+    question: adapt to any future increases in employment costs
+    answers: [Increase prices]
+
+  - id: employment_costs_headcount
+    label: "Response to higher employment costs: reduce number of employees"
+    topic: costs
+    question: adapt to any future increases in employment costs
+    answers: [Reduce number of employees]
+
+  - id: employment_costs_wage_restraint
+    label: "Response to higher employment costs: reduce wage increases for other employees"
+    topic: costs
+    question: adapt to any future increases in employment costs
+    answers: [Reduce wage increases*]
+
+  - id: employment_costs_investment
+    label: "Response to higher employment costs: reduce spending on investment"
+    topic: costs
+    question: adapt to any future increases in employment costs
+    answers: [Reduce spending on investment]
+
+  # ---------------------------------------------------------------- AI
+  - id: ai_use
+    label: Businesses currently using AI
+    topic: ai
+    question: artificial intelligence technologies, if any, does your business currently use
+    measure: complement
+    answers: [Business does not currently use artificial intelligence*]
+    note: >-
+      100 minus "does not currently use AI", so firms answering "not sure" count as
+      users. See ai_use_firm, which keeps them in the base but not as users.
+
+  - id: ai_plan
+    label: Businesses planning to adopt AI in the next three months
+    topic: ai
+    question: artificial intelligence technologies, if any, does your business plan to adopt
+    measure: complement
+    answers: [Business does not plan to*]
+    note: >-
+      100 minus "does not plan to adopt AI", so firms answering "not sure" count as
+      planning. See ai_plan_firm, which keeps them in the base but not as planning.
+
+  # The same two questions with "not sure" kept in the base but not counted as yes:
+  # firms that named at least one kind of AI, as a % of all businesses. "Not sure" varies a lot by size (about 5% of micro firms, 25-45% of
+  # firms with 250+ employees), so these are the measures to compare across sizes.
+  - id: ai_use_firm
+    label: Businesses currently using AI ("not sure" counted as no)
+    topic: ai
+    question: artificial intelligence technologies, if any, does your business currently use
+    measure: complement
+    answers: [Business does not currently use artificial intelligence*, Not sure]
+
+  - id: ai_plan_firm
+    label: Businesses planning to adopt AI in the next three months ("not sure" counted as no)
+    topic: ai
+    question: artificial intelligence technologies, if any, does your business plan to adopt
+    measure: complement
+    answers: [Business does not plan to*, Not sure]
+
+  # Depth: how many kinds of AI each using (or planning) firm names, on average. The
+  # question is multi-select, so the kinds' shares add up to more than the share of
+  # firms naming any; the ratio is the average number of kinds per firm naming one.
+  # Only the four main kinds are counted: robotics, autonomous vehicles and "other" are
+  # suppressed in many size bands and waves. Firms naming only those count as 0, so
+  # this slightly understates depth.
+  - id: ai_use_depth
+    label: Kinds of AI used, average per firm using AI
+    topic: ai
+    question: artificial intelligence technologies, if any, does your business currently use
+    measure: depth
+    answers: [Text generation using Large Language Models, Visual content creation,
+              Data processing using machine learning, Image processing using machine learning]
+    none: [Business does not currently use artificial intelligence*, Not sure]
+
+  - id: ai_plan_depth
+    label: Kinds of AI planned, average per firm planning to adopt AI
+    topic: ai
+    question: artificial intelligence technologies, if any, does your business plan to adopt
+    measure: depth
+    answers: [Text generation using Large Language Models, Visual content creation,
+              Data processing using machine learning, Image processing using machine learning]
+    none: [Business does not plan to*, Not sure]
+
+  # The AI series below are shares of all businesses: "not sure" (and "not
+  # applicable") stay in the base.
+
+  # which kinds of AI (each as % of all businesses)
+  - &ai_type
+    id: ai_type_llm
+    label: "AI used: text generation (large language models)"
+    topic: ai
+    question: artificial intelligence technologies, if any, does your business currently use
+    answers: [Text generation using Large Language Models]
+  - <<: *ai_type
+    id: ai_type_visual
+    label: "AI used: visual content creation"
+    answers: [Visual content creation]
+  - <<: *ai_type
+    id: ai_type_data
+    label: "AI used: data processing (machine learning)"
+    answers: [Data processing using machine learning]
+  - <<: *ai_type
+    id: ai_type_image
+    label: "AI used: image processing (machine learning)"
+    answers: [Image processing using machine learning]
+
+  # AI and jobs. Asked of firms using AI or unsure whether they do (about 30% answer
+  # "not applicable" and 10-15% "not sure"; most of the rest say "no change").
+  - &ai_headcount
+    id: ai_headcount_down
+    label: "AI users: AI has reduced overall headcount"
+    topic: ai
+    question: impact, if any, have artificial intelligence technologies had on your business's overall workforce headcount
+    answers: [Reduced headcount]
+  - <<: *ai_headcount
+    id: ai_headcount_up
+    label: "AI users: AI has increased overall headcount"
+    answers: [Increased headcount]
+  # expected impact, asked of firms planning to adopt AI (or unsure whether they will)
+  - &ai_expect
+    id: ai_expect_headcount_down
+    label: "Planning to adopt AI: expect it to reduce headcount"
+    topic: ai
+    question: impact, if any, do you expect the artificial intelligence technologies your business is planning
+    answers: [Expect headcount to reduce]
+  - <<: *ai_expect
+    id: ai_expect_headcount_up
+    label: "Planning to adopt AI: expect it to increase headcount"
+    answers: [Expect headcount to increase]
+
+  # ---------------------------------------------------------------- working from home
+  - id: wfh_permanent
+    label: Businesses using or intending to use increased homeworking permanently
+    topic: wfh
+    question: is your business using, or intending to use, increased homeworking as a permanent business model
+    answers: [Yes]
+
+  - id: wfh_permanent_empweighted
+    label: Increased homeworking permanently (weighted by employment)
+    topic: wfh
+    question: is your business using, or intending to use increased homeworking as a permanent business model
+    weighting: employment
+    answers: [Yes]
+
+  - id: wfh_reason_productivity
+    label: "Homeworking reason: increased productivity (share of businesses using it)"
+    topic: wfh
+    question: why is your business using, or intending to use, increased homeworking
+    answers: [Increased productivity]
+
+  # ---------------------------------------------------------------- health (closest BICS has)
+  - id: wfh_reason_sickness
+    label: "Homeworking reason: reduced sickness absence (share of businesses using it)"
+    topic: health
+    question: why is your business using, or intending to use, increased homeworking
+    answers: [Reduced sickness absence]
+    note: BICS has not asked directly about sickness absence since the pandemic.
+
+
+# ------------------------------------------------------------------- charts
+# Charts drawn from the series above, saved as data/bics/charts/<slug>.json and
+# img/bics/<slug>.png in the house style. Each line is one series for one breakdown
+# (default "All businesses"). To add a chart, copy one of these.
+#   events: true draws the key AI dates in definitions/ai_events.yaml as vertical lines
+#   series: list of {id, label} (label is optional: defaults to the series label);
+#           add `breakdown: "250 +"` to a line to plot a size band or industry.
+
+charts:
+  - slug: bics-ai-adoption
+    events: true   # key AI dates from definitions/ai_events.yaml
+    title: "AI adoption: businesses using AI and planning to adopt it"
+    units: "% of businesses"
+    series:
+      - {id: ai_use, label: Currently using AI}
+      - {id: ai_plan, label: Planning to adopt AI in the next three months}
+    note: >-
+      Share of businesses, each counted once whatever its size, so mostly small firms.
+      100 minus the share saying they don't use (or plan to adopt) AI, so firms
+      answering "not sure" are counted in.
+
+  - slug: bics-ai-adoption-size
+    events: true   # key AI dates from definitions/ai_events.yaml
+    title: "AI use by business size: businesses currently using AI"
+    units: "% of businesses"
+    series:
+      - {id: ai_use_firm, label: All businesses}
+      - {id: ai_use_firm, breakdown: "250 +", label: "Large (250+ employees)"}
+      - {id: ai_use_firm, breakdown: "100 - 249", label: "Medium (100-249)"}
+      - {id: ai_use_firm, breakdown: "50 - 99", label: "Medium (50-99)"}
+      - {id: ai_use_firm, breakdown: "10 - 49", label: "Small (10-49)", color: neutral}
+      - {id: ai_use_firm, breakdown: "0 - 9", label: "Micro (0-9)", color: neutral}
+    note: >-
+      Firms naming at least one kind of AI they use, as a share of all businesses in each
+      size band. Firms answering "not sure" (5-25%, most among the largest) stay in the
+      base but are not counted as using AI. BICS publishes 50-99 and 100-249 separately.
+
+  - slug: bics-ai-plan-size
+    events: true   # key AI dates from definitions/ai_events.yaml
+    title: "AI intentions by business size: planning to adopt AI in the next three months"
+    units: "% of businesses"
+    series:
+      - {id: ai_plan_firm, label: All businesses}
+      - {id: ai_plan_firm, breakdown: "250 +", label: "Large (250+ employees)"}
+      - {id: ai_plan_firm, breakdown: "100 - 249", label: "Medium (100-249)"}
+      - {id: ai_plan_firm, breakdown: "50 - 99", label: "Medium (50-99)"}
+      - {id: ai_plan_firm, breakdown: "10 - 49", label: "Small (10-49)", color: neutral}
+      - {id: ai_plan_firm, breakdown: "0 - 9", label: "Micro (0-9)", color: neutral}
+    note: >-
+      Firms naming at least one kind of AI they plan to adopt, as a share of all businesses
+      in each size band. Firms answering "not sure" (12-45%, most among the largest) stay
+      in the base but are not counted as planning. Current users can also answer. BICS publishes 50-99 and 100-249 separately.
+
+  - slug: bics-ai-plan-depth
+    decimals: 2
+    events: true   # key AI dates from definitions/ai_events.yaml
+    title: "Depth of AI plans: how many kinds of AI planning firms intend to adopt"
+    units: "Average number of kinds of AI, per firm planning to adopt"
+    series:
+      - {id: ai_plan_depth, breakdown: "250 +", label: "Large (250+ employees)"}
+      - {id: ai_plan_depth, breakdown: "100 - 249", label: "Medium (100-249)"}
+      - {id: ai_plan_depth, breakdown: "50 - 99", label: "Medium (50-99)"}
+      - {id: ai_plan_depth, breakdown: "10 - 49", label: "Small (10-49)"}
+      - {id: ai_plan_depth, breakdown: "0 - 9", label: "Micro (0-9)"}
+    note: >-
+      Sum of the shares planning each of four kinds of AI (text generation, visual content,
+      data processing, image processing) divided by the share planning any kind. Robotics,
+      autonomous vehicles and "other" aren't counted (often suppressed). "Not sure" counts
+      as not planning. Maximum 4.
+
+  - slug: bics-ai-use-depth
+    decimals: 2
+    events: true   # key AI dates from definitions/ai_events.yaml
+    title: "Depth of AI use: how many kinds of AI using firms use"
+    units: "Average number of kinds of AI, per firm using AI"
+    series:
+      - {id: ai_use_depth, breakdown: "250 +", label: "Large (250+ employees)"}
+      - {id: ai_use_depth, breakdown: "100 - 249", label: "Medium (100-249)"}
+      - {id: ai_use_depth, breakdown: "50 - 99", label: "Medium (50-99)"}
+      - {id: ai_use_depth, breakdown: "10 - 49", label: "Small (10-49)"}
+      - {id: ai_use_depth, breakdown: "0 - 9", label: "Micro (0-9)"}
+    note: >-
+      Sum of the shares using each of four kinds of AI (text generation, visual content,
+      data processing, image processing) divided by the share using any kind. Robotics,
+      autonomous vehicles and "other" aren't counted (often suppressed). "Not sure" counts
+      as not using. Maximum 4.
+
+  - slug: bics-ai-types
+    events: true   # key AI dates from definitions/ai_events.yaml
+    title: Which kinds of AI businesses use
+    units: "% of businesses"
+    series:
+      - {id: ai_type_llm, label: Text generation (large language models)}
+      - {id: ai_type_visual, label: Visual content creation}
+      - {id: ai_type_data, label: Data processing (machine learning)}
+      - {id: ai_type_image, label: Image processing (machine learning)}
+    note: >-
+      Businesses can use more than one kind, so the lines don't add up. As published:
+      firms answering "not sure" are included in the base.
+
+  - slug: bics-ai-headcount
+    events: true   # key AI dates from definitions/ai_events.yaml
+    title: "AI and jobs: effect on headcount, reported and expected"
+    units: "% of businesses asked"
+    series:
+      - {id: ai_headcount_down, label: "AI users: AI has reduced headcount"}
+      - {id: ai_expect_headcount_down, label: "Planning to adopt: expect AI to reduce headcount"}
+      - {id: ai_headcount_up, label: "AI users: AI has increased headcount"}
+      - {id: ai_expect_headcount_up, label: "Planning to adopt: expect AI to increase headcount"}
+    note: >-
+      Reported impact: % of firms using AI or unsure whether they do. Expected impact:
+      % of firms planning to adopt AI in the next three months or unsure. As published:
+      "not sure" and "not applicable" are included in the base. Most firms in both
+      groups report or expect no change.
+
+# Snapshots: one question's answers in its latest wave, compared across breakdowns.
+#   breakdowns  {breakdown as published: label on the chart}, in display order
+#   series      bars: each adds up `answers` (same matching as above); neutral: true = grey
+#   type        stacked-bar (answers that add up to 100) or grouped-hbar (multi-select)
+snapshots:
+  - slug: bics-ai-how-adopted
+    title: "How AI-using firms adopted AI, by business size"
+    units: "% of firms using AI or not sure"
+    type: grouped-hbar
+    decimals: 0
+    question: How did your business adopt these artificial intelligence technologies
+    breakdowns: &sizes {"0 - 9": "Micro (0-9)", "10 - 49": "Small (10-49)", "50 - 99": "Medium (50-99)",
+                        "100 - 249": "Medium (100-249)", "250 +": "Large (250+)"}
+    series:
+      - {label: Bought ready-to-use software, answers: [Through purchase of external software*]}
+      - {label: Free-to-use software, answers: [Using free-to-use software]}
+      - {label: Developed in-house, answers: [Developed in-house]}
+      - {label: Outsourced to external providers, answers: [Outsourced to external providers*]}
+    note: >-
+      Firms can give more than one answer. Asked of firms using AI or not sure whether
+      they do; "not sure" (12-31%, most among the largest) not shown.
+
+  - slug: bics-ai-extent
+    title: "How much AI-using firms use AI, by business size"
+    units: "% of firms using AI or not sure"
+    type: stacked-bar
+    question: To what extent does your business use artificial intelligence technologies
+    breakdowns: *sizes
+    series:
+      - {label: Used extensively, answers: [Used extensively]}
+      - {label: Used on a limited basis, answers: [Used on a limited basis]}
+      - {label: Testing or pilots only, answers: [Used only for artificial intelligence technology testing*]}
+      - {label: Not currently used, answers: [Not currently used]}
+      - {label: Not sure, answers: [Not sure], neutral: true}
+    note: Asked of firms using AI or not sure whether they do.
+
+  - slug: bics-ai-workforce-share
+    title: "Share of staff using AI daily, by business size"
+    units: "% of firms using AI or not sure"
+    type: stacked-bar
+    question: what proportion of your workforce, if any, currently use artificial intelligence
+    breakdowns: *sizes
+    series:
+      - {label: "Half or more of staff", answers: [More than 75%, Between 50% and 75%]}
+      - {label: "10-49% of staff", answers: [Between 25% and 49%, Between 10% and 24%]}
+      - {label: "1-9% of staff", answers: [Between 1% and 9%]}
+      - {label: No staff use AI daily, answers: [No staff use artificial intelligence*]}
+      - {label: Not sure, answers: [Not sure], neutral: true}
+    note: >-
+      Asked of firms using AI or not sure whether they do. In micro firms (0-9 employees)
+      one person can be "more than 75%" of staff.
+

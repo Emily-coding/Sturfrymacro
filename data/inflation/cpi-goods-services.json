@@ -1,0 +1,602 @@
+{
+ "slug": "cpi-goods-services",
+ "category": "inflation",
+ "title": "Goods, services and food inflation",
+ "type": "line",
+ "freq": "M",
+ "units": "% change on a year earlier",
+ "source": "ONS Consumer price inflation",
+ "note": "Services inflation is the measure the Bank of England watches most closely for domestic price pressure.",
+ "series": [
+  {
+   "key": "services",
+   "label": "Services",
+   "_source": "live",
+   "_date": "2026-09",
+   "source_url": "https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/d7nn/mm23"
+  },
+  {
+   "key": "goods",
+   "label": "Goods",
+   "_source": "live",
+   "_date": "2026-09",
+   "source_url": "https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/d7nm/mm23"
+  },
+  {
+   "key": "food",
+   "label": "Food and non-alcoholic drinks",
+   "_source": "live",
+   "_date": "2026-09",
+   "source_url": "https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/d7g8/mm23"
+  }
+ ],
+ "data_through": "2026-09",
+ "next_release": "2026-11-18",
+ "status": "ok",
+ "data": [
+  {
+   "date": "2019-01",
+   "services": 2.5,
+   "goods": 1.3,
+   "food": 0.9
+  },
+  {
+   "date": "2019-02",
+   "services": 2.5,
+   "goods": 1.3,
+   "food": 1.1
+  },
+  {
+   "date": "2019-03",
+   "services": 2.5,
+   "goods": 1.3,
+   "food": 0.8
+  },
+  {
+   "date": "2019-04",
+   "services": 2.9,
+   "goods": 1.4,
+   "food": 0.7
+  },
+  {
+   "date": "2019-05",
+   "services": 2.6,
+   "goods": 1.5,
+   "food": 1.0
+  },
+  {
+   "date": "2019-06",
+   "services": 2.5,
+   "goods": 1.5,
+   "food": 1.6
+  },
+  {
+   "date": "2019-07",
+   "services": 2.5,
+   "goods": 1.7,
+   "food": 1.4
+  },
+  {
+   "date": "2019-08",
+   "services": 2.2,
+   "goods": 1.3,
+   "food": 1.8
+  },
+  {
+   "date": "2019-09",
+   "services": 2.5,
+   "goods": 1.0,
+   "food": 1.8
+  },
+  {
+   "date": "2019-10",
+   "services": 2.6,
+   "goods": 0.5,
+   "food": 1.3
+  },
+  {
+   "date": "2019-11",
+   "services": 2.5,
+   "goods": 0.6,
+   "food": 2.1
+  },
+  {
+   "date": "2019-12",
+   "services": 2.1,
+   "goods": 0.6,
+   "food": 1.7
+  },
+  {
+   "date": "2020-01",
+   "services": 2.3,
+   "goods": 1.3,
+   "food": 1.4
+  },
+  {
+   "date": "2020-02",
+   "services": 2.5,
+   "goods": 1.0,
+   "food": 1.2
+  },
+  {
+   "date": "2020-03",
+   "services": 2.5,
+   "goods": 0.6,
+   "food": 1.3
+  },
+  {
+   "date": "2020-04",
+   "services": 2.0,
+   "goods": -0.4,
+   "food": 1.3
+  },
+  {
+   "date": "2020-05",
+   "services": 1.9,
+   "goods": -0.9,
+   "food": 1.8
+  },
+  {
+   "date": "2020-06",
+   "services": 1.8,
+   "goods": -0.5,
+   "food": 1.1
+  },
+  {
+   "date": "2020-07",
+   "services": 2.1,
+   "goods": 0.0,
+   "food": 0.8
+  },
+  {
+   "date": "2020-08",
+   "services": 0.6,
+   "goods": -0.2,
+   "food": 0.4
+  },
+  {
+   "date": "2020-09",
+   "services": 1.4,
+   "goods": -0.3,
+   "food": -0.1
+  },
+  {
+   "date": "2020-10",
+   "services": 1.4,
+   "goods": 0.0,
+   "food": 0.6
+  },
+  {
+   "date": "2020-11",
+   "services": 1.4,
+   "goods": -0.8,
+   "food": -0.6
+  },
+  {
+   "date": "2020-12",
+   "services": 1.5,
+   "goods": -0.3,
+   "food": -1.4
+  },
+  {
+   "date": "2021-01",
+   "services": 1.7,
+   "goods": -0.2,
+   "food": -0.7
+  },
+  {
+   "date": "2021-02",
+   "services": 1.5,
+   "goods": -0.5,
+   "food": -0.6
+  },
+  {
+   "date": "2021-03",
+   "services": 1.5,
+   "goods": 0.0,
+   "food": -1.4
+  },
+  {
+   "date": "2021-04",
+   "services": 1.6,
+   "goods": 1.5,
+   "food": -0.4
+  },
+  {
+   "date": "2021-05",
+   "services": 1.9,
+   "goods": 2.3,
+   "food": -1.3
+  },
+  {
+   "date": "2021-06",
+   "services": 2.1,
+   "goods": 2.8,
+   "food": -0.6
+  },
+  {
+   "date": "2021-07",
+   "services": 1.6,
+   "goods": 2.5,
+   "food": -0.6
+  },
+  {
+   "date": "2021-08",
+   "services": 3.0,
+   "goods": 3.3,
+   "food": 0.3
+  },
+  {
+   "date": "2021-09",
+   "services": 2.6,
+   "goods": 3.4,
+   "food": 0.8
+  },
+  {
+   "date": "2021-10",
+   "services": 3.2,
+   "goods": 4.9,
+   "food": 1.2
+  },
+  {
+   "date": "2021-11",
+   "services": 3.3,
+   "goods": 6.5,
+   "food": 2.5
+  },
+  {
+   "date": "2021-12",
+   "services": 3.4,
+   "goods": 6.9,
+   "food": 4.2
+  },
+  {
+   "date": "2022-01",
+   "services": 3.2,
+   "goods": 7.2,
+   "food": 4.3
+  },
+  {
+   "date": "2022-02",
+   "services": 3.5,
+   "goods": 8.3,
+   "food": 5.1
+  },
+  {
+   "date": "2022-03",
+   "services": 4.0,
+   "goods": 9.4,
+   "food": 5.9
+  },
+  {
+   "date": "2022-04",
+   "services": 4.7,
+   "goods": 12.4,
+   "food": 6.7
+  },
+  {
+   "date": "2022-05",
+   "services": 4.9,
+   "goods": 12.4,
+   "food": 8.6
+  },
+  {
+   "date": "2022-06",
+   "services": 5.2,
+   "goods": 12.7,
+   "food": 9.8
+  },
+  {
+   "date": "2022-07",
+   "services": 5.7,
+   "goods": 13.5,
+   "food": 12.6
+  },
+  {
+   "date": "2022-08",
+   "services": 5.9,
+   "goods": 12.9,
+   "food": 13.1
+  },
+  {
+   "date": "2022-09",
+   "services": 6.1,
+   "goods": 13.2,
+   "food": 14.5
+  },
+  {
+   "date": "2022-10",
+   "services": 6.3,
+   "goods": 14.8,
+   "food": 16.2
+  },
+  {
+   "date": "2022-11",
+   "services": 6.3,
+   "goods": 14.0,
+   "food": 16.4
+  },
+  {
+   "date": "2022-12",
+   "services": 6.8,
+   "goods": 13.4,
+   "food": 16.8
+  },
+  {
+   "date": "2023-01",
+   "services": 6.0,
+   "goods": 13.3,
+   "food": 16.7
+  },
+  {
+   "date": "2023-02",
+   "services": 6.6,
+   "goods": 13.4,
+   "food": 18.0
+  },
+  {
+   "date": "2023-03",
+   "services": 6.6,
+   "goods": 12.8,
+   "food": 19.1
+  },
+  {
+   "date": "2023-04",
+   "services": 6.9,
+   "goods": 10.0,
+   "food": 19.0
+  },
+  {
+   "date": "2023-05",
+   "services": 7.4,
+   "goods": 9.7,
+   "food": 18.3
+  },
+  {
+   "date": "2023-06",
+   "services": 7.2,
+   "goods": 8.5,
+   "food": 17.3
+  },
+  {
+   "date": "2023-07",
+   "services": 7.4,
+   "goods": 6.1,
+   "food": 14.8
+  },
+  {
+   "date": "2023-08",
+   "services": 6.8,
+   "goods": 6.3,
+   "food": 13.6
+  },
+  {
+   "date": "2023-09",
+   "services": 6.9,
+   "goods": 6.2,
+   "food": 12.1
+  },
+  {
+   "date": "2023-10",
+   "services": 6.6,
+   "goods": 2.9,
+   "food": 10.1
+  },
+  {
+   "date": "2023-11",
+   "services": 6.3,
+   "goods": 2.0,
+   "food": 9.2
+  },
+  {
+   "date": "2023-12",
+   "services": 6.4,
+   "goods": 1.9,
+   "food": 8.0
+  },
+  {
+   "date": "2024-01",
+   "services": 6.5,
+   "goods": 1.8,
+   "food": 6.9
+  },
+  {
+   "date": "2024-02",
+   "services": 6.1,
+   "goods": 1.1,
+   "food": 5.0
+  },
+  {
+   "date": "2024-03",
+   "services": 6.0,
+   "goods": 0.8,
+   "food": 4.0
+  },
+  {
+   "date": "2024-04",
+   "services": 5.9,
+   "goods": -0.8,
+   "food": 2.9
+  },
+  {
+   "date": "2024-05",
+   "services": 5.7,
+   "goods": -1.3,
+   "food": 1.7
+  },
+  {
+   "date": "2024-06",
+   "services": 5.7,
+   "goods": -1.4,
+   "food": 1.5
+  },
+  {
+   "date": "2024-07",
+   "services": 5.2,
+   "goods": -0.6,
+   "food": 1.5
+  },
+  {
+   "date": "2024-08",
+   "services": 5.6,
+   "goods": -0.9,
+   "food": 1.3
+  },
+  {
+   "date": "2024-09",
+   "services": 4.9,
+   "goods": -1.4,
+   "food": 1.9
+  },
+  {
+   "date": "2024-10",
+   "services": 5.0,
+   "goods": -0.3,
+   "food": 1.9
+  },
+  {
+   "date": "2024-11",
+   "services": 5.0,
+   "goods": 0.4,
+   "food": 2.0
+  },
+  {
+   "date": "2024-12",
+   "services": 4.4,
+   "goods": 0.7,
+   "food": 2.0
+  },
+  {
+   "date": "2025-01",
+   "services": 5.0,
+   "goods": 1.0,
+   "food": 3.3
+  },
+  {
+   "date": "2025-02",
+   "services": 5.0,
+   "goods": 0.8,
+   "food": 3.3
+  },
+  {
+   "date": "2025-03",
+   "services": 4.7,
+   "goods": 0.6,
+   "food": 3.0
+  },
+  {
+   "date": "2025-04",
+   "services": 5.4,
+   "goods": 1.7,
+   "food": 3.4
+  },
+  {
+   "date": "2025-05",
+   "services": 4.7,
+   "goods": 2.0,
+   "food": 4.4
+  },
+  {
+   "date": "2025-06",
+   "services": 4.7,
+   "goods": 2.4,
+   "food": 4.5
+  },
+  {
+   "date": "2025-07",
+   "services": 5.0,
+   "goods": 2.7,
+   "food": 4.9
+  },
+  {
+   "date": "2025-08",
+   "services": 4.7,
+   "goods": 2.8,
+   "food": 5.1
+  },
+  {
+   "date": "2025-09",
+   "services": 4.7,
+   "goods": 2.9,
+   "food": 4.5
+  },
+  {
+   "date": "2025-10",
+   "services": 4.5,
+   "goods": 2.6,
+   "food": 4.9
+  },
+  {
+   "date": "2025-11",
+   "services": 4.4,
+   "goods": 2.1,
+   "food": 4.2
+  },
+  {
+   "date": "2025-12",
+   "services": 4.5,
+   "goods": 2.2,
+   "food": 4.5
+  },
+  {
+   "date": "2026-01",
+   "services": 4.4,
+   "goods": 1.6,
+   "food": 3.6
+  },
+  {
+   "date": "2026-02",
+   "services": 4.3,
+   "goods": 1.6,
+   "food": 3.3
+  },
+  {
+   "date": "2026-03",
+   "services": 4.5,
+   "goods": 2.1,
+   "food": 3.7
+  },
+  {
+   "date": "2026-04",
+   "services": 3.2,
+   "goods": 2.4,
+   "food": 3.0
+  },
+  {
+   "date": "2026-05",
+   "services": 3.7,
+   "goods": 2.0,
+   "food": 2.2
+  },
+  {
+   "date": "2026-06",
+   "services": 3.6,
+   "goods": 1.7,
+   "food": 1.7
+  },
+  {
+   "date": "2026-07",
+   "services": 3.4,
+   "goods": 2.2,
+   "food": 1.3
+  },
+  {
+   "date": "2026-08",
+   "services": 3.4,
+   "goods": 2.7,
+   "food": 1.3
+  },
+  {
+   "date": "2026-09",
+   "services": 3.7,
+   "goods": 3.2,
+   "food": 1.3
+  }
+ ],
+ "theme": "blue-amber",
+ "size_cm": [
+  25,
+  15
+ ],
+ "style_version": 10
+}

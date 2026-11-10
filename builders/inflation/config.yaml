@@ -1,0 +1,29 @@
+# Inflation — headline charts. Series codes verified against live ONS 2026-11-10.
+# All are 12-month rates from the ONS consumer price inflation release (dataset MM23).
+category: inflation
+title: Inflation
+
+charts:
+  - slug: cpi-headline
+    title: CPI, CPIH and core inflation
+    units: "% change on a year earlier"
+    freq: M
+    start: "2015-01"
+    source: ONS Consumer price inflation
+    note: Core excludes energy, food, alcohol and tobacco. CPIH adds owner occupiers' housing costs and council tax. Not seasonally adjusted, since comparing with the same month a year earlier largely nets out seasonal patterns.
+    series:
+      - {source: ons, key: cpi, label: CPI, cdid: D7G7, dataset: MM23}
+      - {source: ons, key: cpih, label: CPIH, cdid: L55O, dataset: MM23}
+      - {source: ons, key: core, label: Core CPI, cdid: DKO8, dataset: MM23}
+
+  - slug: cpi-goods-services
+    title: Goods, services and food inflation
+    units: "% change on a year earlier"
+    freq: M
+    start: "2019-01"
+    source: ONS Consumer price inflation
+    note: Services inflation is the measure the Bank of England watches most closely for domestic price pressure.
+    series:
+      - {source: ons, key: services, label: Services, cdid: D7NN, dataset: MM23}
+      - {source: ons, key: goods, label: Goods, cdid: D7NM, dataset: MM23}
+      - {source: ons, key: food, label: Food and non-alcoholic drinks, cdid: D7G8, dataset: MM23}

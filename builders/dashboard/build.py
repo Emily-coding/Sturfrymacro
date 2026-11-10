@@ -323,6 +323,11 @@ def labour_section(fc, sources):
         ],
     }
     note = "Rolling three-month averages, dated by the final month; quarterly forecasts sit at the quarter's last month. LFS estimates are official statistics in development."
+    # Real pay growth by pay percentile from ASHE (annual; builders/labour-markets/ashe_distribution.py)
+    ashe = chart_file("labour-markets", "ashe-pay-distribution")
+    ashe_lines = [line(s["label"], [[r["percentile"], r[s["key"]]] for r in ashe["data"] if r.get(s["key"]) is not None],
+                       colour, "outturn")
+                  for s, colour in zip(ashe["series"], [OUTTURN, "#DE911D"])]
     return {
         "id": "labour", "title": "Labour market", "box": box,
         "charts": [
@@ -332,6 +337,8 @@ def labour_section(fc, sources):
             {"title": "Employment rate, aged 16+", "units": "% of people aged 16+", "freq": "M",
              "lines": [line("ONS outturn", emp, OUTTURN, "outturn")] + e_lines,
              "note": note + " Only the OBR forecasts the employment rate.", "source": "ONS Labour Force Survey; OBR"},
+            {"title": ashe["title"], "units": ashe["units"], "type": "percentile", "lines": ashe_lines,
+             "note": ashe["note"], "source": ashe["source"]},
         ],
     }
 

@@ -14,6 +14,10 @@ Two measures, for all employee jobs in the UK:
 - Hourly pay, excluding overtime (Table 1.6a): the ONS's preferred hourly measure;
   the bottom of it is held up by the National Living Wage.
 
+Real pay: nominal growth is deflated by CPI inflation over the same twelve months
+(April to April, ONS series D7BT), so the chart shows growth in what pay can buy:
+    real growth = (1 + nominal growth) / (1 + CPI inflation) - 1
+
 Note: each percentile compares *whoever* is at that point in each year, not the
 same people, and ASHE's April date means it misses anything after the survey week.
 
@@ -35,7 +39,7 @@ sys.path.insert(0, str(REPO))
 
 import openpyxl  # noqa: E402
 
-from ukmacro import charts  # noqa: E402
+from ukmacro import charts, ons  # noqa: E402
 from ukmacro.http import get, get_text  # noqa: E402
 
 PAGE = ("https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/"
@@ -86,33 +90,46 @@ def draw(chart: dict, path: Path) -> None:
     ax.set_xticks([10, 20, 25, 30, 40, 50, 60, 70, 75, 80, 90])
     ax.set_xticklabels(["10th", "20th", "25th", "30th", "40th", "Median", "60th", "70th", "75th", "80th", "90th"],
                        fontsize=10.5, color=charts.TEXT_2)
-    ax.set_ylim(bottom=0)
-    ax.yaxis.set_major_formatter(lambda v, _: f"{v:.0f}%")
+    ax.axhline(0, color=charts.BASELINE, linewidth=0.9, zorder=1)  # zero line: real pay can fall
+    ax.yaxis.set_major_formatter(lambda v, _: f"{v:.0f}%".replace("-", "\u2212"))  # real minus sign
     ax.tick_params(axis="y", labelsize=10.5, labelcolor=charts.TEXT_2)
     ax.set_xlabel("Pay percentile (lower paid → higher paid)", fontsize=10.5, color=charts.TEXT_2, labelpad=8)
     charts._save(fig, path)
 
 
+def cpi_inflation(year: int) -> float:
+    """CPI inflation from April of the previous year to April of `year`, in %."""
+    cpi = dict(ons.fetch("D7BT", "MM23", "M")["obs"])  # CPI all-items index
+    return (cpi[f"{year}-04"] / cpi[f"{year - 1}-04"] - 1) * 100
+
+
 if __name__ == "__main__":
     year, new, old = latest_pair()
+    inflation = cpi_inflation(year)
     data = {}
     for key, table in TABLES.items():
         now, before = percentiles(new, table), percentiles(old, table)
         for p in now:
             if p in before:
-                data.setdefault(p, {"percentile": p})[key] = round((now[p] / before[p] - 1) * 100, 2)
-                data[p][f"{key}_{year}"], data[p][f"{key}_{year - 1}"] = now[p], before[p]
+                nominal = (now[p] / before[p] - 1) * 100
+                row = data.setdefault(p, {"percentile": p})
+                row[f"{key}_nominal"] = round(nominal, 2)
+                row[key] = round(((1 + nominal / 100) / (1 + inflation / 100) - 1) * 100, 2)  # real
+                row[f"{key}_{year}"], row[f"{key}_{year - 1}"] = now[p], before[p]
     chart = {
         "slug": SLUG, "category": "labour-markets",
-        "title": f"Pay growth across the pay distribution, April {year - 1} to April {year}",
-        "units": "% change on a year earlier, all employee jobs, UK",
-        "source": f"ONS Annual Survey of Hours and Earnings, Table 1 ({year} provisional vs {year - 1} revised)",
-        "note": "Weekly pay is gross; hourly pay excludes overtime. Each percentile compares whoever is at that point of the distribution in each year.",
+        "title": f"Real pay growth across the pay distribution, April {year - 1} to April {year}",
+        "units": f"% change on a year earlier, adjusted for CPI inflation ({inflation:.1f}%), all employee jobs, UK",
+        "source": f"ONS Annual Survey of Hours and Earnings, Table 1 ({year} provisional vs {year - 1} revised); ONS CPI",
+        "note": ("Weekly pay is gross; hourly pay excludes overtime. Deflated by CPI inflation from April to April. "
+                 "Each percentile compares whoever is at that point of the distribution in each year."),
+        "cpi_inflation": round(inflation, 2),
         "series": [{"key": "hourly", "label": "Hourly"}, {"key": "weekly", "label": "Weekly"}],
         "data": list(data.values()),
     }
     out = REPO / "data" / "labour-markets" / f"{SLUG}.json"
     out.write_text(json.dumps(chart, indent=1) + "\n")
     draw(chart, REPO / "img" / "labour-markets" / f"{SLUG}.png")
+    print(f"CPI inflation April {year - 1} to April {year}: {inflation:.2f}%")
     for row in chart["data"]:
-        print(row["percentile"], row["hourly"], row["weekly"])
+        print(row["percentile"], "hourly", row["hourly"], "weekly", row["weekly"])

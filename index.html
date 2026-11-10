@@ -86,7 +86,7 @@ const fmt = v => (v < 0 ? "−" : "") + Math.abs(v).toFixed(1);   // real minus 
 const fmtDate = s => new Date(s + "T12:00").toLocaleDateString("en-GB", {day: "numeric", month: "short"});
 
 // Dates to positions on a timeline: '2026-08' -> 2026.625, '2026-Q3' -> 2026.625
-function toX(d) {
+function timeX(d) {
   const y = +d.slice(0, 4);
   if (d.includes("Q")) return y + (+d.slice(-1) - 0.5) / 4;
   return y + (+d.slice(5, 7) - 0.5) / 12;
@@ -122,7 +122,13 @@ function renderBox(box) {
   return wrap;
 }
 
+// Percentile charts (pay distribution) have the percentile itself on the x-axis
+const PCT_TICKS = [10, 20, 25, 30, 40, 50, 60, 70, 75, 80, 90];
+const pctLabel = p => p === 50 ? "Median" : p + "th";
+
 function renderLineChart(canvas, chart) {
+  const pct = chart.type === "percentile";
+  const toX = d => pct ? d : timeX(d);
   const xs = chart.lines.flatMap(l => l.data.map(p => toX(p[0])));
   const datasets = chart.lines.map(l => {
     const sparse = l.kind === "forecast" && l.data.length <= 6;   // few points: show them
@@ -131,7 +137,7 @@ function renderLineChart(canvas, chart) {
       data: l.data.map(p => ({x: toX(p[0]), y: p[1], d: p[0]})),
       borderColor: l.colour, backgroundColor: l.colour,
       borderWidth: 2, borderDash: l.kind === "forecast" ? [6, 4] : [],
-      pointRadius: ctx => (sparse && ctx.dataIndex > 0) ? 3 : 0, pointHoverRadius: 4,
+      pointRadius: ctx => pct ? 3 : (sparse && ctx.dataIndex > 0) ? 3 : 0, pointHoverRadius: 4,
       tension: 0, spanGaps: false,
     };
   });
@@ -144,15 +150,20 @@ function renderLineChart(canvas, chart) {
       plugins: {
         legend: {display: false},
         tooltip: {callbacks: {
-          title: items => niceLabel(items[0].raw.d),
+          title: items => pct ? pctLabel(items[0].raw.d) + " percentile" : niceLabel(items[0].raw.d),
           label: it => ` ${it.dataset.label}: ${fmt(it.raw.y)}`,
         }},
       },
       scales: {
-        x: {type: "linear", min: Math.floor(Math.min(...xs)), max: Math.ceil(Math.max(...xs)),
-            grid: {display: false}, border: {color: "#627D98"},
-            ticks: {stepSize: 1, callback: v => Number.isInteger(v) ? v : ""}},
-        y: {grid: {color: "#D9E2EC"}, border: {display: false},
+        x: pct
+          ? {type: "linear", min: 0, max: 100, grid: {display: false}, border: {color: "#627D98"},
+             afterBuildTicks: axis => { axis.ticks = PCT_TICKS.map(v => ({value: v})); },
+             ticks: {autoSkip: false, maxRotation: 0, callback: v => pctLabel(v)},
+             title: {display: true, text: "Pay percentile (lower paid \u2192 higher paid)", color: "#486581"}}
+          : {type: "linear", min: Math.floor(Math.min(...xs)), max: Math.ceil(Math.max(...xs)),
+             grid: {display: false}, border: {color: "#627D98"},
+             ticks: {stepSize: 1, callback: v => Number.isInteger(v) ? v : ""}},
+        y: {grid: {color: ctx => ctx.tick.value === 0 ? "#9FB3C8" : "#D9E2EC"}, border: {display: false},
             ticks: {callback: v => fmt(v).replace(".0", "")}},
       },
     },

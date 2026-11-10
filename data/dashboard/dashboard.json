@@ -1919,6 +1919,117 @@
      ],
      "note": "Rolling three-month averages, dated by the final month; quarterly forecasts sit at the quarter's last month. LFS estimates are official statistics in development. Only the OBR forecasts the employment rate.",
      "source": "ONS Labour Force Survey; OBR"
+    },
+    {
+     "title": "Real pay growth across the pay distribution, April 2025 to April 2026",
+     "units": "% change on a year earlier, adjusted for CPI inflation (2.8%), all employee jobs, UK",
+     "type": "percentile",
+     "lines": [
+      {
+       "name": "Hourly",
+       "kind": "outturn",
+       "colour": "#186FAF",
+       "data": [
+        [
+         10,
+         1.63
+        ],
+        [
+         20,
+         2.34
+        ],
+        [
+         25,
+         2.28
+        ],
+        [
+         30,
+         2.0
+        ],
+        [
+         40,
+         2.35
+        ],
+        [
+         50,
+         2.96
+        ],
+        [
+         60,
+         3.24
+        ],
+        [
+         70,
+         3.06
+        ],
+        [
+         75,
+         3.56
+        ],
+        [
+         80,
+         3.0
+        ],
+        [
+         90,
+         4.16
+        ]
+       ]
+      },
+      {
+       "name": "Weekly",
+       "kind": "outturn",
+       "colour": "#DE911D",
+       "data": [
+        [
+         10,
+         -0.76
+        ],
+        [
+         20,
+         0.43
+        ],
+        [
+         25,
+         1.38
+        ],
+        [
+         30,
+         1.61
+        ],
+        [
+         40,
+         1.86
+        ],
+        [
+         50,
+         2.01
+        ],
+        [
+         60,
+         2.5
+        ],
+        [
+         70,
+         2.92
+        ],
+        [
+         75,
+         2.75
+        ],
+        [
+         80,
+         3.18
+        ],
+        [
+         90,
+         3.93
+        ]
+       ]
+      }
+     ],
+     "note": "Weekly pay is gross; hourly pay excludes overtime. Deflated by CPI inflation from April to April. Each percentile compares whoever is at that point of the distribution in each year.",
+     "source": "ONS Annual Survey of Hours and Earnings, Table 1 (2026 provisional vs 2025 revised); ONS CPI"
     }
    ]
   },

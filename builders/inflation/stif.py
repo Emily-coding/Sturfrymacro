@@ -34,11 +34,13 @@ the live forecast faces), and compares it with what actually happened.
 from __future__ import annotations
 
 import statistics
+import sys
 from pathlib import Path
 
 import yaml
 
-from ukmacro.mm23 import aggregate, next_month, twelve_month_rate
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))  # repo root, so `ukmacro` imports
+from ukmacro.mm23 import aggregate, next_month, twelve_month_rate  # noqa: E402
 
 HORIZON = 6
 SEASONAL_YEARS = 8
@@ -208,8 +210,6 @@ def backtest(indices, weights, headline: dict[str, float], first: str = "2017-01
 
 if __name__ == "__main__":
     # Print the component codes and names, for writing overrides in stif_assumptions.yaml
-    import sys
-    sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
     from ukmacro.mm23 import MM23
     for code, name in MM23().components().items():
         print(f"{code:8} {name}")

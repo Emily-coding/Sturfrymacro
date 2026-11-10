@@ -174,12 +174,6 @@ rebases and retries up to five times. Keep that loop in any new workflow.
 
 ## Working together
 
-1. Get the latest version: `git pull` (or "Fetch origin" in GitHub Desktop).
-2. Make a branch for one change, e.g. `git switch -c add-cpi-energy`.
-3. Edit, run that area's builder locally to check the chart, commit, and push.
-4. Open a pull request on GitHub and ask the other person to review it. The reviewer
-   checks that the chart and numbers make sense (right series, right units, a sensible
-   note), then approves and merges.
-5. Don't commit `data/` or `img/` changes by hand for areas the bot refreshes; the
-   weekday jobs do that. To-dos go in GitHub Issues.
-
+Every change goes through a pull request reviewed by the other person. The
+step-by-step guide, what to check when reviewing, and how to handle the bot's data
+commits are in [CONTRIBUTING.md](CONTRIBUTING.md). To-dos go in GitHub Issues.

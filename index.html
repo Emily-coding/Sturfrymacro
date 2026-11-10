@@ -169,7 +169,7 @@ function renderBarChart(canvas, chart) {
       meta.data.forEach((bar, i) => {
         const b = chart.bars[i]; const right = b.value >= 0;
         ctx.textAlign = right ? "left" : "right";
-        ctx.fillText(`${b.value >= 0 ? "+" : ""}${fmt(b.value)}%  (${b.period})`.replace("+−", "−"),
+        ctx.fillText(`${b.value >= 0 ? "+" : ""}${fmt(b.value)}%${b.period ? `  (${b.period})` : ""}`.replace("+−", "−"),
                      bar.x + (right ? 6 : -6), bar.y);
       });
       ctx.restore();

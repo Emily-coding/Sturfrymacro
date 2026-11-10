@@ -178,18 +178,24 @@ def gdp_section(fc, sources):
     last_q = q[-1][0]
     q_fc = forecast_lines(fc, sources, "gdp_level", q[-1], END_Q, rescale_to=q)
 
-    # G7: compound quarterly growth over the latest year's quarters to date
-    year = max(row["date"] for row in g7_chart["data"])[:4]
+    # G7: growth so far this year, compounded from quarterly growth. Every country is
+    # cut at the UK's latest quarter so all cover the same period: when the US
+    # publishes Q3 before the UK, the comparison stays at Q2 until the UK catches up.
+    uk = series(g7_chart, "gbr")
+    cutoff = uk[-1][0]                      # e.g. '2026-Q2'
+    year = cutoff[:4]
+    period = "Q1" if cutoff.endswith("Q1") else f"Q1–{cutoff[-2:]}"
     bars = []
     for s in g7_chart["series"]:
-        qs = [(d, v) for d, v in series(g7_chart, s["key"]) if d.startswith(year)]
+        qs = [(d, v) for d, v in series(g7_chart, s["key"]) if d.startswith(year) and d <= cutoff]
         if not qs:
             continue
         growth = 1.0
         for _, v in qs:
             growth *= 1 + v / 100
-        span = qs[0][0][-2:] if len(qs) == 1 else f"{qs[0][0][-2:]}–{qs[-1][0][-2:]}"
-        bars.append({"name": s["label"], "value": round((growth - 1) * 100, 2), "period": f"{span} {year}",
+        behind = qs[-1][0] < cutoff         # this country hasn't published the UK's latest quarter yet
+        bars.append({"name": s["label"], "value": round((growth - 1) * 100, 2),
+                     "period": f"to {qs[-1][0][-2:]} only" if behind else "",  # the title gives the period
                      "colour": OUTTURN if s["key"] == "gbr" else "#9FB3C8"})
     bars.sort(key=lambda b: -b["value"])
 
@@ -226,9 +232,9 @@ def gdp_section(fc, sources):
              "lines": [line("ONS outturn", m, OUTTURN, "outturn")],
              "note": "Monthly GVA at basic prices, chained volumes, seasonally adjusted. None of the forecasters publish monthly GDP forecasts.",
              "source": "ONS Monthly GDP estimate"},
-            {"title": f"Real GDP growth so far in {year}, G7", "units": "% change since the end of last year", "type": "bars",
+            {"title": f"Real GDP growth in {period} {year}, G7", "units": f"% change from Q4 {int(year) - 1}", "type": "bars",
              "bars": bars,
-             "note": "Quarterly growth compounded over the quarters published so far this year; countries publish at different times.",
+             "note": "Quarterly growth compounded over the year so far. All countries are cut at the UK's latest published quarter, so each covers the same period.",
              "source": "OECD Quarterly National Accounts"},
         ],
     }

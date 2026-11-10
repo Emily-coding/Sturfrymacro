@@ -508,54 +508,54 @@
      "source": "ONS Monthly GDP estimate"
     },
     {
-     "title": "Real GDP growth so far in 2026, G7",
-     "units": "% change since the end of last year",
+     "title": "Real GDP growth in Q1–Q2 2026, G7",
+     "units": "% change from Q4 2025",
      "type": "bars",
      "bars": [
       {
+       "name": "United Kingdom",
+       "value": 1.18,
+       "period": "",
+       "colour": "#186FAF"
+      },
+      {
        "name": "United States",
-       "value": 2.01,
-       "period": "Q1–Q3 2026",
+       "value": 1.17,
+       "period": "",
        "colour": "#9FB3C8"
       },
       {
        "name": "Canada",
-       "value": 1.2,
-       "period": "Q1–Q3 2026",
-       "colour": "#9FB3C8"
-      },
-      {
-       "name": "United Kingdom",
-       "value": 1.18,
-       "period": "Q1–Q2 2026",
-       "colour": "#186FAF"
-      },
-      {
-       "name": "Germany",
-       "value": 0.98,
-       "period": "Q1–Q3 2026",
+       "value": 0.9,
+       "period": "",
        "colour": "#9FB3C8"
       },
       {
        "name": "Japan",
        "value": 0.84,
-       "period": "Q1–Q2 2026",
+       "period": "",
+       "colour": "#9FB3C8"
+      },
+      {
+       "name": "Germany",
+       "value": 0.75,
+       "period": "",
        "colour": "#9FB3C8"
       },
       {
        "name": "Italy",
-       "value": 0.48,
-       "period": "Q1–Q3 2026",
+       "value": 0.47,
+       "period": "",
        "colour": "#9FB3C8"
       },
       {
        "name": "France",
-       "value": -0.3,
-       "period": "Q1–Q3 2026",
+       "value": -0.17,
+       "period": "",
        "colour": "#9FB3C8"
       }
      ],
-     "note": "Quarterly growth compounded over the quarters published so far this year; countries publish at different times.",
+     "note": "Quarterly growth compounded over the year so far. All countries are cut at the UK's latest published quarter, so each covers the same period.",
      "source": "OECD Quarterly National Accounts"
     }
    ]

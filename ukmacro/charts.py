@@ -28,6 +28,7 @@ flow-grid (supply-chain stages across, places down, a text cell for each).
 from __future__ import annotations
 
 import io
+from datetime import date
 import json
 import textwrap
 from pathlib import Path
@@ -198,6 +199,15 @@ def _period_ticks(ax, dates: list[str]):
         ax.set_xticks(range(0, n, step), [dates[i] for i in range(0, n, step)])
         return
 
+    # Daily market data (trading days, hundreds of points): label it like a monthly
+    # series, placing each label on the first trading day of the month
+    pool = range(n)
+    if k == "D" and n > 3 * MAX_LABELS:
+        span = (date.fromisoformat(dates[-1]) - date.fromisoformat(dates[0])).days
+        if span / n < 3:  # observations no more than a few days apart: daily, not survey waves
+            k = "M"
+            pool = [i for i in range(n) if i == 0 or dates[i][:7] != dates[i - 1][:7]]
+
     def sub(d):  # position within the year: quarter number, or month number
         return int(d[6]) if k == "Q" else int(d[5:7])
 
@@ -211,7 +221,7 @@ def _period_ticks(ax, dates: list[str]):
         options = ([(1, 2, 3, 4), (1, 3)] if k == "Q" else [(1, 4, 7, 10), (1, 7)]) + [(1,)]
         picks = None
         for keep in options:  # finest spacing that fits
-            cand = [i for i, d in enumerate(dates) if sub(d) in keep]
+            cand = [i for i in pool if sub(dates[i]) in keep]
             # quarterly labels need room; half-year ones are short ("Q3", "Jul"), so more fit
             limit = {4: MAX_LABELS, 2: MAX_HALF_YEAR_LABELS}.get(len(keep), MAX_LABELS * per_year)
             if len(cand) <= limit:
@@ -308,7 +318,11 @@ def _line(chart):
     for i, s in enumerate(chart["series"]):
         ys = [d.get(s["key"]) for d in chart["data"]]
         colour = _colour(s, i)
-        (h,) = ax.plot(x, [y if y is not None else float("nan") for y in ys],
+        if chart.get("freq") == "D":  # daily prices: join across other markets' holidays rather than leave gaps
+            px, py = [j for j, y in enumerate(ys) if y is not None], [y for y in ys if y is not None]
+        else:  # periods: a missing value is a real gap in the data, so the line breaks there
+            px, py = list(x), [y if y is not None else float("nan") for y in ys]
+        (h,) = ax.plot(px, py,
                        color=colour, linewidth=2, solid_capstyle="round",
                        linestyle="--" if s.get("dash") else "-",  # dashed = a forecast
                        zorder=3 if colour != BASELINE else 2)  # coloured lines above grey ones

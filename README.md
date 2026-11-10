@@ -28,13 +28,14 @@ ukmacro/                 shared source clients + the chart builder
                          incl. the historical forecasts database
   dmp.py                 Decision Maker Panel spreadsheets
   boe_mpr.py             Bank of England Monetary Policy Report forecasts
+  markets.py             market prices: US Treasury, Bundesbank, EIA oil, Ofgem gas, Yahoo FTSE 100
   lastgood.py            last-good store (see below)
   builder.py             config.yaml -> chart JSON
   bics.py                BICS wave download, parsing and the harvest store
 builders/<area>/
   config.yaml            which charts, which series: edit this to add a chart
   build.py               runs the config; bespoke analyses go here too
-                         (areas: gdp, inflation, labour-markets, investment, trade, bics)
+                         (areas: gdp, inflation, labour-markets, investment, trade, bics, markets)
 data/<area>/
   <slug>.json            one file per chart
   index.json             chart list with data_through / next_release / status
@@ -49,9 +50,9 @@ NEXT.md                  to-do list + "Decided against"
 **https://emily-coding.github.io/Sturfrymacro/** (the page is `index.html`; GitHub Pages
 serves it straight from `main`).
 
-Five sections (GDP, inflation, investment, labour market, wages), each with a box
-of the latest outturn and forecasts for the next releases, and charts showing ONS
-outturn (solid) with the latest published forecasts (dashed):
+Six sections (GDP, inflation, investment, labour market, wages, financial markets),
+each with a box of the latest outturn and forecasts for the next releases, and charts
+showing outturn (solid) with the latest published forecasts (dashed):
 
 - **Bank of England**, latest Monetary Policy Report: central projections, plus Bank
   staff near-term projections (CPI monthly for six months, GDP for this quarter and
@@ -59,6 +60,24 @@ outturn (solid) with the latest published forecasts (dashed):
 - **Outside forecasters' average**, the Bank's survey of about 20 forecasters,
   published with each MPR.
 - **OBR**, latest Economic and fiscal outlook detailed economy tables (`ukmacro/obr.py`).
+
+**Financial markets** (`builders/markets/`, refreshed every weekday morning) uses free
+sources, all official except one:
+
+| Chart | Source |
+|---|---|
+| 10-year yields | Bank of England (UK gilt), US Treasury, Bundesbank (German Bund) |
+| Bank Rate, sterling ($/£, €/£) | Bank of England database |
+| Brent and WTI oil | US Energy Information Administration (updated weekly, so up to a week behind) |
+| UK wholesale gas | Ofgem, day-ahead price, monthly average (a few weeks behind) |
+| FTSE 100 | Yahoo Finance's chart feed: **unofficial**, as FTSE Russell licenses its index data. If it breaks, the last good copy is kept and the run goes red |
+
+The dashed lines on these charts are the market assumptions each forecast was
+conditioned on (futures prices and market rate expectations at the cut-off), not
+forecasts of their own: the Bank's Bank Rate path (MPR databank) and the OBR's table
+1.9. The Bank's oil and gas paths are blanked out in its chart data (licensed), and
+nobody publishes a 10-year yield path (the OBR's is for 20-year gilts). On the
+dashboard, daily prices are thinned to weekly (the last trading day of each week).
 
 `builders/dashboard/build.py` combines these with the other areas' chart files into
 `data/dashboard/dashboard.json`; its docstring explains how forecasts are lined up

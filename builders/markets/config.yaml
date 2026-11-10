@@ -1,0 +1,74 @@
+# Financial markets: daily prices from free official sources (plus Yahoo for the
+# FTSE 100, the one series with no official free feed). See ukmacro/markets.py.
+category: markets
+title: Financial markets
+
+charts:
+  - slug: bond-yields-10y
+    title: 10-year government bond yields
+    units: "% a year"
+    freq: D
+    start: "2022-01-01"
+    source: Bank of England; US Treasury; Bundesbank
+    note: UK is the 10-year nominal par gilt yield; US the 10-year Treasury par yield; Germany the 10-year Bund yield from the Bundesbank's yield curve.
+    series:
+      - {source: boe, key: uk, label: UK, since: "2022-01-01", code: IUDMNPY}
+      - {source: markets, key: us, label: US, since: "2022-01-01", fn: us_treasury_10y, args: [2022],
+         url: "https://home.treasury.gov/resource-center/data-chart-center/interest-rates"}
+      - {source: markets, key: de, label: Germany, since: "2022-01-01", fn: bundesbank_10y,
+         url: "https://www.bundesbank.de/en/statistics/money-and-capital-markets/interest-rates-and-yields"}
+
+  - slug: bank-rate
+    title: Bank Rate
+    units: "%"
+    freq: D
+    start: "2022-01-01"
+    source: Bank of England
+    series:
+      - {source: boe, key: bank_rate, label: Bank Rate, since: "2022-01-01", code: IUDBEDR}
+
+  - slug: oil-prices
+    title: Crude oil prices
+    units: "$ per barrel"
+    freq: D
+    start: "2022-01-01"
+    source: US Energy Information Administration
+    note: Spot prices. The EIA updates weekly, so the latest figures can be up to a week old.
+    series:
+      - {source: markets, key: brent, label: Brent, since: "2022-01-01", fn: eia_spot, args: [RBRTE],
+         url: "https://www.eia.gov/dnav/pet/pet_pri_spt_s1_d.htm"}
+      - {source: markets, key: wti, label: WTI, since: "2022-01-01", fn: eia_spot, args: [RWTC],
+         url: "https://www.eia.gov/dnav/pet/pet_pri_spt_s1_d.htm"}
+
+  - slug: gas-price-uk
+    title: UK wholesale gas price
+    units: "Pence per therm, monthly average"
+    freq: M
+    start: "2022-01"
+    source: Ofgem analysis of broker data
+    note: Day-ahead contracts (gas for delivery the next working day), Great Britain.
+    series:
+      - {source: markets, key: gas, label: Day-ahead gas, since: "2022-01", fn: ofgem_gas,
+         url: "https://www.ofgem.gov.uk/energy-data-and-research/data-portal/wholesale-market-indicators"}
+
+  - slug: ftse-100
+    title: FTSE 100
+    units: "Index level, daily close"
+    freq: D
+    start: "2022-01-01"
+    source: Yahoo Finance (unofficial feed)
+    series:
+      - {source: markets, key: ftse100, label: FTSE 100, since: "2022-01-01", fn: yahoo_close, args: ["^FTSE", "2022-01-01"],
+         url: "https://finance.yahoo.com/quote/%5EFTSE/"}
+
+  - slug: sterling
+    title: Sterling exchange rates
+    units: "Foreign currency per £"
+    freq: D
+    start: "2022-01-01"
+    source: Bank of England
+    note: Daily spot rates at 4pm London time.
+    decimals: 2
+    series:
+      - {source: boe, key: usd, label: US$ per £, since: "2022-01-01", code: XUDLUSS}
+      - {source: boe, key: eur, label: € per £, since: "2022-01-01", code: XUDLERS}

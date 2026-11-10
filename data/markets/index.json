@@ -1,0 +1,48 @@
+{
+ "category": "markets",
+ "title": "Financial markets",
+ "charts": [
+  {
+   "slug": "bond-yields-10y",
+   "title": "10-year government bond yields",
+   "data_through": "2026-11-10",
+   "next_release": null,
+   "status": "ok"
+  },
+  {
+   "slug": "bank-rate",
+   "title": "Bank Rate",
+   "data_through": "2026-11-09",
+   "next_release": null,
+   "status": "ok"
+  },
+  {
+   "slug": "oil-prices",
+   "title": "Crude oil prices",
+   "data_through": "2026-11-03",
+   "next_release": null,
+   "status": "ok"
+  },
+  {
+   "slug": "gas-price-uk",
+   "title": "UK wholesale gas price",
+   "data_through": "2026-09",
+   "next_release": null,
+   "status": "ok"
+  },
+  {
+   "slug": "ftse-100",
+   "title": "FTSE 100",
+   "data_through": "2026-11-10",
+   "next_release": null,
+   "status": "ok"
+  },
+  {
+   "slug": "sterling",
+   "title": "Sterling exchange rates",
+   "data_through": "2026-11-09",
+   "next_release": null,
+   "status": "ok"
+  }
+ ]
+}

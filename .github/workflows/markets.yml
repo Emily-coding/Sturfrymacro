@@ -1,0 +1,15 @@
+name: markets
+
+on:
+  schedule:
+    - cron: "30 7 * * 1-5"   # weekdays, after the overnight US close and the Bank of England's morning update
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    uses: ./.github/workflows/_refresh.yml
+    with:
+      category: markets

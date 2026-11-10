@@ -10,9 +10,12 @@ Series spec, by source:
     oecd: {source: oecd, flow, key, areas: {GBR: United Kingdom, ...}}
           `key` contains "{areas}", replaced by the '+'-joined area codes, and each
           area becomes its own series (keyed by lower-cased area code).
-    boe:  {source: boe, key, label, code}
+    boe:  {source: boe, key, label, code, since (optional ISO date)}
+    markets: {source: markets, key, label, fn, args: [...], since (optional)}
+          calls ukmacro/markets.py's function `fn` with `args` (market prices from
+          the US Treasury, Bundesbank, EIA, Ofgem and Yahoo Finance).
 
-Chart options: slug, title, units, freq (A/Q/M), type (line/bar/stacked-bar), start,
+Chart options: slug, title, units, freq (A/Q/M/D), type (line/bar/stacked-bar), start,
 rebase (a date: divide by the value then and multiply by 100), source, note.
 A series can set `mark: line` to be drawn as a line over the bars of a bar chart,
 and `dash: true` to be drawn dashed (used for forecasts).
@@ -28,7 +31,7 @@ from pathlib import Path
 
 import yaml
 
-from . import boe, charts, oecd, ons
+from . import boe, charts, markets, oecd, ons
 from .lastgood import LastGood
 
 REPO = Path(__file__).resolve().parent.parent
@@ -50,9 +53,15 @@ def _fetch(spec: dict, freq: str) -> list[tuple[str, str, list, dict]]:
         return [(a.lower(), label, res[a], {"source_url": "https://data-explorer.oecd.org"})
                 for a, label in areas.items()]
     if src == "boe":
-        res = boe.fetch([spec["code"]])
+        # optional `since: "2022-01-01"` fetches less history (daily series are long)
+        since = date.fromisoformat(spec["since"]).strftime("%d/%b/%Y") if spec.get("since") else "01/Jan/2000"
+        res = boe.fetch([spec["code"]], since)
         return [(spec["key"], spec["label"], res[spec["code"]],
                  {"source_url": "https://www.bankofengland.co.uk/boeapps/database/"})]
+    if src == "markets":
+        obs = getattr(markets, spec["fn"])(*spec.get("args", []))
+        obs = [o for o in obs if o[0] >= spec.get("since", "")]  # keep the stored history short
+        return [(spec["key"], spec["label"], obs, {"source_url": spec.get("url")})]
     raise ValueError(f"unknown source {src!r}")
 
 
@@ -88,7 +97,7 @@ def build_chart(chart: dict, category: str, lg: LastGood, failures: list[str]) -
                 lg.put(f"{chart['slug']}/{key}", obs, meta)
             rows = [(k, l, o, m, "live") for k, l, o, m in fetched]
         except Exception as e:  # noqa: BLE001 — any failure falls back to last-good
-            failures.append(f"{chart['slug']}: {spec.get('cdid') or spec.get('flow') or spec.get('code')}: {e}")
+            failures.append(f"{chart['slug']}: {spec.get('cdid') or spec.get('flow') or spec.get('code') or spec.get('fn')}: {e}")
             traceback.print_exc()
             rows = []
             for key, label in _expected_keys(spec):
@@ -118,6 +127,7 @@ def build_chart(chart: dict, category: str, lg: LastGood, failures: list[str]) -
         "units": chart["units"],
         "source": chart["source"],
         "note": chart.get("note"),
+        **({"decimals": chart["decimals"]} if "decimals" in chart else {}),  # end-label decimal places
         "series": series,
         "data_through": max((s["_date"] for s in series if s["_date"]), default=None),
         "next_release": upcoming[0] if upcoming else None,

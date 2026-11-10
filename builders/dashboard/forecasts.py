@@ -40,6 +40,8 @@ def bank_of_england() -> tuple[dict, dict]:
         # annual only: calendar-year growth, and growth in the year to Q4
         "business_investment_annual": {"boe": annual["Business investment"]},
         "pay_private_regular_q4": {"boe": annual["Average weekly earnings (private sector regular pay) (Q4)"]},
+        # market-implied Bank Rate path the projections are conditioned on (quarterly averages)
+        "bank_rate": {"boe": quarterly["Bank Rate"]},
     }
     sources = {
         "boe": {"name": "Bank of England", "vintage": f"{label} MPR", "url": url},
@@ -87,7 +89,13 @@ def obr_forecast() -> tuple[dict, dict]:
     lab = _obr_columns(wb["1.6"], {"employment_rate": "employment rate", "unemployment": "unemployment rate",
                                    "pay_total": "average weekly earnings growth"})
     infl = _obr_columns(wb["1.7"], {"cpi": "cpi"})  # first CPI column is the year-on-year rate
-    data = {k: {"obr": v} for k, v in {**gdp, **lab, **infl}.items()}
+    # Market-derived assumptions (quarterly averages of futures prices and market
+    # expectations at the OBR's cut-off). Equity prices are the FTSE All-Share index;
+    # gas is in £ per therm, converted here to pence to match Ofgem's figures.
+    mkt = _obr_columns(wb["1.9"], {"bank_rate": "bank rate", "usd": "us$/£", "eur": "€/£",
+                                   "oil": "oil prices", "gas": "gas prices", "equities": "equity prices"})
+    mkt["gas"] = [[q, v * 100] for q, v in mkt["gas"]]
+    data = {k: {"obr": v} for k, v in {**gdp, **lab, **infl, **mkt}.items()}
     return {"obr": {"name": "OBR", "vintage": f"{label} EFO", "url": url}}, data
 
 

@@ -387,6 +387,123 @@ def wages_section(fc, sources):
     }
 
 
+def weekly(points: list) -> list:
+    """Thin a daily series to its last trading day each week, plus the latest day:
+    plenty for a chart several years wide, and a fraction of the file size."""
+    import datetime as dt
+    out = {}
+    for d, v in points:
+        out[dt.date.fromisoformat(d).isocalendar()[:2]] = [d, v]  # later days in a week overwrite earlier ones
+    thinned = list(out.values())
+    return thinned if thinned[-1] == points[-1] else thinned + [points[-1]]
+
+
+def day_label(d: str) -> str:
+    import calendar
+    return f"{int(d[8:])} {calendar.month_abbr[int(d[5:7])]} {d[:4]}"
+
+
+def markets_section(fc, sources):
+    """Financial markets: daily prices (data/markets, builders/markets) with the
+    market assumptions the Bank of England and OBR conditioned their forecasts on.
+    Those assumptions are quarterly averages, drawn mid-quarter on the daily charts."""
+    start = START_M + "-01"
+    def get(slug, key):
+        return [p for p in series(chart_file("markets", slug), key) if p[0] >= start]
+    def mid(q):  # '2027-Q1' -> '2027-02-15'
+        return q_to_month(q, "mid") + "-15"
+    end = mid(END_Q)
+
+    gilt, ust, bund = get("bond-yields-10y", "uk"), get("bond-yields-10y", "us"), get("bond-yields-10y", "de")
+    rate = get("bank-rate", "bank_rate")
+    brent, wti = get("oil-prices", "brent"), get("oil-prices", "wti")
+    gas_chart = chart_file("markets", "gas-price-uk")
+    gas = [p for p in series(gas_chart, "gas") if p[0] >= START_M]
+    ftse = get("ftse-100", "ftse100")
+    usd, eur = get("sterling", "usd"), get("sterling", "eur")
+
+    def assumed(var, last, who=("boe", "obr"), place=mid, scale=None, rename=None):
+        """Forecast lines for one market assumption, joined to the latest price."""
+        lines = forecast_lines({var: {w: p for w, p in fc.get(var, {}).items() if w in who}}, sources, var,
+                               last, end if place is mid else q_to_month(END_Q, "mid"), place=place, rescale_to=scale)
+        for ln in lines:
+            if rename:
+                ln["name"] = ln["name"].replace(" (", f", {rename} (", 1)
+        return lines
+
+    # The OBR's equity assumption is the FTSE All-Share: apply its growth to the FTSE 100,
+    # anchored on this quarter's average level so far
+    by_q: dict[str, list] = {}
+    for d, v in ftse:
+        by_q.setdefault(f"{d[:4]}-Q{(int(d[5:7]) - 1) // 3 + 1}", []).append(v)
+    ftse_q = [[q, sum(v) / len(v)] for q, v in by_q.items()]
+
+    # Box: latest prices, then market expectations for Bank Rate and oil
+    q_now = f"{rate[-1][0][:4]}-Q{(int(rate[-1][0][5:7]) - 1) // 3 + 1}"
+    q_next = q_add(q_now, 1)
+    year = int(q_next[:4]) + (q_next[-1] != "1")  # next full calendar year
+    def year_avg(path):
+        vals = [v for q, v in path if q.startswith(f"{year}-")]
+        return round(sum(vals) / 4, 1) if len(vals) == 4 else None
+    box = {
+        "latest": [
+            {"label": "UK 10-year gilt yield", "period": day_label(gilt[-1][0]), "value": gilt[-1][1], "unit": "%", "decimals": 2},
+            {"label": "Brent crude oil, $ per barrel", "period": day_label(brent[-1][0]), "value": brent[-1][1], "unit": "", "prefix": "$"},
+            {"label": "FTSE 100", "period": day_label(ftse[-1][0]), "value": ftse[-1][1], "unit": "", "decimals": 0},
+            {"label": "US$ per £", "period": day_label(usd[-1][0]), "value": usd[-1][1], "unit": "", "prefix": "$", "decimals": 2},
+        ],
+        "forecasts": [
+            {"card": "Market expectations", "heading": f"Bank Rate, {q_label(q_next)} average",
+             "note": f"Bank Rate today: {fmt_pct(rate[-1][1])}", "unit": "%", "decimals": 2,
+             "items": items(sources, {w: next((round(v, 2) for d, v in p if d == q_next), None)
+                                      for w, p in fc.get("bank_rate", {}).items()})},
+            {"card": "Oil price assumption", "heading": f"Brent crude oil, {year} average", "unit": "", "prefix": "$",
+             "items": items(sources, {"obr": year_avg(fc.get("oil", {}).get("obr", []))})},
+        ],
+    }
+    note_assumed = ("Dashed lines are the market prices the forecasters assumed (quarterly averages of futures "
+                    "prices at their cut-off dates, plotted mid-quarter), not forecasts of their own.")
+    return {
+        "id": "markets", "title": "Financial markets", "box": box,
+        "charts": [
+            {"title": "10-year government bond yields", "units": "% a year", "freq": "D", "decimals": 2,
+             "lines": [line("UK", weekly(gilt), OUTTURN, "outturn"), line("US", weekly(ust), "#102A43", "outturn"),
+                       line("Germany", weekly(bund), OUTTURN_SECOND, "outturn")],
+             "note": "Weekly (last trading day). No forecaster publishes a 10-year yield path: the OBR's assumption is for 20-year gilts.",
+             "source": "Bank of England; US Treasury; Bundesbank"},
+            {"title": "Bank Rate", "units": "%", "freq": "D", "y_min": 0,
+             "lines": [line("Bank Rate", weekly(rate), OUTTURN, "outturn")] + assumed("bank_rate", rate[-1]),
+             "note": "Dashed lines are the market-implied path of Bank Rate each forecast was conditioned on (quarterly averages, plotted mid-quarter).",
+             "source": "Bank of England; OBR"},
+            {"title": "Crude oil prices", "units": "$ per barrel", "freq": "D", "y_min": 0,
+             "lines": [line("Brent", weekly(brent), OUTTURN, "outturn"), line("WTI", weekly(wti), OUTTURN_SECOND, "outturn")]
+                      + assumed("oil", brent[-1], who=("obr",), rename="Brent"),
+             "note": "Spot prices, weekly; the EIA updates weekly, so the latest can be a week old. " + note_assumed +
+                     " The Bank of England's oil path can't be republished (licensed data).",
+             "source": "US Energy Information Administration; OBR"},
+            {"title": "UK wholesale gas price", "units": "Pence per therm, monthly average", "freq": "M", "y_min": 0,
+             "lines": [line("Day-ahead gas", gas, OUTTURN, "outturn")]
+                      + assumed("gas", gas[-1], who=("obr",), place=lambda q: q_to_month(q, "mid")),
+             "note": "Day-ahead contracts, Great Britain. " + note_assumed,
+             "source": "Ofgem; OBR"},
+            {"title": "FTSE 100", "units": "Index level, daily close (weekly)", "freq": "D",
+             "lines": [line("FTSE 100", weekly(ftse), OUTTURN, "outturn")] + assumed("equities", ftse[-1], who=("obr",), scale=ftse_q),
+             "note": "From Yahoo Finance's unofficial feed (FTSE Russell licenses official index data). The OBR line applies its "
+                     "FTSE All-Share assumption's growth to the FTSE 100's average this quarter.",
+             "source": "Yahoo Finance; OBR"},
+            {"title": "Sterling exchange rates", "units": "Foreign currency per £", "freq": "D", "decimals": 2,
+             "lines": [line("US$ per £", weekly(usd), OUTTURN, "outturn"), line("€ per £", weekly(eur), OUTTURN_SECOND, "outturn")]
+                      + assumed("usd", usd[-1], who=("obr",), rename="US$") + assumed("eur", eur[-1], who=("obr",), rename="€"),
+             "note": "Daily 4pm spot rates, weekly. The OBR assumes exchange rates stay flat from its cut-off.",
+             "source": "Bank of England; OBR"},
+        ],
+    }
+
+
+def fmt_pct(v: float) -> str:
+    return f"{v:.2f}%".replace(".00%", "%")
+
+
 # ---------------------------------------------------------------- main
 
 def load_forecasts() -> tuple[dict, dict, bool]:
@@ -439,7 +556,8 @@ if __name__ == "__main__":
     write_if_changed(OUT / "forecasts.json", {"sources": sources, "data": fc})
     add_own_forecast(fc, sources)  # after saving: forecasts.json holds published forecasts only
     sections = []
-    for build in (gdp_section, inflation_section, investment_section, labour_section, wages_section):
+    for build in (gdp_section, inflation_section, investment_section, labour_section, wages_section,
+                  markets_section):
         try:
             sections.append(build(fc, sources))
         except Exception as e:  # noqa: BLE001

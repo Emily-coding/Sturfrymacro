@@ -4,7 +4,7 @@ name: dashboard
 # one of the areas it draws on has refreshed, plus once a day as a fallback.
 on:
   workflow_run:
-    workflows: [gdp, inflation, investment, labour-markets]
+    workflows: [gdp, inflation, investment, labour-markets, markets]
     types: [completed]
   schedule:
     - cron: "15 9 * * 1-5"   # weekdays, after all the area refreshes

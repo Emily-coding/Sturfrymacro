@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sturfrymacro dashboard</title>
-<meta name="description" content="UK economy: latest data and published forecasts for GDP, inflation, investment, the labour market and wages.">
+<meta name="description" content="UK economy: latest data and published forecasts for GDP, inflation, investment, the labour market, wages and financial markets.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
@@ -82,17 +82,21 @@
 // Everything on this page comes from data/dashboard/dashboard.json, which the
 // dashboard builder (builders/dashboard/build.py) rewrites every weekday.
 
-const fmt = v => (v < 0 ? "−" : "") + Math.abs(v).toFixed(1);   // real minus sign
+// Numbers with a real minus sign; dp = decimal places (1 unless set), thousands separated
+const fmt = (v, dp = 1) => (v < 0 ? "−" : "") + Math.abs(v).toLocaleString("en-GB", {minimumFractionDigits: dp, maximumFractionDigits: dp});
 const fmtDate = s => new Date(s + "T12:00").toLocaleDateString("en-GB", {day: "numeric", month: "short"});
 
-// Dates to positions on a timeline: '2026-08' -> 2026.625, '2026-Q3' -> 2026.625
+// Dates to positions on a timeline: '2026-08' -> 2026.625, '2026-Q3' -> 2026.625,
+// '2026-11-06' (a daily market price) -> 2026 plus the fraction of the year gone
 function timeX(d) {
   const y = +d.slice(0, 4);
   if (d.includes("Q")) return y + (+d.slice(-1) - 0.5) / 4;
+  if (d.length === 10) return y + (Date.UTC(y, +d.slice(5, 7) - 1, +d.slice(8)) - Date.UTC(y, 0, 1)) / (365.25 * 864e5);
   return y + (+d.slice(5, 7) - 0.5) / 12;
 }
 function niceLabel(d) {
   if (d.includes("Q")) return d.slice(-2) + " " + d.slice(0, 4);
+  if (d.length === 10) return fmtDate(d) + " " + d.slice(0, 4);
   return new Date(+d.slice(0, 4), +d.slice(5, 7) - 1).toLocaleDateString("en-GB", {month: "short", year: "numeric"});
 }
 
@@ -107,16 +111,17 @@ function renderBox(box) {
   const latest = el("div", "card");
   latest.append(el("h3", null, "Latest outturn"));
   box.latest.forEach(s => latest.append(el("div", "stat",
-    `<div class="v">${fmt(s.value)}${s.unit}</div><div class="l">${s.label}, ${s.period}</div>`)));
+    `<div class="v">${s.prefix || ""}${fmt(s.value, s.decimals)}${s.unit}</div><div class="l">${s.label}, ${s.period}</div>`)));
   wrap.append(latest);
   box.forecasts.forEach((f, i) => {
     const c = el("div", "card");
-    c.append(el("h3", null, i === 0 ? "Next release: forecasts" : "Further ahead"));
+    c.append(el("h3", null, f.card || (i === 0 ? "Next release: forecasts" : "Further ahead")));
     c.append(el("div", "fc-head", f.heading));
     if (f.release) c.append(el("div", "fc-rel", `ONS release due ${fmtDate(f.release)}`));
+    if (f.note) c.append(el("div", "fc-rel", f.note));
     if (!f.items.length) c.append(el("div", "none", "No published forecast for this period."));
     f.items.forEach(it => c.append(el("div", "fc-row",
-      `<span class="who"><i style="border-color:${it.colour}"></i>${it.who}</span><span class="val">${fmt(it.value)}${f.unit}</span>`)));
+      `<span class="who"><i style="border-color:${it.colour}"></i>${it.who}</span><span class="val">${f.prefix || ""}${fmt(it.value, f.decimals)}${f.unit}</span>`)));
     wrap.append(c);
   });
   return wrap;
@@ -151,7 +156,7 @@ function renderLineChart(canvas, chart) {
         legend: {display: false},
         tooltip: {callbacks: {
           title: items => pct ? pctLabel(items[0].raw.d) + " percentile" : niceLabel(items[0].raw.d),
-          label: it => ` ${it.dataset.label}: ${fmt(it.raw.y)}`,
+          label: it => ` ${it.dataset.label}: ${fmt(it.raw.y, chart.decimals ?? 1)}`,
         }},
       },
       scales: {
@@ -165,7 +170,7 @@ function renderLineChart(canvas, chart) {
              ticks: {stepSize: 1, callback: v => Number.isInteger(v) ? v : ""}},
         y: {min: chart.y_min,   // set in dashboard.json for charts that should start at zero
             grid: {color: ctx => ctx.tick.value === 0 ? "#9FB3C8" : "#D9E2EC"}, border: {display: false},
-            ticks: {callback: v => fmt(v).replace(".0", "")}},
+            ticks: {callback: v => fmt(v, chart.decimals ?? 1).replace(/\.0+$/, "")}},
       },
     },
   });
@@ -228,7 +233,7 @@ fetch("data/dashboard/dashboard.json", {cache: "no-cache"})
     const main = document.getElementById("main"), nav = document.getElementById("nav");
     const vintages = Object.values(d.sources).map(s => `${s.name}: ${s.vintage}${s.stale ? " (could not refresh)" : ""}`);
     document.getElementById("sub").textContent =
-      "Latest ONS data (solid lines) and the most recent published forecasts (dashed). Refreshed every weekday.";
+      "Latest data (solid lines) and the most recent published forecasts (dashed). Refreshed every weekday.";
     d.sections.forEach(s => {
       nav.append(el("a", null, s.title)); nav.lastChild.href = "#" + s.id;
       const sec = el("section"); sec.id = s.id;
@@ -238,7 +243,7 @@ fetch("data/dashboard/dashboard.json", {cache: "no-cache"})
       sec.append(grid); main.append(sec);
     });
     document.getElementById("foot").innerHTML =
-      `Forecasts: ${vintages.join(" · ")}. Outturn: ONS and OECD. ` +
+      `Forecasts: ${vintages.join(" · ")}. Outturn: ONS and OECD; markets from the Bank of England, US Treasury, Bundesbank, EIA, Ofgem and Yahoo Finance. ` +
       `Built from <a href="https://github.com/Emily-coding/Sturfrymacro">github.com/Emily-coding/Sturfrymacro</a>.`;
   })
   .catch(e => { document.getElementById("main").innerHTML = `<p class="error">Couldn't load the dashboard data (${e.message}).</p>`; });

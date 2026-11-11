@@ -6,7 +6,7 @@
  "freq": "M",
  "units": "% change on a year earlier",
  "source": "ONS consumer price inflation (MM23)",
- "note": "CPI components people can least avoid spending on. Household energy is electricity, gas and other fuels (heating oil, solid fuel); motor fuels are petrol and diesel; transport is the whole transport division (cars, fuel, fares and services).",
+ "note": "CPI components people can least avoid spending on. Household energy is electricity, gas and other fuels (heating oil, solid fuel); motor fuels are petrol and diesel.",
  "series": [
   {
    "key": "food",
@@ -28,13 +28,6 @@
    "_source": "live",
    "_date": "2026-09",
    "source_url": "https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/d7io/mm23"
-  },
-  {
-   "key": "transport",
-   "label": "Transport",
-   "_source": "live",
-   "_date": "2026-09",
-   "source_url": "https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/d7ge/mm23"
   }
  ],
  "data_through": "2026-09",
@@ -45,988 +38,847 @@
    "date": "2015-01",
    "food": -2.5,
    "energy": -2.0,
-   "fuels": -16.2,
-   "transport": -2.8
+   "fuels": -16.2
   },
   {
    "date": "2015-02",
    "food": -3.3,
    "energy": -2.4,
-   "fuels": -16.6,
-   "transport": -2.7
+   "fuels": -16.6
   },
   {
    "date": "2015-03",
    "food": -3.0,
    "energy": -3.3,
-   "fuels": -13.7,
-   "transport": -1.9
+   "fuels": -13.7
   },
   {
    "date": "2015-04",
    "food": -2.8,
    "energy": -2.8,
-   "fuels": -12.3,
-   "transport": -2.8
+   "fuels": -12.3
   },
   {
    "date": "2015-05",
    "food": -1.8,
    "energy": -3.1,
-   "fuels": -11.0,
-   "transport": -1.5
+   "fuels": -11.0
   },
   {
    "date": "2015-06",
    "food": -2.2,
    "energy": -3.1,
-   "fuels": -10.5,
-   "transport": -1.8
+   "fuels": -10.5
   },
   {
    "date": "2015-07",
    "food": -2.7,
    "energy": -3.2,
-   "fuels": -11.4,
-   "transport": -1.9
+   "fuels": -11.4
   },
   {
    "date": "2015-08",
    "food": -2.4,
    "energy": -3.5,
-   "fuels": -12.9,
-   "transport": -2.6
+   "fuels": -12.9
   },
   {
    "date": "2015-09",
    "food": -2.3,
    "energy": -4.3,
-   "fuels": -14.9,
-   "transport": -2.7
+   "fuels": -14.9
   },
   {
    "date": "2015-10",
    "food": -2.7,
    "energy": -4.1,
-   "fuels": -14.0,
-   "transport": -2.6
+   "fuels": -14.0
   },
   {
    "date": "2015-11",
    "food": -2.4,
    "energy": -4.2,
-   "fuels": -12.9,
-   "transport": -2.1
+   "fuels": -12.9
   },
   {
    "date": "2015-12",
    "food": -2.9,
    "energy": -4.0,
-   "fuels": -11.4,
-   "transport": -0.2
+   "fuels": -11.4
   },
   {
    "date": "2016-01",
    "food": -2.6,
    "energy": -3.7,
-   "fuels": -7.3,
-   "transport": -0.7
+   "fuels": -7.3
   },
   {
    "date": "2016-02",
    "food": -2.3,
    "energy": -4.0,
-   "fuels": -7.3,
-   "transport": -1.1
+   "fuels": -7.3
   },
   {
    "date": "2016-03",
    "food": -2.7,
    "energy": -3.7,
-   "fuels": -9.2,
-   "transport": -0.1
+   "fuels": -9.2
   },
   {
    "date": "2016-04",
    "food": -2.5,
    "energy": -4.2,
-   "fuels": -7.5,
-   "transport": -1.3
+   "fuels": -7.5
   },
   {
    "date": "2016-05",
    "food": -2.8,
    "energy": -3.7,
-   "fuels": -6.8,
-   "transport": -1.0
+   "fuels": -6.8
   },
   {
    "date": "2016-06",
    "food": -2.9,
    "energy": -3.4,
-   "fuels": -5.5,
-   "transport": -0.2
+   "fuels": -5.5
   },
   {
    "date": "2016-07",
    "food": -2.6,
    "energy": -3.3,
-   "fuels": -4.3,
-   "transport": 0.2
+   "fuels": -4.3
   },
   {
    "date": "2016-08",
    "food": -2.2,
    "energy": -3.1,
-   "fuels": -2.6,
-   "transport": 1.0
+   "fuels": -2.6
   },
   {
    "date": "2016-09",
    "food": -2.3,
    "energy": -2.0,
-   "fuels": 1.4,
-   "transport": 1.2
+   "fuels": 1.4
   },
   {
    "date": "2016-10",
    "food": -2.4,
    "energy": -1.5,
-   "fuels": 4.7,
-   "transport": 2.3
+   "fuels": 4.7
   },
   {
    "date": "2016-11",
    "food": -2.0,
    "energy": -1.6,
-   "fuels": 7.4,
-   "transport": 2.5
+   "fuels": 7.4
   },
   {
    "date": "2016-12",
    "food": -1.1,
    "energy": -1.1,
-   "fuels": 10.0,
-   "transport": 3.7
+   "fuels": 10.0
   },
   {
    "date": "2017-01",
    "food": -0.5,
    "energy": -0.8,
-   "fuels": 16.8,
-   "transport": 5.7
+   "fuels": 16.8
   },
   {
    "date": "2017-02",
    "food": 0.2,
    "energy": -0.4,
-   "fuels": 19.4,
-   "transport": 6.9
+   "fuels": 19.4
   },
   {
    "date": "2017-03",
    "food": 1.2,
    "energy": 0.9,
-   "fuels": 17.1,
-   "transport": 4.7
+   "fuels": 17.1
   },
   {
    "date": "2017-04",
    "food": 1.5,
    "energy": 2.6,
-   "fuels": 11.5,
-   "transport": 6.4
+   "fuels": 11.5
   },
   {
    "date": "2017-05",
    "food": 2.1,
    "energy": 4.5,
-   "fuels": 7.5,
-   "transport": 4.7
+   "fuels": 7.5
   },
   {
    "date": "2017-06",
    "food": 2.3,
    "energy": 4.2,
-   "fuels": 4.1,
-   "transport": 3.7
+   "fuels": 4.1
   },
   {
    "date": "2017-07",
    "food": 2.6,
    "energy": 5.1,
-   "fuels": 2.0,
-   "transport": 3.1
+   "fuels": 2.0
   },
   {
    "date": "2017-08",
    "food": 2.1,
    "energy": 5.3,
-   "fuels": 5.1,
-   "transport": 3.2
+   "fuels": 5.1
   },
   {
    "date": "2017-09",
    "food": 3.0,
    "energy": 5.2,
-   "fuels": 6.1,
-   "transport": 4.2
+   "fuels": 6.1
   },
   {
    "date": "2017-10",
    "food": 4.0,
    "energy": 6.0,
-   "fuels": 3.4,
-   "transport": 4.0
+   "fuels": 3.4
   },
   {
    "date": "2017-11",
    "food": 4.1,
    "energy": 6.4,
-   "fuels": 3.5,
-   "transport": 4.5
+   "fuels": 3.5
   },
   {
    "date": "2017-12",
    "food": 3.9,
    "energy": 6.3,
-   "fuels": 4.7,
-   "transport": 3.8
+   "fuels": 4.7
   },
   {
    "date": "2018-01",
    "food": 3.7,
    "energy": 6.4,
-   "fuels": 2.1,
-   "transport": 3.4
+   "fuels": 2.1
   },
   {
    "date": "2018-02",
    "food": 3.0,
    "energy": 6.4,
-   "fuels": 0.8,
-   "transport": 2.8
+   "fuels": 0.8
   },
   {
    "date": "2018-03",
    "food": 3.0,
    "energy": 6.2,
-   "fuels": 0.3,
-   "transport": 3.0
+   "fuels": 0.3
   },
   {
    "date": "2018-04",
    "food": 2.7,
    "energy": 5.7,
-   "fuels": 3.1,
-   "transport": 2.4
+   "fuels": 3.1
   },
   {
    "date": "2018-05",
    "food": 2.3,
    "energy": 3.7,
-   "fuels": 8.0,
-   "transport": 4.7
+   "fuels": 8.0
   },
   {
    "date": "2018-06",
    "food": 2.0,
    "energy": 6.0,
-   "fuels": 11.6,
-   "transport": 5.5
+   "fuels": 11.6
   },
   {
    "date": "2018-07",
    "food": 2.3,
    "energy": 6.6,
-   "fuels": 12.4,
-   "transport": 5.7
+   "fuels": 12.4
   },
   {
    "date": "2018-08",
    "food": 2.5,
    "energy": 6.5,
-   "fuels": 11.7,
-   "transport": 6.1
+   "fuels": 11.7
   },
   {
    "date": "2018-09",
    "food": 1.5,
    "energy": 8.0,
-   "fuels": 10.8,
-   "transport": 5.6
+   "fuels": 10.8
   },
   {
    "date": "2018-10",
    "food": 0.9,
    "energy": 9.0,
-   "fuels": 11.9,
-   "transport": 5.4
+   "fuels": 11.9
   },
   {
    "date": "2018-11",
    "food": 0.5,
    "energy": 8.5,
-   "fuels": 8.9,
-   "transport": 4.9
+   "fuels": 8.9
   },
   {
    "date": "2018-12",
    "food": 0.7,
    "energy": 8.1,
-   "fuels": 3.4,
-   "transport": 3.4
+   "fuels": 3.4
   },
   {
    "date": "2019-01",
    "food": 0.9,
    "energy": 1.4,
-   "fuels": 0.7,
-   "transport": 3.2
+   "fuels": 0.7
   },
   {
    "date": "2019-02",
    "food": 1.1,
    "energy": 1.6,
-   "fuels": 0.5,
-   "transport": 3.1
+   "fuels": 0.5
   },
   {
    "date": "2019-03",
    "food": 0.8,
    "energy": 1.5,
-   "fuels": 2.9,
-   "transport": 3.3
+   "fuels": 2.9
   },
   {
    "date": "2019-04",
    "food": 0.7,
    "energy": 10.5,
-   "fuels": 4.3,
-   "transport": 4.7
+   "fuels": 4.3
   },
   {
    "date": "2019-05",
    "food": 1.0,
    "energy": 10.4,
-   "fuels": 3.4,
-   "transport": 2.8
+   "fuels": 3.4
   },
   {
    "date": "2019-06",
    "food": 1.6,
    "energy": 7.9,
-   "fuels": 0.7,
-   "transport": 2.4
+   "fuels": 0.7
   },
   {
    "date": "2019-07",
    "food": 1.4,
    "energy": 6.5,
-   "fuels": 0.2,
-   "transport": 1.5
+   "fuels": 0.2
   },
   {
    "date": "2019-08",
    "food": 1.8,
    "energy": 6.5,
-   "fuels": -0.1,
-   "transport": 1.4
+   "fuels": -0.1
   },
   {
    "date": "2019-09",
    "food": 1.8,
    "energy": 4.9,
-   "fuels": -2.1,
-   "transport": 0.6
+   "fuels": -2.1
   },
   {
    "date": "2019-10",
    "food": 1.3,
    "energy": -1.9,
-   "fuels": -3.3,
-   "transport": 0.8
+   "fuels": -3.3
   },
   {
    "date": "2019-11",
    "food": 2.1,
    "energy": -1.7,
-   "fuels": -2.9,
-   "transport": 0.9
+   "fuels": -2.9
   },
   {
    "date": "2019-12",
    "food": 1.7,
    "energy": -1.6,
-   "fuels": 1.0,
-   "transport": 0.7
+   "fuels": 1.0
   },
   {
    "date": "2020-01",
    "food": 1.4,
    "energy": 4.9,
-   "fuels": 4.7,
-   "transport": 1.8
+   "fuels": 4.7
   },
   {
    "date": "2020-02",
    "food": 1.2,
    "energy": 4.4,
-   "fuels": 2.8,
-   "transport": 1.8
+   "fuels": 2.8
   },
   {
    "date": "2020-03",
    "food": 1.3,
    "energy": 3.9,
-   "fuels": -2.4,
-   "transport": 1.3
+   "fuels": -2.4
   },
   {
    "date": "2020-04",
    "food": 1.3,
    "energy": -6.8,
-   "fuels": -12.2,
-   "transport": -1.0
+   "fuels": -12.2
   },
   {
    "date": "2020-05",
    "food": 1.8,
    "energy": -7.0,
-   "fuels": -16.7,
-   "transport": -1.7
+   "fuels": -16.7
   },
   {
    "date": "2020-06",
    "food": 1.1,
    "energy": -6.6,
-   "fuels": -16.4,
-   "transport": -1.6
+   "fuels": -16.4
   },
   {
    "date": "2020-07",
    "food": 0.8,
    "energy": -6.6,
-   "fuels": -12.0,
-   "transport": -0.7
+   "fuels": -12.0
   },
   {
    "date": "2020-08",
    "food": 0.4,
    "energy": -6.7,
-   "fuels": -11.4,
-   "transport": -1.0
+   "fuels": -11.4
   },
   {
    "date": "2020-09",
    "food": -0.1,
    "energy": -6.8,
-   "fuels": -10.6,
-   "transport": 0.9
+   "fuels": -10.6
   },
   {
    "date": "2020-10",
    "food": 0.6,
    "energy": -8.8,
-   "fuels": -10.2,
-   "transport": 1.2
+   "fuels": -10.2
   },
   {
    "date": "2020-11",
    "food": -0.6,
    "energy": -8.8,
-   "fuels": -10.0,
-   "transport": 1.0
+   "fuels": -10.0
   },
   {
    "date": "2020-12",
    "food": -1.4,
    "energy": -8.5,
-   "fuels": -8.3,
-   "transport": 1.9
+   "fuels": -8.3
   },
   {
    "date": "2021-01",
    "food": -0.7,
    "energy": -8.4,
-   "fuels": -8.2,
-   "transport": 2.1
+   "fuels": -8.2
   },
   {
    "date": "2021-02",
    "food": -0.6,
    "energy": -7.9,
-   "fuels": -3.5,
-   "transport": 2.4
+   "fuels": -3.5
   },
   {
    "date": "2021-03",
    "food": -1.4,
    "energy": -7.3,
-   "fuels": 3.5,
-   "transport": 3.7
+   "fuels": 3.5
   },
   {
    "date": "2021-04",
    "food": -0.4,
    "energy": 2.4,
-   "fuels": 13.6,
-   "transport": 4.8
+   "fuels": 13.6
   },
   {
    "date": "2021-05",
    "food": -1.3,
    "energy": 2.6,
-   "fuels": 17.9,
-   "transport": 6.3
+   "fuels": 17.9
   },
   {
    "date": "2021-06",
    "food": -0.6,
    "energy": 2.5,
-   "fuels": 20.3,
-   "transport": 7.2
+   "fuels": 20.3
   },
   {
    "date": "2021-07",
    "food": -0.6,
    "energy": 2.6,
-   "fuels": 17.7,
-   "transport": 7.7
+   "fuels": 17.7
   },
   {
    "date": "2021-08",
    "food": 0.3,
    "energy": 2.6,
-   "fuels": 17.7,
-   "transport": 7.8
+   "fuels": 17.7
   },
   {
    "date": "2021-09",
    "food": 0.8,
    "energy": 2.8,
-   "fuels": 17.8,
-   "transport": 8.4
+   "fuels": 17.8
   },
   {
    "date": "2021-10",
    "food": 1.2,
    "energy": 22.9,
-   "fuels": 21.5,
-   "transport": 9.9
+   "fuels": 21.5
   },
   {
    "date": "2021-11",
    "food": 2.5,
    "energy": 23.2,
-   "fuels": 28.5,
-   "transport": 12.5
+   "fuels": 28.5
   },
   {
    "date": "2021-12",
    "food": 4.2,
    "energy": 22.7,
-   "fuels": 26.8,
-   "transport": 11.9
+   "fuels": 26.8
   },
   {
    "date": "2022-01",
    "food": 4.3,
    "energy": 22.9,
-   "fuels": 23.6,
-   "transport": 11.3
+   "fuels": 23.6
   },
   {
    "date": "2022-02",
    "food": 5.1,
    "energy": 23.1,
-   "fuels": 22.3,
-   "transport": 11.5
+   "fuels": 22.3
   },
   {
    "date": "2022-03",
    "food": 5.9,
    "energy": 24.8,
-   "fuels": 30.7,
-   "transport": 13.4
+   "fuels": 30.7
   },
   {
    "date": "2022-04",
    "food": 6.7,
    "energy": 69.6,
-   "fuels": 31.4,
-   "transport": 13.5
+   "fuels": 31.4
   },
   {
    "date": "2022-05",
    "food": 8.6,
    "energy": 69.9,
-   "fuels": 32.8,
-   "transport": 13.8
+   "fuels": 32.8
   },
   {
    "date": "2022-06",
    "food": 9.8,
    "energy": 70.2,
-   "fuels": 42.3,
-   "transport": 14.9
+   "fuels": 42.3
   },
   {
    "date": "2022-07",
    "food": 12.6,
    "energy": 70.3,
-   "fuels": 43.7,
-   "transport": 14.8
+   "fuels": 43.7
   },
   {
    "date": "2022-08",
    "food": 13.1,
    "energy": 69.7,
-   "fuels": 32.1,
-   "transport": 12.0
+   "fuels": 32.1
   },
   {
    "date": "2022-09",
    "food": 14.5,
    "energy": 70.1,
-   "fuels": 26.5,
-   "transport": 10.6
+   "fuels": 26.5
   },
   {
    "date": "2022-10",
    "food": 16.2,
    "energy": 89.7,
-   "fuels": 22.2,
-   "transport": 8.9
+   "fuels": 22.2
   },
   {
    "date": "2022-11",
    "food": 16.4,
    "energy": 89.0,
-   "fuels": 17.2,
-   "transport": 7.2
+   "fuels": 17.2
   },
   {
    "date": "2022-12",
    "food": 16.8,
    "energy": 88.7,
-   "fuels": 11.5,
-   "transport": 6.5
+   "fuels": 11.5
   },
   {
    "date": "2023-01",
    "food": 16.7,
    "energy": 89.5,
-   "fuels": 7.7,
-   "transport": 3.1
+   "fuels": 7.7
   },
   {
    "date": "2023-02",
    "food": 18.0,
    "energy": 88.6,
-   "fuels": 4.6,
-   "transport": 2.9
+   "fuels": 4.6
   },
   {
    "date": "2023-03",
    "food": 19.1,
    "energy": 85.6,
-   "fuels": -5.9,
-   "transport": 0.8
+   "fuels": -5.9
   },
   {
    "date": "2023-04",
    "food": 19.0,
    "energy": 24.3,
-   "fuels": -8.9,
-   "transport": 1.5
+   "fuels": -8.9
   },
   {
    "date": "2023-05",
    "food": 18.3,
    "energy": 23.7,
-   "fuels": -13.1,
-   "transport": 1.2
+   "fuels": -13.1
   },
   {
    "date": "2023-06",
    "food": 17.3,
    "energy": 23.3,
-   "fuels": -22.7,
-   "transport": -1.8
+   "fuels": -22.7
   },
   {
    "date": "2023-07",
    "food": 14.8,
    "energy": 4.5,
-   "fuels": -24.9,
-   "transport": -2.0
+   "fuels": -24.9
   },
   {
    "date": "2023-08",
    "food": 13.6,
    "energy": 5.3,
-   "fuels": -16.4,
-   "transport": -0.5
+   "fuels": -16.4
   },
   {
    "date": "2023-09",
    "food": 12.1,
    "energy": 5.0,
-   "fuels": -9.7,
-   "transport": 0.7
+   "fuels": -9.7
   },
   {
    "date": "2023-10",
    "food": 10.1,
    "energy": -21.6,
-   "fuels": -7.6,
-   "transport": 0.5
+   "fuels": -7.6
   },
   {
    "date": "2023-11",
    "food": 9.2,
    "energy": -21.6,
-   "fuels": -10.6,
-   "transport": -1.5
+   "fuels": -10.6
   },
   {
    "date": "2023-12",
    "food": 8.0,
    "energy": -21.5,
-   "fuels": -10.8,
-   "transport": -1.1
+   "fuels": -10.8
   },
   {
    "date": "2024-01",
    "food": 6.9,
    "energy": -18.3,
-   "fuels": -9.2,
-   "transport": -0.3
+   "fuels": -9.2
   },
   {
    "date": "2024-02",
    "food": 5.0,
    "energy": -18.2,
-   "fuels": -6.5,
-   "transport": -0.1
+   "fuels": -6.5
   },
   {
    "date": "2024-03",
    "food": 4.0,
    "energy": -18.2,
-   "fuels": -3.7,
-   "transport": 0.1
+   "fuels": -3.7
   },
   {
    "date": "2024-04",
    "food": 2.9,
    "energy": -27.1,
-   "fuels": -0.3,
-   "transport": 0.1
+   "fuels": -0.3
   },
   {
    "date": "2024-05",
    "food": 1.7,
    "energy": -27.1,
-   "fuels": 2.3,
-   "transport": 0.5
+   "fuels": 2.3
   },
   {
    "date": "2024-06",
    "food": 1.5,
    "energy": -27.2,
-   "fuels": 2.6,
-   "transport": 0.9
+   "fuels": 2.6
   },
   {
    "date": "2024-07",
    "food": 1.5,
    "energy": -20.1,
-   "fuels": 1.8,
-   "transport": 0.2
+   "fuels": 1.8
   },
   {
    "date": "2024-08",
    "food": 1.3,
    "energy": -20.5,
-   "fuels": -3.4,
-   "transport": 1.3
+   "fuels": -3.4
   },
   {
    "date": "2024-09",
    "food": 1.9,
    "energy": -20.7,
-   "fuels": -10.4,
-   "transport": -2.2
+   "fuels": -10.4
   },
   {
    "date": "2024-10",
    "food": 1.9,
    "energy": -7.1,
-   "fuels": -13.7,
-   "transport": -1.9
+   "fuels": -13.7
   },
   {
    "date": "2024-11",
    "food": 2.0,
    "energy": -7.0,
-   "fuels": -10.9,
-   "transport": -0.9
+   "fuels": -10.9
   },
   {
    "date": "2024-12",
    "food": 2.0,
    "energy": -6.8,
-   "fuels": -5.0,
-   "transport": -0.6
+   "fuels": -5.0
   },
   {
    "date": "2025-01",
    "food": 3.3,
    "energy": -9.9,
-   "fuels": -2.2,
-   "transport": 1.7
+   "fuels": -2.2
   },
   {
    "date": "2025-02",
    "food": 3.3,
    "energy": -10.0,
-   "fuels": -2.5,
-   "transport": 1.8
+   "fuels": -2.5
   },
   {
    "date": "2025-03",
    "food": 3.0,
    "energy": -10.1,
-   "fuels": -5.3,
-   "transport": 1.2
+   "fuels": -5.3
   },
   {
    "date": "2025-04",
    "food": 3.4,
    "energy": 6.7,
-   "fuels": -9.3,
-   "transport": 3.3
+   "fuels": -9.3
   },
   {
    "date": "2025-05",
    "food": 4.4,
    "energy": 6.7,
-   "fuels": -10.9,
-   "transport": 0.7
+   "fuels": -10.9
   },
   {
    "date": "2025-06",
    "food": 4.5,
    "energy": 6.8,
-   "fuels": -9.0,
-   "transport": 1.7
+   "fuels": -9.0
   },
   {
    "date": "2025-07",
    "food": 4.9,
    "energy": 9.2,
-   "fuels": -6.7,
-   "transport": 3.2
+   "fuels": -6.7
   },
   {
    "date": "2025-08",
    "food": 5.1,
    "energy": 9.3,
-   "fuels": -4.9,
-   "transport": 2.4
+   "fuels": -4.9
   },
   {
    "date": "2025-09",
    "food": 4.5,
    "energy": 9.4,
-   "fuels": -1.2,
-   "transport": 3.8
+   "fuels": -1.2
   },
   {
    "date": "2025-10",
    "food": 4.9,
    "energy": 2.2,
-   "fuels": 1.4,
-   "transport": 3.8
+   "fuels": 1.4
   },
   {
    "date": "2025-11",
    "food": 4.2,
    "energy": 2.6,
-   "fuels": 1.0,
-   "transport": 3.7
+   "fuels": 1.0
   },
   {
    "date": "2025-12",
    "food": 4.5,
    "energy": 2.5,
-   "fuels": 0.9,
-   "transport": 4.0
+   "fuels": 0.9
   },
   {
    "date": "2026-01",
    "food": 3.6,
    "energy": 2.1,
-   "fuels": -2.2,
-   "transport": 2.7
+   "fuels": -2.2
   },
   {
    "date": "2026-02",
    "food": 3.3,
    "energy": 2.1,
-   "fuels": -4.6,
-   "transport": 2.4
+   "fuels": -4.6
   },
   {
    "date": "2026-03",
    "food": 3.7,
    "energy": 5.0,
-   "fuels": 4.9,
-   "transport": 4.7
+   "fuels": 4.9
   },
   {
    "date": "2026-04",
    "food": 3.0,
    "energy": -5.7,
-   "fuels": 23.0,
-   "transport": 4.5
+   "fuels": 23.0
   },
   {
    "date": "2026-05",
    "food": 2.2,
    "energy": -6.2,
-   "fuels": 24.6,
-   "transport": 6.8
+   "fuels": 24.6
   },
   {
    "date": "2026-06",
    "food": 1.7,
    "energy": -6.6,
-   "fuels": 21.3,
-   "transport": 5.7
+   "fuels": 21.3
   },
   {
    "date": "2026-07",
    "food": 1.3,
    "energy": 5.0,
-   "fuels": 15.5,
-   "transport": 3.6
+   "fuels": 15.5
   },
   {
    "date": "2026-08",
    "food": 1.3,
    "energy": 6.0,
-   "fuels": 23.0,
-   "transport": 4.6
+   "fuels": 23.0
   },
   {
    "date": "2026-09",
    "food": 1.3,
    "energy": 7.8,
-   "fuels": 29.8,
-   "transport": 6.6
+   "fuels": 29.8
   }
  ],
  "theme": "blue-amber",

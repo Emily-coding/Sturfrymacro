@@ -270,26 +270,24 @@ def inflation_section(fc, sources):
     }
 
 
-# Essentials: one colour per component; the Bank's projection for a component is
-# dashed in the same colour. (variable in forecasts.json, or None if not forecast)
+# Essentials: one colour per component; the Bank's projection for it (variable in
+# forecasts.json) is dashed in the same colour.
 ESSENTIALS = [
     ("food", "Food and non-alcoholic drinks", "#27AB83", "cpi_food_monthly"),
     ("energy", "Household energy", "#BA2525", "cpi_elec_gas_monthly"),
     ("fuels", "Motor fuels", "#DE911D", "cpi_fuels_monthly"),
-    ("transport", "Transport", "#9FB3C8", None),
 ]
 
 
 def essentials_chart(fc, sources):
-    """Inflation in food, household energy, motor fuels and transport (ONS),
-    with Bank of England staff projections for the next six months where the Bank
-    publishes them (food, electricity and gas, motor fuels)."""
+    """Inflation in food, household energy and motor fuels (ONS), with Bank of England
+    staff projections for the next six months."""
     chart = chart_file("inflation", "cpi-essentials")
     lines, forecasts = [], []
     for key, name, colour, var in ESSENTIALS:
         pts = [p for p in series(chart, key) if p[0] >= START_M]
         lines.append(line(name, pts, colour, "outturn"))
-        proj = after([list(p) for p in fc.get(var, {}).get("boe", [])], pts[-1][0], "9999") if var else []
+        proj = after([list(p) for p in fc.get(var, {}).get("boe", [])], pts[-1][0], "9999")
         ln = line(f"{name}, Bank of England projection", proj, colour, "forecast", pts[-1])
         if ln:
             forecasts.append({**ln, "legend": False})  # one shared legend entry instead (legend_extra)
@@ -299,8 +297,7 @@ def essentials_chart(fc, sources):
         "lines": lines + forecasts,
         "legend_extra": [{"name": f"Bank of England staff projection ({vintage})", "colour": "#627D98", "kind": "forecast"}]
                         if forecasts else [],
-        "note": chart["note"] + " Dashed lines are Bank of England staff projections for the next six months, published "
-                "for food, electricity and gas, and motor fuels only (not transport as a whole). The Bank's "
+        "note": chart["note"] + " Dashed lines are Bank of England staff projections for the next six months. The Bank's "
                 "energy projection covers electricity and gas, a little narrower than the ONS household energy line.",
         "source": "ONS; Bank of England",
     }

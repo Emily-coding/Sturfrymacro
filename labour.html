@@ -34,11 +34,13 @@
   .soon { background: var(--panel); border-radius: 8px; padding: 14px 16px; color: var(--ink-3); margin-bottom: 22px; }
   .charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 520px), 1fr)); gap: 28px; }
   figure { margin: 0 0 18px; min-width: 0; }
+  figure.wide { grid-column: 1 / -1; }  /* time-series charts span the row */
   figure h4 { font-size: 18px; font-weight: 600; margin: 0; }
   .units { display: flex; justify-content: space-between; gap: 12px; color: var(--ink-2); font-size: 14px; margin: 1px 0 8px; }
   .legend { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 13.5px; color: var(--ink-2); margin-bottom: 6px; }
   .legend span { display: inline-flex; align-items: center; gap: 6px; }
   .legend i { width: 18px; height: 0; display: inline-block; border-top: 2.5px solid; }
+  .legend i.dot { width: 9px; height: 9px; border: 0; border-radius: 50%; }
   .canvas { position: relative; height: 320px; }
   figcaption { color: var(--ink-3); font-size: 12.5px; margin-top: 8px; }
   figcaption a, footer a { color: var(--ink-3); }
@@ -63,8 +65,9 @@
 // chart here means adding it to the config, then listing its slug below.
 const SECTIONS = [
   {id: "hiring", title: "Hiring",
-   intro: "How strongly firms want to take on staff. Official vacancies are set against what businesses tell the Bank of England's Agents about how hard it is to recruit.",
-   charts: ["hiring-vacancies-agents"]},
+   intro: "How strongly firms want to take on staff. Official vacancies are set against what businesses tell the Bank of England's Agents about how hard it is to recruit. " +
+          "Below, the Beveridge curve shows whether vacancies and unemployment are moving together as usual, and the wage Phillips curve how pay growth responds to slack.",
+   charts: ["hiring-vacancies-agents", "beveridge-curve", "phillips-curve"]},
   {id: "dynamism", title: "Dynamism",
    intro: "How much people move: between jobs, and into and out of work.",
    charts: []},
@@ -127,8 +130,62 @@ function draw(canvas, c) {
   });
 }
 
+// Scatter charts (Beveridge, Phillips curves): one dot per period, the series with
+// axis "x" across, the other up; the latest `highlight_last` periods in amber.
+// Mirrors scatter_points() in ukmacro/charts.py.
+function scatterPoints(c) {
+  const xs = c.series.find(s => s.axis === "x"), ys = c.series.find(s => s.axis !== "x");
+  const pts = c.data.filter(r => r[xs.key] != null && r[ys.key] != null)
+                    .map(r => ({x: r[xs.key], y: r[ys.key], d: r.date}));
+  const n = c.highlight_last || 0;
+  return n ? [pts.slice(0, -n), pts.slice(-n)] : [pts, []];
+}
+
+function drawScatter(canvas, c) {
+  const [earlier, latest] = scatterPoints(c);
+  // write the newest dot's date beside it
+  const labelLatest = {
+    id: "labelLatest",
+    afterDatasetsDraw(ch) {
+      const meta = ch.getDatasetMeta(1), pt = meta.data[meta.data.length - 1];
+      if (!pt) return;
+      const {ctx} = ch; ctx.save();
+      ctx.font = '600 13px "Source Sans 3", sans-serif'; ctx.textBaseline = "bottom";
+      ctx.lineWidth = 3; ctx.strokeStyle = "#FFFFFF"; ctx.fillStyle = "#102A43";   // white halo over dots
+      const t = niceLabel(latest[latest.length - 1].d);
+      ctx.strokeText(t, pt.x + 7, pt.y - 5); ctx.fillText(t, pt.x + 7, pt.y - 5);
+      ctx.restore();
+    },
+  };
+  new Chart(canvas, {
+    type: "scatter",
+    data: {datasets: [
+      // `order`: lower is drawn on top, so the latest months sit above the rest
+      {label: "earlier", data: earlier, order: 2, backgroundColor: "rgba(24,111,175,0.4)", borderWidth: 0, pointRadius: 3, pointHoverRadius: 5},
+      {label: "latest", data: latest, order: 0, backgroundColor: COLOURS[1], borderColor: "#FFFFFF", borderWidth: 1, pointRadius: 5, pointHoverRadius: 6},
+      // trend curve (worked out by the builder), between the two sets of dots
+      ...(c.trend ? [{type: "line", label: "trend", data: c.trend.map(([x, y]) => ({x, y})), order: 1,
+                      borderColor: "#102A43", borderWidth: 2, pointRadius: 0, pointHoverRadius: 0, tension: 0}] : []),
+    ]},
+    options: {
+      maintainAspectRatio: false, animation: false,
+      plugins: {legend: {display: false}, tooltip: {callbacks: {
+        label: it => ` ${niceLabel(it.raw.d)}: ${fmt(it.raw.x, 2)}, ${fmt(it.raw.y, 2)}`,
+      }, filter: it => it.dataset.label !== "trend"}},
+      scales: {
+        x: {title: {display: true, text: c.units_x, color: "#486581"}, grid: {color: "#D9E2EC"}, border: {color: "#627D98"},
+            ticks: {callback: v => fmt(v, Number.isInteger(v) ? 0 : 1)}},
+        y: {grid: {color: ctx => ctx.tick.value === 0 ? "#9FB3C8" : "#D9E2EC"}, border: {color: "#627D98"},
+            ticks: {callback: v => fmt(v, Number.isInteger(v) ? 0 : 1)}},
+      },
+    },
+    plugins: [labelLatest],
+  });
+}
+
 function figure(c) {
-  const fig = el("figure");
+  if (c.type === "scatter") return scatterFigure(c);
+  const fig = el("figure", "wide");
   fig.append(el("h4", null, c.title),
              el("div", "units", `<span>${c.units}</span>${c.units_right ? `<span>${c.units_right}</span>` : ""}`));
   if (c.series.length > 1) {
@@ -142,6 +199,23 @@ function figure(c) {
   const png = `img/labour-markets/${c.slug}.png`;
   fig.append(el("figcaption", null, `Source: ${c.source}. ${c.note || ""} Latest: ${niceLabel(c.data_through)}. <a href="${png}">PNG</a>`));
   requestAnimationFrame(() => draw(canvas, c));
+  return fig;
+}
+
+function scatterFigure(c) {
+  const [earlier, latest] = scatterPoints(c);
+  const span = pts => pts.length ? `${niceLabel(pts[0].d)} to ${niceLabel(pts[pts.length - 1].d)}` : "";
+  const fig = el("figure");
+  fig.append(el("h4", null, c.title), el("div", "units", `<span>${c.units}</span>`));
+  fig.append(el("div", "legend",
+    `<span><i class="dot" style="background:rgba(24,111,175,0.4)"></i>${span(earlier)}</span>` +
+    (latest.length ? `<span><i class="dot" style="background:${COLOURS[1]}"></i>Latest ${latest.length} months: ${span(latest)}</span>` : "") +
+    (c.trend ? `<span><i style="border-color:#102A43"></i>Trend</span>` : "")));
+  const holder = el("div", "canvas"), canvas = el("canvas");
+  canvas.setAttribute("role", "img"); canvas.setAttribute("aria-label", c.title);
+  holder.append(canvas); fig.append(holder);
+  fig.append(el("figcaption", null, `Source: ${c.source}. ${c.note || ""} <a href="img/labour-markets/${c.slug}.png">PNG</a>`));
+  requestAnimationFrame(() => drawScatter(canvas, c));
   return fig;
 }
 

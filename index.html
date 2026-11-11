@@ -36,6 +36,8 @@
   nav a.nav-page { margin-left: auto; }
   section { padding: 34px 0 10px; border-bottom: 1px solid var(--grid); scroll-margin-top: 50px; }
   h2 { font-size: 24px; font-weight: 700; margin: 0 0 14px; }
+  h2 a.more { font-size: 16px; font-weight: 600; color: var(--blue); text-decoration: none; margin-left: 14px; white-space: nowrap; }
+  h2 a.more:hover { text-decoration: underline; }
 
   /* Summary box: latest outturn, then forecasts for the next releases */
   .box { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; margin-bottom: 22px; }
@@ -239,12 +241,17 @@ fetch("data/dashboard/dashboard.json", {cache: "no-cache"})
     d.sections.forEach(s => {
       nav.append(el("a", null, s.title)); nav.lastChild.href = "#" + s.id;
     });
-    // separate pages: labour market detail, and a fortnightly summary of market commentary
-    nav.append(el("a", "nav-page", "Labour market indicators →")); nav.lastChild.href = "labour.html";
-    nav.append(el("a", null, "Market commentary →")); nav.lastChild.href = "commentary.html";
+    // separate page: fortnightly summary of external market commentary
+    nav.append(el("a", "nav-page", "Market commentary →")); nav.lastChild.href = "commentary.html";
     d.sections.forEach(s => {
       const sec = el("section"); sec.id = s.id;
-      sec.append(el("h2", null, s.title), renderBox(s.box));
+      sec.append(el("h2", null, s.title));
+      // the labour market section links to its own page of more detailed indicators
+      if (s.id === "labour") {
+        sec.lastChild.append(el("a", "more", "More labour market indicators →"));
+        sec.lastChild.lastChild.href = "labour.html";
+      }
+      sec.append(renderBox(s.box));
       const grid = el("div", "charts");
       s.charts.forEach(c => { const r = renderChart(c); grid.append(r.fig); requestAnimationFrame(r.draw); });
       sec.append(grid); main.append(sec);

@@ -1,0 +1,1742 @@
+{
+ "slug": "phillips-curve",
+ "category": "labour-markets",
+ "title": "Wage Phillips curve",
+ "type": "scatter",
+ "freq": "M",
+ "units": "Private-sector regular pay growth, % year on year",
+ "units_x": "Unemployment rate, %",
+ "highlight_last": 6,
+ "source": "ONS Labour Force Survey and Average Weekly Earnings (LMS)",
+ "note": "One dot per month; the line is an illustrative curve. Pay growth is nominal private-sector regular pay (excluding bonuses), three-month average on a year earlier, as published (1dp). Unemployment rate aged 16+, calculated from ONS levels to three decimal places. 2020-21 pay growth is distorted by furlough and by low-paid jobs dropping out of the figures.",
+ "series": [
+  {
+   "key": "unemployment",
+   "label": "Unemployment rate",
+   "_source": "live",
+   "axis": "x",
+   "_date": "2026-07",
+   "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peoplenotinwork/unemployment/timeseries/mgsc/lms"
+  },
+  {
+   "key": "pay_growth",
+   "label": "Private-sector regular pay growth",
+   "_source": "live",
+   "_date": "2026-08",
+   "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/timeseries/kaj4/lms"
+  }
+ ],
+ "data_through": "2026-08",
+ "next_release": "2026-11-17",
+ "status": "ok",
+ "data": [
+  {
+   "date": "2001-01",
+   "unemployment": 5.204,
+   "pay_growth": null
+  },
+  {
+   "date": "2001-02",
+   "unemployment": 5.088,
+   "pay_growth": null
+  },
+  {
+   "date": "2001-03",
+   "unemployment": 5.01,
+   "pay_growth": 4.1
+  },
+  {
+   "date": "2001-04",
+   "unemployment": 4.912,
+   "pay_growth": 4.5
+  },
+  {
+   "date": "2001-05",
+   "unemployment": 5.032,
+   "pay_growth": 4.8
+  },
+  {
+   "date": "2001-06",
+   "unemployment": 5.046,
+   "pay_growth": 4.8
+  },
+  {
+   "date": "2001-07",
+   "unemployment": 5.079,
+   "pay_growth": 4.8
+  },
+  {
+   "date": "2001-08",
+   "unemployment": 5.092,
+   "pay_growth": 5.1
+  },
+  {
+   "date": "2001-09",
+   "unemployment": 5.088,
+   "pay_growth": 5.0
+  },
+  {
+   "date": "2001-10",
+   "unemployment": 5.106,
+   "pay_growth": 4.7
+  },
+  {
+   "date": "2001-11",
+   "unemployment": 5.184,
+   "pay_growth": 4.5
+  },
+  {
+   "date": "2001-12",
+   "unemployment": 5.183,
+   "pay_growth": 4.5
+  },
+  {
+   "date": "2002-01",
+   "unemployment": 5.149,
+   "pay_growth": 4.4
+  },
+  {
+   "date": "2002-02",
+   "unemployment": 5.169,
+   "pay_growth": 4.7
+  },
+  {
+   "date": "2002-03",
+   "unemployment": 5.181,
+   "pay_growth": 4.9
+  },
+  {
+   "date": "2002-04",
+   "unemployment": 5.24,
+   "pay_growth": 4.8
+  },
+  {
+   "date": "2002-05",
+   "unemployment": 5.161,
+   "pay_growth": 4.5
+  },
+  {
+   "date": "2002-06",
+   "unemployment": 5.188,
+   "pay_growth": 4.4
+  },
+  {
+   "date": "2002-07",
+   "unemployment": 5.219,
+   "pay_growth": 4.3
+  },
+  {
+   "date": "2002-08",
+   "unemployment": 5.308,
+   "pay_growth": 4.0
+  },
+  {
+   "date": "2002-09",
+   "unemployment": 5.229,
+   "pay_growth": 3.5
+  },
+  {
+   "date": "2002-10",
+   "unemployment": 5.177,
+   "pay_growth": 3.2
+  },
+  {
+   "date": "2002-11",
+   "unemployment": 5.117,
+   "pay_growth": 3.0
+  },
+  {
+   "date": "2002-12",
+   "unemployment": 5.007,
+   "pay_growth": 2.7
+  },
+  {
+   "date": "2003-01",
+   "unemployment": 5.129,
+   "pay_growth": 2.8
+  },
+  {
+   "date": "2003-02",
+   "unemployment": 5.167,
+   "pay_growth": 2.7
+  },
+  {
+   "date": "2003-03",
+   "unemployment": 5.115,
+   "pay_growth": 2.7
+  },
+  {
+   "date": "2003-04",
+   "unemployment": 5.006,
+   "pay_growth": 2.5
+  },
+  {
+   "date": "2003-05",
+   "unemployment": 4.941,
+   "pay_growth": 2.7
+  },
+  {
+   "date": "2003-06",
+   "unemployment": 5.064,
+   "pay_growth": 2.6
+  },
+  {
+   "date": "2003-07",
+   "unemployment": 5.059,
+   "pay_growth": 2.6
+  },
+  {
+   "date": "2003-08",
+   "unemployment": 5.047,
+   "pay_growth": 2.5
+  },
+  {
+   "date": "2003-09",
+   "unemployment": 4.95,
+   "pay_growth": 2.7
+  },
+  {
+   "date": "2003-10",
+   "unemployment": 4.91,
+   "pay_growth": 3.0
+  },
+  {
+   "date": "2003-11",
+   "unemployment": 4.896,
+   "pay_growth": 3.2
+  },
+  {
+   "date": "2003-12",
+   "unemployment": 4.832,
+   "pay_growth": 3.6
+  },
+  {
+   "date": "2004-01",
+   "unemployment": 4.807,
+   "pay_growth": 3.5
+  },
+  {
+   "date": "2004-02",
+   "unemployment": 4.797,
+   "pay_growth": 3.3
+  },
+  {
+   "date": "2004-03",
+   "unemployment": 4.808,
+   "pay_growth": 3.0
+  },
+  {
+   "date": "2004-04",
+   "unemployment": 4.799,
+   "pay_growth": 3.0
+  },
+  {
+   "date": "2004-05",
+   "unemployment": 4.805,
+   "pay_growth": 3.2
+  },
+  {
+   "date": "2004-06",
+   "unemployment": 4.761,
+   "pay_growth": 3.3
+  },
+  {
+   "date": "2004-07",
+   "unemployment": 4.701,
+   "pay_growth": 3.4
+  },
+  {
+   "date": "2004-08",
+   "unemployment": 4.683,
+   "pay_growth": 3.7
+  },
+  {
+   "date": "2004-09",
+   "unemployment": 4.666,
+   "pay_growth": 3.7
+  },
+  {
+   "date": "2004-10",
+   "unemployment": 4.685,
+   "pay_growth": 3.7
+  },
+  {
+   "date": "2004-11",
+   "unemployment": 4.728,
+   "pay_growth": 3.6
+  },
+  {
+   "date": "2004-12",
+   "unemployment": 4.726,
+   "pay_growth": 3.8
+  },
+  {
+   "date": "2005-01",
+   "unemployment": 4.785,
+   "pay_growth": 3.8
+  },
+  {
+   "date": "2005-02",
+   "unemployment": 4.688,
+   "pay_growth": 4.1
+  },
+  {
+   "date": "2005-03",
+   "unemployment": 4.705,
+   "pay_growth": 4.1
+  },
+  {
+   "date": "2005-04",
+   "unemployment": 4.753,
+   "pay_growth": 4.1
+  },
+  {
+   "date": "2005-05",
+   "unemployment": 4.752,
+   "pay_growth": 4.0
+  },
+  {
+   "date": "2005-06",
+   "unemployment": 4.703,
+   "pay_growth": 3.9
+  },
+  {
+   "date": "2005-07",
+   "unemployment": 4.682,
+   "pay_growth": 3.9
+  },
+  {
+   "date": "2005-08",
+   "unemployment": 4.732,
+   "pay_growth": 4.1
+  },
+  {
+   "date": "2005-09",
+   "unemployment": 4.932,
+   "pay_growth": 4.2
+  },
+  {
+   "date": "2005-10",
+   "unemployment": 5.056,
+   "pay_growth": 4.2
+  },
+  {
+   "date": "2005-11",
+   "unemployment": 5.147,
+   "pay_growth": 4.1
+  },
+  {
+   "date": "2005-12",
+   "unemployment": 5.088,
+   "pay_growth": 3.8
+  },
+  {
+   "date": "2006-01",
+   "unemployment": 5.181,
+   "pay_growth": 3.8
+  },
+  {
+   "date": "2006-02",
+   "unemployment": 5.233,
+   "pay_growth": 3.8
+  },
+  {
+   "date": "2006-03",
+   "unemployment": 5.316,
+   "pay_growth": 4.0
+  },
+  {
+   "date": "2006-04",
+   "unemployment": 5.415,
+   "pay_growth": 4.0
+  },
+  {
+   "date": "2006-05",
+   "unemployment": 5.472,
+   "pay_growth": 4.1
+  },
+  {
+   "date": "2006-06",
+   "unemployment": 5.506,
+   "pay_growth": 4.3
+  },
+  {
+   "date": "2006-07",
+   "unemployment": 5.467,
+   "pay_growth": 4.2
+  },
+  {
+   "date": "2006-08",
+   "unemployment": 5.483,
+   "pay_growth": 3.9
+  },
+  {
+   "date": "2006-09",
+   "unemployment": 5.476,
+   "pay_growth": 3.7
+  },
+  {
+   "date": "2006-10",
+   "unemployment": 5.422,
+   "pay_growth": 3.9
+  },
+  {
+   "date": "2006-11",
+   "unemployment": 5.502,
+   "pay_growth": 4.2
+  },
+  {
+   "date": "2006-12",
+   "unemployment": 5.51,
+   "pay_growth": 4.4
+  },
+  {
+   "date": "2007-01",
+   "unemployment": 5.531,
+   "pay_growth": 4.2
+  },
+  {
+   "date": "2007-02",
+   "unemployment": 5.515,
+   "pay_growth": 4.1
+  },
+  {
+   "date": "2007-03",
+   "unemployment": 5.471,
+   "pay_growth": 4.1
+  },
+  {
+   "date": "2007-04",
+   "unemployment": 5.39,
+   "pay_growth": 4.2
+  },
+  {
+   "date": "2007-05",
+   "unemployment": 5.352,
+   "pay_growth": 4.3
+  },
+  {
+   "date": "2007-06",
+   "unemployment": 5.307,
+   "pay_growth": 4.4
+  },
+  {
+   "date": "2007-07",
+   "unemployment": 5.303,
+   "pay_growth": 4.7
+  },
+  {
+   "date": "2007-08",
+   "unemployment": 5.311,
+   "pay_growth": 4.9
+  },
+  {
+   "date": "2007-09",
+   "unemployment": 5.238,
+   "pay_growth": 5.0
+  },
+  {
+   "date": "2007-10",
+   "unemployment": 5.241,
+   "pay_growth": 4.7
+  },
+  {
+   "date": "2007-11",
+   "unemployment": 5.156,
+   "pay_growth": 4.5
+  },
+  {
+   "date": "2007-12",
+   "unemployment": 5.178,
+   "pay_growth": 4.2
+  },
+  {
+   "date": "2008-01",
+   "unemployment": 5.182,
+   "pay_growth": 4.4
+  },
+  {
+   "date": "2008-02",
+   "unemployment": 5.181,
+   "pay_growth": 4.3
+  },
+  {
+   "date": "2008-03",
+   "unemployment": 5.313,
+   "pay_growth": 4.4
+  },
+  {
+   "date": "2008-04",
+   "unemployment": 5.18,
+   "pay_growth": 4.5
+  },
+  {
+   "date": "2008-05",
+   "unemployment": 5.35,
+   "pay_growth": 4.2
+  },
+  {
+   "date": "2008-06",
+   "unemployment": 5.487,
+   "pay_growth": 4.1
+  },
+  {
+   "date": "2008-07",
+   "unemployment": 5.709,
+   "pay_growth": 3.5
+  },
+  {
+   "date": "2008-08",
+   "unemployment": 5.856,
+   "pay_growth": 3.3
+  },
+  {
+   "date": "2008-09",
+   "unemployment": 5.969,
+   "pay_growth": 3.1
+  },
+  {
+   "date": "2008-10",
+   "unemployment": 6.162,
+   "pay_growth": 3.3
+  },
+  {
+   "date": "2008-11",
+   "unemployment": 6.352,
+   "pay_growth": 3.2
+  },
+  {
+   "date": "2008-12",
+   "unemployment": 6.51,
+   "pay_growth": 3.2
+  },
+  {
+   "date": "2009-01",
+   "unemployment": 6.743,
+   "pay_growth": 3.0
+  },
+  {
+   "date": "2009-02",
+   "unemployment": 7.073,
+   "pay_growth": 2.8
+  },
+  {
+   "date": "2009-03",
+   "unemployment": 7.273,
+   "pay_growth": 2.5
+  },
+  {
+   "date": "2009-04",
+   "unemployment": 7.591,
+   "pay_growth": 2.0
+  },
+  {
+   "date": "2009-05",
+   "unemployment": 7.763,
+   "pay_growth": 1.9
+  },
+  {
+   "date": "2009-06",
+   "unemployment": 7.868,
+   "pay_growth": 1.6
+  },
+  {
+   "date": "2009-07",
+   "unemployment": 7.871,
+   "pay_growth": 1.3
+  },
+  {
+   "date": "2009-08",
+   "unemployment": 7.846,
+   "pay_growth": 0.8
+  },
+  {
+   "date": "2009-09",
+   "unemployment": 7.869,
+   "pay_growth": 0.5
+  },
+  {
+   "date": "2009-10",
+   "unemployment": 7.782,
+   "pay_growth": 0.3
+  },
+  {
+   "date": "2009-11",
+   "unemployment": 7.774,
+   "pay_growth": 0.2
+  },
+  {
+   "date": "2009-12",
+   "unemployment": 7.729,
+   "pay_growth": 0.2
+  },
+  {
+   "date": "2010-01",
+   "unemployment": 7.919,
+   "pay_growth": 0.5
+  },
+  {
+   "date": "2010-02",
+   "unemployment": 8.009,
+   "pay_growth": 0.7
+  },
+  {
+   "date": "2010-03",
+   "unemployment": 7.954,
+   "pay_growth": 1.0
+  },
+  {
+   "date": "2010-04",
+   "unemployment": 7.924,
+   "pay_growth": 0.9
+  },
+  {
+   "date": "2010-05",
+   "unemployment": 7.854,
+   "pay_growth": 0.8
+  },
+  {
+   "date": "2010-06",
+   "unemployment": 7.821,
+   "pay_growth": 0.6
+  },
+  {
+   "date": "2010-07",
+   "unemployment": 7.782,
+   "pay_growth": 1.0
+  },
+  {
+   "date": "2010-08",
+   "unemployment": 7.754,
+   "pay_growth": 1.6
+  },
+  {
+   "date": "2010-09",
+   "unemployment": 7.897,
+   "pay_growth": 2.0
+  },
+  {
+   "date": "2010-10",
+   "unemployment": 7.871,
+   "pay_growth": 2.0
+  },
+  {
+   "date": "2010-11",
+   "unemployment": 7.864,
+   "pay_growth": 2.0
+  },
+  {
+   "date": "2010-12",
+   "unemployment": 7.909,
+   "pay_growth": 1.9
+  },
+  {
+   "date": "2011-01",
+   "unemployment": 7.804,
+   "pay_growth": 1.9
+  },
+  {
+   "date": "2011-02",
+   "unemployment": 7.778,
+   "pay_growth": 1.8
+  },
+  {
+   "date": "2011-03",
+   "unemployment": 7.719,
+   "pay_growth": 1.7
+  },
+  {
+   "date": "2011-04",
+   "unemployment": 7.821,
+   "pay_growth": 1.6
+  },
+  {
+   "date": "2011-05",
+   "unemployment": 7.941,
+   "pay_growth": 1.8
+  },
+  {
+   "date": "2011-06",
+   "unemployment": 8.012,
+   "pay_growth": 2.0
+  },
+  {
+   "date": "2011-07",
+   "unemployment": 8.179,
+   "pay_growth": 2.0
+  },
+  {
+   "date": "2011-08",
+   "unemployment": 8.33,
+   "pay_growth": 1.7
+  },
+  {
+   "date": "2011-09",
+   "unemployment": 8.37,
+   "pay_growth": 1.6
+  },
+  {
+   "date": "2011-10",
+   "unemployment": 8.463,
+   "pay_growth": 1.7
+  },
+  {
+   "date": "2011-11",
+   "unemployment": 8.39,
+   "pay_growth": 1.9
+  },
+  {
+   "date": "2011-12",
+   "unemployment": 8.348,
+   "pay_growth": 2.1
+  },
+  {
+   "date": "2012-01",
+   "unemployment": 8.281,
+   "pay_growth": 1.8
+  },
+  {
+   "date": "2012-02",
+   "unemployment": 8.202,
+   "pay_growth": 1.8
+  },
+  {
+   "date": "2012-03",
+   "unemployment": 8.166,
+   "pay_growth": 1.8
+  },
+  {
+   "date": "2012-04",
+   "unemployment": 8.073,
+   "pay_growth": 2.0
+  },
+  {
+   "date": "2012-05",
+   "unemployment": 7.981,
+   "pay_growth": 2.0
+  },
+  {
+   "date": "2012-06",
+   "unemployment": 8.027,
+   "pay_growth": 2.0
+  },
+  {
+   "date": "2012-07",
+   "unemployment": 7.878,
+   "pay_growth": 2.0
+  },
+  {
+   "date": "2012-08",
+   "unemployment": 7.848,
+   "pay_growth": 2.0
+  },
+  {
+   "date": "2012-09",
+   "unemployment": 7.843,
+   "pay_growth": 1.8
+  },
+  {
+   "date": "2012-10",
+   "unemployment": 7.808,
+   "pay_growth": 1.7
+  },
+  {
+   "date": "2012-11",
+   "unemployment": 7.802,
+   "pay_growth": 1.5
+  },
+  {
+   "date": "2012-12",
+   "unemployment": 7.811,
+   "pay_growth": 1.3
+  },
+  {
+   "date": "2013-01",
+   "unemployment": 7.965,
+   "pay_growth": 1.2
+  },
+  {
+   "date": "2013-02",
+   "unemployment": 7.834,
+   "pay_growth": 1.0
+  },
+  {
+   "date": "2013-03",
+   "unemployment": 7.78,
+   "pay_growth": 0.8
+  },
+  {
+   "date": "2013-04",
+   "unemployment": 7.748,
+   "pay_growth": 0.9
+  },
+  {
+   "date": "2013-05",
+   "unemployment": 7.737,
+   "pay_growth": 1.0
+  },
+  {
+   "date": "2013-06",
+   "unemployment": 7.661,
+   "pay_growth": 1.1
+  },
+  {
+   "date": "2013-07",
+   "unemployment": 7.685,
+   "pay_growth": 1.1
+  },
+  {
+   "date": "2013-08",
+   "unemployment": 7.606,
+   "pay_growth": 1.0
+  },
+  {
+   "date": "2013-09",
+   "unemployment": 7.358,
+   "pay_growth": 1.0
+  },
+  {
+   "date": "2013-10",
+   "unemployment": 7.159,
+   "pay_growth": 1.0
+  },
+  {
+   "date": "2013-11",
+   "unemployment": 7.209,
+   "pay_growth": 1.0
+  },
+  {
+   "date": "2013-12",
+   "unemployment": 7.149,
+   "pay_growth": 1.2
+  },
+  {
+   "date": "2014-01",
+   "unemployment": 6.879,
+   "pay_growth": 1.4
+  },
+  {
+   "date": "2014-02",
+   "unemployment": 6.742,
+   "pay_growth": 1.6
+  },
+  {
+   "date": "2014-03",
+   "unemployment": 6.575,
+   "pay_growth": 1.4
+  },
+  {
+   "date": "2014-04",
+   "unemployment": 6.416,
+   "pay_growth": 0.9
+  },
+  {
+   "date": "2014-05",
+   "unemployment": 6.277,
+   "pay_growth": 0.8
+  },
+  {
+   "date": "2014-06",
+   "unemployment": 6.132,
+   "pay_growth": 0.8
+  },
+  {
+   "date": "2014-07",
+   "unemployment": 6.008,
+   "pay_growth": 0.9
+  },
+  {
+   "date": "2014-08",
+   "unemployment": 5.971,
+   "pay_growth": 1.0
+  },
+  {
+   "date": "2014-09",
+   "unemployment": 5.945,
+   "pay_growth": 1.4
+  },
+  {
+   "date": "2014-10",
+   "unemployment": 5.859,
+   "pay_growth": 1.9
+  },
+  {
+   "date": "2014-11",
+   "unemployment": 5.688,
+   "pay_growth": 2.1
+  },
+  {
+   "date": "2014-12",
+   "unemployment": 5.643,
+   "pay_growth": 2.0
+  },
+  {
+   "date": "2015-01",
+   "unemployment": 5.572,
+   "pay_growth": 1.9
+  },
+  {
+   "date": "2015-02",
+   "unemployment": 5.526,
+   "pay_growth": 2.1
+  },
+  {
+   "date": "2015-03",
+   "unemployment": 5.493,
+   "pay_growth": 2.7
+  },
+  {
+   "date": "2015-04",
+   "unemployment": 5.606,
+   "pay_growth": 3.1
+  },
+  {
+   "date": "2015-05",
+   "unemployment": 5.597,
+   "pay_growth": 3.3
+  },
+  {
+   "date": "2015-06",
+   "unemployment": 5.507,
+   "pay_growth": 3.2
+  },
+  {
+   "date": "2015-07",
+   "unemployment": 5.381,
+   "pay_growth": 3.2
+  },
+  {
+   "date": "2015-08",
+   "unemployment": 5.309,
+   "pay_growth": 3.2
+  },
+  {
+   "date": "2015-09",
+   "unemployment": 5.167,
+   "pay_growth": 2.8
+  },
+  {
+   "date": "2015-10",
+   "unemployment": 5.072,
+   "pay_growth": 2.2
+  },
+  {
+   "date": "2015-11",
+   "unemployment": 5.071,
+   "pay_growth": 2.0
+  },
+  {
+   "date": "2015-12",
+   "unemployment": 5.062,
+   "pay_growth": 2.2
+  },
+  {
+   "date": "2016-01",
+   "unemployment": 5.105,
+   "pay_growth": 2.4
+  },
+  {
+   "date": "2016-02",
+   "unemployment": 5.066,
+   "pay_growth": 2.5
+  },
+  {
+   "date": "2016-03",
+   "unemployment": 5.001,
+   "pay_growth": 2.5
+  },
+  {
+   "date": "2016-04",
+   "unemployment": 4.933,
+   "pay_growth": 2.5
+  },
+  {
+   "date": "2016-05",
+   "unemployment": 4.917,
+   "pay_growth": 2.4
+  },
+  {
+   "date": "2016-06",
+   "unemployment": 4.889,
+   "pay_growth": 2.5
+  },
+  {
+   "date": "2016-07",
+   "unemployment": 4.978,
+   "pay_growth": 2.4
+  },
+  {
+   "date": "2016-08",
+   "unemployment": 4.833,
+   "pay_growth": 2.4
+  },
+  {
+   "date": "2016-09",
+   "unemployment": 4.824,
+   "pay_growth": 2.6
+  },
+  {
+   "date": "2016-10",
+   "unemployment": 4.791,
+   "pay_growth": 2.8
+  },
+  {
+   "date": "2016-11",
+   "unemployment": 4.737,
+   "pay_growth": 3.0
+  },
+  {
+   "date": "2016-12",
+   "unemployment": 4.702,
+   "pay_growth": 2.8
+  },
+  {
+   "date": "2017-01",
+   "unemployment": 4.638,
+   "pay_growth": 2.6
+  },
+  {
+   "date": "2017-02",
+   "unemployment": 4.561,
+   "pay_growth": 2.2
+  },
+  {
+   "date": "2017-03",
+   "unemployment": 4.539,
+   "pay_growth": 2.1
+  },
+  {
+   "date": "2017-04",
+   "unemployment": 4.444,
+   "pay_growth": 2.0
+  },
+  {
+   "date": "2017-05",
+   "unemployment": 4.425,
+   "pay_growth": 2.2
+  },
+  {
+   "date": "2017-06",
+   "unemployment": 4.337,
+   "pay_growth": 2.2
+  },
+  {
+   "date": "2017-07",
+   "unemployment": 4.329,
+   "pay_growth": 2.3
+  },
+  {
+   "date": "2017-08",
+   "unemployment": 4.266,
+   "pay_growth": 2.3
+  },
+  {
+   "date": "2017-09",
+   "unemployment": 4.245,
+   "pay_growth": 2.4
+  },
+  {
+   "date": "2017-10",
+   "unemployment": 4.273,
+   "pay_growth": 2.4
+  },
+  {
+   "date": "2017-11",
+   "unemployment": 4.355,
+   "pay_growth": 2.4
+  },
+  {
+   "date": "2017-12",
+   "unemployment": 4.309,
+   "pay_growth": 2.6
+  },
+  {
+   "date": "2018-01",
+   "unemployment": 4.216,
+   "pay_growth": 2.7
+  },
+  {
+   "date": "2018-02",
+   "unemployment": 4.203,
+   "pay_growth": 2.9
+  },
+  {
+   "date": "2018-03",
+   "unemployment": 4.195,
+   "pay_growth": 3.0
+  },
+  {
+   "date": "2018-04",
+   "unemployment": 4.172,
+   "pay_growth": 3.0
+  },
+  {
+   "date": "2018-05",
+   "unemployment": 4.042,
+   "pay_growth": 2.9
+  },
+  {
+   "date": "2018-06",
+   "unemployment": 4.029,
+   "pay_growth": 2.8
+  },
+  {
+   "date": "2018-07",
+   "unemployment": 4.042,
+   "pay_growth": 3.0
+  },
+  {
+   "date": "2018-08",
+   "unemployment": 4.079,
+   "pay_growth": 3.2
+  },
+  {
+   "date": "2018-09",
+   "unemployment": 4.063,
+   "pay_growth": 3.3
+  },
+  {
+   "date": "2018-10",
+   "unemployment": 4.046,
+   "pay_growth": 3.4
+  },
+  {
+   "date": "2018-11",
+   "unemployment": 4.022,
+   "pay_growth": 3.4
+  },
+  {
+   "date": "2018-12",
+   "unemployment": 3.941,
+   "pay_growth": 3.5
+  },
+  {
+   "date": "2019-01",
+   "unemployment": 3.951,
+   "pay_growth": 3.6
+  },
+  {
+   "date": "2019-02",
+   "unemployment": 3.826,
+   "pay_growth": 3.6
+  },
+  {
+   "date": "2019-03",
+   "unemployment": 3.841,
+   "pay_growth": 3.7
+  },
+  {
+   "date": "2019-04",
+   "unemployment": 3.803,
+   "pay_growth": 3.6
+  },
+  {
+   "date": "2019-05",
+   "unemployment": 3.884,
+   "pay_growth": 3.7
+  },
+  {
+   "date": "2019-06",
+   "unemployment": 3.86,
+   "pay_growth": 3.9
+  },
+  {
+   "date": "2019-07",
+   "unemployment": 3.883,
+   "pay_growth": 3.9
+  },
+  {
+   "date": "2019-08",
+   "unemployment": 3.872,
+   "pay_growth": 3.9
+  },
+  {
+   "date": "2019-09",
+   "unemployment": 3.8,
+   "pay_growth": 3.7
+  },
+  {
+   "date": "2019-10",
+   "unemployment": 3.826,
+   "pay_growth": 3.5
+  },
+  {
+   "date": "2019-11",
+   "unemployment": 3.736,
+   "pay_growth": 3.3
+  },
+  {
+   "date": "2019-12",
+   "unemployment": 3.893,
+   "pay_growth": 3.2
+  },
+  {
+   "date": "2020-01",
+   "unemployment": 3.948,
+   "pay_growth": 3.0
+  },
+  {
+   "date": "2020-02",
+   "unemployment": 4.1,
+   "pay_growth": 2.9
+  },
+  {
+   "date": "2020-03",
+   "unemployment": 4.094,
+   "pay_growth": 2.5
+  },
+  {
+   "date": "2020-04",
+   "unemployment": 4.128,
+   "pay_growth": 1.3
+  },
+  {
+   "date": "2020-05",
+   "unemployment": 4.08,
+   "pay_growth": -0.1
+  },
+  {
+   "date": "2020-06",
+   "unemployment": 4.372,
+   "pay_growth": -1.2
+  },
+  {
+   "date": "2020-07",
+   "unemployment": 4.635,
+   "pay_growth": -0.9
+  },
+  {
+   "date": "2020-08",
+   "unemployment": 4.958,
+   "pay_growth": 0.1
+  },
+  {
+   "date": "2020-09",
+   "unemployment": 5.155,
+   "pay_growth": 1.4
+  },
+  {
+   "date": "2020-10",
+   "unemployment": 5.219,
+   "pay_growth": 2.4
+  },
+  {
+   "date": "2020-11",
+   "unemployment": 5.261,
+   "pay_growth": 3.3
+  },
+  {
+   "date": "2020-12",
+   "unemployment": 5.175,
+   "pay_growth": 3.9
+  },
+  {
+   "date": "2021-01",
+   "unemployment": 5.047,
+   "pay_growth": 4.1
+  },
+  {
+   "date": "2021-02",
+   "unemployment": 4.905,
+   "pay_growth": 4.1
+  },
+  {
+   "date": "2021-03",
+   "unemployment": 4.833,
+   "pay_growth": 4.3
+  },
+  {
+   "date": "2021-04",
+   "unemployment": 4.798,
+   "pay_growth": 5.7
+  },
+  {
+   "date": "2021-05",
+   "unemployment": 4.666,
+   "pay_growth": 7.2
+  },
+  {
+   "date": "2021-06",
+   "unemployment": 4.595,
+   "pay_growth": 8.4
+  },
+  {
+   "date": "2021-07",
+   "unemployment": 4.523,
+   "pay_growth": 7.8
+  },
+  {
+   "date": "2021-08",
+   "unemployment": 4.371,
+   "pay_growth": 6.8
+  },
+  {
+   "date": "2021-09",
+   "unemployment": 4.305,
+   "pay_growth": 5.6
+  },
+  {
+   "date": "2021-10",
+   "unemployment": 4.204,
+   "pay_growth": 4.8
+  },
+  {
+   "date": "2021-11",
+   "unemployment": 4.177,
+   "pay_growth": 4.3
+  },
+  {
+   "date": "2021-12",
+   "unemployment": 4.109,
+   "pay_growth": 4.1
+  },
+  {
+   "date": "2022-01",
+   "unemployment": 3.921,
+   "pay_growth": 4.5
+  },
+  {
+   "date": "2022-02",
+   "unemployment": 3.787,
+   "pay_growth": 4.9
+  },
+  {
+   "date": "2022-03",
+   "unemployment": 3.829,
+   "pay_growth": 5.3
+  },
+  {
+   "date": "2022-04",
+   "unemployment": 3.733,
+   "pay_growth": 5.2
+  },
+  {
+   "date": "2022-05",
+   "unemployment": 3.783,
+   "pay_growth": 5.4
+  },
+  {
+   "date": "2022-06",
+   "unemployment": 3.646,
+   "pay_growth": 5.6
+  },
+  {
+   "date": "2022-07",
+   "unemployment": 3.599,
+   "pay_growth": 6.1
+  },
+  {
+   "date": "2022-08",
+   "unemployment": 3.719,
+   "pay_growth": 6.4
+  },
+  {
+   "date": "2022-09",
+   "unemployment": 3.826,
+   "pay_growth": 6.7
+  },
+  {
+   "date": "2022-10",
+   "unemployment": 3.867,
+   "pay_growth": 7.0
+  },
+  {
+   "date": "2022-11",
+   "unemployment": 3.919,
+   "pay_growth": 7.3
+  },
+  {
+   "date": "2022-12",
+   "unemployment": 3.872,
+   "pay_growth": 7.3
+  },
+  {
+   "date": "2023-01",
+   "unemployment": 3.983,
+   "pay_growth": 7.1
+  },
+  {
+   "date": "2023-02",
+   "unemployment": 4.0,
+   "pay_growth": 7.1
+  },
+  {
+   "date": "2023-03",
+   "unemployment": 3.884,
+   "pay_growth": 7.2
+  },
+  {
+   "date": "2023-04",
+   "unemployment": 4.002,
+   "pay_growth": 7.7
+  },
+  {
+   "date": "2023-05",
+   "unemployment": 4.229,
+   "pay_growth": 7.9
+  },
+  {
+   "date": "2023-06",
+   "unemployment": 4.359,
+   "pay_growth": 8.1
+  },
+  {
+   "date": "2023-07",
+   "unemployment": 4.281,
+   "pay_growth": 8.1
+  },
+  {
+   "date": "2023-08",
+   "unemployment": 4.094,
+   "pay_growth": 8.1
+  },
+  {
+   "date": "2023-09",
+   "unemployment": 4.001,
+   "pay_growth": 7.8
+  },
+  {
+   "date": "2023-10",
+   "unemployment": 3.951,
+   "pay_growth": 7.2
+  },
+  {
+   "date": "2023-11",
+   "unemployment": 3.859,
+   "pay_growth": 6.6
+  },
+  {
+   "date": "2023-12",
+   "unemployment": 4.076,
+   "pay_growth": 6.2
+  },
+  {
+   "date": "2024-01",
+   "unemployment": 4.212,
+   "pay_growth": 6.1
+  },
+  {
+   "date": "2024-02",
+   "unemployment": 4.343,
+   "pay_growth": 5.9
+  },
+  {
+   "date": "2024-03",
+   "unemployment": 4.378,
+   "pay_growth": 5.8
+  },
+  {
+   "date": "2024-04",
+   "unemployment": 4.427,
+   "pay_growth": 5.7
+  },
+  {
+   "date": "2024-05",
+   "unemployment": 4.207,
+   "pay_growth": 5.6
+  },
+  {
+   "date": "2024-06",
+   "unemployment": 4.242,
+   "pay_growth": 5.4
+  },
+  {
+   "date": "2024-07",
+   "unemployment": 4.082,
+   "pay_growth": 5.2
+  },
+  {
+   "date": "2024-08",
+   "unemployment": 4.257,
+   "pay_growth": 5.1
+  },
+  {
+   "date": "2024-09",
+   "unemployment": 4.243,
+   "pay_growth": 5.2
+  },
+  {
+   "date": "2024-10",
+   "unemployment": 4.41,
+   "pay_growth": 5.6
+  },
+  {
+   "date": "2024-11",
+   "unemployment": 4.381,
+   "pay_growth": 5.9
+  },
+  {
+   "date": "2024-12",
+   "unemployment": 4.363,
+   "pay_growth": 6.2
+  },
+  {
+   "date": "2025-01",
+   "unemployment": 4.451,
+   "pay_growth": 5.9
+  },
+  {
+   "date": "2025-02",
+   "unemployment": 4.551,
+   "pay_growth": 5.9
+  },
+  {
+   "date": "2025-03",
+   "unemployment": 4.641,
+   "pay_growth": 5.6
+  },
+  {
+   "date": "2025-04",
+   "unemployment": 4.688,
+   "pay_growth": 5.2
+  },
+  {
+   "date": "2025-05",
+   "unemployment": 4.691,
+   "pay_growth": 4.9
+  },
+  {
+   "date": "2025-06",
+   "unemployment": 4.72,
+   "pay_growth": 4.8
+  },
+  {
+   "date": "2025-07",
+   "unemployment": 4.833,
+   "pay_growth": 4.7
+  },
+  {
+   "date": "2025-08",
+   "unemployment": 4.966,
+   "pay_growth": 4.4
+  },
+  {
+   "date": "2025-09",
+   "unemployment": 5.071,
+   "pay_growth": 4.2
+  },
+  {
+   "date": "2025-10",
+   "unemployment": 5.071,
+   "pay_growth": 3.9
+  },
+  {
+   "date": "2025-11",
+   "unemployment": 5.19,
+   "pay_growth": 3.6
+  },
+  {
+   "date": "2025-12",
+   "unemployment": 5.155,
+   "pay_growth": 3.4
+  },
+  {
+   "date": "2026-01",
+   "unemployment": 4.922,
+   "pay_growth": 3.3
+  },
+  {
+   "date": "2026-02",
+   "unemployment": 4.995,
+   "pay_growth": 3.2
+  },
+  {
+   "date": "2026-03",
+   "unemployment": 4.887,
+   "pay_growth": 3.1
+  },
+  {
+   "date": "2026-04",
+   "unemployment": 4.857,
+   "pay_growth": 3.0
+  },
+  {
+   "date": "2026-05",
+   "unemployment": 4.889,
+   "pay_growth": 2.9
+  },
+  {
+   "date": "2026-06",
+   "unemployment": 4.904,
+   "pay_growth": 2.9
+  },
+  {
+   "date": "2026-07",
+   "unemployment": 4.718,
+   "pay_growth": 2.9
+  },
+  {
+   "date": "2026-08",
+   "unemployment": null,
+   "pay_growth": 3.0
+  }
+ ],
+ "trend": [
+  [
+   3.599,
+   5.548
+  ],
+  [
+   3.724,
+   5.305
+  ],
+  [
+   3.848,
+   5.077
+  ],
+  [
+   3.973,
+   4.864
+  ],
+  [
+   4.098,
+   4.663
+  ],
+  [
+   4.223,
+   4.474
+  ],
+  [
+   4.347,
+   4.297
+  ],
+  [
+   4.472,
+   4.129
+  ],
+  [
+   4.597,
+   3.97
+  ],
+  [
+   4.721,
+   3.82
+  ],
+  [
+   4.846,
+   3.677
+  ],
+  [
+   4.971,
+   3.542
+  ],
+  [
+   5.096,
+   3.413
+  ],
+  [
+   5.22,
+   3.29
+  ],
+  [
+   5.345,
+   3.173
+  ],
+  [
+   5.47,
+   3.062
+  ],
+  [
+   5.594,
+   2.955
+  ],
+  [
+   5.719,
+   2.853
+  ],
+  [
+   5.844,
+   2.755
+  ],
+  [
+   5.969,
+   2.662
+  ],
+  [
+   6.093,
+   2.572
+  ],
+  [
+   6.218,
+   2.486
+  ],
+  [
+   6.343,
+   2.403
+  ],
+  [
+   6.468,
+   2.324
+  ],
+  [
+   6.592,
+   2.247
+  ],
+  [
+   6.717,
+   2.173
+  ],
+  [
+   6.842,
+   2.102
+  ],
+  [
+   6.966,
+   2.034
+  ],
+  [
+   7.091,
+   1.968
+  ],
+  [
+   7.216,
+   1.904
+  ],
+  [
+   7.341,
+   1.842
+  ],
+  [
+   7.465,
+   1.783
+  ],
+  [
+   7.59,
+   1.725
+  ],
+  [
+   7.715,
+   1.669
+  ],
+  [
+   7.839,
+   1.615
+  ],
+  [
+   7.964,
+   1.563
+  ],
+  [
+   8.089,
+   1.513
+  ],
+  [
+   8.214,
+   1.463
+  ],
+  [
+   8.338,
+   1.416
+  ],
+  [
+   8.463,
+   1.37
+  ]
+ ],
+ "theme": "blue-amber",
+ "size_cm": [
+  25,
+  15
+ ],
+ "style_version": 10
+}

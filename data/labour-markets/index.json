@@ -50,6 +50,20 @@
    "data_through": "2026-10",
    "next_release": "2026-11-17",
    "status": "ok"
+  },
+  {
+   "slug": "beveridge-curve",
+   "title": "Beveridge curve",
+   "data_through": "2026-08",
+   "next_release": "2026-11-17",
+   "status": "ok"
+  },
+  {
+   "slug": "phillips-curve",
+   "title": "Wage Phillips curve",
+   "data_through": "2026-08",
+   "next_release": "2026-11-17",
+   "status": "ok"
   }
  ]
 }

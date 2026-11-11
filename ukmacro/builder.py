@@ -14,11 +14,14 @@ Series spec, by source:
     markets: {source: markets, key, label, fn, args: [...], since (optional)}
           calls ukmacro/markets.py's function `fn` with `args` (market prices from
           the US Treasury, Bundesbank, EIA, Ofgem and Yahoo Finance).
+    calc: {source: calc, key, label, fn}
+          a series we calculate from ONS levels (ukmacro/derived.py's function `fn`),
+          e.g. rates to 3 decimal places rather than the ONS's 1.
     agents: {source: agents, key, label, column}
           a Bank of England Agents' score, `column` named as in the Bank's sheet
           (ukmacro/boe_agents.py).
 
-Chart options: slug, title, units, freq (A/Q/M/D), type (line/bar/stacked-bar), start,
+Chart options: slug, title, units, freq (A/Q/M/D), type (line/bar/stacked-bar/scatter), start,
 rebase (a date: divide by the value then and multiply by 100), source, note.
 A series can set `mark: line` to be drawn as a line over the bars of a bar chart,
 and `dash: true` to be drawn dashed (used for forecasts).
@@ -26,6 +29,10 @@ Two scales on one chart: a series can set `axis: right` to be read off a right-h
 axis, labelled by the chart's `units_right`. A series can set `connect: true` to join
 its line across missing periods (for indicators published less often than the chart's
 frequency, e.g. Agents' scores since 2023).
+Scatter charts (one dot per period): the series with `axis: x` goes across, labelled
+by `units_x`; the other goes up, labelled by `units`. `highlight_last: n` colours the
+latest n periods. `trend: true` adds a smooth trend curve (y = a + b / x, see _trend_curve)
+as `trend`: [[x, y], ...] in the chart file.
 """
 
 from __future__ import annotations
@@ -38,7 +45,7 @@ from pathlib import Path
 
 import yaml
 
-from . import boe, boe_agents, charts, markets, oecd, ons
+from . import boe, boe_agents, charts, derived, markets, oecd, ons
 from .lastgood import LastGood
 
 REPO = Path(__file__).resolve().parent.parent
@@ -69,6 +76,9 @@ def _fetch(spec: dict, freq: str) -> list[tuple[str, str, list, dict]]:
         obs = getattr(markets, spec["fn"])(*spec.get("args", []))
         obs = [o for o in obs if o[0] >= spec.get("since", "")]  # keep the stored history short
         return [(spec["key"], spec["label"], obs, {"source_url": spec.get("url")})]
+    if src == "calc":
+        obs, meta = getattr(derived, spec["fn"])()
+        return [(spec["key"], spec["label"], obs, meta)]
     if src == "agents":
         return [(spec["key"], spec["label"], boe_agents.fetch(spec["column"]),
                  {"source_url": boe_agents.URL})]
@@ -92,6 +102,21 @@ def _transform(obs: list, chart: dict) -> list:
             raise ValueError(f"rebase date {chart['rebase']} not in series")
         obs = [(d, round(v / base * 100, 3)) for d, v in obs]
     return obs
+
+
+def _trend_curve(points: list[tuple[float, float]], n_out: int = 40) -> list[list[float]]:
+    """A smooth trend through a cloud of (x, y) points: the curve y = a + b / x, fitted by
+    least squares. This is the classic shape of both the Beveridge and Phillips curves
+    (steep when unemployment is low, flattening out as it rises), and unlike a local
+    smoother it can't have kinks. It is an illustration of the average relationship,
+    not a precise estimate. Returns [[x, y], ...] at `n_out` evenly spaced x values,
+    rounded to 3 decimal places."""
+    import numpy as np  # matplotlib already depends on it
+
+    x, y = np.array([p[0] for p in points]), np.array([p[1] for p in points])
+    b, a = np.polyfit(1 / x, y, 1)  # straight line in 1/x: y = a + b * (1/x)
+    grid = np.linspace(x.min(), x.max(), n_out)
+    return [[round(float(g), 3), round(float(a + b / g), 3)] for g in grid]
 
 
 def build_chart(chart: dict, category: str, lg: LastGood, failures: list[str]) -> dict:
@@ -128,6 +153,12 @@ def build_chart(chart: dict, category: str, lg: LastGood, failures: list[str]) -
     dates = sorted({d for col in columns.values() for d in col})
     data = [{"date": d, **{k: col.get(d) for k, col in columns.items()}} for d in dates]
     upcoming = sorted(r for r in releases if r >= date.today().isoformat())
+    trend = None
+    if chart.get("trend") and chart.get("type") == "scatter":
+        xk = next(s["key"] for s in series if s.get("axis") == "x")
+        yk = next(s["key"] for s in series if s.get("axis") != "x")
+        pts = [(r[xk], r[yk]) for r in data if r.get(xk) is not None and r.get(yk) is not None]
+        trend = _trend_curve(pts) if len(pts) > 10 else None
     return {
         "slug": chart["slug"],
         "category": category,
@@ -135,7 +166,7 @@ def build_chart(chart: dict, category: str, lg: LastGood, failures: list[str]) -
         "type": chart.get("type", "line"),
         "freq": chart["freq"],
         "units": chart["units"],
-        **({"units_right": chart["units_right"]} if "units_right" in chart else {}),
+        **{k: chart[k] for k in ("units_right", "units_x", "highlight_last") if k in chart},
         "source": chart["source"],
         "note": chart.get("note"),
         **({"decimals": chart["decimals"]} if "decimals" in chart else {}),  # end-label decimal places
@@ -144,6 +175,7 @@ def build_chart(chart: dict, category: str, lg: LastGood, failures: list[str]) -
         "next_release": upcoming[0] if upcoming else None,
         "status": "ok" if all(s["_source"] == "live" for s in series) and series else "stale",
         "data": data,
+        **({"trend": trend} if trend else {}),
     }
 
 

@@ -22,7 +22,9 @@ A series can set "slot": n to pin its colour, so one category keeps the same col
 across related charts, or "color": "neutral" for a grey (e.g. data not available).
 Series beyond the fourth are grey (see _colour).
 
-Chart types: line; bar (several series sit side by side); stacked-bar (positive and
+Chart types: line; scatter (one series with "axis": "x" gives the horizontal position,
+the other the vertical, one dot per period; "highlight_last": n colours the latest n
+periods and the chart's "units_x" labels the x-axis); bar (several series sit side by side); stacked-bar (positive and
 negative parts stack away from zero); in both bar types a series with "mark": "line" is
 drawn as a line on top; grouped-hbar (categories down the side); ranked-bars (groups of
 ranked horizontal bars, each bar with its own label, e.g. top partners by product group);
@@ -41,7 +43,7 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
-from matplotlib import font_manager  # noqa: E402
+from matplotlib import font_manager, patheffects  # noqa: E402
 from PIL import Image  # noqa: E402
 
 FONTS = Path(__file__).resolve().parent.parent / "assets" / "fonts"
@@ -386,6 +388,58 @@ def _end_labels(fig, ax, ends: list[tuple[int, float, str]], min_gap_pt: float =
                     va="center", fontsize=10.5, color=TEXT_2, annotation_clip=False)
 
 
+def _period_name(d: str) -> str:
+    """'2026-08' -> 'Aug 2026', '2026-Q3' -> 'Q3 2026' (labels for scatter points)."""
+    if len(d) == 7 and d[5] == "Q":
+        return f"{d[5:]} {d[:4]}"
+    if len(d) == 7:
+        return f"{MONTHS[int(d[5:]) - 1]} {d[:4]}"
+    return d
+
+
+def scatter_points(chart: dict) -> tuple[list, list]:
+    """(earlier, latest) lists of (date, x, y) for a scatter chart: only periods where
+    both series have a value; `latest` is the last `highlight_last` of them."""
+    xs = next(s for s in chart["series"] if s.get("axis") == "x")
+    ys = next(s for s in chart["series"] if s.get("axis") != "x")
+    pts = [(d["date"], d[xs["key"]], d[ys["key"]]) for d in chart["data"]
+           if d.get(xs["key"]) is not None and d.get(ys["key"]) is not None]
+    n = chart.get("highlight_last", 0)
+    return (pts[:-n], pts[-n:]) if n else (pts, [])
+
+
+def _scatter(chart):
+    """One dot per period, no joining line: the vertical series against the "axis": "x"
+    series (e.g. a Beveridge or Phillips curve). The latest few periods are drawn in the
+    second colour, on top, with the newest labelled by its date."""
+    fig, ax = _frame(chart)
+    ax.spines["left"].set_visible(True)
+    ax.spines["left"].set_color(BASELINE)
+    ax.grid(axis="x", color=GRID, linewidth=0.6)
+    earlier, latest = scatter_points(chart)
+    handles, labels = [], []
+    if earlier:
+        handles.append(ax.scatter([p[1] for p in earlier], [p[2] for p in earlier], s=22, color=SERIES[0],
+                                  alpha=0.45, linewidths=0, zorder=2))
+        labels.append(f"{_period_name(earlier[0][0])} to {_period_name(earlier[-1][0])}")
+    if latest:
+        handles.append(ax.scatter([p[1] for p in latest], [p[2] for p in latest], s=46, color=SERIES[1],
+                                  edgecolors=SURFACE, linewidths=0.8, zorder=3))
+        labels.append(f"Latest {len(latest)}: {_period_name(latest[0][0])} to {_period_name(latest[-1][0])}")
+        d, x, y = latest[-1]
+        ax.annotate(_period_name(d), (x, y), xytext=(8, 8), textcoords="offset points",
+                    fontsize=10.5, color=INK, fontweight="semibold", zorder=4,
+                    path_effects=[patheffects.withStroke(linewidth=3, foreground=SURFACE)])  # halo over dots
+    if chart.get("trend"):  # smoothed trend line (calculated by the builder)
+        (h,) = ax.plot([p[0] for p in chart["trend"]], [p[1] for p in chart["trend"]],
+                       color=INK, linewidth=1.6, zorder=2.5)
+        handles.append(h)
+        labels.append("Trend")
+    ax.set_xlabel(chart.get("units_x", ""), fontsize=11.5, color=TEXT_2, labelpad=8)
+    _legend(fig, handles, labels)
+    return fig
+
+
 def _bars(chart):
     """bar / stacked-bar. In a stacked-bar chart, bars stack away from zero by sign; in
     a plain bar chart, several series sit side by side. Either way a series with
@@ -573,7 +627,7 @@ def _flow_grid(chart):
 def _fill_periods(chart: dict) -> dict:
     """Insert empty rows for missing quarters/months so the x-axis is a true timeline."""
     dates = [d["date"] for d in chart["data"]]
-    if chart["type"] in ("grouped-hbar", "ranked-bars", "flow-grid") or not dates:
+    if chart["type"] in ("grouped-hbar", "ranked-bars", "flow-grid", "scatter") or not dates:
         return chart
     # `step` gives the next period after d
     if all(len(d) == 7 and d[5] == "Q" for d in dates):
@@ -590,7 +644,7 @@ def _fill_periods(chart: dict) -> dict:
     return {**chart, "data": full}
 
 
-RENDERERS = {"line": _line, "bar": _bars, "stacked-bar": _bars, "grouped-hbar": _grouped_hbar,
+RENDERERS = {"line": _line, "scatter": _scatter, "bar": _bars, "stacked-bar": _bars, "grouped-hbar": _grouped_hbar,
              "ranked-bars": _ranked_bars, "flow-grid": _flow_grid}
 
 

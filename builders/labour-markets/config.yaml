@@ -82,3 +82,43 @@ charts:
     series:
       - {source: agents, key: recruitment_difficulties, label: "Recruitment difficulties (Agents, left)", column: Recruitment Difficulties, connect: true}
       - {source: ons, key: vacancies, label: "Vacancies (ONS, right)", cdid: AP2Y, dataset: LMS, axis: right}
+
+  - slug: beveridge-curve
+    type: scatter
+    title: Beveridge curve
+    units: Job openings rate, %
+    units_x: Unemployment rate, %
+    highlight_last: 6
+    trend: true
+    freq: M
+    start: "2001-01"
+    source: ONS Labour Force Survey and Vacancy Survey (LMS)
+    note: >-
+      One dot per month; the line is an illustrative curve. Job openings rate: vacancies as a share
+      of employee jobs plus vacancies. Unemployment rate: aged 16+. Both are three-month averages,
+      dated by the final month, and calculated from ONS levels to three decimal places (the ONS
+      publishes one), so months don't pile up on the same spot.
+      Moving down and to the right is a cooling labour market; a shift outwards means
+      unemployment is higher for the same number of vacancies (worse matching of people to jobs).
+    series:
+      - {source: calc, key: unemployment, label: Unemployment rate, fn: unemployment_rate, axis: x}
+      - {source: calc, key: openings_rate, label: Job openings rate, fn: job_openings_rate}
+
+  - slug: phillips-curve
+    type: scatter
+    title: Wage Phillips curve
+    units: Private-sector regular pay growth, % year on year
+    units_x: Unemployment rate, %
+    highlight_last: 6
+    trend: true
+    freq: M
+    start: "2001-01"
+    source: ONS Labour Force Survey and Average Weekly Earnings (LMS)
+    note: >-
+      One dot per month; the line is an illustrative curve. Pay growth is nominal private-sector
+      regular pay (excluding bonuses), three-month average on a year earlier, as published (1dp).
+      Unemployment rate aged 16+, calculated from ONS levels to three decimal places. 2020-21 pay growth is
+      distorted by furlough and by low-paid jobs dropping out of the figures.
+    series:
+      - {source: calc, key: unemployment, label: Unemployment rate, fn: unemployment_rate, axis: x}
+      - {source: ons, key: pay_growth, label: Private-sector regular pay growth, cdid: KAJ4, dataset: LMS}

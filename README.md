@@ -42,6 +42,7 @@ data/<area>/
   <slug>.json            one file per chart
   index.json             chart list with data_through / next_release / status
   last-good.json         last live value of every series
+assets/site.css, site.js  shared style and helpers for index.html and labour.html
 scripts/check_sources.py one known-good request per source: run when something goes red
 .github/workflows/       one workflow per area, sharing _refresh.yml
 NEXT.md                  to-do list + "Decided against"
@@ -109,14 +110,14 @@ slugs go in which section at the top of its script (`SECTIONS` in `labour.html`)
 
 ## Policy rules for Bank Rate
 
-The dashboard's Bank Rate chart (from 2020) has buttons to switch between four rules
+The dashboard's Bank Rate chart has buttons to switch between four rules
 (`builders/dashboard/taylor.py`, which documents each formula): a simple Taylor (1993) rule
 and the three simple rules Bank of England staff use (contemporaneous and forward-looking
 Taylor-type rules, and a forward-looking first-difference rule; MPR November 2025, Annex 1).
 Each is applied to the Bank's latest MPR projections, starting from today's Bank Rate.
-Energy inflation comes from the Bank's projected energy contribution to CPI, anchored on
-`data/inflation/cpi-energy-split.json` (energy and non-energy CPI, rebuilt from components
-by the inflation builder).
+Energy inflation comes from the Bank's projected energy contribution to CPI, divided by
+energy's share of the basket (`data/inflation/cpi-energy-weight.json`, from the inflation
+builder).
 
 ## Market commentary
 

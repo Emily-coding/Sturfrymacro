@@ -22,10 +22,10 @@ charts:
     title: Bank Rate
     units: "%"
     freq: D
-    start: "2020-01-01"
+    start: "2022-01-01"
     source: Bank of England
     series:
-      - {source: boe, key: bank_rate, label: Bank Rate, since: "2020-01-01", code: IUDBEDR}
+      - {source: boe, key: bank_rate, label: Bank Rate, since: "2022-01-01", code: IUDBEDR}
 
   - slug: oil-prices
     title: Crude oil prices

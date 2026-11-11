@@ -21,7 +21,8 @@ the output gap (published by calendar year only, so each year's figure is placed
 mid-year and quarters in between are filled in on a straight line). The Bank doesn't
 publish energy inflation beyond six months, only energy's direct contribution to CPI
 inflation in Q4 of each year: that contribution, divided by energy's share of the
-basket, gives energy inflation, and the rest of CPI gives non-energy inflation.
+basket, gives energy inflation, and the rest of CPI gives non-energy inflation (Q4
+figures are joined on a straight line through the year).
 
 The three Bank rules move gradually (0.85 of last quarter's rate, or a change on it),
 so they start from today's Bank Rate, as the Bank's own simulations do. Unlike the
@@ -41,57 +42,32 @@ def q_add(q: str, k: int) -> str:
     return f"{y + n // 4}-Q{n % 4 + 1}"
 
 
-def q_index(q: str) -> int:
-    """Quarters since year 0, so the gap between two quarters is a subtraction."""
-    return int(q[:4]) * 4 + int(q[-1]) - 1
-
-
 def quarter_of(d: str) -> str:
     return f"{d[:4]}-Q{(int(d[5:7]) - 1) // 3 + 1}"
 
 
-def annual_to_quarterly(annual: list) -> dict:
-    """Calendar-year figures -> quarterly: each year at mid-year (between Q2 and Q3),
-    quarters in between on a straight line, held flat beyond the ends."""
-    pts = sorted((int(y) * 4 + 1.5, v) for y, v in annual)
+def annual_to_quarterly(annual: list, at: float = 1.5) -> dict:
+    """Yearly figures -> quarterly, on a straight line between them and held flat beyond
+    the ends. `at` is where in the year each figure sits, in quarters from the start of Q1:
+    1.5 = mid-year (a calendar-year average, e.g. the output gap), 3 = Q4 (a Q4 figure)."""
+    pts = sorted((int(y) * 4 + at, v) for y, v in annual)
     out = {}
-    for i in range(int(pts[0][0]) - 2, int(pts[-1][0]) + 4):
+    for i in range(int(pts[0][0]) - 4, int(pts[-1][0]) + 5):
         lo = max((p for p in pts if p[0] <= i), default=pts[0])
         hi = min((p for p in pts if p[0] >= i), default=pts[-1])
         out[f"{i // 4}-Q{i % 4 + 1}"] = lo[1] if hi[0] == lo[0] else lo[1] + (hi[1] - lo[1]) * (i - lo[0]) / (hi[0] - lo[0])
     return out
 
 
-def q4_to_quarterly(q4: list, anchor: tuple[str, float]) -> dict:
-    """Q4 values by year -> quarterly, on a straight line from `anchor` (latest actual
-    quarter, value) through each year's Q4."""
-    pts = [anchor] + [(f"{y}-Q4", v) for y, v in sorted(q4) if f"{y}-Q4" > anchor[0]]
-    out = {}
-    for (q0, v0), (q1, v1) in zip(pts, pts[1:]):
-        n = q_index(q1) - q_index(q0)
-        for k in range(1, n + 1):
-            out[q_add(q0, k)] = v0 + (v1 - v0) * k / n
-    return out
-
-
-def rules(fc: dict, split: dict, today: list, end: str) -> list[dict]:
+def rules(fc: dict, w_energy: float, today: list, end: str) -> list[dict]:
     """The four rules as [{id, name, formula (HTML), path: [[quarter, rate]]}], each from
-    the current quarter to `end`. `split` is the cpi-energy-split chart file (energy and
-    non-energy inflation, energy's basket weight); `today` is [date, Bank Rate]."""
+    the current quarter to `end`. `w_energy` is energy's share of the CPI basket;
+    `today` is [date, Bank Rate]."""
     boe = lambda var: fc.get(var, {}).get("boe") or []  # noqa: E731
     cpi = dict(map(tuple, boe("cpi")))
     gdp = dict(map(tuple, boe("gdp_level")))
-    gap = annual_to_quarterly(boe("output_gap_annual"))
-
-    # Energy and non-energy inflation: actual up to the latest whole quarter, then from
-    # the Bank's projected energy contribution to CPI
-    by_q: dict[str, list] = {}
-    for r in split["data"]:
-        by_q.setdefault(quarter_of(r["date"]), []).append(r["energy"])
-    last_actual = max(q for q, v in by_q.items() if len(v) == 3)
-    w_energy = split["energy_weight"][max(split["energy_weight"])]
-    contribution = q4_to_quarterly(boe("energy_contribution_q4"),
-                                   (last_actual, w_energy * sum(by_q[last_actual]) / 3))
+    gap = annual_to_quarterly(boe("output_gap_annual"))                     # calendar-year averages
+    contribution = annual_to_quarterly(boe("energy_contribution_q4"), at=3)  # energy's contribution in Q4
 
     def growth(q):  # quarterly GDP growth, %
         return (gdp[q] / gdp[q_add(q, -1)] - 1) * 100 if q in gdp and q_add(q, -1) in gdp else None

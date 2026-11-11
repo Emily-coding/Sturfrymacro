@@ -9,43 +9,15 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/site.js"></script>
 <style>
-  /* Same house style as the dashboard (index.html): Source Sans 3, the "blue-amber" palette */
-  :root {
-    --ink: #102A43; --ink-2: #486581; --ink-3: #627D98;
-    --grid: #D9E2EC; --panel: #F7F9FB; --blue: #186FAF;
-  }
-  * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body { margin: 0; background: #FFFFFF; color: var(--ink);
-         font-family: "Source Sans 3", system-ui, sans-serif; font-size: 16px; line-height: 1.45; }
-  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 16px; }
-  header { padding: 32px 0 12px; }
-  h1 { font-size: 30px; font-weight: 700; margin: 0; letter-spacing: -0.01em; }
-  .sub { color: var(--ink-2); margin: 4px 0 0; max-width: 760px; }
-  nav { position: sticky; top: 0; background: rgba(255,255,255,0.96); border-bottom: 1px solid var(--grid); z-index: 5; }
-  nav .wrap { display: flex; gap: 22px; overflow-x: auto; padding-top: 10px; padding-bottom: 10px; }
-  nav a { color: var(--ink-2); text-decoration: none; font-weight: 600; white-space: nowrap; }
-  nav a:hover { color: var(--blue); }
-  nav a.nav-page { margin-left: auto; color: var(--blue); }
-  section { padding: 34px 0 10px; border-bottom: 1px solid var(--grid); scroll-margin-top: 50px; }
-  h2 { font-size: 24px; font-weight: 700; margin: 0 0 6px; }
-  .intro { color: var(--ink-2); max-width: 760px; margin: 0 0 20px; }
+  /* page-specific; the rest is assets/site.css */
+  .sub, .intro { color: var(--ink-2); max-width: 760px; }
+  h2 { margin-bottom: 6px; }
+  .intro { margin: 0 0 20px; }
   .soon { background: var(--panel); border-radius: 8px; padding: 14px 16px; color: var(--ink-3); margin-bottom: 22px; }
-  .charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 520px), 1fr)); gap: 28px; }
-  figure { margin: 0 0 18px; min-width: 0; }
   figure.wide { grid-column: 1 / -1; }  /* time-series charts span the row */
-  figure h4 { font-size: 18px; font-weight: 600; margin: 0; }
-  .units { display: flex; justify-content: space-between; gap: 12px; color: var(--ink-2); font-size: 14px; margin: 1px 0 8px; }
-  .legend { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 13.5px; color: var(--ink-2); margin-bottom: 6px; }
-  .legend span { display: inline-flex; align-items: center; gap: 6px; }
-  .legend i { width: 18px; height: 0; display: inline-block; border-top: 2.5px solid; }
-  .legend i.dot { width: 9px; height: 9px; border: 0; border-radius: 50%; }
-  .canvas { position: relative; height: 320px; }
-  figcaption { color: var(--ink-3); font-size: 12.5px; margin-top: 8px; }
-  figcaption a, footer a { color: var(--ink-3); }
-  footer { color: var(--ink-3); font-size: 13px; padding: 24px 0 40px; }
-  .error { color: #BA2525; }
 </style>
 </head>
 <body>
@@ -78,23 +50,6 @@ const SECTIONS = [
 
 // Series colours in fixed order: the house "blue-amber" palette (ukmacro/charts.py)
 const COLOURS = ["#186FAF", "#DE911D", "#27AB83", "#BA2525"];
-
-const fmt = (v, dp = 1) => (v < 0 ? "−" : "") + Math.abs(v).toLocaleString("en-GB", {minimumFractionDigits: dp, maximumFractionDigits: dp});
-// '2026-08' -> 2026.625 and '2026-Q3' -> 2026.625: dates as positions on a timeline
-function timeX(d) {
-  const y = +d.slice(0, 4);
-  if (d.includes("Q")) return y + (+d.slice(-1) - 0.5) / 4;
-  return y + (+d.slice(5, 7) - 0.5) / 12;
-}
-function niceLabel(d) {
-  if (d.includes("Q")) return d.slice(-2) + " " + d.slice(0, 4);
-  return new Date(+d.slice(0, 4), +d.slice(5, 7) - 1).toLocaleDateString("en-GB", {month: "short", year: "numeric"});
-}
-function el(tag, cls, html) { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; }
-
-Chart.defaults.font.family = '"Source Sans 3", system-ui, sans-serif';
-Chart.defaults.font.size = 13;
-Chart.defaults.color = "#486581";
 
 // Draw one chart file. A series with axis "right" is read off a right-hand scale;
 // "connect" joins its line across months with no reading.
@@ -183,39 +138,30 @@ function drawScatter(canvas, c) {
   });
 }
 
+// One chart file -> a figure: title, units (right-hand axis units on the right), legend,
+// canvas, then source line. Scatter charts get dot keys and their own drawing.
 function figure(c) {
-  if (c.type === "scatter") return scatterFigure(c);
-  const fig = el("figure", "wide");
+  const scatter = c.type === "scatter";
+  const fig = el("figure", scatter ? null : "wide");
   fig.append(el("h4", null, c.title),
              el("div", "units", `<span>${c.units}</span>${c.units_right ? `<span>${c.units_right}</span>` : ""}`));
-  if (c.series.length > 1) {
-    const lg = el("div", "legend");
-    c.series.forEach((s, i) => lg.append(el("span", null, `<i style="border-color:${COLOURS[i % 4]}"></i>${s.label}`)));
-    fig.append(lg);
+  let keys;
+  if (scatter) {
+    const [earlier, latest] = scatterPoints(c);
+    const span = pts => `${niceLabel(pts[0].d)} to ${niceLabel(pts[pts.length - 1].d)}`;
+    keys = [`<i class="dot" style="background:rgba(24,111,175,0.4)"></i>${span(earlier)}`,
+            latest.length && `<i class="dot" style="background:${COLOURS[1]}"></i>Latest ${latest.length} months: ${span(latest)}`,
+            c.trend && `<i style="border-color:#102A43"></i>Trend`];
+  } else {
+    keys = c.series.length > 1 ? c.series.map((s, i) => `<i style="border-color:${COLOURS[i % 4]}"></i>${s.label}`) : [];
   }
+  const lg = el("div", "legend"); keys.filter(Boolean).forEach(k => lg.append(el("span", null, k)));
   const holder = el("div", "canvas"), canvas = el("canvas");
   canvas.setAttribute("role", "img"); canvas.setAttribute("aria-label", c.title);
-  holder.append(canvas); fig.append(holder);
-  const png = `img/labour-markets/${c.slug}.png`;
-  fig.append(el("figcaption", null, `Source: ${c.source}. ${c.note || ""} Latest: ${niceLabel(c.data_through)}. <a href="${png}">PNG</a>`));
-  requestAnimationFrame(() => draw(canvas, c));
-  return fig;
-}
-
-function scatterFigure(c) {
-  const [earlier, latest] = scatterPoints(c);
-  const span = pts => pts.length ? `${niceLabel(pts[0].d)} to ${niceLabel(pts[pts.length - 1].d)}` : "";
-  const fig = el("figure");
-  fig.append(el("h4", null, c.title), el("div", "units", `<span>${c.units}</span>`));
-  fig.append(el("div", "legend",
-    `<span><i class="dot" style="background:rgba(24,111,175,0.4)"></i>${span(earlier)}</span>` +
-    (latest.length ? `<span><i class="dot" style="background:${COLOURS[1]}"></i>Latest ${latest.length} months: ${span(latest)}</span>` : "") +
-    (c.trend ? `<span><i style="border-color:#102A43"></i>Trend</span>` : "")));
-  const holder = el("div", "canvas"), canvas = el("canvas");
-  canvas.setAttribute("role", "img"); canvas.setAttribute("aria-label", c.title);
-  holder.append(canvas); fig.append(holder);
-  fig.append(el("figcaption", null, `Source: ${c.source}. ${c.note || ""} <a href="img/labour-markets/${c.slug}.png">PNG</a>`));
-  requestAnimationFrame(() => drawScatter(canvas, c));
+  holder.append(canvas);
+  fig.append(lg, holder, el("figcaption", null,
+    `Source: ${c.source}. ${c.note || ""} <a href="img/labour-markets/${c.slug}.png">PNG</a>`));
+  requestAnimationFrame(() => (scatter ? drawScatter : draw)(canvas, c));
   return fig;
 }
 

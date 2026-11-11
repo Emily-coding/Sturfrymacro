@@ -155,10 +155,8 @@ def build_chart(chart: dict, category: str, lg: LastGood, failures: list[str]) -
     upcoming = sorted(r for r in releases if r >= date.today().isoformat())
     trend = None
     if chart.get("trend") and chart.get("type") == "scatter":
-        xk = next(s["key"] for s in series if s.get("axis") == "x")
-        yk = next(s["key"] for s in series if s.get("axis") != "x")
-        pts = [(r[xk], r[yk]) for r in data if r.get(xk) is not None and r.get(yk) is not None]
-        trend = _trend_curve(pts) if len(pts) > 10 else None
+        pts, _ = charts.scatter_points({"series": series, "data": data})  # [(date, x, y)] where both exist
+        trend = _trend_curve([(x, y) for _, x, y in pts]) if len(pts) > 10 else None
     return {
         "slug": chart["slug"],
         "category": category,

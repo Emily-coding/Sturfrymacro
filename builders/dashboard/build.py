@@ -51,7 +51,6 @@ FORECASTERS = {
 OUTTURN = "#186FAF"        # blue
 OUTTURN_SECOND = "#9FB3C8"  # grey: a second outturn measure on the same chart
 TAYLOR_COLOUR = "#102A43"   # navy: policy rules on the Bank Rate chart
-RATE_START = "2020-01-01"   # the Bank Rate chart starts here
 
 
 # ---------------------------------------------------------------- reading outturn
@@ -456,12 +455,11 @@ def markets_section(fc, sources):
 
     gilt, ust, bund = get("bond-yields-10y", "uk"), get("bond-yields-10y", "us"), get("bond-yields-10y", "de")
     rate = get("bank-rate", "bank_rate")
-    rate_long = [p for p in series(chart_file("markets", "bank-rate"), "bank_rate")
-                 if p[0] >= RATE_START]  # this chart starts earlier than the other markets charts
     # Policy rules (builders/dashboard/taylor.py), applied to the Bank's latest projections
     # from today's Bank Rate; the chart lets readers pick one at a time
     variants = []
-    for r in taylor.rules(fc, chart_file("inflation", "cpi-energy-split"), rate[-1], END_Q):
+    weights = json.loads((REPO / "data" / "inflation" / "cpi-energy-weight.json").read_text())
+    for r in taylor.rules(fc, weights[max(weights)], rate[-1], END_Q):
         ln = line(f"{r['name']}, from Bank of England projections",
                   [[mid(q), v] for q, v in r["path"] if mid(q) > rate[-1][0]], TAYLOR_COLOUR, "forecast", rate[-1])
         variants.append({"id": r["id"], "name": r["name"], "formula": r["formula"], "lines": [ln] if ln else []})
@@ -521,7 +519,7 @@ def markets_section(fc, sources):
              "note": "Weekly (last trading day). No forecaster publishes a 10-year yield path: the OBR's assumption is for 20-year gilts.",
              "source": "Bank of England; US Treasury; Bundesbank"},
             {"title": "Bank Rate", "units": "%", "freq": "D",  # no y_min: the Taylor rule can go below zero
-             "lines": [line("Bank Rate", weekly(rate_long), OUTTURN, "outturn")] + assumed("bank_rate", rate[-1]),
+             "lines": [line("Bank Rate", weekly(rate), OUTTURN, "outturn")] + assumed("bank_rate", rate[-1]),
              "variants": variants, "variant_label": "Policy rule",
              "note": "Dashed amber and teal lines are the market-implied path of Bank Rate each forecast was conditioned on "
                      "(quarterly averages, plotted mid-quarter). The navy line is the chosen policy rule applied to the Bank "

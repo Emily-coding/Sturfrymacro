@@ -9,36 +9,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/site.js"></script>
 <style>
-  /* House style: white background, Source Sans 3, the "blue-amber" palette */
-  :root {
-    --ink: #102A43;      /* titles, main text */
-    --ink-2: #486581;    /* secondary text */
-    --ink-3: #627D98;    /* source lines */
-    --grid: #D9E2EC;     /* hairlines */
-    --panel: #F7F9FB;    /* boxes */
-    --blue: #186FAF;
-  }
-  * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body { margin: 0; background: #FFFFFF; color: var(--ink);
-         font-family: "Source Sans 3", system-ui, sans-serif; font-size: 16px; line-height: 1.45; }
-  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 16px; }
-  header { padding: 32px 0 12px; }
-  h1 { font-size: 30px; font-weight: 700; margin: 0; letter-spacing: -0.01em; }
-  .sub { color: var(--ink-2); margin: 4px 0 0; }
-  nav { position: sticky; top: 0; background: rgba(255,255,255,0.96); border-bottom: 1px solid var(--grid);
-        z-index: 5; }
-  nav .wrap { display: flex; gap: 22px; overflow-x: auto; padding-top: 10px; padding-bottom: 10px; }
-  nav a { color: var(--ink-2); text-decoration: none; font-weight: 600; white-space: nowrap; }
-  nav a:hover { color: var(--blue); }
-  nav a.nav-page, nav a.nav-page ~ a { color: var(--blue); }  /* links to other pages, pushed right */
-  nav a.nav-page { margin-left: auto; }
-  section { padding: 34px 0 10px; border-bottom: 1px solid var(--grid); scroll-margin-top: 50px; }
-  h2 { font-size: 24px; font-weight: 700; margin: 0 0 14px; }
-  h2 a.more { font-size: 16px; font-weight: 600; color: var(--blue); text-decoration: none; margin-left: 14px; white-space: nowrap; }
-  h2 a.more:hover { text-decoration: underline; }
-
   /* Summary box: latest outturn, then forecasts for the next releases */
   .box { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; margin-bottom: 22px; }
   .card { background: var(--panel); border-radius: 8px; padding: 14px 16px; }
@@ -56,28 +29,6 @@
   .fc-row .who i { width: 14px; height: 0; border-top: 2.5px dashed; display: inline-block; }
   .fc-row .val { font-weight: 700; font-variant-numeric: tabular-nums; }
   .none { color: var(--ink-3); font-size: 14px; }
-
-  /* Charts */
-  .charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 520px), 1fr)); gap: 28px; }
-  figure { margin: 0 0 18px; min-width: 0; }
-  figure h4 { font-size: 18px; font-weight: 600; margin: 0; }
-  figure .units { color: var(--ink-2); font-size: 14px; margin: 1px 0 8px; }
-  .legend { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 13.5px; color: var(--ink-2); margin-bottom: 6px; }
-  .legend span { display: inline-flex; align-items: center; gap: 6px; }
-  .legend i { width: 18px; height: 0; display: inline-block; border-top: 2.5px solid; }
-  .legend i.dash { border-top-style: dashed; }
-  .canvas { position: relative; height: 300px; }
-  /* buttons to switch between a chart's variants (e.g. policy rules on Bank Rate) */
-  .picker { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 6px; }
-  .picker button { font: inherit; font-size: 13.5px; color: var(--ink-2); background: #FFFFFF; cursor: pointer;
-                   border: 1px solid var(--grid); border-radius: 999px; padding: 3px 11px; }
-  .picker button:hover { border-color: var(--blue); color: var(--blue); }
-  .picker button[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #FFFFFF; }
-  .formula { color: var(--ink-2); font-size: 13px; margin-bottom: 6px; }
-  figcaption { color: var(--ink-3); font-size: 12.5px; margin-top: 8px; }
-  footer { color: var(--ink-3); font-size: 13px; padding: 24px 0 40px; }
-  footer a, figcaption a { color: var(--ink-3); }
-  .error { color: #BA2525; padding: 40px 0; }
 </style>
 </head>
 <body>
@@ -92,30 +43,6 @@
 <script>
 // Everything on this page comes from data/dashboard/dashboard.json, which the
 // dashboard builder (builders/dashboard/build.py) rewrites every weekday.
-
-// Numbers with a real minus sign; dp = decimal places (1 unless set), thousands separated
-const fmt = (v, dp = 1) => (v < 0 ? "−" : "") + Math.abs(v).toLocaleString("en-GB", {minimumFractionDigits: dp, maximumFractionDigits: dp});
-const fmtDate = s => new Date(s + "T12:00").toLocaleDateString("en-GB", {day: "numeric", month: "short"});
-
-// Dates to positions on a timeline: '2026-08' -> 2026.625, '2026-Q3' -> 2026.625,
-// '2026-11-06' (a daily market price) -> 2026 plus the fraction of the year gone
-function timeX(d) {
-  const y = +d.slice(0, 4);
-  if (d.includes("Q")) return y + (+d.slice(-1) - 0.5) / 4;
-  if (d.length === 10) return y + (Date.UTC(y, +d.slice(5, 7) - 1, +d.slice(8)) - Date.UTC(y, 0, 1)) / (365.25 * 864e5);
-  return y + (+d.slice(5, 7) - 0.5) / 12;
-}
-function niceLabel(d) {
-  if (d.includes("Q")) return d.slice(-2) + " " + d.slice(0, 4);
-  if (d.length === 10) return fmtDate(d) + " " + d.slice(0, 4);
-  return new Date(+d.slice(0, 4), +d.slice(5, 7) - 1).toLocaleDateString("en-GB", {month: "short", year: "numeric"});
-}
-
-Chart.defaults.font.family = '"Source Sans 3", system-ui, sans-serif';
-Chart.defaults.font.size = 13;
-Chart.defaults.color = "#486581";
-
-function el(tag, cls, html) { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; }
 
 function renderBox(box) {
   const wrap = el("div", "box");

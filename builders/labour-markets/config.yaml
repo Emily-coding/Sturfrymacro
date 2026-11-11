@@ -66,3 +66,19 @@ charts:
         key: "{areas}..._Z.Y._T.Y_GE15..M"
         start: "2019-01"
         areas: {GBR: United Kingdom, USA: United States, DEU: Germany, FRA: France, ITA: Italy, JPN: Japan, CAN: Canada}
+
+  # ---- Labour market indicators page (labour.html): hiring
+  - slug: hiring-vacancies-agents
+    title: Vacancies and recruitment difficulties
+    units: Score (0 = normal)
+    units_right: Vacancies, thousands
+    freq: M
+    start: "2001-01"
+    source: ONS Vacancy Survey; Bank of England Agents' scores
+    note: >-
+      Vacancies are a three-month average, dated by the final month. The Agents' score runs
+      from -5 to +5 and is their judgement, from talking to businesses, of how hard firms find
+      it to recruit compared with normal. Scores were monthly until 2023, about eight a year since.
+    series:
+      - {source: agents, key: recruitment_difficulties, label: "Recruitment difficulties (Agents, left)", column: Recruitment Difficulties, connect: true}
+      - {source: ons, key: vacancies, label: "Vacancies (ONS, right)", cdid: AP2Y, dataset: LMS, axis: right}

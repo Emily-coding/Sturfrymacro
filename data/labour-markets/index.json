@@ -43,6 +43,13 @@
    "data_through": "2026-10",
    "next_release": null,
    "status": "ok"
+  },
+  {
+   "slug": "hiring-vacancies-agents",
+   "title": "Vacancies and recruitment difficulties",
+   "data_through": "2026-10",
+   "next_release": "2026-11-17",
+   "status": "ok"
   }
  ]
 }

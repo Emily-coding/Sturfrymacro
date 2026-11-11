@@ -28,6 +28,7 @@ ukmacro/                 shared source clients + the chart builder
                          incl. the historical forecasts database
   dmp.py                 Decision Maker Panel spreadsheets
   boe_mpr.py             Bank of England Monetary Policy Report forecasts
+  boe_agents.py          Bank of England Agents' scores (one spreadsheet, scores from 1997)
   markets.py             market prices: US Treasury, Bundesbank, EIA oil, Ofgem gas, Yahoo FTSE 100
   lastgood.py            last-good store (see below)
   builder.py             config.yaml -> chart JSON
@@ -84,6 +85,19 @@ dashboard, daily prices are thinned to weekly (the last trading day of each week
 with outturn (level forecasts are rescaled to the latest ONS figure). The
 `dashboard` workflow reruns it after each area refresh. To view it locally:
 `python3 -m http.server` in the repo, then open http://localhost:8000.
+
+## Labour market indicators
+
+**https://emily-coding.github.io/Sturfrymacro/labour.html** (linked from the dashboard nav).
+A closer look at the labour market in three sections: hiring, dynamism and NEETs. Its
+charts are ordinary `builders/labour-markets/config.yaml` charts; the page lists which
+slugs go in which section at the top of its script (`SECTIONS` in `labour.html`).
+
+- **Hiring**: ONS vacancies against the Bank of England Agents' recruitment difficulties
+  score (on two axes: a series with `axis: right` uses the chart's `units_right`). A
+  stand-in for the KPMG/REC "demand for staff" index often shown with vacancies, which is
+  licensed from S&P Global and can't be republished.
+- **Dynamism**, **NEETs**: to come.
 
 ## Market commentary
 

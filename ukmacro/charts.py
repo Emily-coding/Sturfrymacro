@@ -14,6 +14,10 @@ House style, used for every PNG:
 A chart can set "events": [{"date": "YYYY-MM-DD", "label": ...}] for thin vertical
 reference lines (e.g. product launches).
 
+A line chart can put some series on a right-hand axis ("axis": "right" on the series,
+labelled by the chart's "units_right"), for two measures on different scales. A series
+with "connect": true is joined across missing periods instead of breaking.
+
 A series can set "slot": n to pin its colour, so one category keeps the same colour
 across related charts, or "color": "neutral" for a grey (e.g. data not available).
 Series beyond the fourth are grey (see _colour).
@@ -315,14 +319,25 @@ def _line(chart):
     dates = [d["date"] for d in chart["data"]]
     x = range(len(dates))
     handles, ends = [], []
+    # a second y-axis on the right, for series on another scale; its units go above it,
+    # opposite the left-hand ones
+    ax_r = None
+    if any(s.get("axis") == "right" for s in chart["series"]):
+        ax_r = ax.twinx()
+        for side in ("top", "right", "left", "bottom"):
+            ax_r.spines[side].set_visible(False)
+        ax_r.tick_params(axis="both", length=0, pad=6)
+        fig.text(1 - _x(RIGHT_CM), 0.875, chart.get("units_right", ""), fontsize=11.5, color=TEXT_2,
+                 va="baseline", ha="right")
     for i, s in enumerate(chart["series"]):
         ys = [d.get(s["key"]) for d in chart["data"]]
         colour = _colour(s, i)
-        if chart.get("freq") == "D":  # daily prices: join across other markets' holidays rather than leave gaps
+        on = ax_r if s.get("axis") == "right" else ax
+        if chart.get("freq") == "D" or s.get("connect"):  # daily prices: join across other markets' holidays rather than leave gaps
             px, py = [j for j, y in enumerate(ys) if y is not None], [y for y in ys if y is not None]
         else:  # periods: a missing value is a real gap in the data, so the line breaks there
             px, py = list(x), [y if y is not None else float("nan") for y in ys]
-        (h,) = ax.plot(px, py,
+        (h,) = on.plot(px, py,
                        color=colour, linewidth=2, solid_capstyle="round",
                        linestyle="--" if s.get("dash") else "-",  # dashed = a forecast
                        zorder=3 if colour != BASELINE else 2)  # coloured lines above grey ones
@@ -334,6 +349,8 @@ def _line(chart):
             ends.append((j, ys[j], text))
     _period_ticks(ax, dates)
     _events(ax, chart, dates)
+    if ax_r is not None:  # end labels would sit on the right-hand tick labels: skip them
+        ends = []
     _end_labels(fig, ax, ends)
     # grey context lines are named at their ends, so they stay out of the legend
     keep = [i for i, s in enumerate(chart["series"]) if _colour(s, i) != BASELINE]

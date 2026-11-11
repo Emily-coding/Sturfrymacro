@@ -1,0 +1,1585 @@
+{
+ "slug": "hiring-vacancies-agents",
+ "category": "labour-markets",
+ "title": "Vacancies and recruitment difficulties",
+ "type": "line",
+ "freq": "M",
+ "units": "Score (0 = normal)",
+ "units_right": "Vacancies, thousands",
+ "source": "ONS Vacancy Survey; Bank of England Agents' scores",
+ "note": "Vacancies are a three-month average, dated by the final month. The Agents' score runs from -5 to +5 and is their judgement, from talking to businesses, of how hard firms find it to recruit compared with normal. Scores were monthly until 2023, about eight a year since.",
+ "series": [
+  {
+   "key": "recruitment_difficulties",
+   "label": "Recruitment difficulties (Agents, left)",
+   "_source": "live",
+   "connect": true,
+   "_date": "2026-10",
+   "source_url": "https://www.bankofengland.co.uk/-/media/boe/files/agents-summary/agentsscores.xlsx"
+  },
+  {
+   "key": "vacancies",
+   "label": "Vacancies (ONS, right)",
+   "_source": "live",
+   "axis": "right",
+   "_date": "2026-08",
+   "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/employmentandemployeetypes/timeseries/ap2y/lms"
+  }
+ ],
+ "data_through": "2026-10",
+ "next_release": "2026-11-17",
+ "status": "ok",
+ "data": [
+  {
+   "date": "2001-01",
+   "recruitment_difficulties": 3.893,
+   "vacancies": null
+  },
+  {
+   "date": "2001-02",
+   "recruitment_difficulties": 3.706,
+   "vacancies": null
+  },
+  {
+   "date": "2001-03",
+   "recruitment_difficulties": 3.625,
+   "vacancies": null
+  },
+  {
+   "date": "2001-04",
+   "recruitment_difficulties": 3.466,
+   "vacancies": null
+  },
+  {
+   "date": "2001-05",
+   "recruitment_difficulties": 2.977,
+   "vacancies": 680.0
+  },
+  {
+   "date": "2001-06",
+   "recruitment_difficulties": 2.781,
+   "vacancies": 674.0
+  },
+  {
+   "date": "2001-07",
+   "recruitment_difficulties": 2.672,
+   "vacancies": 663.0
+  },
+  {
+   "date": "2001-08",
+   "recruitment_difficulties": 2.358,
+   "vacancies": 664.0
+  },
+  {
+   "date": "2001-09",
+   "recruitment_difficulties": 1.914,
+   "vacancies": 639.0
+  },
+  {
+   "date": "2001-10",
+   "recruitment_difficulties": 1.773,
+   "vacancies": 626.0
+  },
+  {
+   "date": "2001-11",
+   "recruitment_difficulties": 1.561,
+   "vacancies": 602.0
+  },
+  {
+   "date": "2001-12",
+   "recruitment_difficulties": 1.462,
+   "vacancies": 606.0
+  },
+  {
+   "date": "2002-01",
+   "recruitment_difficulties": 1.465,
+   "vacancies": 616.0
+  },
+  {
+   "date": "2002-02",
+   "recruitment_difficulties": 1.485,
+   "vacancies": 619.0
+  },
+  {
+   "date": "2002-03",
+   "recruitment_difficulties": 1.411,
+   "vacancies": 619.0
+  },
+  {
+   "date": "2002-04",
+   "recruitment_difficulties": 1.443,
+   "vacancies": 613.0
+  },
+  {
+   "date": "2002-05",
+   "recruitment_difficulties": 1.443,
+   "vacancies": 616.0
+  },
+  {
+   "date": "2002-06",
+   "recruitment_difficulties": 1.393,
+   "vacancies": 611.0
+  },
+  {
+   "date": "2002-07",
+   "recruitment_difficulties": 1.515,
+   "vacancies": 613.0
+  },
+  {
+   "date": "2002-08",
+   "recruitment_difficulties": 1.515,
+   "vacancies": 609.0
+  },
+  {
+   "date": "2002-09",
+   "recruitment_difficulties": 1.472,
+   "vacancies": 609.0
+  },
+  {
+   "date": "2002-10",
+   "recruitment_difficulties": 1.472,
+   "vacancies": 608.0
+  },
+  {
+   "date": "2002-11",
+   "recruitment_difficulties": 1.51,
+   "vacancies": 603.0
+  },
+  {
+   "date": "2002-12",
+   "recruitment_difficulties": 1.51,
+   "vacancies": 602.0
+  },
+  {
+   "date": "2003-01",
+   "recruitment_difficulties": 1.511,
+   "vacancies": 596.0
+  },
+  {
+   "date": "2003-02",
+   "recruitment_difficulties": 1.466,
+   "vacancies": 593.0
+  },
+  {
+   "date": "2003-03",
+   "recruitment_difficulties": 1.289,
+   "vacancies": 585.0
+  },
+  {
+   "date": "2003-04",
+   "recruitment_difficulties": 1.084,
+   "vacancies": 589.0
+  },
+  {
+   "date": "2003-05",
+   "recruitment_difficulties": 1.057,
+   "vacancies": 579.0
+  },
+  {
+   "date": "2003-06",
+   "recruitment_difficulties": 0.695,
+   "vacancies": 574.0
+  },
+  {
+   "date": "2003-07",
+   "recruitment_difficulties": 0.603,
+   "vacancies": 577.0
+  },
+  {
+   "date": "2003-08",
+   "recruitment_difficulties": 0.556,
+   "vacancies": 592.0
+  },
+  {
+   "date": "2003-09",
+   "recruitment_difficulties": 0.773,
+   "vacancies": 604.0
+  },
+  {
+   "date": "2003-10",
+   "recruitment_difficulties": 1.143,
+   "vacancies": 610.0
+  },
+  {
+   "date": "2003-11",
+   "recruitment_difficulties": 1.507,
+   "vacancies": 614.0
+  },
+  {
+   "date": "2003-12",
+   "recruitment_difficulties": 1.53,
+   "vacancies": 613.0
+  },
+  {
+   "date": "2004-01",
+   "recruitment_difficulties": 1.683,
+   "vacancies": 617.0
+  },
+  {
+   "date": "2004-02",
+   "recruitment_difficulties": 1.749,
+   "vacancies": 624.0
+  },
+  {
+   "date": "2004-03",
+   "recruitment_difficulties": 1.863,
+   "vacancies": 630.0
+  },
+  {
+   "date": "2004-04",
+   "recruitment_difficulties": 1.947,
+   "vacancies": 637.0
+  },
+  {
+   "date": "2004-05",
+   "recruitment_difficulties": 2.178,
+   "vacancies": 641.0
+  },
+  {
+   "date": "2004-06",
+   "recruitment_difficulties": 2.554,
+   "vacancies": 652.0
+  },
+  {
+   "date": "2004-07",
+   "recruitment_difficulties": 2.592,
+   "vacancies": 654.0
+  },
+  {
+   "date": "2004-08",
+   "recruitment_difficulties": 2.615,
+   "vacancies": 654.0
+  },
+  {
+   "date": "2004-09",
+   "recruitment_difficulties": 2.642,
+   "vacancies": 655.0
+  },
+  {
+   "date": "2004-10",
+   "recruitment_difficulties": 2.726,
+   "vacancies": 657.0
+  },
+  {
+   "date": "2004-11",
+   "recruitment_difficulties": 2.435,
+   "vacancies": 661.0
+  },
+  {
+   "date": "2004-12",
+   "recruitment_difficulties": 2.419,
+   "vacancies": 661.0
+  },
+  {
+   "date": "2005-01",
+   "recruitment_difficulties": 1.98,
+   "vacancies": 655.0
+  },
+  {
+   "date": "2005-02",
+   "recruitment_difficulties": 1.98,
+   "vacancies": 643.0
+  },
+  {
+   "date": "2005-03",
+   "recruitment_difficulties": 1.824,
+   "vacancies": 636.0
+  },
+  {
+   "date": "2005-04",
+   "recruitment_difficulties": 1.387,
+   "vacancies": 642.0
+  },
+  {
+   "date": "2005-05",
+   "recruitment_difficulties": 1.134,
+   "vacancies": 642.0
+  },
+  {
+   "date": "2005-06",
+   "recruitment_difficulties": 0.863,
+   "vacancies": 634.0
+  },
+  {
+   "date": "2005-07",
+   "recruitment_difficulties": 0.565,
+   "vacancies": 624.0
+  },
+  {
+   "date": "2005-08",
+   "recruitment_difficulties": 0.58,
+   "vacancies": 621.0
+  },
+  {
+   "date": "2005-09",
+   "recruitment_difficulties": 0.2,
+   "vacancies": 609.0
+  },
+  {
+   "date": "2005-10",
+   "recruitment_difficulties": 0.078,
+   "vacancies": 606.0
+  },
+  {
+   "date": "2005-11",
+   "recruitment_difficulties": -0.347,
+   "vacancies": 609.0
+  },
+  {
+   "date": "2005-12",
+   "recruitment_difficulties": -0.515,
+   "vacancies": 614.0
+  },
+  {
+   "date": "2006-01",
+   "recruitment_difficulties": -0.593,
+   "vacancies": 613.0
+  },
+  {
+   "date": "2006-02",
+   "recruitment_difficulties": -0.405,
+   "vacancies": 599.0
+  },
+  {
+   "date": "2006-03",
+   "recruitment_difficulties": -0.504,
+   "vacancies": 598.0
+  },
+  {
+   "date": "2006-04",
+   "recruitment_difficulties": -0.427,
+   "vacancies": 597.0
+  },
+  {
+   "date": "2006-05",
+   "recruitment_difficulties": -0.401,
+   "vacancies": 604.0
+  },
+  {
+   "date": "2006-06",
+   "recruitment_difficulties": -0.488,
+   "vacancies": 608.0
+  },
+  {
+   "date": "2006-07",
+   "recruitment_difficulties": -0.629,
+   "vacancies": 611.0
+  },
+  {
+   "date": "2006-08",
+   "recruitment_difficulties": -0.668,
+   "vacancies": 611.0
+  },
+  {
+   "date": "2006-09",
+   "recruitment_difficulties": -0.428,
+   "vacancies": 618.0
+  },
+  {
+   "date": "2006-10",
+   "recruitment_difficulties": -0.261,
+   "vacancies": 619.0
+  },
+  {
+   "date": "2006-11",
+   "recruitment_difficulties": -0.203,
+   "vacancies": 621.0
+  },
+  {
+   "date": "2006-12",
+   "recruitment_difficulties": -0.043,
+   "vacancies": 618.0
+  },
+  {
+   "date": "2007-01",
+   "recruitment_difficulties": 0.329,
+   "vacancies": 629.0
+  },
+  {
+   "date": "2007-02",
+   "recruitment_difficulties": 0.518,
+   "vacancies": 642.0
+  },
+  {
+   "date": "2007-03",
+   "recruitment_difficulties": 0.927,
+   "vacancies": 647.0
+  },
+  {
+   "date": "2007-04",
+   "recruitment_difficulties": 1.245,
+   "vacancies": 651.0
+  },
+  {
+   "date": "2007-05",
+   "recruitment_difficulties": 1.397,
+   "vacancies": 659.0
+  },
+  {
+   "date": "2007-06",
+   "recruitment_difficulties": 1.633,
+   "vacancies": 670.0
+  },
+  {
+   "date": "2007-07",
+   "recruitment_difficulties": 1.697,
+   "vacancies": 681.0
+  },
+  {
+   "date": "2007-08",
+   "recruitment_difficulties": 1.922,
+   "vacancies": 684.0
+  },
+  {
+   "date": "2007-09",
+   "recruitment_difficulties": 1.605,
+   "vacancies": 686.0
+  },
+  {
+   "date": "2007-10",
+   "recruitment_difficulties": 1.203,
+   "vacancies": 690.0
+  },
+  {
+   "date": "2007-11",
+   "recruitment_difficulties": 1.103,
+   "vacancies": 687.0
+  },
+  {
+   "date": "2007-12",
+   "recruitment_difficulties": 1.035,
+   "vacancies": 678.0
+  },
+  {
+   "date": "2008-01",
+   "recruitment_difficulties": 0.883,
+   "vacancies": 687.0
+  },
+  {
+   "date": "2008-02",
+   "recruitment_difficulties": 0.633,
+   "vacancies": 698.0
+  },
+  {
+   "date": "2008-03",
+   "recruitment_difficulties": 0.274,
+   "vacancies": 693.0
+  },
+  {
+   "date": "2008-04",
+   "recruitment_difficulties": 0.089,
+   "vacancies": 679.0
+  },
+  {
+   "date": "2008-05",
+   "recruitment_difficulties": -0.163,
+   "vacancies": 657.0
+  },
+  {
+   "date": "2008-06",
+   "recruitment_difficulties": -0.671,
+   "vacancies": 642.0
+  },
+  {
+   "date": "2008-07",
+   "recruitment_difficulties": -1.091,
+   "vacancies": 625.0
+  },
+  {
+   "date": "2008-08",
+   "recruitment_difficulties": -1.332,
+   "vacancies": 615.0
+  },
+  {
+   "date": "2008-09",
+   "recruitment_difficulties": -1.753,
+   "vacancies": 596.0
+  },
+  {
+   "date": "2008-10",
+   "recruitment_difficulties": -2.176,
+   "vacancies": 562.0
+  },
+  {
+   "date": "2008-11",
+   "recruitment_difficulties": -2.742,
+   "vacancies": 527.0
+  },
+  {
+   "date": "2008-12",
+   "recruitment_difficulties": -3.07,
+   "vacancies": 498.0
+  },
+  {
+   "date": "2009-01",
+   "recruitment_difficulties": -3.236,
+   "vacancies": 478.0
+  },
+  {
+   "date": "2009-02",
+   "recruitment_difficulties": -3.411,
+   "vacancies": 464.0
+  },
+  {
+   "date": "2009-03",
+   "recruitment_difficulties": -3.503,
+   "vacancies": 454.0
+  },
+  {
+   "date": "2009-04",
+   "recruitment_difficulties": -3.566,
+   "vacancies": 444.0
+  },
+  {
+   "date": "2009-05",
+   "recruitment_difficulties": -3.566,
+   "vacancies": 431.0
+  },
+  {
+   "date": "2009-06",
+   "recruitment_difficulties": -3.692,
+   "vacancies": 429.0
+  },
+  {
+   "date": "2009-07",
+   "recruitment_difficulties": -3.692,
+   "vacancies": 439.0
+  },
+  {
+   "date": "2009-08",
+   "recruitment_difficulties": -3.783,
+   "vacancies": 436.0
+  },
+  {
+   "date": "2009-09",
+   "recruitment_difficulties": -3.783,
+   "vacancies": 432.0
+  },
+  {
+   "date": "2009-10",
+   "recruitment_difficulties": -3.783,
+   "vacancies": 437.0
+  },
+  {
+   "date": "2009-11",
+   "recruitment_difficulties": -3.712,
+   "vacancies": 454.0
+  },
+  {
+   "date": "2009-12",
+   "recruitment_difficulties": -3.319,
+   "vacancies": 465.0
+  },
+  {
+   "date": "2010-01",
+   "recruitment_difficulties": -2.995,
+   "vacancies": 467.0
+  },
+  {
+   "date": "2010-02",
+   "recruitment_difficulties": -2.87,
+   "vacancies": 465.0
+  },
+  {
+   "date": "2010-03",
+   "recruitment_difficulties": -2.789,
+   "vacancies": 467.0
+  },
+  {
+   "date": "2010-04",
+   "recruitment_difficulties": -2.671,
+   "vacancies": 479.0
+  },
+  {
+   "date": "2010-05",
+   "recruitment_difficulties": -2.405,
+   "vacancies": 484.0
+  },
+  {
+   "date": "2010-06",
+   "recruitment_difficulties": -1.946,
+   "vacancies": 479.0
+  },
+  {
+   "date": "2010-07",
+   "recruitment_difficulties": -1.646,
+   "vacancies": 461.0
+  },
+  {
+   "date": "2010-08",
+   "recruitment_difficulties": -1.558,
+   "vacancies": 455.0
+  },
+  {
+   "date": "2010-09",
+   "recruitment_difficulties": -1.579,
+   "vacancies": 455.0
+  },
+  {
+   "date": "2010-10",
+   "recruitment_difficulties": -1.39,
+   "vacancies": 473.0
+  },
+  {
+   "date": "2010-11",
+   "recruitment_difficulties": -1.18,
+   "vacancies": 482.0
+  },
+  {
+   "date": "2010-12",
+   "recruitment_difficulties": -1.024,
+   "vacancies": 495.0
+  },
+  {
+   "date": "2011-01",
+   "recruitment_difficulties": -1.024,
+   "vacancies": 490.0
+  },
+  {
+   "date": "2011-02",
+   "recruitment_difficulties": -0.831,
+   "vacancies": 482.0
+  },
+  {
+   "date": "2011-03",
+   "recruitment_difficulties": -0.713,
+   "vacancies": 472.0
+  },
+  {
+   "date": "2011-04",
+   "recruitment_difficulties": -0.681,
+   "vacancies": 461.0
+  },
+  {
+   "date": "2011-05",
+   "recruitment_difficulties": -0.738,
+   "vacancies": 460.0
+  },
+  {
+   "date": "2011-06",
+   "recruitment_difficulties": -0.538,
+   "vacancies": 457.0
+  },
+  {
+   "date": "2011-07",
+   "recruitment_difficulties": -0.606,
+   "vacancies": 462.0
+  },
+  {
+   "date": "2011-08",
+   "recruitment_difficulties": -0.606,
+   "vacancies": 464.0
+  },
+  {
+   "date": "2011-09",
+   "recruitment_difficulties": -0.637,
+   "vacancies": 467.0
+  },
+  {
+   "date": "2011-10",
+   "recruitment_difficulties": -0.847,
+   "vacancies": 461.0
+  },
+  {
+   "date": "2011-11",
+   "recruitment_difficulties": -0.972,
+   "vacancies": 465.0
+  },
+  {
+   "date": "2011-12",
+   "recruitment_difficulties": -1.043,
+   "vacancies": 475.0
+  },
+  {
+   "date": "2012-01",
+   "recruitment_difficulties": -1.046,
+   "vacancies": 473.0
+  },
+  {
+   "date": "2012-02",
+   "recruitment_difficulties": -1.027,
+   "vacancies": 467.0
+  },
+  {
+   "date": "2012-03",
+   "recruitment_difficulties": -1.137,
+   "vacancies": 465.0
+  },
+  {
+   "date": "2012-04",
+   "recruitment_difficulties": -1.122,
+   "vacancies": 470.0
+  },
+  {
+   "date": "2012-05",
+   "recruitment_difficulties": -1.122,
+   "vacancies": 474.0
+  },
+  {
+   "date": "2012-06",
+   "recruitment_difficulties": -1.051,
+   "vacancies": 480.0
+  },
+  {
+   "date": "2012-07",
+   "recruitment_difficulties": -0.718,
+   "vacancies": 484.0
+  },
+  {
+   "date": "2012-08",
+   "recruitment_difficulties": -0.629,
+   "vacancies": 488.0
+  },
+  {
+   "date": "2012-09",
+   "recruitment_difficulties": -0.693,
+   "vacancies": 490.0
+  },
+  {
+   "date": "2012-10",
+   "recruitment_difficulties": -0.693,
+   "vacancies": 493.0
+  },
+  {
+   "date": "2012-11",
+   "recruitment_difficulties": -0.587,
+   "vacancies": 501.0
+  },
+  {
+   "date": "2012-12",
+   "recruitment_difficulties": -0.523,
+   "vacancies": 502.0
+  },
+  {
+   "date": "2013-01",
+   "recruitment_difficulties": -0.523,
+   "vacancies": 505.0
+  },
+  {
+   "date": "2013-02",
+   "recruitment_difficulties": -0.644,
+   "vacancies": 506.0
+  },
+  {
+   "date": "2013-03",
+   "recruitment_difficulties": -0.58,
+   "vacancies": 515.0
+  },
+  {
+   "date": "2013-04",
+   "recruitment_difficulties": -0.615,
+   "vacancies": 522.0
+  },
+  {
+   "date": "2013-05",
+   "recruitment_difficulties": -0.524,
+   "vacancies": 533.0
+  },
+  {
+   "date": "2013-06",
+   "recruitment_difficulties": -0.524,
+   "vacancies": 540.0
+  },
+  {
+   "date": "2013-07",
+   "recruitment_difficulties": -0.552,
+   "vacancies": 536.0
+  },
+  {
+   "date": "2013-08",
+   "recruitment_difficulties": -0.588,
+   "vacancies": 548.0
+  },
+  {
+   "date": "2013-09",
+   "recruitment_difficulties": -0.502,
+   "vacancies": 551.0
+  },
+  {
+   "date": "2013-10",
+   "recruitment_difficulties": -0.322,
+   "vacancies": 567.0
+  },
+  {
+   "date": "2013-11",
+   "recruitment_difficulties": -0.254,
+   "vacancies": 573.0
+  },
+  {
+   "date": "2013-12",
+   "recruitment_difficulties": -0.148,
+   "vacancies": 582.0
+  },
+  {
+   "date": "2014-01",
+   "recruitment_difficulties": 0.258,
+   "vacancies": 596.0
+  },
+  {
+   "date": "2014-02",
+   "recruitment_difficulties": 0.362,
+   "vacancies": 615.0
+  },
+  {
+   "date": "2014-03",
+   "recruitment_difficulties": 0.395,
+   "vacancies": 639.0
+  },
+  {
+   "date": "2014-04",
+   "recruitment_difficulties": 0.524,
+   "vacancies": 653.0
+  },
+  {
+   "date": "2014-05",
+   "recruitment_difficulties": 0.524,
+   "vacancies": 662.0
+  },
+  {
+   "date": "2014-06",
+   "recruitment_difficulties": 0.895,
+   "vacancies": 670.0
+  },
+  {
+   "date": "2014-07",
+   "recruitment_difficulties": 1.115,
+   "vacancies": 682.0
+  },
+  {
+   "date": "2014-08",
+   "recruitment_difficulties": 1.287,
+   "vacancies": 686.0
+  },
+  {
+   "date": "2014-09",
+   "recruitment_difficulties": 1.711,
+   "vacancies": 701.0
+  },
+  {
+   "date": "2014-10",
+   "recruitment_difficulties": 1.711,
+   "vacancies": 703.0
+  },
+  {
+   "date": "2014-11",
+   "recruitment_difficulties": 1.711,
+   "vacancies": 708.0
+  },
+  {
+   "date": "2014-12",
+   "recruitment_difficulties": 1.681,
+   "vacancies": 710.0
+  },
+  {
+   "date": "2015-01",
+   "recruitment_difficulties": 1.616,
+   "vacancies": 721.0
+  },
+  {
+   "date": "2015-02",
+   "recruitment_difficulties": 1.537,
+   "vacancies": 729.0
+  },
+  {
+   "date": "2015-03",
+   "recruitment_difficulties": 1.537,
+   "vacancies": 726.0
+  },
+  {
+   "date": "2015-04",
+   "recruitment_difficulties": 1.537,
+   "vacancies": 727.0
+  },
+  {
+   "date": "2015-05",
+   "recruitment_difficulties": 1.606,
+   "vacancies": 730.0
+  },
+  {
+   "date": "2015-06",
+   "recruitment_difficulties": 1.816,
+   "vacancies": 744.0
+  },
+  {
+   "date": "2015-07",
+   "recruitment_difficulties": 2.276,
+   "vacancies": 744.0
+  },
+  {
+   "date": "2015-08",
+   "recruitment_difficulties": 2.276,
+   "vacancies": 742.0
+  },
+  {
+   "date": "2015-09",
+   "recruitment_difficulties": 2.276,
+   "vacancies": 740.0
+  },
+  {
+   "date": "2015-10",
+   "recruitment_difficulties": 2.276,
+   "vacancies": 741.0
+  },
+  {
+   "date": "2015-11",
+   "recruitment_difficulties": 2.279,
+   "vacancies": 745.0
+  },
+  {
+   "date": "2015-12",
+   "recruitment_difficulties": 2.359,
+   "vacancies": 747.0
+  },
+  {
+   "date": "2016-01",
+   "recruitment_difficulties": 1.746,
+   "vacancies": 746.0
+  },
+  {
+   "date": "2016-02",
+   "recruitment_difficulties": 1.69,
+   "vacancies": 745.0
+  },
+  {
+   "date": "2016-03",
+   "recruitment_difficulties": 1.493,
+   "vacancies": 742.0
+  },
+  {
+   "date": "2016-04",
+   "recruitment_difficulties": 1.493,
+   "vacancies": 746.0
+  },
+  {
+   "date": "2016-05",
+   "recruitment_difficulties": 1.367,
+   "vacancies": 748.0
+  },
+  {
+   "date": "2016-06",
+   "recruitment_difficulties": 1.289,
+   "vacancies": 753.0
+  },
+  {
+   "date": "2016-07",
+   "recruitment_difficulties": 1.325,
+   "vacancies": 756.0
+  },
+  {
+   "date": "2016-08",
+   "recruitment_difficulties": 1.325,
+   "vacancies": 756.0
+  },
+  {
+   "date": "2016-09",
+   "recruitment_difficulties": null,
+   "vacancies": 765.0
+  },
+  {
+   "date": "2016-10",
+   "recruitment_difficulties": 1.148,
+   "vacancies": 757.0
+  },
+  {
+   "date": "2016-11",
+   "recruitment_difficulties": 1.148,
+   "vacancies": 753.0
+  },
+  {
+   "date": "2016-12",
+   "recruitment_difficulties": null,
+   "vacancies": 744.0
+  },
+  {
+   "date": "2017-01",
+   "recruitment_difficulties": 1.17,
+   "vacancies": 759.0
+  },
+  {
+   "date": "2017-02",
+   "recruitment_difficulties": 1.406,
+   "vacancies": 766.0
+  },
+  {
+   "date": "2017-03",
+   "recruitment_difficulties": null,
+   "vacancies": 789.0
+  },
+  {
+   "date": "2017-04",
+   "recruitment_difficulties": 1.777,
+   "vacancies": 787.0
+  },
+  {
+   "date": "2017-05",
+   "recruitment_difficulties": 1.845,
+   "vacancies": 792.0
+  },
+  {
+   "date": "2017-06",
+   "recruitment_difficulties": null,
+   "vacancies": 793.0
+  },
+  {
+   "date": "2017-07",
+   "recruitment_difficulties": 2.057,
+   "vacancies": 801.0
+  },
+  {
+   "date": "2017-08",
+   "recruitment_difficulties": 2.041,
+   "vacancies": 806.0
+  },
+  {
+   "date": "2017-09",
+   "recruitment_difficulties": null,
+   "vacancies": 811.0
+  },
+  {
+   "date": "2017-10",
+   "recruitment_difficulties": 2.154,
+   "vacancies": 816.0
+  },
+  {
+   "date": "2017-11",
+   "recruitment_difficulties": 2.615,
+   "vacancies": 815.0
+  },
+  {
+   "date": "2017-12",
+   "recruitment_difficulties": null,
+   "vacancies": 809.0
+  },
+  {
+   "date": "2018-01",
+   "recruitment_difficulties": 2.606,
+   "vacancies": 806.0
+  },
+  {
+   "date": "2018-02",
+   "recruitment_difficulties": 2.628,
+   "vacancies": 808.0
+  },
+  {
+   "date": "2018-03",
+   "recruitment_difficulties": null,
+   "vacancies": 808.0
+  },
+  {
+   "date": "2018-04",
+   "recruitment_difficulties": 2.502,
+   "vacancies": 822.0
+  },
+  {
+   "date": "2018-05",
+   "recruitment_difficulties": null,
+   "vacancies": 841.0
+  },
+  {
+   "date": "2018-06",
+   "recruitment_difficulties": 2.502,
+   "vacancies": 849.0
+  },
+  {
+   "date": "2018-07",
+   "recruitment_difficulties": 2.748,
+   "vacancies": 853.0
+  },
+  {
+   "date": "2018-08",
+   "recruitment_difficulties": 2.748,
+   "vacancies": 853.0
+  },
+  {
+   "date": "2018-09",
+   "recruitment_difficulties": null,
+   "vacancies": 862.0
+  },
+  {
+   "date": "2018-10",
+   "recruitment_difficulties": 2.911,
+   "vacancies": 856.0
+  },
+  {
+   "date": "2018-11",
+   "recruitment_difficulties": 3.261,
+   "vacancies": 848.0
+  },
+  {
+   "date": "2018-12",
+   "recruitment_difficulties": null,
+   "vacancies": 845.0
+  },
+  {
+   "date": "2019-01",
+   "recruitment_difficulties": 3.222,
+   "vacancies": 836.0
+  },
+  {
+   "date": "2019-02",
+   "recruitment_difficulties": 3.299,
+   "vacancies": 837.0
+  },
+  {
+   "date": "2019-03",
+   "recruitment_difficulties": null,
+   "vacancies": 837.0
+  },
+  {
+   "date": "2019-04",
+   "recruitment_difficulties": 3.099,
+   "vacancies": 837.0
+  },
+  {
+   "date": "2019-05",
+   "recruitment_difficulties": 3.099,
+   "vacancies": 835.0
+  },
+  {
+   "date": "2019-06",
+   "recruitment_difficulties": null,
+   "vacancies": 835.0
+  },
+  {
+   "date": "2019-07",
+   "recruitment_difficulties": 3.0,
+   "vacancies": 830.0
+  },
+  {
+   "date": "2019-08",
+   "recruitment_difficulties": 2.98,
+   "vacancies": 827.0
+  },
+  {
+   "date": "2019-09",
+   "recruitment_difficulties": null,
+   "vacancies": 809.0
+  },
+  {
+   "date": "2019-10",
+   "recruitment_difficulties": 2.957,
+   "vacancies": 800.0
+  },
+  {
+   "date": "2019-11",
+   "recruitment_difficulties": 2.637,
+   "vacancies": 799.0
+  },
+  {
+   "date": "2019-12",
+   "recruitment_difficulties": null,
+   "vacancies": 800.0
+  },
+  {
+   "date": "2020-01",
+   "recruitment_difficulties": 2.465,
+   "vacancies": 808.0
+  },
+  {
+   "date": "2020-02",
+   "recruitment_difficulties": null,
+   "vacancies": 788.0
+  },
+  {
+   "date": "2020-03",
+   "recruitment_difficulties": 2.14,
+   "vacancies": 635.0
+  },
+  {
+   "date": "2020-04",
+   "recruitment_difficulties": 0.946,
+   "vacancies": 476.0
+  },
+  {
+   "date": "2020-05",
+   "recruitment_difficulties": -0.761,
+   "vacancies": 343.0
+  },
+  {
+   "date": "2020-06",
+   "recruitment_difficulties": null,
+   "vacancies": 384.0
+  },
+  {
+   "date": "2020-07",
+   "recruitment_difficulties": -2.057,
+   "vacancies": 445.0
+  },
+  {
+   "date": "2020-08",
+   "recruitment_difficulties": -2.178,
+   "vacancies": 499.0
+  },
+  {
+   "date": "2020-09",
+   "recruitment_difficulties": null,
+   "vacancies": 530.0
+  },
+  {
+   "date": "2020-10",
+   "recruitment_difficulties": -2.416,
+   "vacancies": 549.0
+  },
+  {
+   "date": "2020-11",
+   "recruitment_difficulties": -2.512,
+   "vacancies": 586.0
+  },
+  {
+   "date": "2020-12",
+   "recruitment_difficulties": null,
+   "vacancies": 603.0
+  },
+  {
+   "date": "2021-01",
+   "recruitment_difficulties": -2.489,
+   "vacancies": 609.0
+  },
+  {
+   "date": "2021-02",
+   "recruitment_difficulties": -2.353,
+   "vacancies": 621.0
+  },
+  {
+   "date": "2021-03",
+   "recruitment_difficulties": null,
+   "vacancies": 660.0
+  },
+  {
+   "date": "2021-04",
+   "recruitment_difficulties": -1.777,
+   "vacancies": 771.0
+  },
+  {
+   "date": "2021-05",
+   "recruitment_difficulties": 0.178,
+   "vacancies": 883.0
+  },
+  {
+   "date": "2021-06",
+   "recruitment_difficulties": null,
+   "vacancies": 983.0
+  },
+  {
+   "date": "2021-07",
+   "recruitment_difficulties": 2.254,
+   "vacancies": 1068.0
+  },
+  {
+   "date": "2021-08",
+   "recruitment_difficulties": 3.378,
+   "vacancies": 1132.0
+  },
+  {
+   "date": "2021-09",
+   "recruitment_difficulties": null,
+   "vacancies": 1208.0
+  },
+  {
+   "date": "2021-10",
+   "recruitment_difficulties": 4.028,
+   "vacancies": 1229.0
+  },
+  {
+   "date": "2021-11",
+   "recruitment_difficulties": 4.0,
+   "vacancies": 1244.0
+  },
+  {
+   "date": "2021-12",
+   "recruitment_difficulties": null,
+   "vacancies": 1245.0
+  },
+  {
+   "date": "2022-01",
+   "recruitment_difficulties": 4.0,
+   "vacancies": 1254.0
+  },
+  {
+   "date": "2022-02",
+   "recruitment_difficulties": 4.0,
+   "vacancies": 1259.0
+  },
+  {
+   "date": "2022-03",
+   "recruitment_difficulties": null,
+   "vacancies": 1277.0
+  },
+  {
+   "date": "2022-04",
+   "recruitment_difficulties": 4.0,
+   "vacancies": 1293.0
+  },
+  {
+   "date": "2022-05",
+   "recruitment_difficulties": 4.0,
+   "vacancies": 1294.0
+  },
+  {
+   "date": "2022-06",
+   "recruitment_difficulties": null,
+   "vacancies": 1272.0
+  },
+  {
+   "date": "2022-07",
+   "recruitment_difficulties": 4.0,
+   "vacancies": 1257.0
+  },
+  {
+   "date": "2022-08",
+   "recruitment_difficulties": 4.0,
+   "vacancies": 1235.0
+  },
+  {
+   "date": "2022-09",
+   "recruitment_difficulties": null,
+   "vacancies": 1216.0
+  },
+  {
+   "date": "2022-10",
+   "recruitment_difficulties": 3.0,
+   "vacancies": 1170.0
+  },
+  {
+   "date": "2022-11",
+   "recruitment_difficulties": 3.0,
+   "vacancies": 1138.0
+  },
+  {
+   "date": "2022-12",
+   "recruitment_difficulties": null,
+   "vacancies": 1108.0
+  },
+  {
+   "date": "2023-01",
+   "recruitment_difficulties": 2.0,
+   "vacancies": 1101.0
+  },
+  {
+   "date": "2023-02",
+   "recruitment_difficulties": 2.0,
+   "vacancies": 1089.0
+  },
+  {
+   "date": "2023-03",
+   "recruitment_difficulties": null,
+   "vacancies": 1065.0
+  },
+  {
+   "date": "2023-04",
+   "recruitment_difficulties": 2.0,
+   "vacancies": 1040.0
+  },
+  {
+   "date": "2023-05",
+   "recruitment_difficulties": 2.0,
+   "vacancies": 1029.0
+  },
+  {
+   "date": "2023-06",
+   "recruitment_difficulties": null,
+   "vacancies": 1018.0
+  },
+  {
+   "date": "2023-07",
+   "recruitment_difficulties": 2.0,
+   "vacancies": 999.0
+  },
+  {
+   "date": "2023-08",
+   "recruitment_difficulties": 2.0,
+   "vacancies": 984.0
+  },
+  {
+   "date": "2023-09",
+   "recruitment_difficulties": null,
+   "vacancies": 958.0
+  },
+  {
+   "date": "2023-10",
+   "recruitment_difficulties": 2.0,
+   "vacancies": 951.0
+  },
+  {
+   "date": "2023-11",
+   "recruitment_difficulties": 2.0,
+   "vacancies": 923.0
+  },
+  {
+   "date": "2023-12",
+   "recruitment_difficulties": null,
+   "vacancies": 910.0
+  },
+  {
+   "date": "2024-01",
+   "recruitment_difficulties": 2.0,
+   "vacancies": 895.0
+  },
+  {
+   "date": "2024-02",
+   "recruitment_difficulties": 2.0,
+   "vacancies": 893.0
+  },
+  {
+   "date": "2024-03",
+   "recruitment_difficulties": null,
+   "vacancies": 885.0
+  },
+  {
+   "date": "2024-04",
+   "recruitment_difficulties": 2.0,
+   "vacancies": 885.0
+  },
+  {
+   "date": "2024-05",
+   "recruitment_difficulties": 2.0,
+   "vacancies": 872.0
+  },
+  {
+   "date": "2024-06",
+   "recruitment_difficulties": null,
+   "vacancies": 867.0
+  },
+  {
+   "date": "2024-07",
+   "recruitment_difficulties": 1.0,
+   "vacancies": 853.0
+  },
+  {
+   "date": "2024-08",
+   "recruitment_difficulties": 1.0,
+   "vacancies": 840.0
+  },
+  {
+   "date": "2024-09",
+   "recruitment_difficulties": null,
+   "vacancies": 828.0
+  },
+  {
+   "date": "2024-10",
+   "recruitment_difficulties": 1.0,
+   "vacancies": 810.0
+  },
+  {
+   "date": "2024-11",
+   "recruitment_difficulties": 1.0,
+   "vacancies": 805.0
+  },
+  {
+   "date": "2024-12",
+   "recruitment_difficulties": null,
+   "vacancies": 798.0
+  },
+  {
+   "date": "2025-01",
+   "recruitment_difficulties": 1.0,
+   "vacancies": 793.0
+  },
+  {
+   "date": "2025-02",
+   "recruitment_difficulties": 1.0,
+   "vacancies": 775.0
+  },
+  {
+   "date": "2025-03",
+   "recruitment_difficulties": null,
+   "vacancies": 759.0
+  },
+  {
+   "date": "2025-04",
+   "recruitment_difficulties": 1.0,
+   "vacancies": 738.0
+  },
+  {
+   "date": "2025-05",
+   "recruitment_difficulties": 0.0,
+   "vacancies": 730.0
+  },
+  {
+   "date": "2025-06",
+   "recruitment_difficulties": null,
+   "vacancies": 727.0
+  },
+  {
+   "date": "2025-07",
+   "recruitment_difficulties": 0.0,
+   "vacancies": 738.0
+  },
+  {
+   "date": "2025-08",
+   "recruitment_difficulties": 0.0,
+   "vacancies": 728.0
+  },
+  {
+   "date": "2025-09",
+   "recruitment_difficulties": null,
+   "vacancies": 728.0
+  },
+  {
+   "date": "2025-10",
+   "recruitment_difficulties": 0.0,
+   "vacancies": 730.0
+  },
+  {
+   "date": "2025-11",
+   "recruitment_difficulties": 0.0,
+   "vacancies": 739.0
+  },
+  {
+   "date": "2025-12",
+   "recruitment_difficulties": null,
+   "vacancies": 734.0
+  },
+  {
+   "date": "2026-01",
+   "recruitment_difficulties": 0.0,
+   "vacancies": 725.0
+  },
+  {
+   "date": "2026-02",
+   "recruitment_difficulties": 0.0,
+   "vacancies": 718.0
+  },
+  {
+   "date": "2026-03",
+   "recruitment_difficulties": null,
+   "vacancies": 713.0
+  },
+  {
+   "date": "2026-04",
+   "recruitment_difficulties": 0.0,
+   "vacancies": 710.0
+  },
+  {
+   "date": "2026-05",
+   "recruitment_difficulties": 0.0,
+   "vacancies": 711.0
+  },
+  {
+   "date": "2026-06",
+   "recruitment_difficulties": null,
+   "vacancies": 707.0
+  },
+  {
+   "date": "2026-07",
+   "recruitment_difficulties": -1.0,
+   "vacancies": 704.0
+  },
+  {
+   "date": "2026-08",
+   "recruitment_difficulties": -0.5,
+   "vacancies": 691.0
+  },
+  {
+   "date": "2026-10",
+   "recruitment_difficulties": -0.5,
+   "vacancies": null
+  }
+ ],
+ "theme": "blue-amber",
+ "size_cm": [
+  25,
+  15
+ ],
+ "style_version": 10
+}

@@ -14,11 +14,18 @@ Series spec, by source:
     markets: {source: markets, key, label, fn, args: [...], since (optional)}
           calls ukmacro/markets.py's function `fn` with `args` (market prices from
           the US Treasury, Bundesbank, EIA, Ofgem and Yahoo Finance).
+    agents: {source: agents, key, label, column}
+          a Bank of England Agents' score, `column` named as in the Bank's sheet
+          (ukmacro/boe_agents.py).
 
 Chart options: slug, title, units, freq (A/Q/M/D), type (line/bar/stacked-bar), start,
 rebase (a date: divide by the value then and multiply by 100), source, note.
 A series can set `mark: line` to be drawn as a line over the bars of a bar chart,
 and `dash: true` to be drawn dashed (used for forecasts).
+Two scales on one chart: a series can set `axis: right` to be read off a right-hand
+axis, labelled by the chart's `units_right`. A series can set `connect: true` to join
+its line across missing periods (for indicators published less often than the chart's
+frequency, e.g. Agents' scores since 2023).
 """
 
 from __future__ import annotations
@@ -31,7 +38,7 @@ from pathlib import Path
 
 import yaml
 
-from . import boe, charts, markets, oecd, ons
+from . import boe, boe_agents, charts, markets, oecd, ons
 from .lastgood import LastGood
 
 REPO = Path(__file__).resolve().parent.parent
@@ -62,6 +69,9 @@ def _fetch(spec: dict, freq: str) -> list[tuple[str, str, list, dict]]:
         obs = getattr(markets, spec["fn"])(*spec.get("args", []))
         obs = [o for o in obs if o[0] >= spec.get("since", "")]  # keep the stored history short
         return [(spec["key"], spec["label"], obs, {"source_url": spec.get("url")})]
+    if src == "agents":
+        return [(spec["key"], spec["label"], boe_agents.fetch(spec["column"]),
+                 {"source_url": boe_agents.URL})]
     raise ValueError(f"unknown source {src!r}")
 
 
@@ -97,7 +107,7 @@ def build_chart(chart: dict, category: str, lg: LastGood, failures: list[str]) -
                 lg.put(f"{chart['slug']}/{key}", obs, meta)
             rows = [(k, l, o, m, "live") for k, l, o, m in fetched]
         except Exception as e:  # noqa: BLE001 — any failure falls back to last-good
-            failures.append(f"{chart['slug']}: {spec.get('cdid') or spec.get('flow') or spec.get('code') or spec.get('fn')}: {e}")
+            failures.append(f"{chart['slug']}: {spec.get('cdid') or spec.get('flow') or spec.get('code') or spec.get('fn') or spec.get('column')}: {e}")
             traceback.print_exc()
             rows = []
             for key, label in _expected_keys(spec):
@@ -109,7 +119,7 @@ def build_chart(chart: dict, category: str, lg: LastGood, failures: list[str]) -
             obs = _transform(obs, chart)
             columns[key] = dict(obs)
             series.append({"key": key, "label": label, "_source": source,
-                           **({"mark": spec["mark"]} if spec.get("mark") else {}),
+                           **{k: spec[k] for k in ("mark", "axis", "connect") if spec.get(k)},
                            "_date": obs[-1][0] if obs else None,
                            "source_url": meta.get("source_url")})
             if meta.get("next_release"):
@@ -125,6 +135,7 @@ def build_chart(chart: dict, category: str, lg: LastGood, failures: list[str]) -
         "type": chart.get("type", "line"),
         "freq": chart["freq"],
         "units": chart["units"],
+        **({"units_right": chart["units_right"]} if "units_right" in chart else {}),
         "source": chart["source"],
         "note": chart.get("note"),
         **({"decimals": chart["decimals"]} if "decimals" in chart else {}),  # end-label decimal places

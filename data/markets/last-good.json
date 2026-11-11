@@ -9866,10 +9866,14 @@
 [
 "2026-11-10",
 3.28
+],
+[
+"2026-11-11",
+3.34
 ]
 ],
 "source_url": "https://www.bundesbank.de/en/statistics/money-and-capital-markets/interest-rates-and-yields",
-"stored": "2026-11-10"
+"stored": "2026-11-11"
 },
 "bond-yields-10y/uk": {
 "obs": [
@@ -24547,7 +24551,7 @@
 ],
 [
 "2026-11-11",
-10796.91
+10793.42
 ]
 ],
 "source_url": "https://finance.yahoo.com/quote/%5EFTSE/",

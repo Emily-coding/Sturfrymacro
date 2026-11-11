@@ -67,6 +67,13 @@
   .legend i { width: 18px; height: 0; display: inline-block; border-top: 2.5px solid; }
   .legend i.dash { border-top-style: dashed; }
   .canvas { position: relative; height: 300px; }
+  /* buttons to switch between a chart's variants (e.g. policy rules on Bank Rate) */
+  .picker { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 6px; }
+  .picker button { font: inherit; font-size: 13.5px; color: var(--ink-2); background: #FFFFFF; cursor: pointer;
+                   border: 1px solid var(--grid); border-radius: 999px; padding: 3px 11px; }
+  .picker button:hover { border-color: var(--blue); color: var(--blue); }
+  .picker button[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #FFFFFF; }
+  .formula { color: var(--ink-2); font-size: 13px; margin-bottom: 6px; }
   figcaption { color: var(--ink-3); font-size: 12.5px; margin-top: 8px; }
   footer { color: var(--ink-3); font-size: 13px; padding: 24px 0 40px; }
   footer a, figcaption a { color: var(--ink-3); }
@@ -218,17 +225,45 @@ function renderBarChart(canvas, chart) {
 function renderChart(chart) {
   const fig = el("figure");
   fig.append(el("h4", null, chart.title), el("div", "units", chart.units));
-  if (chart.lines && chart.lines.length > 1) {
-    const lg = el("div", "legend");
-    chart.lines.forEach(l => lg.append(el("span", null,
-      `<i class="${l.kind === "forecast" ? "dash" : ""}" style="border-color:${l.colour}"></i>${l.name}`)));
-    fig.append(lg);
+  // A chart with "variants" (e.g. Bank Rate's policy rules) shows its own lines plus one
+  // chosen variant's lines; buttons switch between them and redraw.
+  const variants = chart.variants || [];
+  let chosen = variants[0];
+  let picker, formula;
+  if (variants.length) {
+    picker = el("div", "picker");
+    picker.setAttribute("role", "group"); picker.setAttribute("aria-label", chart.variant_label || "Options");
+    variants.forEach(v => {
+      const b = el("button", null, v.name.replace(/ \(Bank\)$/, ""));
+      b.type = "button";
+      b.onclick = () => { chosen = v; draw(); };
+      picker.append(b);
+    });
+    formula = el("div", "formula");
+    fig.append(picker, formula);
   }
+  const lg = el("div", "legend"); fig.append(lg);
   const holder = el("div", "canvas"); const canvas = el("canvas");
   canvas.setAttribute("role", "img"); canvas.setAttribute("aria-label", chart.title);
   holder.append(canvas); fig.append(holder);
   fig.append(el("figcaption", null, `Source: ${chart.source}. ${chart.note || ""}`));
-  return {fig, draw: () => chart.type === "bars" ? renderBarChart(canvas, chart) : renderLineChart(canvas, chart)};
+
+  function draw() {
+    const shown = {...chart, lines: (chart.lines || []).concat(chosen ? chosen.lines : [])};
+    if (picker) {
+      [...picker.children].forEach((b, i) => b.setAttribute("aria-pressed", variants[i] === chosen));
+      formula.innerHTML = chosen.formula;   // our own HTML (sub/superscripts), from dashboard.json
+    }
+    // lines can opt out of the legend ("legend": false) and share an entry in legend_extra
+    const keyed = shown.lines.filter(l => l.legend !== false).concat(chart.legend_extra || []);
+    lg.innerHTML = "";
+    lg.style.display = keyed.length > 1 ? "" : "none";
+    keyed.forEach(l => lg.append(el("span", null,
+      `<i class="${l.kind === "forecast" ? "dash" : ""}" style="border-color:${l.colour}"></i>${l.name}`)));
+    const old = Chart.getChart(canvas); if (old) old.destroy();
+    chart.type === "bars" ? renderBarChart(canvas, shown) : renderLineChart(canvas, shown);
+  }
+  return {fig, draw};
 }
 
 fetch("data/dashboard/dashboard.json", {cache: "no-cache"})

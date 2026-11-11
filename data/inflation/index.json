@@ -10,6 +10,13 @@
    "status": "ok"
   },
   {
+   "slug": "cpi-essentials",
+   "title": "Inflation in essentials",
+   "data_through": "2026-09",
+   "next_release": "2026-11-18",
+   "status": "ok"
+  },
+  {
    "slug": "cpi-goods-services",
    "title": "Goods, services and food inflation",
    "data_through": "2026-09",

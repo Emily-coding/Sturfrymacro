@@ -16,6 +16,22 @@ charts:
       - {source: ons, key: cpih, label: CPIH, cdid: L55O, dataset: MM23}
       - {source: ons, key: core, label: Core CPI, cdid: DKO8, dataset: MM23}
 
+  - slug: cpi-essentials
+    title: Inflation in essentials
+    units: "% change on a year earlier"
+    freq: M
+    start: "2015-01"
+    source: ONS consumer price inflation (MM23)
+    note: >-
+      CPI components people can least avoid spending on. Household energy is electricity, gas and
+      other fuels (heating oil, solid fuel); motor fuels are petrol and diesel; transport is the
+      whole transport division (cars, fuel, fares and services).
+    series:
+      - {source: ons, key: food, label: Food and non-alcoholic drinks, cdid: D7G8, dataset: MM23}
+      - {source: ons, key: energy, label: Household energy, cdid: D7GT, dataset: MM23}
+      - {source: ons, key: fuels, label: Motor fuels, cdid: D7IO, dataset: MM23}
+      - {source: ons, key: transport, label: Transport, cdid: D7GE, dataset: MM23}
+
   - slug: cpi-goods-services
     title: Goods, services and food inflation
     units: "% change on a year earlier"

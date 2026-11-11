@@ -1,0 +1,906 @@
+{
+ "slug": "cpi-energy-split",
+ "category": "inflation",
+ "type": "line",
+ "freq": "M",
+ "title": "CPI inflation: energy and everything else",
+ "units": "% change on a year earlier",
+ "source": "ONS consumer price inflation (MM23); Sturfrymacro calculations",
+ "note": "Energy is household energy (electricity, gas and other fuels) plus motor fuels, about 6% of the basket in 2026. Both are rebuilt from CPI components and weights.",
+ "series": [
+  {
+   "key": "energy",
+   "label": "Energy"
+  },
+  {
+   "key": "non_energy",
+   "label": "Everything else"
+  },
+  {
+   "key": "cpi",
+   "label": "All items (ONS)",
+   "color": "neutral"
+  }
+ ],
+ "energy_weight": {
+  "2005": 0.056,
+  "2006": 0.0682,
+  "2007": 0.0764,
+  "2008": 0.0744,
+  "2009": 0.0817,
+  "2010": 0.0897,
+  "2011": 0.0886,
+  "2012": 0.104,
+  "2013": 0.0899,
+  "2014": 0.0818,
+  "2015": 0.0762,
+  "2016": 0.0671,
+  "2017": 0.067,
+  "2018": 0.065,
+  "2019": 0.061,
+  "2020": 0.064,
+  "2021": 0.06,
+  "2022": 0.067,
+  "2023": 0.08,
+  "2024": 0.0718,
+  "2025": 0.0617,
+  "2026": 0.0584
+ },
+ "data_through": "2026-09",
+ "next_release": "18 November 2026",
+ "status": "ok",
+ "data": [
+  {
+   "date": "2015-01",
+   "energy": -8.29,
+   "non_energy": 0.75,
+   "cpi": 0.3
+  },
+  {
+   "date": "2015-02",
+   "energy": -8.67,
+   "non_energy": 0.5,
+   "cpi": 0.0
+  },
+  {
+   "date": "2015-03",
+   "energy": -7.73,
+   "non_energy": 0.36,
+   "cpi": 0.0
+  },
+  {
+   "date": "2015-04",
+   "energy": -6.84,
+   "non_energy": 0.13,
+   "cpi": -0.1
+  },
+  {
+   "date": "2015-05",
+   "energy": -6.26,
+   "non_energy": 0.34,
+   "cpi": 0.1
+  },
+  {
+   "date": "2015-06",
+   "energy": -6.08,
+   "non_energy": 0.15,
+   "cpi": 0.0
+  },
+  {
+   "date": "2015-07",
+   "energy": -6.57,
+   "non_energy": 0.42,
+   "cpi": 0.1
+  },
+  {
+   "date": "2015-08",
+   "energy": -7.41,
+   "non_energy": 0.32,
+   "cpi": 0.0
+  },
+  {
+   "date": "2015-09",
+   "energy": -8.86,
+   "non_energy": 0.34,
+   "cpi": -0.1
+  },
+  {
+   "date": "2015-10",
+   "energy": -8.42,
+   "non_energy": 0.51,
+   "cpi": -0.1
+  },
+  {
+   "date": "2015-11",
+   "energy": -7.95,
+   "non_energy": 0.71,
+   "cpi": 0.1
+  },
+  {
+   "date": "2015-12",
+   "energy": -7.24,
+   "non_energy": 0.73,
+   "cpi": 0.2
+  },
+  {
+   "date": "2016-01",
+   "energy": -5.33,
+   "non_energy": 0.7,
+   "cpi": 0.3
+  },
+  {
+   "date": "2016-02",
+   "energy": -5.47,
+   "non_energy": 0.67,
+   "cpi": 0.3
+  },
+  {
+   "date": "2016-03",
+   "energy": -6.13,
+   "non_energy": 0.91,
+   "cpi": 0.5
+  },
+  {
+   "date": "2016-04",
+   "energy": -5.48,
+   "non_energy": 0.71,
+   "cpi": 0.3
+  },
+  {
+   "date": "2016-05",
+   "energy": -4.84,
+   "non_energy": 0.66,
+   "cpi": 0.3
+  },
+  {
+   "date": "2016-06",
+   "energy": -3.94,
+   "non_energy": 0.76,
+   "cpi": 0.5
+  },
+  {
+   "date": "2016-07",
+   "energy": -3.29,
+   "non_energy": 0.82,
+   "cpi": 0.6
+  },
+  {
+   "date": "2016-08",
+   "energy": -2.52,
+   "non_energy": 0.83,
+   "cpi": 0.6
+  },
+  {
+   "date": "2016-09",
+   "energy": 0.02,
+   "non_energy": 1.01,
+   "cpi": 1.0
+  },
+  {
+   "date": "2016-10",
+   "energy": 1.86,
+   "non_energy": 0.79,
+   "cpi": 0.9
+  },
+  {
+   "date": "2016-11",
+   "energy": 3.12,
+   "non_energy": 0.97,
+   "cpi": 1.2
+  },
+  {
+   "date": "2016-12",
+   "energy": 4.45,
+   "non_energy": 1.3,
+   "cpi": 1.6
+  },
+  {
+   "date": "2017-01",
+   "energy": 7.68,
+   "non_energy": 1.22,
+   "cpi": 1.8
+  },
+  {
+   "date": "2017-02",
+   "energy": 9.02,
+   "non_energy": 1.66,
+   "cpi": 2.3
+  },
+  {
+   "date": "2017-03",
+   "energy": 8.74,
+   "non_energy": 1.71,
+   "cpi": 2.3
+  },
+  {
+   "date": "2017-04",
+   "energy": 7.11,
+   "non_energy": 2.22,
+   "cpi": 2.7
+  },
+  {
+   "date": "2017-05",
+   "energy": 6.22,
+   "non_energy": 2.47,
+   "cpi": 2.9
+  },
+  {
+   "date": "2017-06",
+   "energy": 4.35,
+   "non_energy": 2.35,
+   "cpi": 2.6
+  },
+  {
+   "date": "2017-07",
+   "energy": 3.83,
+   "non_energy": 2.36,
+   "cpi": 2.6
+  },
+  {
+   "date": "2017-08",
+   "energy": 5.48,
+   "non_energy": 2.5,
+   "cpi": 2.9
+  },
+  {
+   "date": "2017-09",
+   "energy": 5.86,
+   "non_energy": 2.58,
+   "cpi": 3.0
+  },
+  {
+   "date": "2017-10",
+   "energy": 4.85,
+   "non_energy": 2.7,
+   "cpi": 3.0
+  },
+  {
+   "date": "2017-11",
+   "energy": 5.11,
+   "non_energy": 2.78,
+   "cpi": 3.1
+  },
+  {
+   "date": "2017-12",
+   "energy": 5.69,
+   "non_energy": 2.61,
+   "cpi": 3.0
+  },
+  {
+   "date": "2018-01",
+   "energy": 4.27,
+   "non_energy": 2.84,
+   "cpi": 3.0
+  },
+  {
+   "date": "2018-02",
+   "energy": 3.64,
+   "non_energy": 2.6,
+   "cpi": 2.7
+  },
+  {
+   "date": "2018-03",
+   "energy": 3.28,
+   "non_energy": 2.34,
+   "cpi": 2.5
+  },
+  {
+   "date": "2018-04",
+   "energy": 4.43,
+   "non_energy": 2.18,
+   "cpi": 2.4
+  },
+  {
+   "date": "2018-05",
+   "energy": 5.79,
+   "non_energy": 2.14,
+   "cpi": 2.4
+  },
+  {
+   "date": "2018-06",
+   "energy": 8.68,
+   "non_energy": 1.98,
+   "cpi": 2.4
+  },
+  {
+   "date": "2018-07",
+   "energy": 9.32,
+   "non_energy": 1.96,
+   "cpi": 2.5
+  },
+  {
+   "date": "2018-08",
+   "energy": 8.93,
+   "non_energy": 2.17,
+   "cpi": 2.7
+  },
+  {
+   "date": "2018-09",
+   "energy": 9.31,
+   "non_energy": 1.89,
+   "cpi": 2.4
+  },
+  {
+   "date": "2018-10",
+   "energy": 10.43,
+   "non_energy": 1.79,
+   "cpi": 2.4
+  },
+  {
+   "date": "2018-11",
+   "energy": 8.67,
+   "non_energy": 1.82,
+   "cpi": 2.3
+  },
+  {
+   "date": "2018-12",
+   "energy": 5.84,
+   "non_energy": 1.79,
+   "cpi": 2.1
+  },
+  {
+   "date": "2019-01",
+   "energy": 0.99,
+   "non_energy": 1.9,
+   "cpi": 1.8
+  },
+  {
+   "date": "2019-02",
+   "energy": 1.01,
+   "non_energy": 1.89,
+   "cpi": 1.9
+  },
+  {
+   "date": "2019-03",
+   "energy": 2.07,
+   "non_energy": 1.88,
+   "cpi": 1.9
+  },
+  {
+   "date": "2019-04",
+   "energy": 7.33,
+   "non_energy": 1.77,
+   "cpi": 2.1
+  },
+  {
+   "date": "2019-05",
+   "energy": 6.84,
+   "non_energy": 1.69,
+   "cpi": 2.0
+  },
+  {
+   "date": "2019-06",
+   "energy": 4.28,
+   "non_energy": 1.84,
+   "cpi": 2.0
+  },
+  {
+   "date": "2019-07",
+   "energy": 3.31,
+   "non_energy": 1.96,
+   "cpi": 2.1
+  },
+  {
+   "date": "2019-08",
+   "energy": 3.13,
+   "non_energy": 1.63,
+   "cpi": 1.7
+  },
+  {
+   "date": "2019-09",
+   "energy": 1.35,
+   "non_energy": 1.74,
+   "cpi": 1.7
+  },
+  {
+   "date": "2019-10",
+   "energy": -2.66,
+   "non_energy": 1.75,
+   "cpi": 1.5
+  },
+  {
+   "date": "2019-11",
+   "energy": -2.4,
+   "non_energy": 1.75,
+   "cpi": 1.5
+  },
+  {
+   "date": "2019-12",
+   "energy": -0.51,
+   "non_energy": 1.42,
+   "cpi": 1.3
+  },
+  {
+   "date": "2020-01",
+   "energy": 4.83,
+   "non_energy": 1.57,
+   "cpi": 1.8
+  },
+  {
+   "date": "2020-02",
+   "energy": 3.61,
+   "non_energy": 1.6,
+   "cpi": 1.7
+  },
+  {
+   "date": "2020-03",
+   "energy": 0.85,
+   "non_energy": 1.59,
+   "cpi": 1.5
+  },
+  {
+   "date": "2020-04",
+   "energy": -9.35,
+   "non_energy": 1.48,
+   "cpi": 0.8
+  },
+  {
+   "date": "2020-05",
+   "energy": -11.6,
+   "non_energy": 1.35,
+   "cpi": 0.5
+  },
+  {
+   "date": "2020-06",
+   "energy": -11.24,
+   "non_energy": 1.45,
+   "cpi": 0.6
+  },
+  {
+   "date": "2020-07",
+   "energy": -9.16,
+   "non_energy": 1.78,
+   "cpi": 1.0
+  },
+  {
+   "date": "2020-08",
+   "energy": -8.88,
+   "non_energy": 0.87,
+   "cpi": 0.2
+  },
+  {
+   "date": "2020-09",
+   "energy": -8.57,
+   "non_energy": 1.18,
+   "cpi": 0.5
+  },
+  {
+   "date": "2020-10",
+   "energy": -9.49,
+   "non_energy": 1.42,
+   "cpi": 0.7
+  },
+  {
+   "date": "2020-11",
+   "energy": -9.37,
+   "non_energy": 0.99,
+   "cpi": 0.3
+  },
+  {
+   "date": "2020-12",
+   "energy": -8.43,
+   "non_energy": 1.22,
+   "cpi": 0.6
+  },
+  {
+   "date": "2021-01",
+   "energy": -8.31,
+   "non_energy": 1.29,
+   "cpi": 0.7
+  },
+  {
+   "date": "2021-02",
+   "energy": -5.89,
+   "non_energy": 0.79,
+   "cpi": 0.4
+  },
+  {
+   "date": "2021-03",
+   "energy": -2.49,
+   "non_energy": 0.87,
+   "cpi": 0.7
+  },
+  {
+   "date": "2021-04",
+   "energy": 7.52,
+   "non_energy": 1.1,
+   "cpi": 1.5
+  },
+  {
+   "date": "2021-05",
+   "energy": 9.48,
+   "non_energy": 1.6,
+   "cpi": 2.1
+  },
+  {
+   "date": "2021-06",
+   "energy": 10.36,
+   "non_energy": 1.98,
+   "cpi": 2.5
+  },
+  {
+   "date": "2021-07",
+   "energy": 9.43,
+   "non_energy": 1.51,
+   "cpi": 2.0
+  },
+  {
+   "date": "2021-08",
+   "energy": 9.4,
+   "non_energy": 2.74,
+   "cpi": 3.2
+  },
+  {
+   "date": "2021-09",
+   "energy": 9.56,
+   "non_energy": 2.61,
+   "cpi": 3.1
+  },
+  {
+   "date": "2021-10",
+   "energy": 22.41,
+   "non_energy": 3.02,
+   "cpi": 4.2
+  },
+  {
+   "date": "2021-11",
+   "energy": 25.61,
+   "non_energy": 3.8,
+   "cpi": 5.1
+  },
+  {
+   "date": "2021-12",
+   "energy": 24.6,
+   "non_energy": 4.12,
+   "cpi": 5.4
+  },
+  {
+   "date": "2022-01",
+   "energy": 23.23,
+   "non_energy": 4.26,
+   "cpi": 5.5
+  },
+  {
+   "date": "2022-02",
+   "energy": 22.76,
+   "non_energy": 5.05,
+   "cpi": 6.2
+  },
+  {
+   "date": "2022-03",
+   "energy": 27.68,
+   "non_energy": 5.63,
+   "cpi": 7.0
+  },
+  {
+   "date": "2022-04",
+   "energy": 52.15,
+   "non_energy": 6.11,
+   "cpi": 9.0
+  },
+  {
+   "date": "2022-05",
+   "energy": 52.79,
+   "non_energy": 6.13,
+   "cpi": 9.1
+  },
+  {
+   "date": "2022-06",
+   "energy": 57.26,
+   "non_energy": 6.18,
+   "cpi": 9.4
+  },
+  {
+   "date": "2022-07",
+   "energy": 57.86,
+   "non_energy": 6.85,
+   "cpi": 10.1
+  },
+  {
+   "date": "2022-08",
+   "energy": 52.0,
+   "non_energy": 6.98,
+   "cpi": 9.9
+  },
+  {
+   "date": "2022-09",
+   "energy": 49.61,
+   "non_energy": 7.4,
+   "cpi": 10.1
+  },
+  {
+   "date": "2022-10",
+   "energy": 59.05,
+   "non_energy": 7.58,
+   "cpi": 11.1
+  },
+  {
+   "date": "2022-11",
+   "energy": 55.66,
+   "non_energy": 7.38,
+   "cpi": 10.7
+  },
+  {
+   "date": "2022-12",
+   "energy": 52.82,
+   "non_energy": 7.44,
+   "cpi": 10.5
+  },
+  {
+   "date": "2023-01",
+   "energy": 51.62,
+   "non_energy": 7.27,
+   "cpi": 10.1
+  },
+  {
+   "date": "2023-02",
+   "energy": 49.31,
+   "non_energy": 7.78,
+   "cpi": 10.4
+  },
+  {
+   "date": "2023-03",
+   "energy": 40.87,
+   "non_energy": 7.88,
+   "cpi": 10.1
+  },
+  {
+   "date": "2023-04",
+   "energy": 11.02,
+   "non_energy": 8.53,
+   "cpi": 8.7
+  },
+  {
+   "date": "2023-05",
+   "energy": 8.69,
+   "non_energy": 8.77,
+   "cpi": 8.7
+  },
+  {
+   "date": "2023-06",
+   "energy": 3.48,
+   "non_energy": 8.45,
+   "cpi": 7.9
+  },
+  {
+   "date": "2023-07",
+   "energy": -7.58,
+   "non_energy": 8.18,
+   "cpi": 6.8
+  },
+  {
+   "date": "2023-08",
+   "energy": -2.94,
+   "non_energy": 7.52,
+   "cpi": 6.7
+  },
+  {
+   "date": "2023-09",
+   "energy": 0.06,
+   "non_energy": 7.21,
+   "cpi": 6.7
+  },
+  {
+   "date": "2023-10",
+   "energy": -15.54,
+   "non_energy": 6.64,
+   "cpi": 4.6
+  },
+  {
+   "date": "2023-11",
+   "energy": -16.66,
+   "non_energy": 5.99,
+   "cpi": 3.9
+  },
+  {
+   "date": "2023-12",
+   "energy": -17.06,
+   "non_energy": 6.01,
+   "cpi": 4.0
+  },
+  {
+   "date": "2024-01",
+   "energy": -14.84,
+   "non_energy": 5.72,
+   "cpi": 4.0
+  },
+  {
+   "date": "2024-02",
+   "energy": -13.7,
+   "non_energy": 4.99,
+   "cpi": 3.4
+  },
+  {
+   "date": "2024-03",
+   "energy": -12.61,
+   "non_energy": 4.67,
+   "cpi": 3.2
+  },
+  {
+   "date": "2024-04",
+   "energy": -16.66,
+   "non_energy": 4.06,
+   "cpi": 2.3
+  },
+  {
+   "date": "2024-05",
+   "energy": -15.84,
+   "non_energy": 3.57,
+   "cpi": 2.0
+  },
+  {
+   "date": "2024-06",
+   "energy": -15.95,
+   "non_energy": 3.56,
+   "cpi": 2.0
+  },
+  {
+   "date": "2024-07",
+   "energy": -10.83,
+   "non_energy": 3.36,
+   "cpi": 2.2
+  },
+  {
+   "date": "2024-08",
+   "energy": -13.09,
+   "non_energy": 3.53,
+   "cpi": 2.2
+  },
+  {
+   "date": "2024-09",
+   "energy": -16.13,
+   "non_energy": 3.2,
+   "cpi": 1.7
+  },
+  {
+   "date": "2024-10",
+   "energy": -10.02,
+   "non_energy": 3.34,
+   "cpi": 2.3
+  },
+  {
+   "date": "2024-11",
+   "energy": -8.7,
+   "non_energy": 3.61,
+   "cpi": 2.6
+  },
+  {
+   "date": "2024-12",
+   "energy": -5.97,
+   "non_energy": 3.27,
+   "cpi": 2.5
+  },
+  {
+   "date": "2025-01",
+   "energy": -6.66,
+   "non_energy": 3.69,
+   "cpi": 3.0
+  },
+  {
+   "date": "2025-02",
+   "energy": -6.79,
+   "non_energy": 3.55,
+   "cpi": 2.8
+  },
+  {
+   "date": "2025-03",
+   "energy": -8.05,
+   "non_energy": 3.39,
+   "cpi": 2.6
+  },
+  {
+   "date": "2025-04",
+   "energy": -0.94,
+   "non_energy": 3.81,
+   "cpi": 3.5
+  },
+  {
+   "date": "2025-05",
+   "energy": -1.68,
+   "non_energy": 3.68,
+   "cpi": 3.4
+  },
+  {
+   "date": "2025-06",
+   "energy": -0.67,
+   "non_energy": 3.84,
+   "cpi": 3.6
+  },
+  {
+   "date": "2025-07",
+   "energy": 1.41,
+   "non_energy": 3.94,
+   "cpi": 3.8
+  },
+  {
+   "date": "2025-08",
+   "energy": 2.42,
+   "non_energy": 3.82,
+   "cpi": 3.8
+  },
+  {
+   "date": "2025-09",
+   "energy": 4.33,
+   "non_energy": 3.7,
+   "cpi": 3.8
+  },
+  {
+   "date": "2025-10",
+   "energy": 1.83,
+   "non_energy": 3.64,
+   "cpi": 3.6
+  },
+  {
+   "date": "2025-11",
+   "energy": 1.83,
+   "non_energy": 3.31,
+   "cpi": 3.2
+  },
+  {
+   "date": "2025-12",
+   "energy": 1.73,
+   "non_energy": 3.44,
+   "cpi": 3.4
+  },
+  {
+   "date": "2026-01",
+   "energy": -0.04,
+   "non_energy": 3.2,
+   "cpi": 3.0
+  },
+  {
+   "date": "2026-02",
+   "energy": -1.22,
+   "non_energy": 3.24,
+   "cpi": 3.0
+  },
+  {
+   "date": "2026-03",
+   "energy": 4.77,
+   "non_energy": 3.22,
+   "cpi": 3.3
+  },
+  {
+   "date": "2026-04",
+   "energy": 6.91,
+   "non_energy": 2.54,
+   "cpi": 2.8
+  },
+  {
+   "date": "2026-05",
+   "energy": 7.26,
+   "non_energy": 2.57,
+   "cpi": 2.8
+  },
+  {
+   "date": "2026-06",
+   "energy": 5.5,
+   "non_energy": 2.44,
+   "cpi": 2.6
+  },
+  {
+   "date": "2026-07",
+   "energy": 9.61,
+   "non_energy": 2.43,
+   "cpi": 2.9
+  },
+  {
+   "date": "2026-08",
+   "energy": 13.61,
+   "non_energy": 2.43,
+   "cpi": 3.1
+  },
+  {
+   "date": "2026-09",
+   "energy": 17.67,
+   "non_energy": 2.59,
+   "cpi": 3.5
+  }
+ ],
+ "theme": "blue-amber",
+ "size_cm": [
+  25,
+  15
+ ],
+ "style_version": 10
+}

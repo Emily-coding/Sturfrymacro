@@ -26,6 +26,7 @@ def bank_of_england() -> tuple[dict, dict]:
     label, zf, url = boe_mpr.latest_report()
     quarterly, annual = boe_mpr.databank(zf)
     near = boe_mpr.near_term(zf)
+    parts = boe_mpr.near_term_components(zf)  # Bank staff monthly projections for CPI components
     others = boe_mpr.other_forecasters(zf)
 
     data = {
@@ -42,6 +43,14 @@ def bank_of_england() -> tuple[dict, dict]:
         "pay_private_regular_q4": {"boe": annual["Average weekly earnings (private sector regular pay) (Q4)"]},
         # market-implied Bank Rate path the projections are conditioned on (quarterly averages)
         "bank_rate": {"boe": quarterly["Bank Rate"]},
+        # 12-month inflation in essentials, next six months (Bank staff projections)
+        "cpi_food_monthly": {"boe": parts.get("Food", [])},
+        "cpi_elec_gas_monthly": {"boe": parts.get("Electricity and gas", [])},
+        "cpi_fuels_monthly": {"boe": parts.get("Fuels and lubricants", [])},
+        # the Bank's output gap (% of potential GDP): calendar-year figures only
+        "output_gap_annual": {"boe": annual["Output gap"]},
+        # energy's direct contribution to CPI inflation in Q4 of each year (percentage points)
+        "energy_contribution_q4": {"boe": annual.get("Energy prices \u2013 direct contribution to CPI inflation (Q4)", [])},
     }
     sources = {
         "boe": {"name": "Bank of England", "vintage": f"{label} MPR", "url": url},

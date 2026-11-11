@@ -35,6 +35,7 @@ REPO = HERE.parent.parent
 sys.path.insert(0, str(REPO))
 
 import forecasts  # noqa: E402
+import taylor  # noqa: E402
 
 OUT = REPO / "data" / "dashboard"
 START_M, START_Q = "2022-01", "2022-Q1"  # charts start here (late enough for forecasts to be legible)...
@@ -49,6 +50,8 @@ FORECASTERS = {
 }
 OUTTURN = "#186FAF"        # blue
 OUTTURN_SECOND = "#9FB3C8"  # grey: a second outturn measure on the same chart
+TAYLOR_COLOUR = "#102A43"   # navy: policy rules on the Bank Rate chart
+RATE_START = "2020-01-01"   # the Bank Rate chart starts here
 
 
 # ---------------------------------------------------------------- reading outturn
@@ -263,7 +266,44 @@ def inflation_section(fc, sources):
         "charts": [{"title": "CPI inflation", "units": "% change on a year earlier", "freq": "M",
                     "lines": [line("ONS outturn", cpi, OUTTURN, "outturn")] + lines,
                     "note": "Bank of England line is Bank staff's monthly projection for the next six months, then its quarterly projection. OBR and outside forecasters are quarterly averages, plotted mid-quarter. Sturfrymacro is our own short-term forecast, built up from 84 CPI components.",
-                    "source": "ONS; Bank of England; OBR"}],
+                    "source": "ONS; Bank of England; OBR"},
+                   essentials_chart(fc, sources)],
+    }
+
+
+# Essentials: one colour per component; the Bank's projection for a component is
+# dashed in the same colour. (variable in forecasts.json, or None if not forecast)
+ESSENTIALS = [
+    ("food", "Food and non-alcoholic drinks", "#27AB83", "cpi_food_monthly"),
+    ("energy", "Household energy", "#BA2525", "cpi_elec_gas_monthly"),
+    ("fuels", "Motor fuels", "#DE911D", "cpi_fuels_monthly"),
+    ("transport", "Transport", "#9FB3C8", None),
+]
+
+
+def essentials_chart(fc, sources):
+    """Inflation in food, household energy, motor fuels and transport (ONS),
+    with Bank of England staff projections for the next six months where the Bank
+    publishes them (food, electricity and gas, motor fuels)."""
+    chart = chart_file("inflation", "cpi-essentials")
+    lines, forecasts = [], []
+    for key, name, colour, var in ESSENTIALS:
+        pts = [p for p in series(chart, key) if p[0] >= START_M]
+        lines.append(line(name, pts, colour, "outturn"))
+        proj = after([list(p) for p in fc.get(var, {}).get("boe", [])], pts[-1][0], "9999") if var else []
+        ln = line(f"{name}, Bank of England projection", proj, colour, "forecast", pts[-1])
+        if ln:
+            forecasts.append({**ln, "legend": False})  # one shared legend entry instead (legend_extra)
+    vintage = sources.get("boe", {}).get("vintage", "")
+    return {
+        "title": "Inflation in essentials", "units": "% change on a year earlier", "freq": "M",
+        "lines": lines + forecasts,
+        "legend_extra": [{"name": f"Bank of England staff projection ({vintage})", "colour": "#627D98", "kind": "forecast"}]
+                        if forecasts else [],
+        "note": chart["note"] + " Dashed lines are Bank of England staff projections for the next six months, published "
+                "for food, electricity and gas, and motor fuels only (not transport as a whole). The Bank's "
+                "energy projection covers electricity and gas, a little narrower than the ONS household energy line.",
+        "source": "ONS; Bank of England",
     }
 
 
@@ -416,6 +456,15 @@ def markets_section(fc, sources):
 
     gilt, ust, bund = get("bond-yields-10y", "uk"), get("bond-yields-10y", "us"), get("bond-yields-10y", "de")
     rate = get("bank-rate", "bank_rate")
+    rate_long = [p for p in series(chart_file("markets", "bank-rate"), "bank_rate")
+                 if p[0] >= RATE_START]  # this chart starts earlier than the other markets charts
+    # Policy rules (builders/dashboard/taylor.py), applied to the Bank's latest projections
+    # from today's Bank Rate; the chart lets readers pick one at a time
+    variants = []
+    for r in taylor.rules(fc, chart_file("inflation", "cpi-energy-split"), rate[-1], END_Q):
+        ln = line(f"{r['name']}, from Bank of England projections",
+                  [[mid(q), v] for q, v in r["path"] if mid(q) > rate[-1][0]], TAYLOR_COLOUR, "forecast", rate[-1])
+        variants.append({"id": r["id"], "name": r["name"], "formula": r["formula"], "lines": [ln] if ln else []})
     brent, wti = get("oil-prices", "brent"), get("oil-prices", "wti")
     gas_chart = chart_file("markets", "gas-price-uk")
     gas = [p for p in series(gas_chart, "gas") if p[0] >= START_M]
@@ -471,10 +520,17 @@ def markets_section(fc, sources):
                        line("Germany", weekly(bund), OUTTURN_SECOND, "outturn")],
              "note": "Weekly (last trading day). No forecaster publishes a 10-year yield path: the OBR's assumption is for 20-year gilts.",
              "source": "Bank of England; US Treasury; Bundesbank"},
-            {"title": "Bank Rate", "units": "%", "freq": "D", "y_min": 0,
-             "lines": [line("Bank Rate", weekly(rate), OUTTURN, "outturn")] + assumed("bank_rate", rate[-1]),
-             "note": "Dashed lines are the market-implied path of Bank Rate each forecast was conditioned on (quarterly averages, plotted mid-quarter).",
-             "source": "Bank of England; OBR"},
+            {"title": "Bank Rate", "units": "%", "freq": "D",  # no y_min: the Taylor rule can go below zero
+             "lines": [line("Bank Rate", weekly(rate_long), OUTTURN, "outturn")] + assumed("bank_rate", rate[-1]),
+             "variants": variants, "variant_label": "Policy rule",
+             "note": "Dashed amber and teal lines are the market-implied path of Bank Rate each forecast was conditioned on "
+                     "(quarterly averages, plotted mid-quarter). The navy line is the chosen policy rule applied to the Bank "
+                     "of England's latest projections, starting from today's Bank Rate (quarterly; i = Bank Rate, \u03c0 = CPI "
+                     "inflation, y = output gap, all %). The Bank's three rules are from its November 2025 MPR (Annex 1), with "
+                     "i* = 3%. The Bank publishes its output gap by year (interpolated to quarters) and energy only as its "
+                     "contribution to CPI inflation in Q4, from which energy and non-energy inflation are worked out. Unlike "
+                     "the Bank's own simulations, the projections don't respond to the different rate path.",
+             "source": "Bank of England; ONS"},
             {"title": "Crude oil prices", "units": "$ per barrel", "freq": "D", "y_min": 0,
              "lines": [line("Brent", weekly(brent), OUTTURN, "outturn"), line("WTI", weekly(wti), OUTTURN_SECOND, "outturn")]
                       + assumed("oil", brent[-1], who=("obr",), rename="Brent"),

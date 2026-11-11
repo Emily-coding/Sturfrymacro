@@ -107,6 +107,17 @@ slugs go in which section at the top of its script (`SECTIONS` in `labour.html`)
   AWE £ levels are rounded too coarsely to improve on it.
 - **Dynamism**, **NEETs**: to come.
 
+## Policy rules for Bank Rate
+
+The dashboard's Bank Rate chart (from 2020) has buttons to switch between four rules
+(`builders/dashboard/taylor.py`, which documents each formula): a simple Taylor (1993) rule
+and the three simple rules Bank of England staff use (contemporaneous and forward-looking
+Taylor-type rules, and a forward-looking first-difference rule; MPR November 2025, Annex 1).
+Each is applied to the Bank's latest MPR projections, starting from today's Bank Rate.
+Energy inflation comes from the Bank's projected energy contribution to CPI, anchored on
+`data/inflation/cpi-energy-split.json` (energy and non-energy CPI, rebuilt from components
+by the inflation builder).
+
 ## Market commentary
 
 **https://emily-coding.github.io/Sturfrymacro/commentary.html** (linked from the dashboard

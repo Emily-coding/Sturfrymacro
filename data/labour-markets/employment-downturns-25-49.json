@@ -1,0 +1,281 @@
+{
+ "slug": "employment-downturns-25-49",
+ "category": "labour-markets",
+ "type": "line",
+ "freq": "M",
+ "title": "Employment after downturns, aged 25-49",
+ "units": "% change since the start of each downturn: now (from June 2023) in blue, past downturns in grey",
+ "x_units": "Months since the start of the downturn",
+ "source": "ONS Labour Force Survey; HMRC PAYE Real Time Information",
+ "note": "2008: financial crisis, from April 2008; everyone in work (LFS, three-month averages). Covid-19: from March 2020. Covid-19 and now: employees on a payroll (PAYE, monthly), where the latest month is an early estimate. The current downturn is dated from June 2023, when payroll employment of 18-24s peaked.",
+ "decimals": 1,
+ "series": [
+  {
+   "key": "gfc",
+   "label": "2008",
+   "color": "neutral"
+  },
+  {
+   "key": "covid",
+   "label": "Covid-19",
+   "color": "neutral"
+  },
+  {
+   "key": "now",
+   "label": "Now",
+   "slot": 0
+  }
+ ],
+ "data_through": "2026-09",
+ "next_release": null,
+ "status": "ok",
+ "source_url": "https://www.ons.gov.uk/file?uri=/employmentandlabourmarket/peopleinwork/earningsandworkinghours/datasets/realtimeinformationstatisticsreferencetableseasonallyadjusted/current/rtisaoct2026.xlsx",
+ "data": [
+  {
+   "date": "0",
+   "gfc": 0.0,
+   "covid": 0.0,
+   "now": 0.0
+  },
+  {
+   "date": "1",
+   "gfc": -0.03,
+   "covid": -1.15,
+   "now": 0.08
+  },
+  {
+   "date": "2",
+   "gfc": -0.11,
+   "covid": -1.65,
+   "now": 0.2
+  },
+  {
+   "date": "3",
+   "gfc": -0.36,
+   "covid": -1.73,
+   "now": 0.34
+  },
+  {
+   "date": "4",
+   "gfc": -0.54,
+   "covid": -1.65,
+   "now": 0.52
+  },
+  {
+   "date": "5",
+   "gfc": -0.7,
+   "covid": -1.84,
+   "now": 0.68
+  },
+  {
+   "date": "6",
+   "gfc": -0.72,
+   "covid": -2.11,
+   "now": 0.87
+  },
+  {
+   "date": "7",
+   "gfc": -0.69,
+   "covid": -2.22,
+   "now": 0.96
+  },
+  {
+   "date": "8",
+   "gfc": -0.62,
+   "covid": -2.3,
+   "now": 1.02
+  },
+  {
+   "date": "9",
+   "gfc": -0.84,
+   "covid": -2.16,
+   "now": 1.08
+  },
+  {
+   "date": "10",
+   "gfc": -1.0,
+   "covid": -2.07,
+   "now": 1.24
+  },
+  {
+   "date": "11",
+   "gfc": -1.29,
+   "covid": -2.11,
+   "now": 1.35
+  },
+  {
+   "date": "12",
+   "gfc": -1.76,
+   "covid": -2.01,
+   "now": 1.4
+  },
+  {
+   "date": "13",
+   "gfc": -2.07,
+   "covid": -1.71,
+   "now": 1.46
+  },
+  {
+   "date": "14",
+   "gfc": -2.19,
+   "covid": -1.52,
+   "now": 1.51
+  },
+  {
+   "date": "15",
+   "gfc": -2.12,
+   "covid": -1.39,
+   "now": 1.56
+  },
+  {
+   "date": "16",
+   "gfc": -1.93,
+   "covid": -1.23,
+   "now": 1.63
+  },
+  {
+   "date": "17",
+   "gfc": -1.64,
+   "covid": -0.96,
+   "now": 1.57
+  },
+  {
+   "date": "18",
+   "gfc": -1.69,
+   "covid": -0.73,
+   "now": 1.53
+  },
+  {
+   "date": "19",
+   "gfc": -1.71,
+   "covid": -0.62,
+   "now": 1.54
+  },
+  {
+   "date": "20",
+   "gfc": -1.86,
+   "covid": -0.29,
+   "now": 1.52
+  },
+  {
+   "date": "21",
+   "gfc": -2.17,
+   "covid": -0.04,
+   "now": 1.5
+  },
+  {
+   "date": "22",
+   "gfc": -2.4,
+   "covid": 0.14,
+   "now": 1.48
+  },
+  {
+   "date": "23",
+   "gfc": -2.37,
+   "covid": 0.47,
+   "now": 1.43
+  },
+  {
+   "date": "24",
+   "gfc": -2.03,
+   "covid": 0.69,
+   "now": 1.42
+  },
+  {
+   "date": "25",
+   "gfc": -1.82,
+   "covid": 0.76,
+   "now": 1.43
+  },
+  {
+   "date": "26",
+   "gfc": -1.72,
+   "covid": 0.88,
+   "now": 1.49
+  },
+  {
+   "date": "27",
+   "gfc": -1.63,
+   "covid": 1.0,
+   "now": 1.4
+  },
+  {
+   "date": "28",
+   "gfc": -1.63,
+   "covid": 1.22,
+   "now": 1.39
+  },
+  {
+   "date": "29",
+   "gfc": -1.68,
+   "covid": 1.38,
+   "now": 1.32
+  },
+  {
+   "date": "30",
+   "gfc": -1.52,
+   "covid": 1.62,
+   "now": 1.33
+  },
+  {
+   "date": "31",
+   "gfc": -1.49,
+   "covid": 1.85,
+   "now": 1.33
+  },
+  {
+   "date": "32",
+   "gfc": -1.56,
+   "covid": 2.12,
+   "now": 1.32
+  },
+  {
+   "date": "33",
+   "gfc": -1.36,
+   "covid": 2.3,
+   "now": 1.27
+  },
+  {
+   "date": "34",
+   "gfc": -1.26,
+   "covid": 2.45,
+   "now": 1.2
+  },
+  {
+   "date": "35",
+   "gfc": -1.42,
+   "covid": 2.65,
+   "now": 1.2
+  },
+  {
+   "date": "36",
+   "gfc": -1.42,
+   "covid": 2.87,
+   "now": 1.1
+  },
+  {
+   "date": "37",
+   "gfc": -1.39,
+   "covid": 3.0,
+   "now": 1.02
+  },
+  {
+   "date": "38",
+   "gfc": -1.58,
+   "covid": 3.11,
+   "now": 1.04
+  },
+  {
+   "date": "39",
+   "gfc": -1.61,
+   "covid": 3.29,
+   "now": 0.94
+  }
+ ],
+ "theme": "blue-amber",
+ "size_cm": [
+  25,
+  15
+ ],
+ "style_version": 10
+}

@@ -1,0 +1,528 @@
+{
+ "category": "labour-markets",
+ "type": "line",
+ "freq": "Q",
+ "source": "ONS NEET table",
+ "next_release": null,
+ "status": "ok",
+ "source_url": "https://www.ons.gov.uk/file?uri=/employmentandlabourmarket/peoplenotinwork/unemployment/datasets/youngpeoplenotineducationemploymentortrainingneettable1/current/notineducationemploymentortrainingaj26.xlsx",
+ "data_through": "2026-Q2",
+ "decimals": 1,
+ "slug": "neet-split",
+ "title": "NEETs aged 16-24: unemployed or inactive",
+ "units": "% of 16-24 year olds",
+ "note": "Unemployed: looking for work. Inactive: not looking, often because of ill health or caring. Labour Force Survey, quarterly, seasonally adjusted. Data from 2019 were reweighted, causing a small step.",
+ "series": [
+  {
+   "key": "inactive",
+   "label": "Economically inactive"
+  },
+  {
+   "key": "unemployed",
+   "label": "Unemployed"
+  }
+ ],
+ "data": [
+  {
+   "date": "2001-Q4",
+   "inactive": 7.14,
+   "unemployed": 5.8
+  },
+  {
+   "date": "2002-Q1",
+   "inactive": 7.49,
+   "unemployed": 5.78
+  },
+  {
+   "date": "2002-Q2",
+   "inactive": 7.76,
+   "unemployed": 5.65
+  },
+  {
+   "date": "2002-Q3",
+   "inactive": 7.82,
+   "unemployed": 5.51
+  },
+  {
+   "date": "2002-Q4",
+   "inactive": 7.32,
+   "unemployed": 5.38
+  },
+  {
+   "date": "2003-Q1",
+   "inactive": 7.71,
+   "unemployed": 5.8
+  },
+  {
+   "date": "2003-Q2",
+   "inactive": 7.97,
+   "unemployed": 5.43
+  },
+  {
+   "date": "2003-Q3",
+   "inactive": 7.81,
+   "unemployed": 5.3
+  },
+  {
+   "date": "2003-Q4",
+   "inactive": 7.56,
+   "unemployed": 5.04
+  },
+  {
+   "date": "2004-Q1",
+   "inactive": 7.36,
+   "unemployed": 5.0
+  },
+  {
+   "date": "2004-Q2",
+   "inactive": 7.68,
+   "unemployed": 5.25
+  },
+  {
+   "date": "2004-Q3",
+   "inactive": 7.86,
+   "unemployed": 5.58
+  },
+  {
+   "date": "2004-Q4",
+   "inactive": 7.75,
+   "unemployed": 5.69
+  },
+  {
+   "date": "2005-Q1",
+   "inactive": 7.93,
+   "unemployed": 5.5
+  },
+  {
+   "date": "2005-Q2",
+   "inactive": 8.05,
+   "unemployed": 5.64
+  },
+  {
+   "date": "2005-Q3",
+   "inactive": 7.72,
+   "unemployed": 5.75
+  },
+  {
+   "date": "2005-Q4",
+   "inactive": 8.22,
+   "unemployed": 6.18
+  },
+  {
+   "date": "2006-Q1",
+   "inactive": 8.3,
+   "unemployed": 5.77
+  },
+  {
+   "date": "2006-Q2",
+   "inactive": 8.17,
+   "unemployed": 6.39
+  },
+  {
+   "date": "2006-Q3",
+   "inactive": 7.95,
+   "unemployed": 6.33
+  },
+  {
+   "date": "2006-Q4",
+   "inactive": 7.97,
+   "unemployed": 5.86
+  },
+  {
+   "date": "2007-Q1",
+   "inactive": 7.84,
+   "unemployed": 6.23
+  },
+  {
+   "date": "2007-Q2",
+   "inactive": 7.92,
+   "unemployed": 6.14
+  },
+  {
+   "date": "2007-Q3",
+   "inactive": 7.95,
+   "unemployed": 5.77
+  },
+  {
+   "date": "2007-Q4",
+   "inactive": 7.67,
+   "unemployed": 5.76
+  },
+  {
+   "date": "2008-Q1",
+   "inactive": 7.64,
+   "unemployed": 5.76
+  },
+  {
+   "date": "2008-Q2",
+   "inactive": 7.82,
+   "unemployed": 6.0
+  },
+  {
+   "date": "2008-Q3",
+   "inactive": 7.79,
+   "unemployed": 6.5
+  },
+  {
+   "date": "2008-Q4",
+   "inactive": 7.17,
+   "unemployed": 6.99
+  },
+  {
+   "date": "2009-Q1",
+   "inactive": 7.39,
+   "unemployed": 7.75
+  },
+  {
+   "date": "2009-Q2",
+   "inactive": 7.65,
+   "unemployed": 7.91
+  },
+  {
+   "date": "2009-Q3",
+   "inactive": 7.66,
+   "unemployed": 7.78
+  },
+  {
+   "date": "2009-Q4",
+   "inactive": 7.43,
+   "unemployed": 7.45
+  },
+  {
+   "date": "2010-Q1",
+   "inactive": 7.69,
+   "unemployed": 7.78
+  },
+  {
+   "date": "2010-Q2",
+   "inactive": 7.31,
+   "unemployed": 7.39
+  },
+  {
+   "date": "2010-Q3",
+   "inactive": 7.57,
+   "unemployed": 7.72
+  },
+  {
+   "date": "2010-Q4",
+   "inactive": 7.81,
+   "unemployed": 8.05
+  },
+  {
+   "date": "2011-Q1",
+   "inactive": 7.43,
+   "unemployed": 7.87
+  },
+  {
+   "date": "2011-Q2",
+   "inactive": 7.47,
+   "unemployed": 8.33
+  },
+  {
+   "date": "2011-Q3",
+   "inactive": 7.6,
+   "unemployed": 9.31
+  },
+  {
+   "date": "2011-Q4",
+   "inactive": 7.4,
+   "unemployed": 9.06
+  },
+  {
+   "date": "2012-Q1",
+   "inactive": 7.44,
+   "unemployed": 8.77
+  },
+  {
+   "date": "2012-Q2",
+   "inactive": 7.47,
+   "unemployed": 8.73
+  },
+  {
+   "date": "2012-Q3",
+   "inactive": 7.25,
+   "unemployed": 7.78
+  },
+  {
+   "date": "2012-Q4",
+   "inactive": 6.99,
+   "unemployed": 7.78
+  },
+  {
+   "date": "2013-Q1",
+   "inactive": 7.01,
+   "unemployed": 8.0
+  },
+  {
+   "date": "2013-Q2",
+   "inactive": 6.87,
+   "unemployed": 8.01
+  },
+  {
+   "date": "2013-Q3",
+   "inactive": 6.69,
+   "unemployed": 8.26
+  },
+  {
+   "date": "2013-Q4",
+   "inactive": 6.4,
+   "unemployed": 7.82
+  },
+  {
+   "date": "2014-Q1",
+   "inactive": 6.46,
+   "unemployed": 6.95
+  },
+  {
+   "date": "2014-Q2",
+   "inactive": 6.97,
+   "unemployed": 6.24
+  },
+  {
+   "date": "2014-Q3",
+   "inactive": 6.99,
+   "unemployed": 6.3
+  },
+  {
+   "date": "2014-Q4",
+   "inactive": 7.05,
+   "unemployed": 6.3
+  },
+  {
+   "date": "2015-Q1",
+   "inactive": 6.95,
+   "unemployed": 5.9
+  },
+  {
+   "date": "2015-Q2",
+   "inactive": 6.86,
+   "unemployed": 5.8
+  },
+  {
+   "date": "2015-Q3",
+   "inactive": 6.57,
+   "unemployed": 5.24
+  },
+  {
+   "date": "2015-Q4",
+   "inactive": 6.84,
+   "unemployed": 5.03
+  },
+  {
+   "date": "2016-Q1",
+   "inactive": 6.71,
+   "unemployed": 5.29
+  },
+  {
+   "date": "2016-Q2",
+   "inactive": 6.41,
+   "unemployed": 5.33
+  },
+  {
+   "date": "2016-Q3",
+   "inactive": 6.8,
+   "unemployed": 5.2
+  },
+  {
+   "date": "2016-Q4",
+   "inactive": 6.77,
+   "unemployed": 4.74
+  },
+  {
+   "date": "2017-Q1",
+   "inactive": 6.57,
+   "unemployed": 4.6
+  },
+  {
+   "date": "2017-Q2",
+   "inactive": 6.59,
+   "unemployed": 4.57
+  },
+  {
+   "date": "2017-Q3",
+   "inactive": 6.95,
+   "unemployed": 4.31
+  },
+  {
+   "date": "2017-Q4",
+   "inactive": 6.65,
+   "unemployed": 4.61
+  },
+  {
+   "date": "2018-Q1",
+   "inactive": 6.88,
+   "unemployed": 4.49
+  },
+  {
+   "date": "2018-Q2",
+   "inactive": 6.97,
+   "unemployed": 4.15
+  },
+  {
+   "date": "2018-Q3",
+   "inactive": 6.79,
+   "unemployed": 4.07
+  },
+  {
+   "date": "2018-Q4",
+   "inactive": 6.81,
+   "unemployed": 4.53
+  },
+  {
+   "date": "2019-Q1",
+   "inactive": 6.93,
+   "unemployed": 4.22
+  },
+  {
+   "date": "2019-Q2",
+   "inactive": 6.73,
+   "unemployed": 4.8
+  },
+  {
+   "date": "2019-Q3",
+   "inactive": 6.86,
+   "unemployed": 4.68
+  },
+  {
+   "date": "2019-Q4",
+   "inactive": 6.51,
+   "unemployed": 4.24
+  },
+  {
+   "date": "2020-Q1",
+   "inactive": 6.81,
+   "unemployed": 4.64
+  },
+  {
+   "date": "2020-Q2",
+   "inactive": 7.32,
+   "unemployed": 4.31
+  },
+  {
+   "date": "2020-Q3",
+   "inactive": 6.11,
+   "unemployed": 5.07
+  },
+  {
+   "date": "2020-Q4",
+   "inactive": 6.67,
+   "unemployed": 5.1
+  },
+  {
+   "date": "2021-Q1",
+   "inactive": 6.12,
+   "unemployed": 4.59
+  },
+  {
+   "date": "2021-Q2",
+   "inactive": 5.59,
+   "unemployed": 4.1
+  },
+  {
+   "date": "2021-Q3",
+   "inactive": 6.12,
+   "unemployed": 4.04
+  },
+  {
+   "date": "2021-Q4",
+   "inactive": 6.54,
+   "unemployed": 3.81
+  },
+  {
+   "date": "2022-Q1",
+   "inactive": 6.91,
+   "unemployed": 3.68
+  },
+  {
+   "date": "2022-Q2",
+   "inactive": 7.15,
+   "unemployed": 3.4
+  },
+  {
+   "date": "2022-Q3",
+   "inactive": 6.96,
+   "unemployed": 3.43
+  },
+  {
+   "date": "2022-Q4",
+   "inactive": 7.31,
+   "unemployed": 4.54
+  },
+  {
+   "date": "2023-Q1",
+   "inactive": 7.14,
+   "unemployed": 4.44
+  },
+  {
+   "date": "2023-Q2",
+   "inactive": 7.05,
+   "unemployed": 4.66
+  },
+  {
+   "date": "2023-Q3",
+   "inactive": 7.6,
+   "unemployed": 4.28
+  },
+  {
+   "date": "2023-Q4",
+   "inactive": 7.84,
+   "unemployed": 4.27
+  },
+  {
+   "date": "2024-Q1",
+   "inactive": 8.2,
+   "unemployed": 4.67
+  },
+  {
+   "date": "2024-Q2",
+   "inactive": 7.91,
+   "unemployed": 4.68
+  },
+  {
+   "date": "2024-Q3",
+   "inactive": 7.49,
+   "unemployed": 5.45
+  },
+  {
+   "date": "2024-Q4",
+   "inactive": 8.04,
+   "unemployed": 5.27
+  },
+  {
+   "date": "2025-Q1",
+   "inactive": 7.56,
+   "unemployed": 4.77
+  },
+  {
+   "date": "2025-Q2",
+   "inactive": 7.87,
+   "unemployed": 4.94
+  },
+  {
+   "date": "2025-Q3",
+   "inactive": 7.7,
+   "unemployed": 4.94
+  },
+  {
+   "date": "2025-Q4",
+   "inactive": 7.38,
+   "unemployed": 5.43
+  },
+  {
+   "date": "2026-Q1",
+   "inactive": 8.2,
+   "unemployed": 5.26
+  },
+  {
+   "date": "2026-Q2",
+   "inactive": 7.8,
+   "unemployed": 5.21
+  }
+ ],
+ "theme": "blue-amber",
+ "size_cm": [
+  25,
+  15
+ ],
+ "style_version": 10
+}

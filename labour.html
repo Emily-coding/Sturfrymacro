@@ -18,6 +18,7 @@
   .intro { margin: 0 0 20px; }
   .soon { background: var(--panel); border-radius: 8px; padding: 14px 16px; color: var(--ink-3); margin-bottom: 22px; }
   figure.wide { grid-column: 1 / -1; }  /* time-series charts span the row */
+  .charts.thirds { grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); }  /* three panels across */
 </style>
 </head>
 <body>
@@ -44,40 +45,49 @@ const SECTIONS = [
    intro: "How much people move: between jobs, and into and out of work.",
    charts: []},
   {id: "neets", title: "NEETs",
-   intro: "Young people aged 16 to 24 not in education, employment or training.",
-   charts: []},
+   intro: "Young people not in education, employment or training, and whether they are looking for work (unemployed) " +
+          "or not (inactive). Below them, employment by age since June 2023, when 18 to 24 year olds' employment peaked, " +
+          "against the 2008 financial crisis and Covid-19.",
+   charts: ["neet-rate", "neet-split", "employment-downturns-18-24", "employment-downturns-25-49",
+            "employment-downturns-50plus"], thirds: true},
 ];
 
-// Series colours in fixed order: the house "blue-amber" palette (ukmacro/charts.py)
+// Series colours in fixed order: the house "blue-amber" palette (ukmacro/charts.py).
+// A series can pin its colour ("slot") or be grey context ("color": "neutral").
 const COLOURS = ["#186FAF", "#DE911D", "#27AB83", "#BA2525"];
+const colour = (s, i) => s.color === "neutral" ? "#9FB3C8" : COLOURS[(s.slot ?? i) % 4];
 
 // Draw one chart file. A series with axis "right" is read off a right-hand scale;
-// "connect" joins its line across months with no reading.
+// "connect" joins its line across months with no reading. Charts with "x_units" have
+// a number on the x-axis (e.g. months since a downturn began) instead of dates.
 function draw(canvas, c) {
   const right = c.series.some(s => s.axis === "right");
-  const xs = c.data.map(r => timeX(r.date));
+  const xOf = c.x_units ? (d => +d) : timeX;
+  const xs = c.data.map(r => xOf(r.date));
   const datasets = c.series.map((s, i) => ({
     label: s.label,
     data: c.data.filter(r => s.connect ? r[s.key] != null : true)
-                .map(r => ({x: timeX(r.date), y: r[s.key], d: r.date})),
+                .map(r => ({x: xOf(r.date), y: r[s.key], d: r.date})),
     yAxisID: s.axis === "right" ? "y2" : "y",
-    borderColor: COLOURS[i % 4], backgroundColor: COLOURS[i % 4],
+    order: s.color === "neutral" ? 1 : 0,   // grey context lines behind coloured ones
+    borderColor: colour(s, i), backgroundColor: colour(s, i),
     borderWidth: 2, pointRadius: 0, pointHoverRadius: 4, tension: 0, spanGaps: false,
   }));
-  const yTicks = {callback: v => fmt(v, c.decimals ?? 0)};
+  const yTicks = {callback: v => fmt(v, Number.isInteger(v) ? 0 : 1)};  // "20", "2.5"
   new Chart(canvas, {
     type: "line", data: {datasets},
     options: {
       maintainAspectRatio: false, animation: false,
       interaction: {mode: "nearest", axis: "x", intersect: false},
       plugins: {legend: {display: false}, tooltip: {callbacks: {
-        title: items => niceLabel(items[0].raw.d),
+        title: items => c.x_units ? `${c.x_units}: ${items[0].raw.d}` : niceLabel(items[0].raw.d),
         label: it => ` ${it.dataset.label}: ${fmt(it.raw.y, 1)}`,
       }}},
       scales: {
         x: {type: "linear", min: Math.floor(Math.min(...xs)), max: Math.ceil(Math.max(...xs)),
             grid: {display: false}, border: {color: "#627D98"},
-            ticks: {stepSize: 1, maxRotation: 0, callback: v => Number.isInteger(v) ? v : ""}},
+            title: {display: !!c.x_units, text: c.x_units, color: "#486581"},
+            ticks: {stepSize: c.x_units ? 6 : 1, maxRotation: 0, callback: v => Number.isInteger(v) ? v : ""}},
         y: {grid: {color: ctx => ctx.tick.value === 0 ? "#9FB3C8" : "#D9E2EC"}, border: {display: false}, ticks: yTicks},
         ...(right ? {y2: {position: "right", grid: {display: false}, border: {display: false}, ticks: yTicks}} : {}),
       },
@@ -142,7 +152,7 @@ function drawScatter(canvas, c) {
 // canvas, then source line. Scatter charts get dot keys and their own drawing.
 function figure(c) {
   const scatter = c.type === "scatter";
-  const fig = el("figure", scatter ? null : "wide");
+  const fig = el("figure", scatter || c.x_units ? null : "wide");  // date charts span the row
   fig.append(el("h4", null, c.title),
              el("div", "units", `<span>${c.units}</span>${c.units_right ? `<span>${c.units_right}</span>` : ""}`));
   let keys;
@@ -153,7 +163,7 @@ function figure(c) {
             latest.length && `<i class="dot" style="background:${COLOURS[1]}"></i>Latest ${latest.length} months: ${span(latest)}`,
             c.trend && `<i style="border-color:#102A43"></i>Trend`];
   } else {
-    keys = c.series.length > 1 ? c.series.map((s, i) => `<i style="border-color:${COLOURS[i % 4]}"></i>${s.label}`) : [];
+    keys = c.series.length > 1 ? c.series.map((s, i) => `<i style="border-color:${colour(s, i)}"></i>${s.label}`) : [];
   }
   const lg = el("div", "legend"); keys.filter(Boolean).forEach(k => lg.append(el("span", null, k)));
   const holder = el("div", "canvas"), canvas = el("canvas");
@@ -171,7 +181,7 @@ SECTIONS.forEach(s => {
   const sec = el("section"); sec.id = s.id;
   sec.append(el("h2", null, s.title), el("p", "intro", s.intro));
   if (!s.charts.length) sec.append(el("div", "soon", "Charts coming soon."));
-  const grid = el("div", "charts"); sec.append(grid); main.append(sec);
+  const grid = el("div", s.thirds ? "charts thirds" : "charts"); sec.append(grid); main.append(sec);
   s.charts.forEach(slug => {
     const slot = el("div"); grid.append(slot);   // keeps charts in the listed order
     fetch(`data/labour-markets/${slug}.json`, {cache: "no-cache"})

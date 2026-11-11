@@ -14,5 +14,16 @@ sys.path.insert(0, str(HERE.parent.parent))  # repo root, so `ukmacro` imports
 
 from ukmacro.builder import run  # noqa: E402
 
+import downturns  # noqa: E402
+import neet  # noqa: E402
+
 if __name__ == "__main__":
-    sys.exit(run(HERE / "config.yaml"))
+    status = run(HERE / "config.yaml")
+    for step in (neet.build, downturns.build):  # charts for labour.html's NEETs section
+        try:
+            step()
+        except Exception:  # noqa: BLE001
+            import traceback
+            traceback.print_exc()
+            status = 1
+    sys.exit(status)

@@ -29,6 +29,7 @@ ukmacro/                 shared source clients + the chart builder
   dmp.py                 Decision Maker Panel spreadsheets
   boe_mpr.py             Bank of England Monetary Policy Report forecasts
   derived.py             rates we calculate from ONS levels (to 3dp)
+  rti.py                 HMRC PAYE RTI: payrolled employees by age (ONS spreadsheet)
   boe_agents.py          Bank of England Agents' scores (one spreadsheet, scores from 1997)
   markets.py             market prices: US Treasury, Bundesbank, EIA oil, Ofgem gas, Yahoo FTSE 100
   lastgood.py            last-good store (see below)
@@ -106,7 +107,13 @@ slugs go in which section at the top of its script (`SECTIONS` in `labour.html`)
   recalculated from ONS levels to 3 decimal places (`source: calc`, `ukmacro/derived.py`) so
   months don't pile up on the ONS's 1dp grid; pay growth stays as published, because the
   AWE £ levels are rounded too coarsely to improve on it.
-- **Dynamism**, **NEETs**: to come.
+- **Dynamism**: to come.
+- **NEETs**: the ONS NEET rate for 16-24s and 18-24s since 2001, and the 16-24 rate split into
+  unemployed and inactive (`builders/labour-markets/neet.py`). Then employment of 18-24s, 25-49s and over-50s after downturns, as % change from the
+  start: the 2008 financial crisis (LFS, from April 2008), Covid-19 (PAYE, from March 2020)
+  and now (PAYE, from June 2023, when 18-24 payroll employment peaked; in colour). Built by
+  `builders/labour-markets/downturns.py` with the labour markets builder; PAYE by age is read
+  by `ukmacro/rti.py`.
 
 ## Policy rules for Bank Rate
 

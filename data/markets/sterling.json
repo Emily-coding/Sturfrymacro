@@ -13,18 +13,18 @@
    "key": "usd",
    "label": "US$ per \u00a3",
    "_source": "live",
-   "_date": "2026-11-10",
+   "_date": "2026-11-11",
    "source_url": "https://www.bankofengland.co.uk/boeapps/database/"
   },
   {
    "key": "eur",
    "label": "\u20ac per \u00a3",
    "_source": "live",
-   "_date": "2026-11-10",
+   "_date": "2026-11-11",
    "source_url": "https://www.bankofengland.co.uk/boeapps/database/"
   }
  ],
- "data_through": "2026-11-10",
+ "data_through": "2026-11-11",
  "next_release": null,
  "status": "ok",
  "data": [
@@ -6157,6 +6157,11 @@
    "date": "2026-11-10",
    "usd": 1.3335,
    "eur": 1.1948
+  },
+  {
+   "date": "2026-11-11",
+   "usd": 1.3282,
+   "eur": 1.1969
   }
  ],
  "theme": "blue-amber",

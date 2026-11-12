@@ -5,14 +5,14 @@
   {
    "slug": "bond-yields-10y",
    "title": "10-year government bond yields",
-   "data_through": "2026-11-11",
+   "data_through": "2026-11-12",
    "next_release": null,
    "status": "ok"
   },
   {
    "slug": "bank-rate",
    "title": "Bank Rate",
-   "data_through": "2026-11-10",
+   "data_through": "2026-11-11",
    "next_release": null,
    "status": "ok"
   },
@@ -33,14 +33,14 @@
   {
    "slug": "ftse-100",
    "title": "FTSE 100",
-   "data_through": "2026-11-11",
+   "data_through": "2026-11-12",
    "next_release": null,
    "status": "ok"
   },
   {
    "slug": "sterling",
    "title": "Sterling exchange rates",
-   "data_through": "2026-11-10",
+   "data_through": "2026-11-11",
    "next_release": null,
    "status": "ok"
   }

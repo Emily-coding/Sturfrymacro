@@ -42,7 +42,7 @@
     "forecasts": [
      {
       "heading": "Q3 2026 GDP growth, q/q",
-      "release": "2026-11-12",
+      "release": null,
       "unit": "%",
       "items": [
        {
@@ -516,49 +516,49 @@
      "source": "ONS Monthly GDP estimate"
     },
     {
-     "title": "Real GDP growth in Q1–Q2 2026, G7",
+     "title": "Real GDP growth in Q1–Q3 2026, G7",
      "units": "% change from Q4 2025",
      "type": "bars",
      "bars": [
       {
-       "name": "United Kingdom",
-       "value": 1.18,
-       "period": "",
-       "colour": "#186FAF"
-      },
-      {
        "name": "United States",
-       "value": 1.17,
+       "value": 2.01,
        "period": "",
        "colour": "#9FB3C8"
       },
       {
+       "name": "United Kingdom",
+       "value": 1.93,
+       "period": "",
+       "colour": "#186FAF"
+      },
+      {
        "name": "Canada",
-       "value": 0.9,
+       "value": 1.2,
+       "period": "",
+       "colour": "#9FB3C8"
+      },
+      {
+       "name": "Germany",
+       "value": 0.98,
        "period": "",
        "colour": "#9FB3C8"
       },
       {
        "name": "Japan",
        "value": 0.84,
-       "period": "",
-       "colour": "#9FB3C8"
-      },
-      {
-       "name": "Germany",
-       "value": 0.75,
-       "period": "",
+       "period": "to Q2 only",
        "colour": "#9FB3C8"
       },
       {
        "name": "Italy",
-       "value": 0.47,
+       "value": 0.48,
        "period": "",
        "colour": "#9FB3C8"
       },
       {
        "name": "France",
-       "value": -0.17,
+       "value": -0.3,
        "period": "",
        "colour": "#9FB3C8"
       }

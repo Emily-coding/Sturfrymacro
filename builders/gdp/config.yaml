@@ -1,4 +1,7 @@
 # GDP — headline charts. Series codes verified against live ONS/OECD 2026-10-08.
+# ONS series use dataset PN2 (the GDP release dataset): it is refreshed at every
+# quarterly GDP release, including the first estimate. QNA only updates at the
+# Quarterly National Accounts, about six weeks later.
 category: gdp
 title: GDP
 
@@ -12,8 +15,8 @@ charts:
     source: ONS Quarterly National Accounts
     note: Chained volume measures, seasonally adjusted. The gap between the lines is population growth.
     series:
-      - {source: ons, key: gdp, label: GDP, cdid: ABMI, dataset: QNA}
-      - {source: ons, key: gdp_per_head, label: GDP per head, cdid: IHXW, dataset: QNA}
+      - {source: ons, key: gdp, label: GDP, cdid: ABMI, dataset: PN2}
+      - {source: ons, key: gdp_per_head, label: GDP per head, cdid: IHXW, dataset: PN2}
 
   - slug: gdp-growth
     title: Real GDP growth
@@ -23,8 +26,8 @@ charts:
     type: bar
     source: ONS Quarterly National Accounts
     series:
-      - {source: ons, key: qoq, label: Quarter on quarter, cdid: IHYQ, dataset: QNA}
-      - {source: ons, key: yoy, label: Year on year, cdid: IHYR, dataset: QNA, mark: line}
+      - {source: ons, key: qoq, label: Quarter on quarter, cdid: IHYQ, dataset: PN2}
+      - {source: ons, key: yoy, label: Year on year, cdid: IHYR, dataset: PN2, mark: line}
 
   - slug: gdp-monthly
     title: Monthly GDP

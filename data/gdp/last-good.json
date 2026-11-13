@@ -1248,7 +1248,7 @@
 "stored": "2026-10-30"
 },
 "gdp-growth/qoq": {
-"next_release": "2026-11-12",
+"next_release": "2026-12-22",
 "obs": [
 [
 "1955-Q2",
@@ -2389,13 +2389,17 @@
 [
 "2026-Q2",
 0.5
+],
+[
+"2026-Q3",
+0.7
 ]
 ],
-"source_url": "https://www.ons.gov.uk/economy/grossdomesticproductgdp/timeseries/ihyq/qna",
-"stored": "2026-10-08"
+"source_url": "https://www.ons.gov.uk/economy/grossdomesticproductgdp/timeseries/ihyq/pn2",
+"stored": "2026-11-13"
 },
 "gdp-growth/yoy": {
-"next_release": "2026-11-12",
+"next_release": "2026-12-22",
 "obs": [
 [
 "1956-Q1",
@@ -3524,13 +3528,17 @@
 [
 "2026-Q2",
 1.4
+],
+[
+"2026-Q3",
+1.9
 ]
 ],
-"source_url": "https://www.ons.gov.uk/economy/grossdomesticproductgdp/timeseries/ihyr/qna",
-"stored": "2026-10-08"
+"source_url": "https://www.ons.gov.uk/economy/grossdomesticproductgdp/timeseries/ihyr/pn2",
+"stored": "2026-11-13"
 },
 "gdp-level/gdp": {
-"next_release": "2026-11-12",
+"next_release": "2026-12-22",
 "obs": [
 [
 "1955-Q1",
@@ -4675,13 +4683,17 @@
 [
 "2026-Q2",
 744453.0
+],
+[
+"2026-Q3",
+749999.0
 ]
 ],
-"source_url": "https://www.ons.gov.uk/economy/grossdomesticproductgdp/timeseries/abmi/qna",
-"stored": "2026-10-08"
+"source_url": "https://www.ons.gov.uk/economy/grossdomesticproductgdp/timeseries/abmi/pn2",
+"stored": "2026-11-13"
 },
 "gdp-level/gdp_per_head": {
-"next_release": "2026-11-12",
+"next_release": "2026-12-22",
 "obs": [
 [
 "1946-Q1",
@@ -5953,11 +5965,11 @@
 ],
 [
 "2025-Q2",
-10568.0
+10569.0
 ],
 [
 "2025-Q3",
-10582.0
+10583.0
 ],
 [
 "2025-Q4",
@@ -5970,10 +5982,14 @@
 [
 "2026-Q2",
 10692.0
+],
+[
+"2026-Q3",
+10763.0
 ]
 ],
-"source_url": "https://www.ons.gov.uk/economy/grossdomesticproductgdp/timeseries/ihxw/qna",
-"stored": "2026-10-08"
+"source_url": "https://www.ons.gov.uk/economy/grossdomesticproductgdp/timeseries/ihxw/pn2",
+"stored": "2026-11-13"
 },
 "gdp-monthly/gva": {
 "next_release": "2026-12-11",

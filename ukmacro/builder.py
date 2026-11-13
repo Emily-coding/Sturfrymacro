@@ -153,6 +153,14 @@ def build_chart(chart: dict, category: str, lg: LastGood, failures: list[str]) -
     dates = sorted({d for col in columns.values() for d in col})
     data = [{"date": d, **{k: col.get(d) for k, col in columns.items()}} for d in dates]
     upcoming = sorted(r for r in releases if r >= date.today().isoformat())
+    # Missed-release check: if a source still says its next release is a date that
+    # has already passed, we are almost certainly reading a copy of the series that
+    # wasn't updated (e.g. ONS dataset QNA instead of PN2 after a GDP first estimate).
+    # Count it as a failure so the job goes red rather than quietly showing old data.
+    missed = sorted({r for r in releases if r < date.today().isoformat()})
+    if missed:
+        failures.append(f"{chart['slug']}: source said new data due {', '.join(missed)} "
+                        "but still shows the old data (check the dataset code)")
     trend = None
     if chart.get("trend") and chart.get("type") == "scatter":
         pts, _ = charts.scatter_points({"series": series, "data": data})  # [(date, x, y)] where both exist

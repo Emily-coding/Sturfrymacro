@@ -12,20 +12,20 @@
    "key": "qoq",
    "label": "Quarter on quarter",
    "_source": "live",
-   "_date": "2026-Q2",
-   "source_url": "https://www.ons.gov.uk/economy/grossdomesticproductgdp/timeseries/ihyq/qna"
+   "_date": "2026-Q3",
+   "source_url": "https://www.ons.gov.uk/economy/grossdomesticproductgdp/timeseries/ihyq/pn2"
   },
   {
    "key": "yoy",
    "label": "Year on year",
    "_source": "live",
    "mark": "line",
-   "_date": "2026-Q2",
-   "source_url": "https://www.ons.gov.uk/economy/grossdomesticproductgdp/timeseries/ihyr/qna"
+   "_date": "2026-Q3",
+   "source_url": "https://www.ons.gov.uk/economy/grossdomesticproductgdp/timeseries/ihyr/pn2"
   }
  ],
- "data_through": "2026-Q2",
- "next_release": null,
+ "data_through": "2026-Q3",
+ "next_release": "2026-12-22",
  "status": "ok",
  "data": [
   {
@@ -117,6 +117,11 @@
    "date": "2026-Q2",
    "qoq": 0.5,
    "yoy": 1.4
+  },
+  {
+   "date": "2026-Q3",
+   "qoq": 0.7,
+   "yoy": 1.9
   }
  ],
  "theme": "blue-amber",

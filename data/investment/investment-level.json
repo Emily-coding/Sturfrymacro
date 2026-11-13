@@ -12,8 +12,8 @@
    "key": "business",
    "label": "Business investment",
    "_source": "live",
-   "_date": "2026-Q2",
-   "source_url": "https://www.ons.gov.uk/economy/grossdomesticproductgdp/timeseries/npel/qna"
+   "_date": "2026-Q3",
+   "source_url": "https://www.ons.gov.uk/economy/grossdomesticproductgdp/timeseries/npel/pn2"
   },
   {
    "key": "total_gfcf",
@@ -259,7 +259,7 @@
   },
   {
    "date": "2026-Q3",
-   "business": null,
+   "business": 113.177,
    "total_gfcf": 115.765
   }
  ],

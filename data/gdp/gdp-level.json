@@ -12,19 +12,19 @@
    "key": "gdp",
    "label": "GDP",
    "_source": "live",
-   "_date": "2026-Q2",
-   "source_url": "https://www.ons.gov.uk/economy/grossdomesticproductgdp/timeseries/abmi/qna"
+   "_date": "2026-Q3",
+   "source_url": "https://www.ons.gov.uk/economy/grossdomesticproductgdp/timeseries/abmi/pn2"
   },
   {
    "key": "gdp_per_head",
    "label": "GDP per head",
    "_source": "live",
-   "_date": "2026-Q2",
-   "source_url": "https://www.ons.gov.uk/economy/grossdomesticproductgdp/timeseries/ihxw/qna"
+   "_date": "2026-Q3",
+   "source_url": "https://www.ons.gov.uk/economy/grossdomesticproductgdp/timeseries/ihxw/pn2"
   }
  ],
- "data_through": "2026-Q2",
- "next_release": null,
+ "data_through": "2026-Q3",
+ "next_release": "2026-12-22",
  "status": "ok",
  "data": [
   {
@@ -235,12 +235,12 @@
   {
    "date": "2025-Q2",
    "gdp": 104.776,
-   "gdp_per_head": 100.542
+   "gdp_per_head": 100.552
   },
   {
    "date": "2025-Q3",
    "gdp": 104.967,
-   "gdp_per_head": 100.675
+   "gdp_per_head": 100.685
   },
   {
    "date": "2025-Q4",
@@ -256,6 +256,11 @@
    "date": "2026-Q2",
    "gdp": 106.214,
    "gdp_per_head": 101.722
+  },
+  {
+   "date": "2026-Q3",
+   "gdp": 107.005,
+   "gdp_per_head": 102.397
   }
  ],
  "theme": "blue-amber",

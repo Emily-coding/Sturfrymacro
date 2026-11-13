@@ -2698,7 +2698,7 @@
 "stored": "2026-10-30"
 },
 "investment-level/business": {
-"next_release": "2026-11-12",
+"next_release": "2026-12-22",
 "obs": [
 [
 "1997-Q1",
@@ -3171,10 +3171,14 @@
 [
 "2026-Q2",
 83534.0
+],
+[
+"2026-Q3",
+83897.0
 ]
 ],
-"source_url": "https://www.ons.gov.uk/economy/grossdomesticproductgdp/timeseries/npel/qna",
-"stored": "2026-10-08"
+"source_url": "https://www.ons.gov.uk/economy/grossdomesticproductgdp/timeseries/npel/pn2",
+"stored": "2026-11-13"
 },
 "investment-level/total_gfcf": {
 "next_release": "2026-12-22",

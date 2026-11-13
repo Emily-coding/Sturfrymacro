@@ -12,7 +12,7 @@ charts:
     source: ONS Business investment / Quarterly National Accounts
     note: Chained volume measures, seasonally adjusted. Total is all gross fixed capital formation (business, government and dwellings).
     series:
-      - {source: ons, key: business, label: Business investment, cdid: NPEL, dataset: QNA}
+      - {source: ons, key: business, label: Business investment, cdid: NPEL, dataset: PN2}
       - {source: ons, key: total_gfcf, label: Total investment (GFCF), cdid: NPQT, dataset: CXNV}
 
   - slug: investment-by-asset

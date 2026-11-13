@@ -4908,10 +4908,14 @@
 [
 "2026-11-11",
 4.0
+],
+[
+"2026-11-12",
+4.0
 ]
 ],
 "source_url": "https://www.bankofengland.co.uk/boeapps/database/",
-"stored": "2026-11-12"
+"stored": "2026-11-13"
 },
 "bond-yields-10y/de": {
 "obs": [
@@ -9878,10 +9882,14 @@
 [
 "2026-11-12",
 3.33
+],
+[
+"2026-11-13",
+3.41
 ]
 ],
 "source_url": "https://www.bundesbank.de/en/statistics/money-and-capital-markets/interest-rates-and-yields",
-"stored": "2026-11-12"
+"stored": "2026-11-13"
 },
 "bond-yields-10y/uk": {
 "obs": [
@@ -14788,10 +14796,14 @@
 [
 "2026-11-10",
 5.1906
+],
+[
+"2026-11-11",
+5.2044
 ]
 ],
 "source_url": "https://www.bankofengland.co.uk/boeapps/database/",
-"stored": "2026-11-12"
+"stored": "2026-11-13"
 },
 "bond-yields-10y/us": {
 "obs": [
@@ -19650,10 +19662,14 @@
 [
 "2026-11-10",
 4.98
+],
+[
+"2026-11-12",
+5.1
 ]
 ],
 "source_url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates",
-"stored": "2026-11-11"
+"stored": "2026-11-13"
 },
 "ftse-100/ftse100": {
 "obs": [
@@ -24567,11 +24583,15 @@
 ],
 [
 "2026-11-12",
-10862.23
+10863.1
+],
+[
+"2026-11-13",
+10877.92
 ]
 ],
 "source_url": "https://finance.yahoo.com/quote/%5EFTSE/",
-"stored": "2026-11-12"
+"stored": "2026-11-13"
 },
 "gas-price-uk/gas": {
 "obs": [
@@ -29700,10 +29720,34 @@
 [
 "2026-11-03",
 107.03
+],
+[
+"2026-11-04",
+91.84
+],
+[
+"2026-11-05",
+97.96
+],
+[
+"2026-11-06",
+97.83
+],
+[
+"2026-11-09",
+91.03
+],
+[
+"2026-11-10",
+90.16
+],
+[
+"2026-11-11",
+92.14
 ]
 ],
 "source_url": "https://www.eia.gov/dnav/pet/pet_pri_spt_s1_d.htm",
-"stored": "2026-11-10"
+"stored": "2026-11-13"
 },
 "oil-prices/wti": {
 "obs": [
@@ -34538,10 +34582,34 @@
 [
 "2026-11-03",
 99.64
+],
+[
+"2026-11-04",
+91.73
+],
+[
+"2026-11-05",
+94.05
+],
+[
+"2026-11-06",
+94.37
+],
+[
+"2026-11-09",
+90.4
+],
+[
+"2026-11-10",
+89.62
+],
+[
+"2026-11-11",
+89.62
 ]
 ],
 "source_url": "https://www.eia.gov/dnav/pet/pet_pri_spt_s1_d.htm",
-"stored": "2026-11-10"
+"stored": "2026-11-13"
 },
 "sterling/eur": {
 "obs": [
@@ -39452,10 +39520,14 @@
 [
 "2026-11-11",
 1.1969
+],
+[
+"2026-11-12",
+1.1961
 ]
 ],
 "source_url": "https://www.bankofengland.co.uk/boeapps/database/",
-"stored": "2026-11-12"
+"stored": "2026-11-13"
 },
 "sterling/usd": {
 "obs": [
@@ -44366,9 +44438,13 @@
 [
 "2026-11-11",
 1.3282
+],
+[
+"2026-11-12",
+1.3238
 ]
 ],
 "source_url": "https://www.bankofengland.co.uk/boeapps/database/",
-"stored": "2026-11-12"
+"stored": "2026-11-13"
 }
 }

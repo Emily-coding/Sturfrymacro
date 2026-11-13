@@ -12,7 +12,7 @@
    "key": "gbr",
    "label": "United Kingdom",
    "_source": "live",
-   "_date": "2026-Q2",
+   "_date": "2026-Q3",
    "source_url": "https://data-explorer.oecd.org"
   },
   {
@@ -324,7 +324,7 @@
   },
   {
    "date": "2026-Q3",
-   "gbr": null,
+   "gbr": 15.76498193,
    "usa": 25.414423394,
    "deu": null,
    "fra": 1.562643198,

@@ -2354,10 +2354,14 @@
 [
 "2026-Q2",
 13.790225428
+],
+[
+"2026-Q3",
+15.76498193
 ]
 ],
 "source_url": "https://data-explorer.oecd.org",
-"stored": "2026-10-09"
+"stored": "2026-11-13"
 },
 "investment-g7/ita": {
 "obs": [

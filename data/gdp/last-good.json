@@ -254,10 +254,14 @@
 [
 "2026-Q2",
 0.532606626
+],
+[
+"2026-Q3",
+0.744976513
 ]
 ],
 "source_url": "https://data-explorer.oecd.org",
-"stored": "2026-11-10"
+"stored": "2026-11-13"
 },
 "gdp-g7-qoq/ita": {
 "obs": [

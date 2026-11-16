@@ -13,8 +13,7 @@
   "obr": {
    "name": "OBR",
    "vintage": "October 2026 EFO",
-   "url": "https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/",
-   "stale": true
+   "url": "https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/"
   },
   "own": {
    "name": "Sturfrymacro",
@@ -29,8 +28,8 @@
     "latest": [
      {
       "label": "GDP, quarter on quarter",
-      "period": "Q2 2026",
-      "value": 0.5,
+      "period": "Q3 2026",
+      "value": 0.7,
       "unit": "%"
      },
      {
@@ -42,24 +41,8 @@
     ],
     "forecasts": [
      {
-      "heading": "Q3 2026 GDP growth, q/q",
-      "release": null,
-      "unit": "%",
-      "items": [
-       {
-        "who": "Bank of England",
-        "colour": "#DE911D",
-        "value": 0.7
-       },
-       {
-        "who": "OBR",
-        "colour": "#27AB83",
-        "value": 0.3
-       }
-      ]
-     },
-     {
       "heading": "Q4 2026 GDP growth, q/q",
+      "release": "2026-12-22",
       "unit": "%",
       "items": [
        {
@@ -76,6 +59,22 @@
         "who": "Outside forecasters' average",
         "colour": "#BA2525",
         "value": 0.1
+       }
+      ]
+     },
+     {
+      "heading": "Q1 2027 GDP growth, q/q",
+      "unit": "%",
+      "items": [
+       {
+        "who": "Bank of England",
+        "colour": "#DE911D",
+        "value": 0.2
+       },
+       {
+        "who": "OBR",
+        "colour": "#27AB83",
+        "value": 0.2
        }
       ]
      }
@@ -163,6 +162,10 @@
         [
          "2026-Q2",
          106.214
+        ],
+        [
+         "2026-Q3",
+         107.005
         ]
        ]
       },
@@ -172,48 +175,44 @@
        "colour": "#DE911D",
        "data": [
         [
-         "2026-Q2",
-         106.214
-        ],
-        [
          "2026-Q3",
-         106.976
+         107.005
         ],
         [
          "2026-Q4",
-         107.315
+         107.344
         ],
         [
          "2027-Q1",
-         107.569
+         107.598
         ],
         [
          "2027-Q2",
-         107.823
+         107.852
         ],
         [
          "2027-Q3",
-         108.077
+         108.106
         ],
         [
          "2027-Q4",
-         108.332
+         108.361
         ],
         [
          "2028-Q1",
-         108.67
+         108.699
         ],
         [
          "2028-Q2",
-         109.094
+         109.123
         ],
         [
          "2028-Q3",
-         109.433
+         109.462
         ],
         [
          "2028-Q4",
-         109.856
+         109.886
         ]
        ]
       },
@@ -223,48 +222,44 @@
        "colour": "#27AB83",
        "data": [
         [
-         "2026-Q2",
-         106.214
-        ],
-        [
          "2026-Q3",
-         106.501
+         107.005
         ],
         [
          "2026-Q4",
-         106.703
+         107.208
         ],
         [
          "2027-Q1",
-         106.947
+         107.453
         ],
         [
          "2027-Q2",
-         107.224
+         107.731
         ],
         [
          "2027-Q3",
-         107.521
+         108.03
         ],
         [
          "2027-Q4",
-         107.941
+         108.452
         ],
         [
          "2028-Q1",
-         108.416
+         108.93
         ],
         [
          "2028-Q2",
-         108.915
+         109.431
         ],
         [
          "2028-Q3",
-         109.407
+         109.925
         ],
         [
          "2028-Q4",
-         109.896
+         110.416
         ]
        ]
       }
@@ -1878,21 +1873,21 @@
     "latest": [
      {
       "label": "Business investment, quarter on quarter",
-      "period": "Q2 2026",
-      "value": 1.8,
+      "period": "Q3 2026",
+      "value": 0.4,
       "unit": "%"
      }
     ],
     "forecasts": [
      {
-      "heading": "Q3 2026 business investment, q/q",
+      "heading": "Q4 2026 business investment, q/q",
       "release": "2026-12-22",
       "unit": "%",
       "items": [
        {
         "who": "OBR",
         "colour": "#27AB83",
-        "value": -0.6
+        "value": -0.4
        }
       ]
      },
@@ -1996,6 +1991,10 @@
         [
          "2026-Q2",
          112.687
+        ],
+        [
+         "2026-Q3",
+         113.177
         ]
        ]
       },
@@ -2005,48 +2004,44 @@
        "colour": "#27AB83",
        "data": [
         [
-         "2026-Q2",
-         112.687
-        ],
-        [
          "2026-Q3",
-         111.994
+         113.177
         ],
         [
          "2026-Q4",
-         111.585
+         112.764
         ],
         [
          "2027-Q1",
-         111.294
+         112.469
         ],
         [
          "2027-Q2",
-         111.073
+         112.246
         ],
         [
          "2027-Q3",
-         111.089
+         112.262
         ],
         [
          "2027-Q4",
-         111.27
+         112.445
         ],
         [
          "2028-Q1",
-         111.615
+         112.794
         ],
         [
          "2028-Q2",
-         112.034
+         113.217
         ],
         [
          "2028-Q3",
-         112.47
+         113.658
         ],
         [
          "2028-Q4",
-         112.868
+         114.06
         ]
        ]
       }

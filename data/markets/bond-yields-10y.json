@@ -26,11 +26,11 @@
    "key": "de",
    "label": "Germany",
    "_source": "live",
-   "_date": "2026-11-16",
+   "_date": "2026-11-17",
    "source_url": "https://www.bundesbank.de/en/statistics/money-and-capital-markets/interest-rates-and-yields"
   }
  ],
- "data_through": "2026-11-16",
+ "data_through": "2026-11-17",
  "next_release": null,
  "status": "ok",
  "data": [
@@ -7599,6 +7599,12 @@
    "uk": null,
    "us": 5.12,
    "de": 3.43
+  },
+  {
+   "date": "2026-11-17",
+   "uk": null,
+   "us": null,
+   "de": 3.39
   }
  ],
  "theme": "blue-amber",

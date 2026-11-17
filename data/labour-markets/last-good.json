@@ -1,6 +1,6 @@
 {
 "beveridge-curve/openings_rate": {
-"next_release": "2026-11-17",
+"next_release": "2026-12-15",
 "obs": [
 [
 "2001-05",
@@ -1172,7 +1172,7 @@
 ],
 [
 "2025-09",
-2.205
+2.199
 ],
 [
 "2025-10",
@@ -1208,22 +1208,26 @@
 ],
 [
 "2026-06",
-2.139
+2.15
 ],
 [
 "2026-07",
-2.13
+2.142
 ],
 [
 "2026-08",
-2.091
+2.109
+],
+[
+"2026-09",
+2.088
 ]
 ],
 "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/employmentandemployeetypes/timeseries/ap2y/lms",
-"stored": "2026-11-11"
+"stored": "2026-11-17"
 },
 "beveridge-curve/unemployment": {
-"next_release": "2026-11-17",
+"next_release": "2026-12-15",
 "obs": [
 [
 "1971-02",
@@ -3888,10 +3892,14 @@
 [
 "2026-07",
 4.718
+],
+[
+"2026-08",
+4.638
 ]
 ],
 "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peoplenotinwork/unemployment/timeseries/mgsc/lms",
-"stored": "2026-11-11"
+"stored": "2026-11-17"
 },
 "hiring-vacancies-agents/recruitment_difficulties": {
 "obs": [
@@ -5144,7 +5152,7 @@
 "stored": "2026-11-11"
 },
 "hiring-vacancies-agents/vacancies": {
-"next_release": "2026-11-17",
+"next_release": "2026-12-15",
 "obs": [
 [
 "2001-05",
@@ -6316,7 +6324,7 @@
 ],
 [
 "2025-09",
-728.0
+726.0
 ],
 [
 "2025-10",
@@ -6352,22 +6360,26 @@
 ],
 [
 "2026-06",
-707.0
+711.0
 ],
 [
 "2026-07",
-704.0
+708.0
 ],
 [
 "2026-08",
-691.0
+697.0
+],
+[
+"2026-09",
+690.0
 ]
 ],
 "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/employmentandemployeetypes/timeseries/ap2y/lms",
-"stored": "2026-11-11"
+"stored": "2026-11-17"
 },
 "lm-rates-16plus/employment": {
-"next_release": "2026-11-17",
+"next_release": "2026-12-15",
 "obs": [
 [
 "1971-02",
@@ -9032,13 +9044,17 @@
 [
 "2026-07",
 60.8
+],
+[
+"2026-08",
+60.9
 ]
 ],
 "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/employmentandemployeetypes/timeseries/mgsr/lms",
-"stored": "2026-11-10"
+"stored": "2026-11-17"
 },
 "lm-rates-16plus/unemployment": {
-"next_release": "2026-11-17",
+"next_release": "2026-12-15",
 "obs": [
 [
 "1971-02",
@@ -11703,13 +11719,17 @@
 [
 "2026-07",
 4.7
+],
+[
+"2026-08",
+4.6
 ]
 ],
 "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peoplenotinwork/unemployment/timeseries/mgsx/lms",
-"stored": "2026-11-10"
+"stored": "2026-11-17"
 },
 "lm-rates/employment": {
-"next_release": "2026-11-17",
+"next_release": "2026-12-15",
 "obs": [
 [
 "1971-02",
@@ -14374,13 +14394,17 @@
 [
 "2026-07",
 75.3
+],
+[
+"2026-08",
+75.4
 ]
 ],
 "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/employmentandemployeetypes/timeseries/lf24/lms",
-"stored": "2026-10-20"
+"stored": "2026-11-17"
 },
 "lm-rates/inactivity": {
-"next_release": "2026-11-17",
+"next_release": "2026-12-15",
 "obs": [
 [
 "1971-02",
@@ -17045,13 +17069,17 @@
 [
 "2026-07",
 20.9
+],
+[
+"2026-08",
+20.8
 ]
 ],
 "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peoplenotinwork/economicinactivity/timeseries/lf2s/lms",
-"stored": "2026-10-20"
+"stored": "2026-11-17"
 },
 "pay-growth/awe_private_regular": {
-"next_release": "2026-11-17",
+"next_release": "2026-12-15",
 "obs": [
 [
 "2001-03",
@@ -18223,7 +18251,7 @@
 ],
 [
 "2025-07",
-4.7
+4.6
 ],
 [
 "2025-08",
@@ -18275,14 +18303,18 @@
 ],
 [
 "2026-08",
-3.0
+3.1
+],
+[
+"2026-09",
+3.1
 ]
 ],
 "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/timeseries/kaj4/lms",
-"stored": "2026-11-10"
+"stored": "2026-11-17"
 },
 "pay-growth/awe_total": {
-"next_release": "2026-11-17",
+"next_release": "2026-12-15",
 "obs": [
 [
 "2001-03",
@@ -19466,7 +19498,7 @@
 ],
 [
 "2025-10",
-4.8
+4.9
 ],
 [
 "2025-11",
@@ -19506,14 +19538,18 @@
 ],
 [
 "2026-08",
-3.7
+3.8
+],
+[
+"2026-09",
+3.6
 ]
 ],
 "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/timeseries/kac3/lms",
-"stored": "2026-10-20"
+"stored": "2026-11-17"
 },
 "phillips-curve/pay_growth": {
-"next_release": "2026-11-17",
+"next_release": "2026-12-15",
 "obs": [
 [
 "2001-03",
@@ -20685,7 +20721,7 @@
 ],
 [
 "2025-07",
-4.7
+4.6
 ],
 [
 "2025-08",
@@ -20737,14 +20773,18 @@
 ],
 [
 "2026-08",
-3.0
+3.1
+],
+[
+"2026-09",
+3.1
 ]
 ],
 "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/timeseries/kaj4/lms",
-"stored": "2026-11-11"
+"stored": "2026-11-17"
 },
 "phillips-curve/unemployment": {
-"next_release": "2026-11-17",
+"next_release": "2026-12-15",
 "obs": [
 [
 "1971-02",
@@ -23409,10 +23449,14 @@
 [
 "2026-07",
 4.718
+],
+[
+"2026-08",
+4.638
 ]
 ],
 "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peoplenotinwork/unemployment/timeseries/mgsc/lms",
-"stored": "2026-11-11"
+"stored": "2026-11-17"
 },
 "unemployment-g7/can": {
 "obs": [
@@ -26057,7 +26101,7 @@
 "stored": "2026-11-10"
 },
 "unemployment/unemployment": {
-"next_release": "2026-11-17",
+"next_release": "2026-12-15",
 "obs": [
 [
 "1971-02",
@@ -28722,13 +28766,17 @@
 [
 "2026-07",
 4.7
+],
+[
+"2026-08",
+4.6
 ]
 ],
 "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peoplenotinwork/unemployment/timeseries/mgsx/lms",
-"stored": "2026-10-20"
+"stored": "2026-11-17"
 },
 "vacancies/vacancies": {
-"next_release": "2026-11-17",
+"next_release": "2026-12-15",
 "obs": [
 [
 "2001-05",
@@ -29900,7 +29948,7 @@
 ],
 [
 "2025-09",
-728.0
+726.0
 ],
 [
 "2025-10",
@@ -29936,18 +29984,22 @@
 ],
 [
 "2026-06",
-707.0
+711.0
 ],
 [
 "2026-07",
-704.0
+708.0
 ],
 [
 "2026-08",
-691.0
+697.0
+],
+[
+"2026-09",
+690.0
 ]
 ],
 "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/employmentandemployeetypes/timeseries/ap2y/lms",
-"stored": "2026-10-20"
+"stored": "2026-11-17"
 }
 }

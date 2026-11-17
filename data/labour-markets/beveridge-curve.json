@@ -15,19 +15,19 @@
    "label": "Unemployment rate",
    "_source": "live",
    "axis": "x",
-   "_date": "2026-07",
+   "_date": "2026-08",
    "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peoplenotinwork/unemployment/timeseries/mgsc/lms"
   },
   {
    "key": "openings_rate",
    "label": "Job openings rate",
    "_source": "live",
-   "_date": "2026-08",
+   "_date": "2026-09",
    "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/employmentandemployeetypes/timeseries/ap2y/lms"
   }
  ],
- "data_through": "2026-08",
- "next_release": "2026-11-17",
+ "data_through": "2026-09",
+ "next_release": "2026-12-15",
  "status": "ok",
  "data": [
   {
@@ -1513,7 +1513,7 @@
   {
    "date": "2025-09",
    "unemployment": 5.071,
-   "openings_rate": 2.205
+   "openings_rate": 2.199
   },
   {
    "date": "2025-10",
@@ -1558,87 +1558,92 @@
   {
    "date": "2026-06",
    "unemployment": 4.904,
-   "openings_rate": 2.139
+   "openings_rate": 2.15
   },
   {
    "date": "2026-07",
    "unemployment": 4.718,
-   "openings_rate": 2.13
+   "openings_rate": 2.142
   },
   {
    "date": "2026-08",
+   "unemployment": 4.638,
+   "openings_rate": 2.109
+  },
+  {
+   "date": "2026-09",
    "unemployment": null,
-   "openings_rate": 2.091
+   "openings_rate": 2.088
   }
  ],
  "trend": [
   [
    3.599,
-   3.093
+   3.091
   ],
   [
    3.724,
-   3.005
+   3.003
   ],
   [
    3.848,
-   2.923
+   2.921
   ],
   [
    3.973,
-   2.846
+   2.844
   ],
   [
    4.098,
-   2.774
+   2.772
   ],
   [
    4.223,
-   2.706
+   2.704
   ],
   [
    4.347,
-   2.641
+   2.64
   ],
   [
    4.472,
-   2.581
+   2.579
   ],
   [
    4.597,
-   2.524
+   2.522
   ],
   [
    4.721,
-   2.469
+   2.468
   ],
   [
    4.846,
-   2.418
+   2.416
   ],
   [
    4.971,
-   2.369
+   2.368
   ],
   [
    5.096,
-   2.323
+   2.321
   ],
   [
    5.22,
-   2.278
+   2.277
   ],
   [
    5.345,
-   2.236
+   2.235
   ],
   [
    5.47,
-   2.196
+   2.195
   ],
   [
    5.594,
-   2.157
+   2.156
   ],
   [
    5.719,
@@ -1646,23 +1651,23 @@
   ],
   [
    5.844,
-   2.085
+   2.084
   ],
   [
    5.969,
-   2.052
+   2.051
   ],
   [
    6.093,
-   2.019
+   2.018
   ],
   [
    6.218,
-   1.988
+   1.987
   ],
   [
    6.343,
-   1.958
+   1.957
   ],
   [
    6.468,
@@ -1670,7 +1675,7 @@
   ],
   [
    6.592,
-   1.902
+   1.901
   ],
   [
    6.717,
@@ -1678,11 +1683,11 @@
   ],
   [
    6.842,
-   1.85
+   1.849
   ],
   [
    6.966,
-   1.825
+   1.824
   ],
   [
    7.091,
@@ -1694,7 +1699,7 @@
   ],
   [
    7.341,
-   1.756
+   1.755
   ],
   [
    7.465,
@@ -1702,11 +1707,11 @@
   ],
   [
    7.59,
-   1.714
+   1.713
   ],
   [
    7.715,
-   1.694
+   1.693
   ],
   [
    7.839,

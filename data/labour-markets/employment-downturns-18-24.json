@@ -26,10 +26,10 @@
    "slot": 0
   }
  ],
- "data_through": "2026-09",
+ "data_through": "2026-10",
  "next_release": null,
  "status": "ok",
- "source_url": "https://www.ons.gov.uk/file?uri=/employmentandlabourmarket/peopleinwork/earningsandworkinghours/datasets/realtimeinformationstatisticsreferencetableseasonallyadjusted/current/rtisaoct2026.xlsx",
+ "source_url": "https://www.ons.gov.uk/file?uri=/employmentandlabourmarket/peopleinwork/earningsandworkinghours/datasets/realtimeinformationstatisticsreferencetableseasonallyadjusted/current/rtisanov2026.xlsx",
  "data": [
   {
    "date": "0",
@@ -40,8 +40,8 @@
   {
    "date": "1",
    "gfc": -0.91,
-   "covid": -3.8,
-   "now": -0.27
+   "covid": -3.78,
+   "now": -0.29
   },
   {
    "date": "2",
@@ -52,224 +52,230 @@
   {
    "date": "3",
    "gfc": -1.9,
-   "covid": -5.76,
-   "now": -0.38
+   "covid": -5.75,
+   "now": -0.39
   },
   {
    "date": "4",
    "gfc": -1.68,
-   "covid": -7.52,
-   "now": -0.43
+   "covid": -7.51,
+   "now": -0.44
   },
   {
    "date": "5",
    "gfc": -2.23,
-   "covid": -8.49,
-   "now": -0.49
+   "covid": -8.48,
+   "now": -0.5
   },
   {
    "date": "6",
    "gfc": -2.39,
-   "covid": -8.7,
-   "now": -0.38
+   "covid": -8.71,
+   "now": -0.39
   },
   {
    "date": "7",
    "gfc": -2.58,
-   "covid": -8.47,
-   "now": -0.46
+   "covid": -8.46,
+   "now": -0.47
   },
   {
    "date": "8",
    "gfc": -2.86,
-   "covid": -9.17,
-   "now": -0.54
+   "covid": -9.16,
+   "now": -0.55
   },
   {
    "date": "9",
    "gfc": -4.29,
    "covid": -8.94,
-   "now": -0.61
+   "now": -0.63
   },
   {
    "date": "10",
    "gfc": -5.47,
    "covid": -8.98,
-   "now": -0.74
+   "now": -0.77
   },
   {
    "date": "11",
    "gfc": -6.35,
-   "covid": -9.11,
-   "now": -0.74
+   "covid": -9.1,
+   "now": -0.76
   },
   {
    "date": "12",
    "gfc": -7.06,
    "covid": -9.23,
-   "now": -0.74
+   "now": -0.76
   },
   {
    "date": "13",
    "gfc": -7.15,
-   "covid": -8.57,
-   "now": -1.0
+   "covid": -8.56,
+   "now": -1.01
   },
   {
    "date": "14",
    "gfc": -7.97,
    "covid": -6.63,
-   "now": -1.27
+   "now": -1.25
   },
   {
    "date": "15",
    "gfc": -7.78,
-   "covid": -4.66,
-   "now": -1.29
+   "covid": -4.63,
+   "now": -1.27
   },
   {
    "date": "16",
    "gfc": -8.71,
    "covid": -3.51,
-   "now": -1.23
+   "now": -1.24
   },
   {
    "date": "17",
    "gfc": -9.68,
    "covid": -2.29,
-   "now": -1.31
+   "now": -1.33
   },
   {
    "date": "18",
    "gfc": -9.21,
-   "covid": -1.71,
-   "now": -1.4
+   "covid": -1.73,
+   "now": -1.41
   },
   {
    "date": "19",
    "gfc": -8.93,
-   "covid": -1.69,
+   "covid": -1.68,
    "now": -1.5
   },
   {
    "date": "20",
    "gfc": -9.4,
    "covid": -1.27,
-   "now": -1.7
+   "now": -1.71
   },
   {
    "date": "21",
    "gfc": -9.26,
-   "covid": -1.08,
-   "now": -1.98
+   "covid": -1.07,
+   "now": -2.0
   },
   {
    "date": "22",
    "gfc": -9.15,
-   "covid": -0.95,
-   "now": -1.67
+   "covid": -0.94,
+   "now": -1.7
   },
   {
    "date": "23",
    "gfc": -8.33,
-   "covid": -0.15,
-   "now": -1.61
+   "covid": -0.14,
+   "now": -1.65
   },
   {
    "date": "24",
    "gfc": -8.05,
    "covid": 0.36,
-   "now": -1.69
+   "now": -1.72
   },
   {
    "date": "25",
    "gfc": -8.03,
-   "covid": 0.26,
-   "now": -1.72
+   "covid": 0.27,
+   "now": -1.73
   },
   {
    "date": "26",
    "gfc": -7.06,
    "covid": 0.19,
-   "now": -1.72
+   "now": -1.69
   },
   {
    "date": "27",
    "gfc": -7.12,
-   "covid": 0.11,
-   "now": -1.69
+   "covid": 0.13,
+   "now": -1.63
   },
   {
    "date": "28",
    "gfc": -6.38,
    "covid": 0.21,
-   "now": -1.62
+   "now": -1.61
   },
   {
    "date": "29",
    "gfc": -7.42,
-   "covid": 0.14,
-   "now": -1.55
+   "covid": 0.15,
+   "now": -1.58
   },
   {
    "date": "30",
    "gfc": -8.74,
-   "covid": 0.12,
+   "covid": 0.11,
    "now": -1.5
   },
   {
    "date": "31",
    "gfc": -8.05,
-   "covid": 0.06,
-   "now": -1.43
+   "covid": 0.07,
+   "now": -1.42
   },
   {
    "date": "32",
    "gfc": -7.72,
    "covid": 0.2,
-   "now": -1.46
+   "now": -1.48
   },
   {
    "date": "33",
    "gfc": -7.64,
    "covid": 0.16,
-   "now": -1.46
+   "now": -1.48
   },
   {
    "date": "34",
    "gfc": -8.0,
-   "covid": 0.07,
-   "now": -1.13
+   "covid": 0.08,
+   "now": -1.1
   },
   {
    "date": "35",
    "gfc": -7.86,
-   "covid": 0.27,
-   "now": -1.08
+   "covid": 0.28,
+   "now": -1.04
   },
   {
    "date": "36",
    "gfc": -7.5,
    "covid": 0.45,
-   "now": -0.99
+   "now": -0.95
   },
   {
    "date": "37",
    "gfc": -7.56,
    "covid": 0.39,
-   "now": -0.94
+   "now": -0.92
   },
   {
    "date": "38",
    "gfc": -8.6,
-   "covid": 0.34,
-   "now": -1.07
+   "covid": 0.33,
+   "now": -1.05
   },
   {
    "date": "39",
    "gfc": -9.13,
-   "covid": 0.55,
-   "now": -0.1
+   "covid": 0.57,
+   "now": -0.53
+  },
+  {
+   "date": "40",
+   "gfc": -9.73,
+   "covid": 0.28,
+   "now": 0.06
   }
  ],
  "theme": "blue-amber",

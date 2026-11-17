@@ -12,19 +12,19 @@
    "key": "employment",
    "label": "Employment rate",
    "_source": "live",
-   "_date": "2026-07",
+   "_date": "2026-08",
    "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/employmentandemployeetypes/timeseries/mgsr/lms"
   },
   {
    "key": "unemployment",
    "label": "Unemployment rate",
    "_source": "live",
-   "_date": "2026-07",
+   "_date": "2026-08",
    "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peoplenotinwork/unemployment/timeseries/mgsx/lms"
   }
  ],
- "data_through": "2026-07",
- "next_release": "2026-11-17",
+ "data_through": "2026-08",
+ "next_release": "2026-12-15",
  "status": "ok",
  "data": [
   {
@@ -721,6 +721,11 @@
    "date": "2026-07",
    "employment": 60.8,
    "unemployment": 4.7
+  },
+  {
+   "date": "2026-08",
+   "employment": 60.9,
+   "unemployment": 4.6
   }
  ],
  "theme": "blue-amber",

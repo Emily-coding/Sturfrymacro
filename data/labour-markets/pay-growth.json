@@ -12,19 +12,19 @@
    "key": "awe_total",
    "label": "Total pay",
    "_source": "live",
-   "_date": "2026-08",
+   "_date": "2026-09",
    "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/timeseries/kac3/lms"
   },
   {
    "key": "awe_private_regular",
    "label": "Private-sector regular pay",
    "_source": "live",
-   "_date": "2026-08",
+   "_date": "2026-09",
    "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/timeseries/kaj4/lms"
   }
  ],
- "data_through": "2026-08",
- "next_release": "2026-11-17",
+ "data_through": "2026-09",
+ "next_release": "2026-12-15",
  "status": "ok",
  "data": [
   {
@@ -660,7 +660,7 @@
   {
    "date": "2025-07",
    "awe_total": 4.8,
-   "awe_private_regular": 4.7
+   "awe_private_regular": 4.6
   },
   {
    "date": "2025-08",
@@ -674,7 +674,7 @@
   },
   {
    "date": "2025-10",
-   "awe_total": 4.8,
+   "awe_total": 4.9,
    "awe_private_regular": 3.9
   },
   {
@@ -724,8 +724,13 @@
   },
   {
    "date": "2026-08",
-   "awe_total": 3.7,
-   "awe_private_regular": 3.0
+   "awe_total": 3.8,
+   "awe_private_regular": 3.1
+  },
+  {
+   "date": "2026-09",
+   "awe_total": 3.6,
+   "awe_private_regular": 3.1
   }
  ],
  "theme": "blue-amber",

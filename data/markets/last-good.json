@@ -4916,10 +4916,14 @@
 [
 "2026-11-13",
 4.0
+],
+[
+"2026-11-16",
+4.0
 ]
 ],
 "source_url": "https://www.bankofengland.co.uk/boeapps/database/",
-"stored": "2026-11-16"
+"stored": "2026-11-17"
 },
 "bond-yields-10y/de": {
 "obs": [
@@ -14812,10 +14816,14 @@
 [
 "2026-11-12",
 5.2514
+],
+[
+"2026-11-13",
+5.3011
 ]
 ],
 "source_url": "https://www.bankofengland.co.uk/boeapps/database/",
-"stored": "2026-11-16"
+"stored": "2026-11-17"
 },
 "bond-yields-10y/us": {
 "obs": [
@@ -19682,10 +19690,14 @@
 [
 "2026-11-13",
 5.15
+],
+[
+"2026-11-16",
+5.12
 ]
 ],
 "source_url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates",
-"stored": "2026-11-16"
+"stored": "2026-11-17"
 },
 "ftse-100/ftse100": {
 "obs": [
@@ -24607,11 +24619,15 @@
 ],
 [
 "2026-11-16",
-10892.93
+10881.6
+],
+[
+"2026-11-17",
+10790.8
 ]
 ],
 "source_url": "https://finance.yahoo.com/quote/%5EFTSE/",
-"stored": "2026-11-16"
+"stored": "2026-11-17"
 },
 "gas-price-uk/gas": {
 "obs": [
@@ -39548,10 +39564,14 @@
 [
 "2026-11-13",
 1.1988
+],
+[
+"2026-11-16",
+1.1981
 ]
 ],
 "source_url": "https://www.bankofengland.co.uk/boeapps/database/",
-"stored": "2026-11-16"
+"stored": "2026-11-17"
 },
 "sterling/usd": {
 "obs": [
@@ -44470,9 +44490,13 @@
 [
 "2026-11-13",
 1.3222
+],
+[
+"2026-11-16",
+1.3187
 ]
 ],
 "source_url": "https://www.bankofengland.co.uk/boeapps/database/",
-"stored": "2026-11-16"
+"stored": "2026-11-17"
 }
 }

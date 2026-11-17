@@ -63,6 +63,25 @@ def _norm_date(raw: str, freq: str) -> str:
     return f"{year}-{MONTHS[part.upper()[:3]]:02d}"  # "2026 JUL" -> "2026-07"
 
 
+def _row_date(row: dict, freq: str) -> str:
+    """The date to file a row under.
+
+    Rolling three-month LFS series (unemployment, employment, vacancies...) come with
+    'date' set to the MIDDLE month ("2026 AUG") and the real period in 'label'
+    ("2026 JUL-SEP"). We date them by the final month, as the ONS headlines do, so
+    "Jul-Sep" becomes "2026 SEP". Ordinary rows have label == date and pass through.
+    """
+    label = (row.get("label") or "").strip()
+    if freq == "M" and "-" in label:
+        year, months = label.split()       # "2026", "JUL-SEP"
+        last = months.split("-")[-1]       # "SEP"
+        # A range that wraps the year ("NOV-JAN") ends in the following year.
+        if MONTHS[last[:3].upper()] < MONTHS[months.split("-")[0][:3].upper()]:
+            year = str(int(year) + 1)
+        return f"{year} {last}"
+    return row["date"]
+
+
 def _parse_release(text: str | None) -> str | None:
     """'12 November 2026' -> '2026-11-12'; ONS sometimes leaves this blank."""
     if not text:
@@ -83,7 +102,7 @@ def fetch(cdid: str, dataset: str, freq: str) -> dict:
         v = (r.get("value") or "").strip()
         if v in ("", "x", ".."):  # ONS suppression / not-available markers
             continue
-        obs.append((_norm_date(r["date"], freq), float(v)))
+        obs.append((_norm_date(_row_date(r, freq), freq), float(v)))
     if not obs:
         raise ValueError(f"ONS {cdid}/{dataset} has no {FREQ_KEY[freq]} observations")
     desc = raw.get("description", {})

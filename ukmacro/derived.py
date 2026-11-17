@@ -52,8 +52,16 @@ def _monthly_from_quarterly(quarterly: list[tuple[str, float]], through: str) ->
     return {f"{m // 12}-{m % 12 + 1:02d}": v for m, v in out.items()}
 
 
+def _middle(d: str) -> str:
+    """Middle month of the three months ending in d (YYYY-MM): one month earlier."""
+    m = _month_index(d) - 1
+    return f"{m // 12}-{m % 12 + 1:02d}"
+
+
 def job_openings_rate() -> tuple[list, dict]:
     vacancies = ons.fetch("AP2Y", "LMS", "M")
     jobs = _monthly_from_quarterly(ons.fetch("BCAJ", "LMS", "Q")["obs"], vacancies["obs"][-1][0])
-    obs = [(d, round(100 * v / (v + jobs[d]), DP)) for d, v in vacancies["obs"] if d in jobs]
+    # Vacancies are a three-month average dated by its final month, so compare them with
+    # jobs in the middle month of those three (e.g. Aug-Oct vacancies with September jobs).
+    obs = [(d, round(100 * v / (v + jobs[_middle(d)]), DP)) for d, v in vacancies["obs"] if _middle(d) in jobs]
     return obs, _meta(vacancies)

@@ -5,28 +5,28 @@
   {
    "slug": "lm-rates",
    "title": "Employment and inactivity rates, aged 16-64",
-   "data_through": "2026-08",
+   "data_through": "2026-09",
    "next_release": "2026-12-15",
    "status": "ok"
   },
   {
    "slug": "lm-rates-16plus",
    "title": "Employment and unemployment rates, aged 16+",
-   "data_through": "2026-08",
+   "data_through": "2026-09",
    "next_release": "2026-12-15",
    "status": "ok"
   },
   {
    "slug": "unemployment",
    "title": "Unemployment rate, aged 16+",
-   "data_through": "2026-08",
+   "data_through": "2026-09",
    "next_release": "2026-12-15",
    "status": "ok"
   },
   {
    "slug": "vacancies",
    "title": "Vacancies",
-   "data_through": "2026-09",
+   "data_through": "2026-10",
    "next_release": "2026-12-15",
    "status": "ok"
   },
@@ -54,7 +54,7 @@
   {
    "slug": "beveridge-curve",
    "title": "Beveridge curve",
-   "data_through": "2026-09",
+   "data_through": "2026-10",
    "next_release": "2026-12-15",
    "status": "ok"
   },

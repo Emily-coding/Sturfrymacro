@@ -12,11 +12,11 @@
    "key": "unemployment",
    "label": "Unemployment rate",
    "_source": "live",
-   "_date": "2026-08",
+   "_date": "2026-09",
    "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peoplenotinwork/unemployment/timeseries/mgsx/lms"
   }
  ],
- "data_through": "2026-08",
+ "data_through": "2026-09",
  "next_release": "2026-12-15",
  "status": "ok",
  "data": [
@@ -26,7 +26,7 @@
   },
   {
    "date": "2015-02",
-   "unemployment": 5.5
+   "unemployment": 5.6
   },
   {
    "date": "2015-03",
@@ -34,7 +34,7 @@
   },
   {
    "date": "2015-04",
-   "unemployment": 5.6
+   "unemployment": 5.5
   },
   {
    "date": "2015-05",
@@ -42,23 +42,23 @@
   },
   {
    "date": "2015-06",
-   "unemployment": 5.5
+   "unemployment": 5.6
   },
   {
    "date": "2015-07",
-   "unemployment": 5.4
+   "unemployment": 5.5
   },
   {
    "date": "2015-08",
-   "unemployment": 5.3
+   "unemployment": 5.4
   },
   {
    "date": "2015-09",
-   "unemployment": 5.2
+   "unemployment": 5.3
   },
   {
    "date": "2015-10",
-   "unemployment": 5.1
+   "unemployment": 5.2
   },
   {
    "date": "2015-11",
@@ -78,11 +78,11 @@
   },
   {
    "date": "2016-03",
-   "unemployment": 5.0
+   "unemployment": 5.1
   },
   {
    "date": "2016-04",
-   "unemployment": 4.9
+   "unemployment": 5.0
   },
   {
    "date": "2016-05",
@@ -94,11 +94,11 @@
   },
   {
    "date": "2016-07",
-   "unemployment": 5.0
+   "unemployment": 4.9
   },
   {
    "date": "2016-08",
-   "unemployment": 4.8
+   "unemployment": 5.0
   },
   {
    "date": "2016-09",
@@ -110,7 +110,7 @@
   },
   {
    "date": "2016-11",
-   "unemployment": 4.7
+   "unemployment": 4.8
   },
   {
    "date": "2016-12",
@@ -118,7 +118,7 @@
   },
   {
    "date": "2017-01",
-   "unemployment": 4.6
+   "unemployment": 4.7
   },
   {
    "date": "2017-02",
@@ -126,11 +126,11 @@
   },
   {
    "date": "2017-03",
-   "unemployment": 4.5
+   "unemployment": 4.6
   },
   {
    "date": "2017-04",
-   "unemployment": 4.4
+   "unemployment": 4.5
   },
   {
    "date": "2017-05",
@@ -138,7 +138,7 @@
   },
   {
    "date": "2017-06",
-   "unemployment": 4.3
+   "unemployment": 4.4
   },
   {
    "date": "2017-07",
@@ -150,23 +150,23 @@
   },
   {
    "date": "2017-09",
-   "unemployment": 4.2
+   "unemployment": 4.3
   },
   {
    "date": "2017-10",
-   "unemployment": 4.3
+   "unemployment": 4.2
   },
   {
    "date": "2017-11",
-   "unemployment": 4.4
-  },
-  {
-   "date": "2017-12",
    "unemployment": 4.3
   },
   {
+   "date": "2017-12",
+   "unemployment": 4.4
+  },
+  {
    "date": "2018-01",
-   "unemployment": 4.2
+   "unemployment": 4.3
   },
   {
    "date": "2018-02",
@@ -182,7 +182,7 @@
   },
   {
    "date": "2018-05",
-   "unemployment": 4.0
+   "unemployment": 4.2
   },
   {
    "date": "2018-06",
@@ -194,7 +194,7 @@
   },
   {
    "date": "2018-08",
-   "unemployment": 4.1
+   "unemployment": 4.0
   },
   {
    "date": "2018-09",
@@ -202,7 +202,7 @@
   },
   {
    "date": "2018-10",
-   "unemployment": 4.0
+   "unemployment": 4.1
   },
   {
    "date": "2018-11",
@@ -210,15 +210,15 @@
   },
   {
    "date": "2018-12",
-   "unemployment": 3.9
-  },
-  {
-   "date": "2019-01",
    "unemployment": 4.0
   },
   {
+   "date": "2019-01",
+   "unemployment": 3.9
+  },
+  {
    "date": "2019-02",
-   "unemployment": 3.8
+   "unemployment": 4.0
   },
   {
    "date": "2019-03",
@@ -230,7 +230,7 @@
   },
   {
    "date": "2019-05",
-   "unemployment": 3.9
+   "unemployment": 3.8
   },
   {
    "date": "2019-06",
@@ -246,7 +246,7 @@
   },
   {
    "date": "2019-09",
-   "unemployment": 3.8
+   "unemployment": 3.9
   },
   {
    "date": "2019-10",
@@ -254,11 +254,11 @@
   },
   {
    "date": "2019-11",
-   "unemployment": 3.7
+   "unemployment": 3.8
   },
   {
    "date": "2019-12",
-   "unemployment": 3.9
+   "unemployment": 3.7
   },
   {
    "date": "2020-01",
@@ -266,7 +266,7 @@
   },
   {
    "date": "2020-02",
-   "unemployment": 4.1
+   "unemployment": 3.9
   },
   {
    "date": "2020-03",
@@ -282,19 +282,19 @@
   },
   {
    "date": "2020-06",
-   "unemployment": 4.4
+   "unemployment": 4.1
   },
   {
    "date": "2020-07",
-   "unemployment": 4.6
+   "unemployment": 4.4
   },
   {
    "date": "2020-08",
-   "unemployment": 5.0
+   "unemployment": 4.6
   },
   {
    "date": "2020-09",
-   "unemployment": 5.2
+   "unemployment": 5.0
   },
   {
    "date": "2020-10",
@@ -302,23 +302,23 @@
   },
   {
    "date": "2020-11",
-   "unemployment": 5.3
-  },
-  {
-   "date": "2020-12",
    "unemployment": 5.2
   },
   {
+   "date": "2020-12",
+   "unemployment": 5.3
+  },
+  {
    "date": "2021-01",
-   "unemployment": 5.0
+   "unemployment": 5.2
   },
   {
    "date": "2021-02",
-   "unemployment": 4.9
+   "unemployment": 5.0
   },
   {
    "date": "2021-03",
-   "unemployment": 4.8
+   "unemployment": 4.9
   },
   {
    "date": "2021-04",
@@ -326,27 +326,27 @@
   },
   {
    "date": "2021-05",
-   "unemployment": 4.7
+   "unemployment": 4.8
   },
   {
    "date": "2021-06",
-   "unemployment": 4.6
+   "unemployment": 4.7
   },
   {
    "date": "2021-07",
-   "unemployment": 4.5
+   "unemployment": 4.6
   },
   {
    "date": "2021-08",
-   "unemployment": 4.4
+   "unemployment": 4.5
   },
   {
    "date": "2021-09",
-   "unemployment": 4.3
+   "unemployment": 4.4
   },
   {
    "date": "2021-10",
-   "unemployment": 4.2
+   "unemployment": 4.3
   },
   {
    "date": "2021-11",
@@ -354,15 +354,15 @@
   },
   {
    "date": "2021-12",
-   "unemployment": 4.1
+   "unemployment": 4.2
   },
   {
    "date": "2022-01",
-   "unemployment": 3.9
+   "unemployment": 4.1
   },
   {
    "date": "2022-02",
-   "unemployment": 3.8
+   "unemployment": 3.9
   },
   {
    "date": "2022-03",
@@ -370,15 +370,15 @@
   },
   {
    "date": "2022-04",
-   "unemployment": 3.7
-  },
-  {
-   "date": "2022-05",
    "unemployment": 3.8
   },
   {
+   "date": "2022-05",
+   "unemployment": 3.7
+  },
+  {
    "date": "2022-06",
-   "unemployment": 3.6
+   "unemployment": 3.8
   },
   {
    "date": "2022-07",
@@ -386,15 +386,15 @@
   },
   {
    "date": "2022-08",
-   "unemployment": 3.7
+   "unemployment": 3.6
   },
   {
    "date": "2022-09",
-   "unemployment": 3.8
+   "unemployment": 3.7
   },
   {
    "date": "2022-10",
-   "unemployment": 3.9
+   "unemployment": 3.8
   },
   {
    "date": "2022-11",
@@ -406,7 +406,7 @@
   },
   {
    "date": "2023-01",
-   "unemployment": 4.0
+   "unemployment": 3.9
   },
   {
    "date": "2023-02",
@@ -414,31 +414,31 @@
   },
   {
    "date": "2023-03",
-   "unemployment": 3.9
+   "unemployment": 4.0
   },
   {
    "date": "2023-04",
-   "unemployment": 4.0
+   "unemployment": 3.9
   },
   {
    "date": "2023-05",
-   "unemployment": 4.2
+   "unemployment": 4.0
   },
   {
    "date": "2023-06",
-   "unemployment": 4.4
+   "unemployment": 4.2
   },
   {
    "date": "2023-07",
-   "unemployment": 4.3
+   "unemployment": 4.4
   },
   {
    "date": "2023-08",
-   "unemployment": 4.1
+   "unemployment": 4.3
   },
   {
    "date": "2023-09",
-   "unemployment": 4.0
+   "unemployment": 4.1
   },
   {
    "date": "2023-10",
@@ -446,23 +446,23 @@
   },
   {
    "date": "2023-11",
-   "unemployment": 3.9
+   "unemployment": 4.0
   },
   {
    "date": "2023-12",
-   "unemployment": 4.1
+   "unemployment": 3.9
   },
   {
    "date": "2024-01",
-   "unemployment": 4.2
+   "unemployment": 4.1
   },
   {
    "date": "2024-02",
-   "unemployment": 4.3
+   "unemployment": 4.2
   },
   {
    "date": "2024-03",
-   "unemployment": 4.4
+   "unemployment": 4.3
   },
   {
    "date": "2024-04",
@@ -470,7 +470,7 @@
   },
   {
    "date": "2024-05",
-   "unemployment": 4.2
+   "unemployment": 4.4
   },
   {
    "date": "2024-06",
@@ -478,19 +478,19 @@
   },
   {
    "date": "2024-07",
-   "unemployment": 4.1
-  },
-  {
-   "date": "2024-08",
-   "unemployment": 4.3
-  },
-  {
-   "date": "2024-09",
    "unemployment": 4.2
   },
   {
+   "date": "2024-08",
+   "unemployment": 4.1
+  },
+  {
+   "date": "2024-09",
+   "unemployment": 4.3
+  },
+  {
    "date": "2024-10",
-   "unemployment": 4.4
+   "unemployment": 4.2
   },
   {
    "date": "2024-11",
@@ -502,11 +502,11 @@
   },
   {
    "date": "2025-01",
-   "unemployment": 4.5
+   "unemployment": 4.4
   },
   {
    "date": "2025-02",
-   "unemployment": 4.6
+   "unemployment": 4.5
   },
   {
    "date": "2025-03",
@@ -514,7 +514,7 @@
   },
   {
    "date": "2025-04",
-   "unemployment": 4.7
+   "unemployment": 4.6
   },
   {
    "date": "2025-05",
@@ -526,15 +526,15 @@
   },
   {
    "date": "2025-07",
-   "unemployment": 4.8
+   "unemployment": 4.7
   },
   {
    "date": "2025-08",
-   "unemployment": 5.0
+   "unemployment": 4.8
   },
   {
    "date": "2025-09",
-   "unemployment": 5.1
+   "unemployment": 5.0
   },
   {
    "date": "2025-10",
@@ -542,7 +542,7 @@
   },
   {
    "date": "2025-11",
-   "unemployment": 5.2
+   "unemployment": 5.1
   },
   {
    "date": "2025-12",
@@ -550,15 +550,15 @@
   },
   {
    "date": "2026-01",
-   "unemployment": 4.9
+   "unemployment": 5.2
   },
   {
    "date": "2026-02",
-   "unemployment": 5.0
+   "unemployment": 4.9
   },
   {
    "date": "2026-03",
-   "unemployment": 4.9
+   "unemployment": 5.0
   },
   {
    "date": "2026-04",
@@ -574,10 +574,14 @@
   },
   {
    "date": "2026-07",
-   "unemployment": 4.7
+   "unemployment": 4.9
   },
   {
    "date": "2026-08",
+   "unemployment": 4.7
+  },
+  {
+   "date": "2026-09",
    "unemployment": 4.6
   }
  ],

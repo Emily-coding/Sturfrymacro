@@ -74,8 +74,21 @@ def _month(cell) -> str:
 
 # ---------------------------------------------------------------- projections databank
 
-def databank(zf: zipfile.ZipFile) -> tuple[dict[str, list[tuple[str, float]]], dict[str, list[tuple[int, float]]]]:
-    """The latest report's central projections, as two dicts:
+def _databank_rows(zf: zipfile.ZipFile) -> list[dict]:
+    text = _member(zf, r"Projections Databank CSV.*\.csv$").decode("utf-8-sig")
+    return list(csv.DictReader(io.StringIO(text)))
+
+
+def databank_reports(zf: zipfile.ZipFile) -> list[str]:
+    """Every report in the databank, oldest first, as the Bank labels them ('Jul-26')."""
+    return sorted({r["Report date"] for r in _databank_rows(zf)},
+                  key=lambda s: datetime.strptime(s, "%b-%y"))
+
+
+def databank(zf: zipfile.ZipFile, report: str | None = None
+             ) -> tuple[dict[str, list[tuple[str, float]]], dict[str, list[tuple[int, float]]]]:
+    """One report's central projections (the latest unless `report`, e.g. 'Jul-26',
+    picks an earlier one), as two dicts:
     quarterly {variable: [(quarter, value), ...]} and annual {variable: [(year, value), ...]}.
 
     The CSV holds every report since 2004; report dates look like 'Nov-26'. Most
@@ -83,9 +96,8 @@ def databank(zf: zipfile.ZipFile) -> tuple[dict[str, list[tuple[str, float]]], d
     investment' (calendar-year growth) and 'Average weekly earnings (private sector
     regular pay) (Q4)' (growth in the year to Q4). Names are as the Bank writes them.
     """
-    text = _member(zf, r"Projections Databank CSV.*\.csv$").decode("utf-8-sig")
-    rows = list(csv.DictReader(io.StringIO(text)))
-    latest = max({r["Report date"] for r in rows}, key=lambda s: datetime.strptime(s, "%b-%y"))
+    rows = _databank_rows(zf)
+    latest = report or databank_reports(zf)[-1]
     quarterly: dict[str, list] = {}
     annual: dict[str, list] = {}
     for r in rows:

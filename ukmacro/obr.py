@@ -82,6 +82,26 @@ MONTHS = ["january", "february", "march", "april", "may", "june", "july", "augus
           "september", "october", "november", "december"]
 
 
+def efo_economy(year: int, month: int) -> tuple[str, bytes, str] | None:
+    """The detailed economy tables of the EFO published in that month, or None if
+    there was no EFO that month. Returns (label e.g. 'March 2026', file bytes, url)."""
+    import urllib.error
+
+    page = EFO_PAGE.format(month=MONTHS[month - 1], year=year)
+    try:
+        links = find(r"detailed-forecast-tables-economy$", page)
+    except urllib.error.HTTPError as e:
+        if e.code != 404:
+            raise
+        return None
+    # the page also links older forecasts: keep the one named after this month
+    links = {s: u for s, u in links.items() if s.startswith(f"{MONTHS[month - 1]}-{year}")}
+    if not links:
+        return None
+    url = next(iter(links.values()))
+    return f"{MONTHS[month - 1].title()} {year}", get(url, timeout=180), url
+
+
 def latest_efo_economy(lookback: int = 14) -> tuple[str, bytes, str]:
     """The newest Economic and fiscal outlook's detailed economy tables (a spreadsheet
     with quarterly forecasts for GDP, inflation, the labour market...).
@@ -90,23 +110,13 @@ def latest_efo_economy(lookback: int = 14) -> tuple[str, bytes, str]:
     so walk back month by month from today until a page with the economy tables
     turns up. Returns (label e.g. 'October 2026', file bytes, download url).
     """
-    import urllib.error
     from datetime import date
 
     y, m = date.today().year, date.today().month
     for _ in range(lookback):
-        page = EFO_PAGE.format(month=MONTHS[m - 1], year=y)
-        try:
-            links = find(r"detailed-forecast-tables-economy$", page)
-        except urllib.error.HTTPError as e:
-            if e.code != 404:
-                raise
-            links = {}
-        # the page also links older forecasts: keep the one named after this month
-        links = {s: u for s, u in links.items() if s.startswith(f"{MONTHS[m - 1]}-{y}")}
-        if links:
-            url = next(iter(links.values()))
-            return f"{MONTHS[m - 1].title()} {y}", get(url, timeout=180), url
+        found = efo_economy(y, m)
+        if found:
+            return found
         m -= 1
         if m == 0:
             y, m = y - 1, 12

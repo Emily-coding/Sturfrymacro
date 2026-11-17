@@ -205,6 +205,8 @@ fetch("data/dashboard/dashboard.json", {cache: "no-cache"})
     });
     // separate page: fortnightly summary of external market commentary
     nav.append(el("a", "nav-page", "Market commentary →")); nav.lastChild.href = "commentary.html";
+    // separate page: the OBR ready reckoner (how the economy feeds through to the public finances)
+    nav.append(el("a", null, "Public finances →")); nav.lastChild.href = "fiscal.html";
     d.sections.forEach(s => {
       const sec = el("section"); sec.id = s.id;
       sec.append(el("h2", null, s.title));

@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Public finances ready reckoner</title>
+<meta name="description" content="How changes in the economy feed through to UK tax, spending, borrowing and debt, using the OBR's ready reckoner.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/site.js"></script>
+<script src="assets/reckoner.js"></script>
+<script src="assets/reckoner-levers.js"></script>
+<style>
+  /* page-specific; the rest is assets/site.css */
+  .sub, .intro { color: var(--ink-2); max-width: 820px; }
+  .intro { margin: 0 0 18px; }
+  h3 { font-size: 18px; font-weight: 600; margin: 18px 0 8px; }
+  .layout { display: grid; grid-template-columns: minmax(0, 400px) minmax(0, 1fr); gap: 32px; align-items: start; }
+  @media (max-width: 900px) { .layout { grid-template-columns: minmax(0, 1fr); } }
+  .panel { background: var(--panel); border-radius: 8px; padding: 14px 16px; }
+  .lever { display: grid; grid-template-columns: minmax(0, 1fr) 84px; gap: 4px 10px; align-items: center;
+           padding: 9px 0; border-bottom: 1px solid var(--grid); }
+  .lever:last-child { border-bottom: 0; }
+  .lever label { font-weight: 600; }
+  .lever .unit { color: var(--ink-3); font-weight: 400; font-size: 13.5px; }
+  .lever .help { grid-column: 1 / -1; color: var(--ink-3); font-size: 13px; }
+  .lever .timing { grid-column: 1 / -1; display: flex; gap: 8px; font-size: 13px; color: var(--ink-2); }
+  input[type=number], select { font: inherit; font-size: 14.5px; color: var(--ink); background: #FFFFFF;
+           border: 1px solid var(--grid); border-radius: 6px; padding: 3px 6px; width: 100%; min-width: 0; }
+  .timing select { width: auto; font-size: 13px; padding: 1px 4px; }
+  .param { display: grid; grid-template-columns: minmax(0, 1fr) 110px; gap: 4px 10px; align-items: center; padding: 6px 0; }
+  .param .help { grid-column: 1 / -1; color: var(--ink-3); font-size: 13px; }
+  .check { display: flex; gap: 8px; align-items: flex-start; padding: 6px 0; }
+  .check input { margin-top: 4px; }
+  .check small { display: block; color: var(--ink-3); font-size: 13px; }
+  .presets { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 14px; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr)); gap: 12px; margin-bottom: 18px; }
+  .card { background: var(--panel); border-radius: 8px; padding: 12px 14px; }
+  .card .k { color: var(--ink-2); font-size: 13.5px; }
+  .card .v { font-size: 26px; font-weight: 700; line-height: 1.15; margin-top: 2px; }
+  .card .s { color: var(--ink-3); font-size: 13px; }
+  .card .u { font-size: 16px; font-weight: 600; margin-left: 2px; }
+  .good { color: #1F7A5C; } .bad { color: #BA2525; }
+  .tablewrap { overflow-x: auto; margin-bottom: 8px; }
+  table { border-collapse: collapse; font-size: 14px; width: 100%; font-variant-numeric: tabular-nums; }
+  th, td { padding: 5px 8px; border-bottom: 1px solid var(--grid); text-align: right; white-space: nowrap; }
+  th:first-child, td:first-child { text-align: left; white-space: normal; min-width: 180px; }
+  thead th { color: var(--ink-2); font-weight: 600; border-bottom: 1px solid var(--ink-3); }
+  tr.group td { font-weight: 700; padding-top: 12px; color: var(--ink); border-bottom: 0; }
+  tr.total td { font-weight: 700; border-top: 1px solid var(--ink-3); }
+  td.extrap, th.extrap { background: #FBF6EC; }
+  /* the OBR inputs table: every cell can be overridden */
+  #inputs td input { width: 64px; text-align: right; font-size: 13.5px; padding: 1px 4px; border-color: transparent; background: transparent; }
+  #inputs td input:hover, #inputs td input:focus { border-color: var(--grid); background: #FFFFFF; }
+  #inputs td.over input { background: #FDE8C8; border-color: #DE911D; font-weight: 600; }
+  #inputs td.big input { color: #BA2525; }
+  .warn { background: #FDF3E1; border-left: 3px solid #DE911D; border-radius: 4px; padding: 8px 12px; margin: 0 0 10px; font-size: 14px; }
+  .warn:empty { display: none; }
+  .note { color: var(--ink-3); font-size: 13px; }
+  .caveats li { margin-bottom: 8px; max-width: 900px; }
+  .picker { margin-bottom: 12px; }
+  button.link { font: inherit; font-size: 13.5px; color: var(--blue); background: none; border: 0; cursor: pointer; padding: 0; }
+</style>
+</head>
+<body>
+<header class="wrap">
+  <h1>Public finances ready reckoner</h1>
+  <p class="sub">How changes in the economy feed through to tax, spending, borrowing and debt. Built on the
+    <a href="https://articles.obr.uk/the-obr-ready-reckoner/index.html">OBR's ready reckoner</a>: set the levers,
+    and the page translates them into the OBR's economic inputs and applies its elasticities. Results are
+    <b>changes from the OBR's forecast</b>, not forecasts in themselves.</p>
+</header>
+<nav><div class="wrap" id="nav"></div></nav>
+<main class="wrap" id="main">
+  <section id="scenario">
+    <div class="picker" id="basis"></div>
+    <div class="layout">
+      <div>
+        <h2>Scenario</h2>
+        <div class="presets picker" id="presets"></div>
+        <div class="panel" id="levers"></div>
+        <h3>Assumptions</h3>
+        <div class="panel" id="params"></div>
+      </div>
+      <div>
+        <h2>Effect on the public finances</h2>
+        <div class="warn" id="warnings"></div>
+        <div class="cards" id="cards"></div>
+        <figure>
+          <h4>Change in public sector net borrowing</h4>
+          <div class="units"><span>£ billion; positive = more borrowing</span></div>
+          <div class="legend" id="legend"></div>
+          <div class="canvas"><canvas id="chart"></canvas></div>
+        </figure>
+        <div class="tablewrap"><table id="summary"></table></div>
+        <p class="note" id="basisnote"></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="lines">
+    <h2>Which taxes and spending lines move</h2>
+    <p class="intro">Change by line, £ billion (positive = more revenue or more spending).
+      Lines that don't move are left out.</p>
+    <div class="tablewrap"><table id="bylines"></table></div>
+  </section>
+
+  <section id="drivers">
+    <h2>What drives it</h2>
+    <p class="intro">Change in borrowing from each OBR input on its own, £ billion. These don't add up exactly to the
+      total: the triple lock, the rounding used for uprating and the GDP denominators aren't linear.</p>
+    <div class="tablewrap"><table id="contribs"></table></div>
+  </section>
+
+  <section id="inputs-section">
+    <h2>The OBR's inputs</h2>
+    <p class="intro">What the levers imply for each of the OBR's economic inputs, year by year. You can override any cell
+      (amber); the levers then leave it alone. Overriding breaks the consistency the levers provide, so check the
+      scenario still hangs together. Red values are large enough that the OBR's linear elasticities may not hold.
+      <button class="link" id="clear">Clear all overrides</button></p>
+    <div class="tablewrap"><table id="inputs"></table></div>
+  </section>
+
+  <section id="method">
+    <h2>How it works, and what to watch out for</h2>
+    <ul class="caveats" id="caveats"></ul>
+  </section>
+</main>
+<footer class="wrap">Elasticities: OBR ready reckoner (<span id="srcnote"></span>). Data built by
+  <code>builders/fiscal/build.py</code> into <code>data/fiscal/reckoner.json</code>; calculations in
+  <code>assets/reckoner.js</code> (tested against the OBR's spreadsheet) and the lever assumptions in
+  <code>assets/reckoner-levers.js</code>. Built from <a href="https://github.com/Emily-coding/Sturfrymacro">github.com/Emily-coding/Sturfrymacro</a>.</footer>
+
+<script>
+"use strict";
+const {LEVERS, DEFAULT_PARAMS, translate} = ReckonerLevers;
+const COLOURS = {receipts: "#186FAF", spending: "#DE911D", interest: "#27AB83", total: "#102A43"};
+
+// Page state: which basis, the levers, the assumptions and any overridden input cells.
+// It is kept in the address (after #) so a scenario can be shared as a link.
+let DATA, state = {basis: null, levers: {}, params: {...DEFAULT_PARAMS}, delReal: false, overrides: {}};
+let chart;
+
+const nav = document.getElementById("nav");
+[["scenario", "Scenario"], ["lines", "By tax and spending line"], ["drivers", "Drivers"],
+ ["inputs-section", "OBR inputs"], ["method", "Method and caveats"]].forEach(([id, t]) => {
+  nav.append(el("a", null, t)); nav.lastChild.href = "#" + id;
+});
+nav.append(el("a", "nav-page", "← Dashboard")); nav.lastChild.href = "index.html";
+
+const basis = () => DATA.bases[state.basis];
+const years = () => basis().years;
+// signed numbers; anything that rounds to zero shows as 0 (no "−0.0")
+const fmtSigned = (v, dp = 1) => Math.abs(v) < 0.5 * 10 ** -dp ? fmt(0, dp) : (v > 0 ? "+" : "") + fmt(v, dp);
+// floating-point noise (~1e-13) from the arithmetic, cleaned before charting
+const clean = a => a.map(v => Math.abs(v) < 1e-6 ? 0 : v);
+
+// ---------------------------------------------------------------- state <-> address
+function saveState() {
+  try { history.replaceState(null, "", "#" + btoa(JSON.stringify(state))); } catch (e) { /* ignore */ }
+}
+function loadState() {
+  try {
+    const s = JSON.parse(atob(location.hash.slice(1)));
+    if (s && s.basis) state = {...state, ...s, params: {...DEFAULT_PARAMS, ...s.params}};
+  } catch (e) { /* no saved scenario */ }
+}
+
+// ---------------------------------------------------------------- controls
+function yearOptions(selected, from = 0) {
+  return years().map((y, i) => i < from ? "" : `<option value="${i}"${i === selected ? " selected" : ""}>${y}</option>`).join("");
+}
+const firstOpenYear = () => Math.min(basis().triple_lock_fixed_years || 0, years().length - 1);
+
+function buildLevers() {
+  const box = document.getElementById("levers");
+  box.innerHTML = "";
+  for (const lv of LEVERS) {
+    const cur = state.levers[lv.id] || {size: 0, start: firstOpenYear(), phase: 1};
+    state.levers[lv.id] = cur;
+    const row = el("div", "lever");
+    row.innerHTML = `
+      <label for="lv-${lv.id}">${lv.label} <span class="unit">${lv.unit}</span></label>
+      <input type="number" id="lv-${lv.id}" step="${lv.step}" min="${lv.min}" max="${lv.max}" value="${cur.size}">
+      <div class="timing">from <select data-k="start">${yearOptions(cur.start)}</select>
+        reached over <select data-k="phase">${[1, 2, 3, 4, 5].map(k => `<option value="${k}"${k === cur.phase ? " selected" : ""}>${k} year${k > 1 ? "s" : ""}</option>`).join("")}</select></div>
+      <div class="help">${lv.help}</div>`;
+    row.querySelector("input").addEventListener("input", e => { cur.size = +e.target.value || 0; update(); });
+    row.querySelectorAll("select").forEach(s => s.addEventListener("change", e => { cur[s.dataset.k] = +e.target.value; update(); }));
+    box.append(row);
+  }
+}
+
+function buildParams() {
+  const p = state.params, box = document.getElementById("params");
+  box.innerHTML = `
+    <div class="param"><label for="p-src">Extra workers come from</label>
+      <select id="p-src">
+        <option value="unemployment">unemployment</option>
+        <option value="inactivity">inactivity (higher participation)</option>
+        <option value="population">a larger population (migration)</option>
+      </select>
+      <div class="help" id="p-src-help"></div></div>
+    <div class="param"><label for="p-nwp">Pay of new workers, relative to the average</label>
+      <input type="number" id="p-nwp" step="0.05" min="0.3" max="1.5">
+      <div class="help">People moving into work tend to earn less than average, so average earnings dip as employment rises.
+        1 = same as the average.</div></div>
+    <div class="param"><label for="p-pt">Share of productivity gains paid in wages</label>
+      <input type="number" id="p-pt" step="0.05" min="0" max="1.5">
+      <div class="help">1 = real wages rise with productivity (constant labour share); below 1, the rest raises profits.</div></div>
+    <div class="param"><label for="p-ls">Labour share of income</label>
+      <input type="number" id="p-ls" step="0.01" min="0.3" max="0.8">
+      <div class="help">Compensation of employees as a share of GDP (about 0.56 in the OBR's forecast). Converts pay shifts into profits.</div></div>
+    <div class="param"><label for="p-rpi">RPI inflation per point of CPI inflation</label>
+      <input type="number" id="p-rpi" step="0.1" min="0" max="2"></div>
+    <label class="check"><input type="checkbox" id="p-assets"><span>House and share prices move with incomes
+      <small>House prices with nominal GDP, share prices with profits. Off by default: asset prices depend on far more than UK incomes.</small></span></label>
+    <label class="check"><input type="checkbox" id="p-rule"><span>Interest rates respond to inflation
+      <small>Bank Rate +1.5 points and gilt yields +1 point per point of extra inflation. Off by default (no policy response).</small></span></label>
+    <label class="check"><input type="checkbox" id="p-del"><span>Departmental spending held in real terms
+      <small>The OBR holds departmental budgets fixed in cash, so higher inflation quietly cuts them in real terms and flatters the
+      public finances. Tick to raise them with the price level instead.</small></span></label>`;
+  const bind = (id, key, num = true) => {
+    const e = document.getElementById(id);
+    if (e.type === "checkbox") { e.checked = !!p[key]; e.addEventListener("change", () => { p[key] = e.checked; update(); }); }
+    else { e.value = p[key]; e.addEventListener(e.tagName === "SELECT" ? "change" : "input", () => { p[key] = num ? +e.value : e.value; update(); }); }
+  };
+  bind("p-src", "employmentSource", false); bind("p-nwp", "newWorkerPay"); bind("p-pt", "wagePassThrough");
+  bind("p-ls", "labourShare"); bind("p-rpi", "rpiWedge"); bind("p-assets", "assetsFollowIncomes"); bind("p-rule", "rateRule");
+  const del = document.getElementById("p-del");
+  del.checked = state.delReal; del.addEventListener("change", () => { state.delReal = del.checked; update(); });
+}
+
+const SOURCE_HELP = {
+  unemployment: "Unemployment falls by the same number, so universal credit spending falls too.",
+  inactivity: "Unemployment is unchanged. In the reckoner this is identical to a larger population: it has no separate link " +
+              "from inactivity (e.g. ill-health) to disability benefits.",
+  population: "Unemployment is unchanged and GDP per head doesn't rise. The reckoner has no link from population to public " +
+              "service spending (departmental budgets are fixed in cash), so this flatters the fiscal gain.",
+};
+
+// one-click scenarios: each sets the levers from scratch
+const PRESETS = [
+  ["1% more employment", {employment: 1}],
+  ["Productivity 1% lower", {productivity: -1}],
+  ["Productivity 1% higher over 5 years", {productivity: [1, 5]}],
+  ["Inflation 1 point higher", {inflation: 1}],
+  ["Gilt yields 1 point higher", {gilt_rate: 1}],
+  ["House prices 10% lower", {house_prices: -10}],
+];
+function buildPresets() {
+  const box = document.getElementById("presets");
+  box.innerHTML = "";
+  for (const [label, set] of PRESETS) {
+    const b = el("button", null, label);
+    b.onclick = () => {
+      state.levers = {}; state.overrides = {};
+      for (const [id, v] of Object.entries(set)) {
+        const [size, phase] = Array.isArray(v) ? v : [v, 1];
+        state.levers[id] = {size, start: firstOpenYear(), phase};
+      }
+      buildLevers(); update();
+    };
+    box.append(b);
+  }
+  const reset = el("button", null, "Reset");
+  reset.onclick = () => { state.levers = {}; state.overrides = {}; state.params = {...DEFAULT_PARAMS}; state.delReal = false;
+                          buildLevers(); buildParams(); update(); };
+  box.append(reset);
+}
+
+function buildBasisPicker() {
+  const box = document.getElementById("basis");
+  box.innerHTML = "";
+  for (const [key, b] of Object.entries(DATA.bases)) {
+    const btn = el("button", null, key === "oct26" ? "Latest forecast (rescaled)" : "OBR reckoner as published");
+    btn.setAttribute("aria-pressed", key === state.basis);
+    btn.title = b.label;
+    btn.onclick = () => {
+      if (state.basis === key) return;
+      state.basis = key; state.overrides = {};
+      for (const lv of Object.values(state.levers)) { lv.start = Math.min(lv.start, years().length - 1); }
+      buildBasisPicker(); buildLevers(); update();
+    };
+    box.append(btn);
+  }
+}
+
+// ---------------------------------------------------------------- calculation
+function scenarioInputs() {
+  const x = translate(basis(), {levers: state.levers, params: state.params});
+  for (const [key, v] of Object.entries(state.overrides)) {
+    const [id, t] = key.split("|");
+    if (x[id] && +t < years().length) x[id][+t] = v;
+  }
+  return x;
+}
+
+// years beyond the OBR workbook (the rescaled basis repeats its final-year elasticities)
+const extrapolated = () => state.basis === "oct26" ? years().map(y => +y.slice(0, 4) > 2029) : years().map(() => false);
+
+function update() {
+  saveState();
+  const b = basis(), x = scenarioInputs();
+  const r = Reckoner.compute(b, x, {delReal: state.delReal});
+  renderCards(r); renderChart(r); renderSummary(r); renderLines(r); renderContribs(x); renderInputs(x); renderWarnings(x);
+}
+
+// ---------------------------------------------------------------- output
+function renderCards(r) {
+  const n = r.years.length - 1, y = r.years[n];
+  const sign = v => v > 0.05 ? "bad" : v < -0.05 ? "good" : "";
+  const card = (k, v, unit, s, cls) => `<div class="card"><div class="k">${k}</div><div class="v ${cls}">${v}<span class="u">${unit}</span></div><div class="s">${s}</div></div>`;
+  document.getElementById("cards").innerHTML =
+    card(`Borrowing, ${y}`, "£" + fmtSigned(r.bn.borrowing[n]) + "bn", "", fmtSigned(r.pct_gdp.borrowing[n], 2) + "% of GDP", sign(r.bn.borrowing[n])) +
+    card(`Current budget deficit, ${y}`, "£" + fmtSigned(r.bn.current_deficit[n]) + "bn", "", "the fiscal mandate measure: compare with the OBR's headroom", sign(r.bn.current_deficit[n])) +
+    card(`Debt, ${y}`, fmtSigned(r.pct_gdp.debt[n], 2), "% of GDP", "public sector net debt; £" + fmtSigned(r.bn.debt[n], 0) + "bn", sign(r.pct_gdp.debt[n])) +
+    card(`Debt interest, ${y}`, "£" + fmtSigned(r.bn.debt_interest[n]) + "bn", "", "incl. interest on the extra borrowing", sign(r.bn.debt_interest[n]));
+}
+
+function renderChart(r) {
+  const receipts = clean(r.bn.receipts.map(v => -v));  // more revenue = less borrowing
+  const primary = clean(r.bn.spending.map((v, t) => v - r.bn.debt_interest[t]));
+  const sets = [
+    {label: "Receipts (lower = more revenue)", data: receipts, backgroundColor: COLOURS.receipts, stack: "s"},
+    {label: "Primary spending", data: primary, backgroundColor: COLOURS.spending, stack: "s"},
+    {label: "Debt interest", data: clean(r.bn.debt_interest), backgroundColor: COLOURS.interest, stack: "s"},
+    {label: "Borrowing", data: clean(r.bn.borrowing), type: "line", borderColor: COLOURS.total, backgroundColor: COLOURS.total,
+     borderWidth: 2, pointRadius: 3, order: -1},
+  ];
+  const quiet = sets.every(s => s.data.every(v => v === 0));
+  document.getElementById("legend").innerHTML = sets.map(s =>
+    `<span><i class="${s.type === "line" ? "" : "dot"}" style="border-color:${s.backgroundColor};background:${s.type === "line" ? "transparent" : s.backgroundColor}"></i>${s.label}</span>`).join("");
+  if (chart) chart.destroy();
+  chart = new Chart(document.getElementById("chart"), {
+    type: "bar", data: {labels: r.years, datasets: sets},
+    options: {
+      maintainAspectRatio: false, animation: false,
+      plugins: {legend: {display: false},
+                tooltip: {callbacks: {label: c => `${c.dataset.label}: £${fmtSigned(c.parsed.y)}bn`}}},
+      scales: {x: {stacked: true, grid: {display: false}},
+               y: {stacked: true, grid: {color: "#D9E2EC"}, ticks: {callback: v => fmt(v, Number.isInteger(v) ? 0 : 1)},
+                   ...(quiet ? {min: -10, max: 10} : {})}},
+    },
+  });
+}
+
+function table(id, head, rows) {
+  const ex = extrapolated();
+  const th = head.map((h, i) => `<th class="${i && ex[i - 1] ? "extrap" : ""}">${h}</th>`).join("");
+  document.getElementById(id).innerHTML = `<thead><tr>${th}</tr></thead><tbody>${rows.join("")}</tbody>`;
+}
+const cells = (vals, dp = 1) => vals.map((v, t) => `<td class="${extrapolated()[t] ? "extrap" : ""}">${fmtSigned(v, dp)}</td>`).join("");
+
+function renderSummary(r) {
+  const rows = [
+    ["Receipts", r.bn.receipts], ["Spending", r.bn.spending], ["of which debt interest", r.bn.debt_interest],
+    ["Net borrowing", r.bn.borrowing], ["Current budget deficit", r.bn.current_deficit], ["Net debt (£ billion)", r.bn.debt],
+  ].map(([k, v], i) => `<tr class="${k === "Net borrowing" ? "total" : ""}"><td>${k}</td>${cells(v)}</tr>`);
+  rows.push(`<tr class="group"><td>Per cent of GDP</td>${years().map(() => "<td></td>").join("")}</tr>`);
+  for (const [k, v] of [["Net borrowing", r.pct_gdp.borrowing], ["Current budget deficit", r.pct_gdp.current_deficit],
+                        ["Net debt", r.pct_gdp.debt], ["Net financial liabilities", r.pct_gdp.psnfl]])
+    rows.push(`<tr><td>${k}</td>${cells(v, 2)}</tr>`);
+  table("summary", ["Change, £ billion", ...years()], rows);
+  const ex = extrapolated().some(Boolean);
+  document.getElementById("basisnote").innerHTML = `Basis: ${basis().label}.` +
+    (ex ? " Shaded years go beyond the OBR's workbook: they reuse its final-year elasticities." : "");
+}
+
+function renderLines(r) {
+  const rows = [];
+  const section = (title, lines, sortKey) => {
+    const entries = Object.entries(lines).filter(([, v]) => v.some(z => Math.abs(z) > 0.005))
+      .sort((a, b) => Math.abs(b[1].at(-1)) - Math.abs(a[1].at(-1)));
+    if (!entries.length) return;
+    rows.push(`<tr class="group"><td>${title}</td>${years().map(() => "<td></td>").join("")}</tr>`);
+    for (const [k, v] of entries) rows.push(`<tr><td>${k}</td>${cells(v, 2)}</tr>`);
+  };
+  section("Receipts", r.lines.receipts);
+  section("Spending", {...r.lines.spending, "Debt interest": r.lines.debt_interest});
+  if (!rows.length) rows.push(`<tr><td colspan="${years().length + 1}" class="note">Set a lever to see the effects.</td></tr>`);
+  table("bylines", ["£ billion", ...years()], rows);
+}
+
+function renderContribs(x) {
+  const labels = Object.fromEntries(DATA.inputs.map(i => [i.id, i.label]));
+  const c = Reckoner.contributions(basis(), x, "borrowing");
+  const rows = Object.entries(c).filter(([, v]) => v.some(z => Math.abs(z) > 0.005))
+    .sort((a, b) => Math.abs(b[1].at(-1)) - Math.abs(a[1].at(-1)))
+    .map(([id, v]) => `<tr><td>${labels[id] || id}</td>${cells(v, 2)}</tr>`);
+  if (!rows.length) rows.push(`<tr><td colspan="${years().length + 1}" class="note">Nothing set yet.</td></tr>`);
+  table("contribs", ["Change in borrowing, £ billion", ...years()], rows);
+}
+
+// typical sizes beyond which a linear elasticity is a stretch (OBR: estimated from ~1% changes)
+// (unemployment: the OBR's elasticity is per 100,000; 1% of employment is ~350,000)
+const LARGE = {pct: 3, pt: 2, millions: 0.6, "$/barrel": 20, "p/therm": 40, "£/MWh": 30, $: 0.15};
+function renderInputs(x) {
+  const t = document.getElementById("inputs");
+  let group = null;
+  const rows = [];
+  for (const inp of DATA.inputs) {
+    if (inp.group !== group) { group = inp.group; rows.push(`<tr class="group"><td>${group}</td>${years().map(() => "<td></td>").join("")}</tr>`); }
+    const unit = {pct: "%", pt: "points", millions: "millions"}[inp.unit] || inp.unit;
+    const tds = years().map((_, k) => {
+      const key = inp.id + "|" + k, v = (x[inp.id] || [])[k] || 0;
+      const cls = [key in state.overrides ? "over" : "", Math.abs(v) > (LARGE[inp.unit] ?? 3) ? "big" : "", extrapolated()[k] ? "extrap" : ""].join(" ");
+      return `<td class="${cls}"><input data-key="${key}" value="${Math.abs(v) < 5e-4 ? "0" : +v.toFixed(3)}" inputmode="decimal"></td>`;
+    }).join("");
+    rows.push(`<tr><td title="${inp.help}">${inp.label} <span class="note">${unit}</span></td>${tds}</tr>`);
+  }
+  table("inputs", ["Difference from the OBR's forecast", ...years()], rows);
+  t.querySelectorAll("input").forEach(e => e.addEventListener("change", () => {
+    const v = parseFloat(e.value);
+    if (Number.isFinite(v)) state.overrides[e.dataset.key] = v; else delete state.overrides[e.dataset.key];
+    update();
+  }));
+}
+document.getElementById("clear").onclick = () => { state.overrides = {}; update(); };
+
+function renderWarnings(x) {
+  const w = [];
+  const n = Object.keys(state.overrides).length;
+  if (n) w.push(`${n} OBR input${n > 1 ? "s are" : " is"} overridden by hand (amber in the inputs table): the levers no longer keep the scenario consistent there.`);
+  const big = DATA.inputs.filter(i => (x[i.id] || []).some(v => Math.abs(v) > (LARGE[i.unit] ?? 3))).map(i => i.label);
+  if (big.length) w.push(`Large changes in ${big.join(", ")}: the OBR's elasticities come from ~1% changes and assume a straight-line response, so treat the results as rough.`);
+  if (state.params.employmentSource === "population" && (state.levers.employment || {}).size)
+    w.push("Population-driven employment: the reckoner counts the extra tax but not the extra demand for public services.");
+  if ((state.levers.inflation || {}).size && !state.delReal)
+    w.push("Departmental budgets are fixed in cash (the OBR convention), so part of any gain from higher inflation is a real-terms cut to public services. Try the 'held in real terms' switch.");
+  document.getElementById("warnings").innerHTML = w.map(s => `<div>${s}</div>`).join("");
+}
+
+function renderCaveats() {
+  const items = [
+    `<b>What it is.</b> The OBR's ready reckoner applies elasticities from HMRC, DWP and OBR models to changes in about 30 economic
+      inputs. Each tax or spending line responds in a straight line to each input, and the responses add up. The OBR uses it for quick
+      estimates and scenarios, and says it is a guide, not a substitute for its full forecast.`,
+    `<b>Checked against the OBR's spreadsheet.</b> On the "as published" basis, this page reproduces the OBR workbook to rounding error,
+      line by line, for single shocks and for random scenarios moving every input at once.`,
+    `<b>Latest forecast (rescaled).</b> The elasticities are consistent with the March 2025 EFO and only the OBR can re-estimate them. The
+      default basis keeps them as percentages of each tax and applies them to the latest EFO's forecast for that tax. Welfare is scaled by
+      total welfare spending, and debt interest is matched to the latest published debt interest ready reckoner. GDP, prices, debt and the
+      triple lock come from the latest forecast. What can't be updated is any change in tax structure since March 2025: for example,
+      frozen thresholds make income tax more responsive to earnings than these elasticities assume.`,
+    `<b>Not a model of the economy.</b> The fiscal changes don't feed back into the economy (no multipliers), and there is no Bank of England
+      response unless you switch on the interest rate rule. The levers below the reckoner are a simple, long-run translation: see the
+      assumptions panel and <code>assets/reckoner-levers.js</code>.`,
+    `<b>Composition matters.</b> Income tax is progressive, so whose pay rises matters, not just how much. The reckoner can't tell
+      the difference.`,
+    `<b>Departmental spending is fixed in cash.</b> That is the OBR's convention for budgets already set. It makes higher inflation look
+      good for the public finances; the switch above shows the alternative.`,
+    `<b>Changes, not levels.</b> Everything is shown relative to the OBR's forecast. Borrowing levels, headroom and so on are in the OBR's
+      Economic and fiscal outlook; add these changes to them.`,
+    `<b>Quirks in the OBR workbook</b>, kept on the "as published" basis so it matches: its triple lock uses financial-year CPI inflation
+      where the legislation uses September's (the rescaled basis uses September's); its headline "current deficit" change has the wrong
+      sign (we calculate it directly); and its borrowing elasticities, labelled per £10 billion, are in fact per £1 billion (the arithmetic
+      treats them correctly). Both bases use Q2 earnings growth for the triple lock, where the legislation uses May to July.`,
+    `<b>Already-published data.</b> Inputs for the uprating measures (September CPI, Q2 earnings, Q2 RPI) are left unchanged in years whose
+      data were out before the forecast, and levers start in the first year not already in the data by default.`,
+  ];
+  document.getElementById("caveats").innerHTML = items.map(s => `<li>${s}</li>`).join("");
+}
+
+// ---------------------------------------------------------------- start
+fetch("data/fiscal/reckoner.json", {cache: "no-cache"}).then(r => r.json()).then(d => {
+  DATA = d;
+  state.basis = d.default_basis;
+  loadState();
+  if (!DATA.bases[state.basis]) state.basis = d.default_basis;
+  document.getElementById("srcnote").innerHTML = `<a href="${d.source.workbook}">workbook</a>, <a href="${d.source.article}">article</a>; data built ${d.generated}`;
+  buildBasisPicker(); buildPresets(); buildLevers(); buildParams(); renderCaveats();
+  const src = document.getElementById("p-src"), srcHelp = () => { document.getElementById("p-src-help").textContent = SOURCE_HELP[src.value]; };
+  src.addEventListener("change", srcHelp); srcHelp();
+  update();
+}).catch(e => { document.getElementById("main").innerHTML = `<p class="error">Couldn't load the reckoner data: ${e}</p>`; });
+</script>
+</body>
+</html>

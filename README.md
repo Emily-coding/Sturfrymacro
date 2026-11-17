@@ -44,6 +44,11 @@ data/<area>/
   index.json             chart list with data_through / next_release / status
   last-good.json         last live value of every series
 assets/site.css, site.js  shared style and helpers for index.html and labour.html
+fiscal.html              public finances ready reckoner (the OBR's, rescaled to the latest EFO)
+assets/reckoner.js       its calculations (tested against the OBR spreadsheet by
+                         builders/fiscal/check_engine.py); reckoner-levers.js = lever assumptions
+builders/fiscal/         reads the OBR ready reckoner + latest EFO tables into
+                         data/fiscal/reckoner.json; run by hand after each fiscal event
 scripts/check_sources.py one known-good request per source: run when something goes red
 .github/workflows/       one workflow per area, sharing _refresh.yml
 NEXT.md                  to-do list + "Decided against"

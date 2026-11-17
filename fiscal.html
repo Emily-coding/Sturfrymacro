@@ -316,7 +316,10 @@ function update() {
 
 // ---------------------------------------------------------------- output
 function renderCards(r) {
-  const n = r.years.length - 1, y = r.years[n];
+  // the pull-outs show 2029-30, the year the current fiscal rules are assessed in
+  // (the final year of the forecast if a basis does not reach it)
+  const RULE_YEAR = "2029-30";
+  const n = r.years.includes(RULE_YEAR) ? r.years.indexOf(RULE_YEAR) : r.years.length - 1, y = r.years[n];
   const sign = v => v > 0.05 ? "bad" : v < -0.05 ? "good" : "";
   const card = (k, v, unit, s, cls) => `<div class="card"><div class="k">${k}</div><div class="v ${cls}">${v}<span class="u">${unit}</span></div><div class="s">${s}</div></div>`;
   document.getElementById("cards").innerHTML =

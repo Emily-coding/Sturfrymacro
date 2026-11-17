@@ -22,6 +22,7 @@ event, so rerun this by hand after an EFO: python builders/fiscal/build.py
 
 from __future__ import annotations
 
+import io
 import json
 import sys
 from datetime import date
@@ -34,6 +35,9 @@ sys.path.insert(0, str(HERE))
 
 import rescale  # noqa: E402
 import workbook  # noqa: E402
+import openpyxl  # noqa: E402
+
+from ukmacro import obr  # noqa: E402
 from ukmacro.http import get  # noqa: E402
 
 WORKBOOK_URL = "https://obr.uk/download/economic-and-fiscal-outlook-ready-reckoner/"
@@ -83,6 +87,10 @@ INPUTS = [
 def main() -> None:
     raw = get(WORKBOOK_URL, timeout=180)
     mar25 = workbook.parse(raw)
+    # employment and unemployment rates for display, from the March 2025 EFO economy tables
+    _, eco, _ = obr.efo_economy(2025, 3)
+    eco = openpyxl.load_workbook(io.BytesIO(eco), read_only=True, data_only=True)
+    mar25["shown"].update(rescale.shown_rates(eco, mar25["years"]))
     oct26 = rescale.build(mar25)
     out = {
         "generated": date.today().isoformat(),

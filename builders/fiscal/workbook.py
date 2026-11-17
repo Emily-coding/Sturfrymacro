@@ -85,6 +85,22 @@ BASELINE = {
     "AM": "cpi_q3_cap", "AN": "earnings_growth_fy", "AO": "triple_lock",
 }
 
+# Columns of the Determinants sheet holding the OBR's forecast of each input, shown on
+# the page next to the scenario so you can see what is being varied. Earnings and house
+# prices are indices there, so the page shows their growth instead (see parse).
+SHOWN = {
+    "earnings": "B", "mixed_income": "C", "employment": "D", "dwelling_investment": "E",
+    "nominal_consumption": "F", "real_consumption": "G", "durables": "H",
+    "profits_nonfinancial": "I", "pnfc_investment": "J", "profits_financial": "K",
+    "real_gdp": "L", "nominal_gdp_fy": "M", "nominal_gdp_cy": "N", "equity_prices": "O",
+    "house_prices": "P", "property_transactions": "Q", "imports": "R", "personal_deposits": "S",
+    "oil_price": "T", "gas_price": "U", "electricity_price": "V", "usd_gbp": "W",
+    "rpi_inflation": "Y", "cpi_inflation": "AA", "bank_rate": "AB", "deposit_rate": "AC",
+    "gilt_rate": "AD", "nominal_gdp_march": "AE", "unemployment": "AF",
+    "earnings_growth_q2": "AG", "earnings_growth_q3": "AH", "cpi_q3": "AI", "rpi_q2": "AK",
+}
+GROWTH_SHOWN = {"earnings", "house_prices"}  # indices: shown as % growth on a year earlier
+
 REF = r"(?:'[^']+'|\w+)!\$?([A-Z]+)\$?(\d+)"  # Sheet!$C$5 -> (column, row)
 
 
@@ -131,6 +147,20 @@ def parse(raw: bytes) -> dict:
 
     # ---- baseline determinants (2022-23 onwards, so price levels can be chained)
     baseline = {name: [_num(det[f"{col}{r}"].value) for r in range(5, 13)] for col, name in BASELINE.items()}
+
+    # ---- the OBR's forecast of each input, for display (scenario years only)
+    shown = {}
+    for name, col in SHOWN.items():
+        v = [_num(det[f"{col}{r}"].value) for r in range(5, 13)]
+        shown[name] = [100 * (v[k] / v[k - 1] - 1) for k in range(1, 8)] if name in GROWTH_SHOWN else v[1:]
+    # ratios are easier to judge than levels: durables as a share of consumer spending,
+    # imports as a share of GDP (both in cash)
+    share = lambda a, b: [100 * x / y for x, y in zip(shown[a], shown[b])]  # noqa: E731
+    shown["durables"] = share("durables", "nominal_consumption")
+    shown["imports"] = share("imports", "nominal_gdp_fy")
+    # employment and unemployment are shown as rates, which the workbook does not
+    # hold: build.py fills them from the March 2025 EFO's economy tables
+    shown["employment"] = shown["unemployment"] = [None] * 7
 
     # ---- step 2: change vectors from the three determinant sheets
     vectors, vector_at = [], {}  # vector_at[(sheet, row)] -> index
@@ -244,6 +274,7 @@ def parse(raw: bytes) -> dict:
         "years": years,
         "base_year": det_years[0],
         "baseline": baseline,
+        "shown": shown,
         "vectors": vectors,
         "terms": terms,
         "loop": loop,

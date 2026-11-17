@@ -163,6 +163,75 @@ def _latest_efo() -> tuple[str, dict]:
     raise LookupError("no EFO found in the last 14 months")
 
 
+def _fy(series: dict, fy: str, how: str) -> float | None:
+    """A quarterly series over a financial year (April to March): 'sum' for flows,
+    'mean' for rates and prices. None if any quarter is missing."""
+    y = _start(fy)
+    qs = [f"{y}Q2", f"{y}Q3", f"{y}Q4", f"{y + 1}Q1"]
+    if not all(q in series for q in qs):
+        return None
+    total = sum(series[q] for q in qs)
+    return total if how == "sum" else total / 4
+
+
+def labour_rates(economy) -> dict:
+    """Quarterly 16+ employment and ILO unemployment rates (per cent) from an EFO's
+    economy table 1.6: {'employment': {...}, 'unemployment': {...}}. The March 2025
+    workbook has only levels, so build.py also uses this for that basis."""
+    return _quarterly(economy["1.6"], {"employment": "employment rate", "unemployment": "ilo unemployment rate"})
+
+
+def shown_rates(economy, years: list[str]) -> dict:
+    """Financial-year averages of labour_rates over the given years."""
+    q = labour_rates(economy)
+    return {k: [_fy(v, fy, "mean") for fy in years] for k, v in q.items()}
+
+
+def _shown(files: dict, a3: dict, baseline: dict, yrs: list[str]) -> dict:
+    """The latest EFO's forecast of each input, in the units of the OBR workbook, for
+    display next to the scenario (index 0 = first scenario year). Inputs the EFO does
+    not publish (durables, financial profits, PNFC investment, private housing
+    investment, household deposits) are left out rather than proxied.
+
+    A few are shown as ratios rather than levels, because a ratio is easier to judge:
+    employment and unemployment as rates (16+, from table 1.6), imports as a share of
+    GDP and durables as a share of consumer spending (the latter not published here)."""
+    eco = files["economy"]
+    q = labour_rates(eco)
+    for table, wanted in {
+        "1.1": {"real_consumption": "private consumption", "real_gdp": "real gdp"},
+        "1.2": {"nominal_consumption": "private consumption", "imports": "imports", "gdp": "gdp at market"},
+        "1.3": {"profits_nonfinancial": "non-oil pnfc profits"},
+        "1.6": {"mixed_income": "mixed income"},
+        "1.9": {"deposit_rate": "deposit rate", "usd_gbp": "us$", "oil_price": "oil prices",
+                "equity_prices": "equity", "bank_rate": "bank rate"},
+        "1.16": {"hpi": "house price index", "property_transactions": "residential property transactions"},
+        "1.20": {"electricity_price": "pounds per mwh"},
+    }.items():
+        q.update(_quarterly(eco[table], wanted))
+    scen = yrs[1:]
+    out = {}
+    for name in ("real_consumption", "real_gdp", "nominal_consumption",
+                 "profits_nonfinancial", "mixed_income", "property_transactions"):
+        out[name] = [_fy(q[name], fy, "sum") for fy in scen]
+    for name in ("employment", "unemployment", "deposit_rate", "usd_gbp", "oil_price", "equity_prices",
+                 "bank_rate", "electricity_price"):
+        out[name] = [_fy(q[name], fy, "mean") for fy in scen]
+    # imports as a per cent of GDP, both in cash from the same table
+    out["imports"] = [100 * _fy(q["imports"], fy, "sum") / _fy(q["gdp"], fy, "sum") for fy in scen]
+    hpi = [_fy(q["hpi"], fy, "mean") for fy in yrs]
+    out["house_prices"] = [100 * (b / a - 1) if a and b else None for a, b in zip(hpi, hpi[1:])]
+    # calendar-year nominal GDP: the four quarters of the year the financial year starts in
+    out["nominal_gdp_cy"] = [sum(q["gdp"].get(f"{_start(fy)}Q{k}", 0) for k in range(1, 5)) for fy in scen]
+    # straight from the baselines the engine uses
+    for name in ("nominal_gdp_fy", "nominal_gdp_march", "gas_price", "rpi_inflation",
+                 "cpi_inflation", "earnings_growth_q2", "earnings_growth_q3", "cpi_q3", "rpi_q2"):
+        out[name] = baseline[name][1:]
+    out["earnings"] = baseline["earnings_growth_fy"][1:]  # shown as growth, as on the March 2025 basis
+    out["gilt_rate"] = a3["Market gilt rates (per cent)"][1: len(yrs)]
+    return out
+
+
 def build(mar25: dict, label: str | None = None, files: dict | None = None) -> dict:
     """The March 2025 basis re-expressed on the latest EFO."""
     if files is None:
@@ -308,6 +377,7 @@ def build(mar25: dict, label: str | None = None, files: dict | None = None) -> d
         "years": years,
         "base_year": base_year,
         "baseline": baseline,
+        "shown": _shown(files, a3, baseline, yrs),
         "vectors": mar25["vectors"],
         "terms": terms,
         "loop": loop,

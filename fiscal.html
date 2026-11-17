@@ -57,6 +57,8 @@
   #inputs td input:hover, #inputs td input:focus { border-color: var(--grid); background: #FFFFFF; }
   #inputs td.over input { background: #FDE8C8; border-color: #DE911D; font-weight: 600; }
   #inputs td.big input { color: #BA2525; }
+  /* the OBR's own forecast, in brackets under each cell */
+  #inputs td .base { display: block; font-size: 11.5px; color: var(--ink-3); white-space: nowrap; line-height: 1.2; }
   .warn { background: #FDF3E1; border-left: 3px solid #DE911D; border-radius: 4px; padding: 8px 12px; margin: 0 0 10px; font-size: 14px; }
   .warn:empty { display: none; }
   .note { color: var(--ink-3); font-size: 13px; }
@@ -120,6 +122,9 @@
     <p class="intro">What the levers imply for each of the OBR's economic inputs, year by year. You can override any cell
       (amber); the levers then leave it alone. Overriding breaks the consistency the levers provide, so check the
       scenario still hangs together. Red values are large enough that the OBR's linear elasticities may not hold.
+      In brackets under each cell is the OBR's own forecast you are varying from (earnings and house prices as growth on
+      a year earlier; employment and unemployment as 16+ rates; durables as a share of consumer spending and imports as
+      a share of GDP; n/a where the EFO does not publish it).
       <button class="link" id="clear">Clear all overrides</button></p>
     <div class="tablewrap"><table id="inputs"></table></div>
   </section>
@@ -398,8 +403,36 @@ function renderContribs(x) {
 // typical sizes beyond which a linear elasticity is a stretch (OBR: estimated from ~1% changes)
 // (unemployment: the OBR's elasticity is per 100,000; 1% of employment is ~350,000)
 const LARGE = {pct: 3, pt: 2, millions: 0.6, "$/barrel": 20, "p/therm": 40, "£/MWh": 30, $: 0.15};
+/* The OBR's forecast of an input, in brackets under the scenario cell, in the units of
+ * the OBR workbook. Earnings and house prices are indices there, so they show growth. */
+const BASE_FMT = {
+  growth: ["earnings", "house_prices"],
+  bn: ["mixed_income", "nominal_consumption", "real_consumption", "real_gdp", "nominal_gdp_fy",
+       "nominal_gdp_cy", "nominal_gdp_march", "dwelling_investment", "profits_nonfinancial",
+       "profits_financial", "pnfc_investment", "personal_deposits"],
+};
+function showBase(id, v) {
+  if (v == null || !Number.isFinite(v)) return "(n/a)";
+  const n = (z, dp) => z.toLocaleString("en-GB", {minimumFractionDigits: dp, maximumFractionDigits: dp});
+  let s;
+  if (BASE_FMT.growth.includes(id)) s = `${v >= 0 ? "+" : "−"}${n(Math.abs(v), 1)}%`;
+  else if (BASE_FMT.bn.includes(id)) s = `£${n(v, 0)}bn`;
+  else if (id === "employment") s = `${n(v, 1)}% rate`;          // 16+ employment rate
+  else if (id === "unemployment") s = `${n(v, 1)}% rate`;        // ILO unemployment rate
+  else if (id === "durables") s = `${n(v, 1)}% of spending`;     // share of consumer spending
+  else if (id === "imports") s = `${n(v, 1)}% of GDP`;
+  else if (id === "property_transactions") s = `${n(v, 0)}k`;    // thousands of sales
+  else if (id === "equity_prices") s = n(v, 0);                  // FTSE All-Share index
+  else if (id === "oil_price") s = `$${n(v, 0)}`;
+  else if (id === "gas_price") s = `${n(v, 0)}p`;
+  else if (id === "electricity_price") s = `£${n(v, 0)}`;
+  else if (id === "usd_gbp") s = `$${n(v, 2)}`;
+  else s = `${n(v, 1)}%`;                                        // inflation, growth and interest rates
+  return `(${s})`;
+}
 function renderInputs(x) {
   const t = document.getElementById("inputs");
+  const shown = basis().shown || {};
   let group = null;
   const rows = [];
   for (const inp of DATA.inputs) {
@@ -408,7 +441,8 @@ function renderInputs(x) {
     const tds = years().map((_, k) => {
       const key = inp.id + "|" + k, v = (x[inp.id] || [])[k] || 0;
       const cls = [key in state.overrides ? "over" : "", Math.abs(v) > (LARGE[inp.unit] ?? 3) ? "big" : "", extrapolated()[k] ? "extrap" : ""].join(" ");
-      return `<td class="${cls}"><input data-key="${key}" value="${Math.abs(v) < 5e-4 ? "0" : +v.toFixed(3)}" inputmode="decimal"></td>`;
+      return `<td class="${cls}"><input data-key="${key}" value="${Math.abs(v) < 5e-4 ? "0" : +v.toFixed(3)}" inputmode="decimal">`
+        + `<span class="base">${showBase(inp.id, (shown[inp.id] || [])[k])}</span></td>`;
     }).join("");
     rows.push(`<tr><td title="${inp.help}">${inp.label} <span class="note">${unit}</span></td>${tds}</tr>`);
   }

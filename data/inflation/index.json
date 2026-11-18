@@ -5,22 +5,22 @@
   {
    "slug": "cpi-headline",
    "title": "CPI, CPIH and core inflation",
-   "data_through": "2026-09",
-   "next_release": "2026-11-18",
+   "data_through": "2026-10",
+   "next_release": "2026-12-16",
    "status": "ok"
   },
   {
    "slug": "cpi-essentials",
    "title": "Inflation in essentials",
-   "data_through": "2026-09",
-   "next_release": "2026-11-18",
+   "data_through": "2026-10",
+   "next_release": "2026-12-16",
    "status": "ok"
   },
   {
    "slug": "cpi-goods-services",
    "title": "Goods, services and food inflation",
-   "data_through": "2026-09",
-   "next_release": "2026-11-18",
+   "data_through": "2026-10",
+   "next_release": "2026-12-16",
    "status": "ok"
   }
  ]

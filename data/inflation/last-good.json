@@ -1,6 +1,6 @@
 {
 "cpi-essentials/energy": {
-"next_release": "2026-11-18",
+"next_release": "2026-12-16",
 "obs": [
 [
 "1989-01",
@@ -1813,13 +1813,17 @@
 [
 "2026-09",
 7.8
+],
+[
+"2026-10",
+7.8
 ]
 ],
 "source_url": "https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/d7gt/mm23",
-"stored": "2026-11-11"
+"stored": "2026-11-18"
 },
 "cpi-essentials/food": {
-"next_release": "2026-11-18",
+"next_release": "2026-12-16",
 "obs": [
 [
 "1989-01",
@@ -3632,13 +3636,17 @@
 [
 "2026-09",
 1.3
+],
+[
+"2026-10",
+0.9
 ]
 ],
 "source_url": "https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/d7g8/mm23",
-"stored": "2026-11-11"
+"stored": "2026-11-18"
 },
 "cpi-essentials/fuels": {
-"next_release": "2026-11-18",
+"next_release": "2026-12-16",
 "obs": [
 [
 "1989-01",
@@ -5451,10 +5459,14 @@
 [
 "2026-09",
 29.8
+],
+[
+"2026-10",
+33.2
 ]
 ],
 "source_url": "https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/d7io/mm23",
-"stored": "2026-11-11"
+"stored": "2026-11-18"
 },
 "cpi-essentials/rents": {
 "next_release": "2026-11-18",
@@ -9095,7 +9107,7 @@
 "stored": "2026-11-11"
 },
 "cpi-goods-services/food": {
-"next_release": "2026-11-18",
+"next_release": "2026-12-16",
 "obs": [
 [
 "1989-01",
@@ -10908,13 +10920,17 @@
 [
 "2026-09",
 1.3
+],
+[
+"2026-10",
+0.9
 ]
 ],
 "source_url": "https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/d7g8/mm23",
-"stored": "2026-11-10"
+"stored": "2026-11-18"
 },
 "cpi-goods-services/goods": {
-"next_release": "2026-11-18",
+"next_release": "2026-12-16",
 "obs": [
 [
 "1989-01",
@@ -12727,13 +12743,17 @@
 [
 "2026-09",
 3.2
+],
+[
+"2026-10",
+3.5
 ]
 ],
 "source_url": "https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/d7nm/mm23",
-"stored": "2026-11-10"
+"stored": "2026-11-18"
 },
 "cpi-goods-services/services": {
-"next_release": "2026-11-18",
+"next_release": "2026-12-16",
 "obs": [
 [
 "1989-01",
@@ -14546,13 +14566,17 @@
 [
 "2026-09",
 3.7
+],
+[
+"2026-10",
+3.7
 ]
 ],
 "source_url": "https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/d7nn/mm23",
-"stored": "2026-11-10"
+"stored": "2026-11-18"
 },
 "cpi-headline/core": {
-"next_release": "2026-11-18",
+"next_release": "2026-12-16",
 "obs": [
 [
 "1989-01",
@@ -16365,13 +16389,17 @@
 [
 "2026-09",
 2.8
+],
+[
+"2026-10",
+2.8
 ]
 ],
 "source_url": "https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/dko8/mm23",
-"stored": "2026-11-10"
+"stored": "2026-11-18"
 },
 "cpi-headline/cpi": {
-"next_release": "2026-11-18",
+"next_release": "2026-12-16",
 "obs": [
 [
 "1989-01",
@@ -18184,13 +18212,17 @@
 [
 "2026-09",
 3.5
+],
+[
+"2026-10",
+3.6
 ]
 ],
 "source_url": "https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/d7g7/mm23",
-"stored": "2026-11-10"
+"stored": "2026-11-18"
 },
 "cpi-headline/cpih": {
-"next_release": "2026-11-18",
+"next_release": "2026-12-16",
 "obs": [
 [
 "1989-01",
@@ -20003,9 +20035,13 @@
 [
 "2026-09",
 3.6
+],
+[
+"2026-10",
+3.7
 ]
 ],
 "source_url": "https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/l55o/mm23",
-"stored": "2026-11-10"
+"stored": "2026-11-18"
 }
 }

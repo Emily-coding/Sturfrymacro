@@ -12,26 +12,26 @@
    "key": "cpi",
    "label": "CPI",
    "_source": "live",
-   "_date": "2026-09",
+   "_date": "2026-10",
    "source_url": "https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/d7g7/mm23"
   },
   {
    "key": "cpih",
    "label": "CPIH",
    "_source": "live",
-   "_date": "2026-09",
+   "_date": "2026-10",
    "source_url": "https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/l55o/mm23"
   },
   {
    "key": "core",
    "label": "Core CPI",
    "_source": "live",
-   "_date": "2026-09",
+   "_date": "2026-10",
    "source_url": "https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/dko8/mm23"
   }
  ],
- "data_through": "2026-09",
- "next_release": "2026-11-18",
+ "data_through": "2026-10",
+ "next_release": "2026-12-16",
  "status": "ok",
  "data": [
   {
@@ -878,6 +878,12 @@
    "date": "2026-09",
    "cpi": 3.5,
    "cpih": 3.6,
+   "core": 2.8
+  },
+  {
+   "date": "2026-10",
+   "cpi": 3.6,
+   "cpih": 3.7,
    "core": 2.8
   }
  ],

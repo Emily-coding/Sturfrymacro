@@ -12,26 +12,26 @@
    "key": "food",
    "label": "Food and non-alcoholic drinks",
    "_source": "live",
-   "_date": "2026-09",
+   "_date": "2026-10",
    "source_url": "https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/d7g8/mm23"
   },
   {
    "key": "energy",
    "label": "Household energy",
    "_source": "live",
-   "_date": "2026-09",
+   "_date": "2026-10",
    "source_url": "https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/d7gt/mm23"
   },
   {
    "key": "fuels",
    "label": "Motor fuels",
    "_source": "live",
-   "_date": "2026-09",
+   "_date": "2026-10",
    "source_url": "https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/d7io/mm23"
   }
  ],
- "data_through": "2026-09",
- "next_release": "2026-11-18",
+ "data_through": "2026-10",
+ "next_release": "2026-12-16",
  "status": "ok",
  "data": [
   {
@@ -879,6 +879,12 @@
    "food": 1.3,
    "energy": 7.8,
    "fuels": 29.8
+  },
+  {
+   "date": "2026-10",
+   "food": 0.9,
+   "energy": 7.8,
+   "fuels": 33.2
   }
  ],
  "theme": "blue-amber",

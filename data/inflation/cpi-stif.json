@@ -26,8 +26,8 @@
    "slot": 1
   }
  ],
- "data_through": "2026-09",
- "next_release": "18 November 2026",
+ "data_through": "2026-10",
+ "next_release": "16 December 2026",
  "status": "ok",
  "data": [
   {
@@ -160,39 +160,42 @@
   },
   {
    "date": "2026-09",
-   "cpi": 3.5,
-   "stif": 3.5,
-   "boe": 3.5
+   "cpi": 3.5
   },
   {
    "date": "2026-10",
-   "stif": 3.5,
+   "cpi": 3.6,
+   "stif": 3.6,
    "boe": 3.7
   },
   {
    "date": "2026-11",
-   "stif": 3.6,
+   "stif": 3.9,
    "boe": 3.8
   },
   {
    "date": "2026-12",
-   "stif": 3.5,
+   "stif": 3.7,
    "boe": 3.8
   },
   {
    "date": "2027-01",
-   "stif": 3.9,
+   "stif": 4.2,
    "boe": 4.3
   },
   {
    "date": "2027-02",
-   "stif": 4.0,
+   "stif": 4.2,
    "boe": 4.5
   },
   {
    "date": "2027-03",
-   "stif": 3.5,
+   "stif": 3.8,
    "boe": 4.4
+  },
+  {
+   "date": "2027-04",
+   "stif": 3.8
   }
  ],
  "theme": "blue-amber",

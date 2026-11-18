@@ -19698,10 +19698,14 @@
 [
 "2026-11-16",
 5.12
+],
+[
+"2026-11-17",
+5.1
 ]
 ],
 "source_url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates",
-"stored": "2026-11-17"
+"stored": "2026-11-18"
 },
 "ftse-100/ftse100": {
 "obs": [
@@ -24627,11 +24631,11 @@
 ],
 [
 "2026-11-17",
-10689.87
+10689.9
 ]
 ],
 "source_url": "https://finance.yahoo.com/quote/%5EFTSE/",
-"stored": "2026-11-17"
+"stored": "2026-11-18"
 },
 "gas-price-uk/gas": {
 "obs": [

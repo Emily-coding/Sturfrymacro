@@ -32,6 +32,7 @@ ukmacro/                 shared source clients + the chart builder
   rti.py                 HMRC PAYE RTI: payrolled employees by age (ONS spreadsheet)
   boe_agents.py          Bank of England Agents' scores (one spreadsheet, scores from 1997)
   markets.py             market prices: US Treasury, Bundesbank, EIA oil, Ofgem gas, Yahoo FTSE 100
+  energy.py              Ofgem price cap levels and weekly pump prices (for the inflation forecast)
   lastgood.py            last-good store (see below)
   builder.py             config.yaml -> chart JSON
   bics.py                BICS wave download, parsing and the harvest store
@@ -151,16 +152,36 @@ short-term inflation forecast:
 1. All 84 CPI components and their weights, from the ONS MM23 file (`ukmacro/mm23.py`).
 2. Each component's month-on-month change = its usual pattern for that calendar month
    (last 8 years, skipping 2020-21) + its average monthly change over the past year.
-3. Electricity, gas and motor fuels follow the Bank of England's latest staff
-   projections (which build in the Ofgem price cap and oil and gas futures).
-4. Known policy changes can be set by hand in `builders/inflation/stif_assumptions.yaml`.
-5. Components are added up with CPI's January chain-linking; only the change from
+   This is a fixed rule, not an estimated (regression) model.
+3. Energy comes in layers, each overriding the one before where it has information
+   (`ukmacro/energy.py`):
+   - **Electricity and gas** follow the Ofgem price cap: CPI moves almost one-for-one
+     with the cap in the month it changes, and barely in between. Every announced cap
+     is used automatically; before Ofgem announces, a projection (e.g. Cornwall
+     Insight's) can be set in `stif_assumptions.yaml`.
+   - **Motor fuels** follow the government's weekly pump prices (the monthly average,
+     65% petrol and 35% diesel, matches CPI fuels to about 0.05 points a month).
+     Later weeks hold the price before tax flat and add the scheduled fuel duty and VAT.
+   - Beyond those, the Bank of England's latest staff projections.
+4. **Easter**: airfares in March-May use only past years with Easter on the same side
+   of 12 April (a late Easter puts April's price collection in the school holidays).
+5. **Policy calendar** in `builders/inflation/stif_assumptions.yaml`: duty rises,
+   rail fares, regulated bills, price cap projections and the fuel duty schedule,
+   each with a reason and whether it is announced or our assumption. Review it after
+   every Budget and regulator announcement.
+6. Components are added up with CPI's January chain-linking; only the change from
    the latest month is used, applied to the published headline index.
 
-Backtest (forecasts made monthly since 2017, excluding 2020-21, with no energy
-information): average error 0.23 percentage points one month ahead and 0.89 six
-months ahead, against 0.31 and 1.10 for assuming inflation stays where it is. The
-figures are refreshed each month in `data/inflation/stif.json`. The forecast appears
+Backtest (forecasts made monthly since 2017, excluding 2020-21), mean absolute error in
+the 12-month rate:
+
+| Months ahead | 1 | 3 | 6 |
+|---|---|---|---|
+| Inflation stays where it is | 0.31 | 0.67 | 1.10 |
+| Our forecast, no energy information | 0.23 | 0.49 | 0.89 |
+| With the price caps and pump prices known on the day | 0.20 | 0.47 | 0.84 |
+
+The figures are refreshed each month in `data/inflation/stif.json`. The forecast appears
 on the dashboard as "Sturfrymacro" and in `img/inflation/cpi-stif.png`.
 
 ## BICS dataset

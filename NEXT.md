@@ -19,9 +19,11 @@ Bigger items here; day-to-day to-dos go in GitHub Issues.
 
 ## Inflation
 - Short-term forecast (builders/inflation/stif.py) next steps: item-level data
-  (~700 items instead of 84 components) like the OBR; our own fuel model from weekly
-  pump prices and Ofgem cap assumptions, instead of the Bank's energy paths; a
-  services/goods split of the contributions; track our forecast errors each month.
+  (~700 items instead of 84 components) like the OBR; our own price cap projection
+  from gas and power futures (Ofgem's wholesale formula) instead of hand-set
+  Cornwall Insight figures; pass-through of recent oil and sterling moves to pump
+  prices (now held flat); a services/goods split of the contributions; compare our
+  errors with Bank staff and consensus, and track them each month.
 - Bank Rate alongside CPI (BoE data is daily-dated: convert to monthly first).
 - G7 inflation comparison: the OECD price dataset is out of date for France, Italy
   and Japan (checked 2026-11-10); find another source.
@@ -29,3 +31,18 @@ Bigger items here; day-to-day to-dos go in GitHub Issues.
 
 ## GDP
 - OBR forecast vs outturn: `obr.historical_forecasts("UKGDP")` already reads the database.
+
+## Decided against
+- **Redesigning the section summary boxes** (2026-11-18): prototyped five alternatives
+  to the current cards and kept the cards for now. Rejected:
+  - *Ledger* (one table per section, forecasters as rows): cramped on phones, and
+    markets ends up mixing Bank Rate and oil in one table.
+  - *Headline* (one large number, a sentence and a dot strip per period): the dots
+    repeated the numbers written underneath.
+  - *Fan* (a mini chart from the latest outturn to each forecast): needs each forecast
+    linked to the figure it continues, which dashboard.json doesn't record yet.
+  - *Countdown* (the next ONS release date leads): financial markets has no release
+    date, so it needs a fallback.
+  - *Briefing* (a written note per section in a serif): the opening sentences
+    would need generating in the builder.
+  Fan and Briefing were the most distinctive, so start there if this comes back.

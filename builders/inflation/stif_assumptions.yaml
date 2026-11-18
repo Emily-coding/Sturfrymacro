@@ -1,15 +1,62 @@
-# Hand-set assumptions for the short-term inflation forecast (stif.py).
+# Hand-set assumptions for the short-term inflation forecast (stif.py): the policy
+# and administered-price calendar. Review after every Budget, Ofgem announcement and
+# regulator price decision. Every entry needs a `why` (and ideally a source), so the
+# forecast can be explained line by line.
 #
-# Energy (electricity, gas and motor fuels) follows the Bank of England's latest
-# staff projections automatically. Use this file for things the seasonal baseline
-# won't get right, e.g. a duty change or an unusually large April price reset.
+# What happens automatically (no entry needed here):
+#   - electricity and gas follow every price cap Ofgem has announced (ukmacro/energy.py)
+#   - motor fuels follow the weekly pump prices published so far
+#   - airfares in March-May allow for the timing of Easter
+#   - beyond those, energy follows the Bank of England's latest staff projections
 #
-# Each override replaces the baseline month-on-month % change for one CPI
-# component in one month. Component codes are COICOP codes as the ONS publishes
-# them (see the component list printed by `python builders/inflation/stif.py`).
-#
-# Example (commented out):
-# overrides:
-#   - {component: "02.2", month: "2027-03", change: 4.5, why: "Tobacco duty rise announced in the Budget"}
+# Component codes are COICOP codes as the ONS publishes them; run
+# `python builders/inflation/stif.py` to list them.
 
-overrides: []
+# ---------------------------------------------------------------- energy
+
+# Price caps not yet announced by Ofgem: % change on the previous cap, for
+# electricity and gas. Used only until Ofgem publishes the real one (Ofgem's
+# figure always wins), so old entries do no harm but are worth tidying.
+price_cap:
+  - month: "2027-01"
+    electricity: 16.0
+    gas: 16.0
+    why: >-
+      Cornwall Insight forecast for January-March 2027: typical dual-fuel bill up 16%
+      on October to £1,999 (cornwall-insight.com, November 2026). No electricity/gas
+      split published, so the same % is used for both. Ofgem announces by 25 November.
+
+# Fuel duty schedule, pence per litre, from the date it takes effect. Weeks before
+# the first entry use the latest rate in the pump price data (52.95p).
+fuel_duty:
+  - from: "2027-07-01"
+    pence_per_litre: 60.59
+    why: >-
+      Budget 28 October 2026: duty held at 52.95p until 30 June 2027, then the 5p cut
+      ends and RPI uprating applies (+7.64p). From secondary reports (Fuel Finder,
+      Fleet News); check against HMRC's rates table. Beyond the current horizon.
+
+# ---------------------------------------------------------------- other components
+
+# Each override sets one component's month-on-month % change in one month:
+#   change: x   replaces the baseline (seasonal pattern + trend) with x
+#   add: x      adds x percentage points on top of the baseline, for a one-off
+#               (e.g. a duty rise the usual seasonal pattern doesn't contain)
+# status: announced | assumed  (assumed = our judgement, not yet confirmed)
+overrides:
+  # Alcohol duty rises 4.55% (RPI) on 1 February 2027 (gov.uk, Budget 2026), but no
+  # override: duty also rose in February 2025 and 2026 and CPI alcohol showed no
+  # visible jump either time (spirits +0.3% and -1.6%, wine +0.5% and -1.3%, beer
+  # +1.7% and -1.8%), because January-sale promotions unwinding dominate February.
+  # The seasonal baseline is left to handle it.
+
+  # Regulated rail fares (England) were frozen until March 2027. If ministers repeat
+  # last year's formula (July RPI + 1 point) they rise 4.2% in March; not confirmed.
+  - {component: "07.3.1", month: "2027-03", change: 4.2, status: assumed,
+     why: "Rail fares: RPI (3.2%) + 1 point formula; government has not confirmed (AJ Bell, Nov 2026)"}
+
+  # To add when announced (within the horizon to April 2027):
+  #   04.4.1 / 04.4.3 water and sewerage bills, April 2027 (Ofwat / Water UK, ~February)
+  #   08.2 mobile and broadband April price rises (in £ and pence since Jan 2025)
+  #   02.2 tobacco: RPI+2% escalator, usually from Budget day (shows in November)
+  #   09.4 TV licence fee, April

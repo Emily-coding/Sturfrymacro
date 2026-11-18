@@ -10,7 +10,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from ukmacro import boe, hmrc_trade, nomis, obr, oecd, ons  # noqa: E402
+from ukmacro import boe, energy, hmrc_trade, nomis, obr, oecd, ons  # noqa: E402
 
 CHECKS = {
     "ONS (ABMI real GDP)": lambda: ons.fetch("ABMI", "QNA", "Q")["obs"][-1],
@@ -22,6 +22,8 @@ CHECKS = {
         select="date_name,obs_value")[0],
     "HMRC uktradeinfo (one CN8 code)": lambda: len(hmrc_trade.ots(28259060, 202501, 202501)),
     "OBR (download links)": lambda: sorted(obr.find("historical-official-forecasts")),
+    "Ofgem (latest price cap)": lambda: list(energy.price_cap().items())[-1],
+    "DESNZ (latest weekly pump prices)": lambda: energy.pump_prices()[-1],
 }
 
 failed = 0

@@ -6,7 +6,7 @@
  "title": "CPI inflation: short-term forecast",
  "units": "% change on a year earlier",
  "source": "ONS; Bank of England; Sturfrymacro short-term inflation forecast",
- "note": "Our forecast adds up projections for 84 CPI components (seasonal pattern plus recent trend). Electricity, gas and motor fuels follow Bank of England staff projections (November 2026 MPR).",
+ "note": "Our forecast adds up projections for 84 CPI components (seasonal pattern plus recent trend, with a calendar of known price changes). Energy: Electricity from Ofgem price cap to 2026-12, then our price cap assumption to 2027-03; gas from Ofgem price cap to 2026-12, then our price cap assumption to 2027-03; motor fuels from pump prices to 2026-11-16. Beyond those, Bank of England staff projections (November 2026 MPR).",
  "series": [
   {
    "key": "cpi",
@@ -170,22 +170,22 @@
   },
   {
    "date": "2026-11",
-   "stif": 3.9,
-   "boe": 3.8
-  },
-  {
-   "date": "2026-12",
    "stif": 3.7,
    "boe": 3.8
   },
   {
+   "date": "2026-12",
+   "stif": 3.6,
+   "boe": 3.8
+  },
+  {
    "date": "2027-01",
-   "stif": 4.2,
+   "stif": 4.0,
    "boe": 4.3
   },
   {
    "date": "2027-02",
-   "stif": 4.2,
+   "stif": 4.0,
    "boe": 4.5
   },
   {
@@ -195,7 +195,7 @@
   },
   {
    "date": "2027-04",
-   "stif": 3.8
+   "stif": 3.7
   }
  ],
  "theme": "blue-amber",

@@ -21,7 +21,7 @@ HERE = Path(__file__).resolve().parent
 REPO = HERE.parent.parent
 sys.path.insert(0, str(REPO))  # repo root, so `ukmacro` imports
 
-from ukmacro import boe_mpr, charts  # noqa: E402
+from ukmacro import boe_mpr, charts, energy as energy_data  # noqa: E402
 from ukmacro.builder import run  # noqa: E402
 from ukmacro.mm23 import MM23  # noqa: E402
 
@@ -48,15 +48,32 @@ def build_stif() -> None:
     except Exception as e:  # noqa: BLE001
         print(f"stif: Bank of England projections unavailable ({e}); energy uses the baseline", file=sys.stderr)
 
-    assumptions = stif.load_assumptions()
-    f = stif.forecast(indices, weights, headline, last, energy=energy, assumptions=assumptions)
+    # Ofgem price caps and weekly pump prices: if either fails, the Bank's path is used instead
+    caps = pumps = None
+    try:
+        caps = energy_data.price_cap()
+    except Exception as e:  # noqa: BLE001
+        print(f"stif: Ofgem price cap unavailable ({e})", file=sys.stderr)
+    try:
+        pumps = energy_data.pump_prices()
+    except Exception as e:  # noqa: BLE001
+        print(f"stif: pump prices unavailable ({e})", file=sys.stderr)
 
-    # The backtest takes ~30 seconds, so only redo it when there's a new month of data
+    assumptions = stif.load_assumptions()
+    f = stif.forecast(indices, weights, headline, last, energy=energy, assumptions=assumptions,
+                      caps=caps, pumps=pumps)
+    names = {"04.5.1": "Electricity", "04.5.2": "gas", "07.2.2": "motor fuels"}
+    if f["sources"]:
+        energy_note = "Energy: " + "; ".join(f"{names[c]} from {src}" for c, src in f["sources"].items()) + \
+                      ". Beyond those, " + (f"Bank of England staff projections ({label} MPR)." if energy
+                                            else "the seasonal baseline.")
+
+    # The backtest takes ~1 minute, so only redo it when there's a new month of data
     path = OUT / "stif.json"
     old = json.loads(path.read_text()) if path.exists() else {}
     by_horizon = old.get("backtest", {}).get("by_horizon") if old.get("data_through") == last else None
-    if not by_horizon:
-        by_horizon = stif.backtest(indices, weights, headline)
+    if not by_horizon or "stif_energy" not in by_horizon.get("1", {}):
+        by_horizon = stif.backtest(indices, weights, headline, caps=caps, pumps=pumps)
 
     result = {
         "data_through": last,
@@ -65,9 +82,12 @@ def build_stif() -> None:
                       "contributions": {g: f["contributions"][g][m] for g in stif.GROUPS}} for m in f["rate"]],
         "energy": energy_note,
         "overrides": assumptions.get("overrides") or [],
+        "energy_sources": f["sources"],
+        "price_cap_projections": assumptions.get("price_cap") or [],
         "backtest": {"note": "Mean absolute error in the 12-month CPI rate (percentage points) of forecasts "
-                             "made each month since 2017 (excluding 2020-21), using only data available then "
-                             "and no energy information. 'no_change' assumes inflation stays at its latest rate.",
+                             "made each month since 2017 (excluding 2020-21), using only data available then. "
+                             "'stif': no energy information; 'stif_energy': with the Ofgem price caps and "
+                             "pump prices known on the day; 'no_change': inflation stays at its latest rate.",
                      "by_horizon": by_horizon},
     }
     path.write_text(json.dumps(result, indent=1) + "\n")
@@ -90,7 +110,8 @@ def build_stif() -> None:
         "title": "CPI inflation: short-term forecast",
         "units": "% change on a year earlier",
         "source": "ONS; Bank of England; Sturfrymacro short-term inflation forecast",
-        "note": "Our forecast adds up projections for 84 CPI components (seasonal pattern plus recent trend). " + energy_note,
+        "note": "Our forecast adds up projections for 84 CPI components (seasonal pattern plus recent trend, "
+                "with a calendar of known price changes). " + energy_note,
         # Bank of England in amber and ours in teal, matching the dashboard's Bank colour
         "series": [{"key": "cpi", "label": "CPI inflation (ONS)", "no_end_label": True},
                    {"key": "stif", "label": "Our forecast", "dash": True, "slot": 2},

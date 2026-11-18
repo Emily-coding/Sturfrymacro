@@ -4,36 +4,36 @@
  "forecast": [
   {
    "month": "2026-11",
-   "cpi": 3.88,
+   "cpi": 3.73,
    "contributions": {
-    "Energy": 1.18,
+    "Energy": 1.03,
     "Food and non-alcoholic drinks": 0.13,
     "Everything else": 2.56
    }
   },
   {
    "month": "2026-12",
-   "cpi": 3.73,
+   "cpi": 3.57,
    "contributions": {
-    "Energy": 1.14,
+    "Energy": 0.97,
     "Food and non-alcoholic drinks": 0.1,
     "Everything else": 2.5
    }
   },
   {
    "month": "2027-01",
-   "cpi": 4.16,
+   "cpi": 3.98,
    "contributions": {
-    "Energy": 1.71,
+    "Energy": 1.53,
     "Food and non-alcoholic drinks": 0.1,
-    "Everything else": 2.36
+    "Everything else": 2.35
    }
   },
   {
    "month": "2027-02",
-   "cpi": 4.21,
+   "cpi": 4.05,
    "contributions": {
-    "Energy": 1.73,
+    "Energy": 1.57,
     "Food and non-alcoholic drinks": 0.13,
     "Everything else": 2.35
    }
@@ -42,54 +42,81 @@
    "month": "2027-03",
    "cpi": 3.8,
    "contributions": {
-    "Energy": 1.28,
+    "Energy": 1.24,
     "Food and non-alcoholic drinks": 0.09,
-    "Everything else": 2.43
+    "Everything else": 2.47
    }
   },
   {
    "month": "2027-04",
-   "cpi": 3.77,
+   "cpi": 3.7,
    "contributions": {
-    "Energy": 1.12,
+    "Energy": 1.06,
     "Food and non-alcoholic drinks": 0.11,
     "Everything else": 2.54
    }
   }
  ],
- "energy": "Electricity, gas and motor fuels follow Bank of England staff projections (November 2026 MPR).",
- "overrides": [],
+ "energy": "Energy: Electricity from Ofgem price cap to 2026-12, then our price cap assumption to 2027-03; gas from Ofgem price cap to 2026-12, then our price cap assumption to 2027-03; motor fuels from pump prices to 2026-11-16. Beyond those, Bank of England staff projections (November 2026 MPR).",
+ "overrides": [
+  {
+   "component": "07.3.1",
+   "month": "2027-03",
+   "change": 4.2,
+   "status": "assumed",
+   "why": "Rail fares: RPI (3.2%) + 1 point formula; government has not confirmed (AJ Bell, Nov 2026)"
+  }
+ ],
+ "energy_sources": {
+  "04.5.1": "Ofgem price cap to 2026-12, then our price cap assumption to 2027-03",
+  "04.5.2": "Ofgem price cap to 2026-12, then our price cap assumption to 2027-03",
+  "07.2.2": "pump prices to 2026-11-16"
+ },
+ "price_cap_projections": [
+  {
+   "month": "2027-01",
+   "electricity": 16.0,
+   "gas": 16.0,
+   "why": "Cornwall Insight forecast for January-March 2027: typical dual-fuel bill up 16% on October to \u00a31,999 (cornwall-insight.com, November 2026). No electricity/gas split published, so the same % is used for both. Ofgem announces by 25 November."
+  }
+ ],
  "backtest": {
-  "note": "Mean absolute error in the 12-month CPI rate (percentage points) of forecasts made each month since 2017 (excluding 2020-21), using only data available then and no energy information. 'no_change' assumes inflation stays at its latest rate.",
+  "note": "Mean absolute error in the 12-month CPI rate (percentage points) of forecasts made each month since 2017 (excluding 2020-21), using only data available then. 'stif': no energy information; 'stif_energy': with the Ofgem price caps and pump prices known on the day; 'no_change': inflation stays at its latest rate.",
   "by_horizon": {
    "1": {
     "stif": 0.23,
     "no_change": 0.31,
+    "stif_energy": 0.2,
     "n": 93
    },
    "2": {
     "stif": 0.38,
     "no_change": 0.5,
+    "stif_energy": 0.34,
     "n": 92
    },
    "3": {
     "stif": 0.49,
     "no_change": 0.67,
+    "stif_energy": 0.47,
     "n": 91
    },
    "4": {
-    "stif": 0.65,
+    "stif": 0.64,
     "no_change": 0.81,
+    "stif_energy": 0.61,
     "n": 90
    },
    "5": {
     "stif": 0.78,
     "no_change": 0.96,
+    "stif_energy": 0.73,
     "n": 89
    },
    "6": {
     "stif": 0.89,
     "no_change": 1.1,
+    "stif_energy": 0.84,
     "n": 88
    }
   }

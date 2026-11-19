@@ -19,7 +19,7 @@
    "key": "us",
    "label": "US",
    "_source": "live",
-   "_date": "2026-11-17",
+   "_date": "2026-11-18",
    "source_url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates"
   },
   {
@@ -7609,7 +7609,7 @@
   {
    "date": "2026-11-18",
    "uk": null,
-   "us": null,
+   "us": 5.07,
    "de": 3.41
   }
  ],

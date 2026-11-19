@@ -12,18 +12,18 @@
    "key": "brent",
    "label": "Brent",
    "_source": "live",
-   "_date": "2026-11-11",
+   "_date": "2026-11-17",
    "source_url": "https://www.eia.gov/dnav/pet/pet_pri_spt_s1_d.htm"
   },
   {
    "key": "wti",
    "label": "WTI",
    "_source": "live",
-   "_date": "2026-11-11",
+   "_date": "2026-11-17",
    "source_url": "https://www.eia.gov/dnav/pet/pet_pri_spt_s1_d.htm"
   }
  ],
- "data_through": "2026-11-11",
+ "data_through": "2026-11-17",
  "next_release": null,
  "status": "ok",
  "data": [
@@ -6281,6 +6281,26 @@
    "date": "2026-11-11",
    "brent": 92.14,
    "wti": 89.62
+  },
+  {
+   "date": "2026-11-12",
+   "brent": 95.42,
+   "wti": 92.3
+  },
+  {
+   "date": "2026-11-13",
+   "brent": 95.17,
+   "wti": 91.96
+  },
+  {
+   "date": "2026-11-16",
+   "brent": 92.9,
+   "wti": 89.24
+  },
+  {
+   "date": "2026-11-17",
+   "brent": 92.94,
+   "wti": 89.53
   }
  ],
  "theme": "blue-amber",

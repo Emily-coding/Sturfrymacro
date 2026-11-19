@@ -19714,10 +19714,14 @@
 [
 "2026-11-17",
 5.1
+],
+[
+"2026-11-18",
+5.07
 ]
 ],
 "source_url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates",
-"stored": "2026-11-18"
+"stored": "2026-11-19"
 },
 "ftse-100/ftse100": {
 "obs": [
@@ -24647,11 +24651,11 @@
 ],
 [
 "2026-11-18",
-10553.33
+10551.2
 ]
 ],
 "source_url": "https://finance.yahoo.com/quote/%5EFTSE/",
-"stored": "2026-11-18"
+"stored": "2026-11-19"
 },
 "gas-price-uk/gas": {
 "obs": [
@@ -29804,10 +29808,26 @@
 [
 "2026-11-11",
 92.14
+],
+[
+"2026-11-12",
+95.42
+],
+[
+"2026-11-13",
+95.17
+],
+[
+"2026-11-16",
+92.9
+],
+[
+"2026-11-17",
+92.94
 ]
 ],
 "source_url": "https://www.eia.gov/dnav/pet/pet_pri_spt_s1_d.htm",
-"stored": "2026-11-13"
+"stored": "2026-11-19"
 },
 "oil-prices/wti": {
 "obs": [
@@ -34666,10 +34686,26 @@
 [
 "2026-11-11",
 89.62
+],
+[
+"2026-11-12",
+92.3
+],
+[
+"2026-11-13",
+91.96
+],
+[
+"2026-11-16",
+89.24
+],
+[
+"2026-11-17",
+89.53
 ]
 ],
 "source_url": "https://www.eia.gov/dnav/pet/pet_pri_spt_s1_d.htm",
-"stored": "2026-11-13"
+"stored": "2026-11-19"
 },
 "sterling/eur": {
 "obs": [

@@ -4928,10 +4928,14 @@
 [
 "2026-11-18",
 4.0
+],
+[
+"2026-11-19",
+4.0
 ]
 ],
 "source_url": "https://www.bankofengland.co.uk/boeapps/database/",
-"stored": "2026-11-19"
+"stored": "2026-11-20"
 },
 "bond-yields-10y/de": {
 "obs": [
@@ -9918,10 +9922,14 @@
 [
 "2026-11-19",
 3.42
+],
+[
+"2026-11-20",
+3.37
 ]
 ],
 "source_url": "https://www.bundesbank.de/en/statistics/money-and-capital-markets/interest-rates-and-yields",
-"stored": "2026-11-19"
+"stored": "2026-11-20"
 },
 "bond-yields-10y/uk": {
 "obs": [
@@ -14848,10 +14856,14 @@
 [
 "2026-11-17",
 5.352
+],
+[
+"2026-11-18",
+5.268
 ]
 ],
 "source_url": "https://www.bankofengland.co.uk/boeapps/database/",
-"stored": "2026-11-19"
+"stored": "2026-11-20"
 },
 "bond-yields-10y/us": {
 "obs": [
@@ -24672,6 +24684,10 @@
 [
 "2026-11-19",
 10452.7
+],
+[
+"2026-11-20",
+10356.54
 ]
 ],
 "source_url": "https://finance.yahoo.com/quote/%5EFTSE/",
@@ -39656,10 +39672,14 @@
 [
 "2026-11-18",
 1.1989
+],
+[
+"2026-11-19",
+1.1945
 ]
 ],
 "source_url": "https://www.bankofengland.co.uk/boeapps/database/",
-"stored": "2026-11-19"
+"stored": "2026-11-20"
 },
 "sterling/usd": {
 "obs": [
@@ -44590,9 +44610,13 @@
 [
 "2026-11-18",
 1.3148
+],
+[
+"2026-11-19",
+1.3119
 ]
 ],
 "source_url": "https://www.bankofengland.co.uk/boeapps/database/",
-"stored": "2026-11-19"
+"stored": "2026-11-20"
 }
 }

@@ -12,7 +12,7 @@
    "key": "uk",
    "label": "UK",
    "_source": "live",
-   "_date": "2026-11-18",
+   "_date": "2026-11-19",
    "source_url": "https://www.bankofengland.co.uk/boeapps/database/"
   },
   {
@@ -26,11 +26,11 @@
    "key": "de",
    "label": "Germany",
    "_source": "live",
-   "_date": "2026-11-20",
+   "_date": "2026-11-23",
    "source_url": "https://www.bundesbank.de/en/statistics/money-and-capital-markets/interest-rates-and-yields"
   }
  ],
- "data_through": "2026-11-20",
+ "data_through": "2026-11-23",
  "next_release": null,
  "status": "ok",
  "data": [
@@ -7614,7 +7614,7 @@
   },
   {
    "date": "2026-11-19",
-   "uk": null,
+   "uk": 5.2885,
    "us": 5.04,
    "de": 3.42
   },
@@ -7623,6 +7623,12 @@
    "uk": null,
    "us": 4.92,
    "de": 3.37
+  },
+  {
+   "date": "2026-11-23",
+   "uk": null,
+   "us": null,
+   "de": 3.35
   }
  ],
  "theme": "blue-amber",

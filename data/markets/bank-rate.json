@@ -12,11 +12,11 @@
    "key": "bank_rate",
    "label": "Bank Rate",
    "_source": "live",
-   "_date": "2026-11-19",
+   "_date": "2026-11-20",
    "source_url": "https://www.bankofengland.co.uk/boeapps/database/"
   }
  ],
- "data_through": "2026-11-19",
+ "data_through": "2026-11-20",
  "next_release": null,
  "status": "ok",
  "data": [
@@ -4950,6 +4950,10 @@
   },
   {
    "date": "2026-11-19",
+   "bank_rate": 4.0
+  },
+  {
+   "date": "2026-11-20",
    "bank_rate": 4.0
   }
  ],

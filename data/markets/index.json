@@ -12,7 +12,7 @@
   {
    "slug": "bank-rate",
    "title": "Bank Rate",
-   "data_through": "2026-11-19",
+   "data_through": "2026-11-20",
    "next_release": null,
    "status": "ok"
   },
@@ -40,7 +40,7 @@
   {
    "slug": "sterling",
    "title": "Sterling exchange rates",
-   "data_through": "2026-11-18",
+   "data_through": "2026-11-20",
    "next_release": null,
    "status": "ok"
   }

@@ -4,60 +4,60 @@
  "forecast": [
   {
    "month": "2026-11",
-   "cpi": 3.73,
+   "cpi": 3.7,
    "contributions": {
-    "Energy": 1.03,
+    "Energy": 1.0,
     "Food and non-alcoholic drinks": 0.13,
-    "Everything else": 2.56
+    "Everything else": 2.57
    }
   },
   {
    "month": "2026-12",
-   "cpi": 3.57,
+   "cpi": 3.48,
    "contributions": {
-    "Energy": 0.97,
+    "Energy": 0.89,
     "Food and non-alcoholic drinks": 0.1,
     "Everything else": 2.5
    }
   },
   {
    "month": "2027-01",
-   "cpi": 3.98,
+   "cpi": 3.9,
    "contributions": {
-    "Energy": 1.53,
+    "Energy": 1.45,
     "Food and non-alcoholic drinks": 0.1,
-    "Everything else": 2.35
+    "Everything else": 2.36
    }
   },
   {
    "month": "2027-02",
-   "cpi": 4.05,
+   "cpi": 3.96,
    "contributions": {
-    "Energy": 1.57,
+    "Energy": 1.49,
     "Food and non-alcoholic drinks": 0.13,
     "Everything else": 2.35
    }
   },
   {
    "month": "2027-03",
-   "cpi": 3.8,
+   "cpi": 3.71,
    "contributions": {
-    "Energy": 1.24,
+    "Energy": 1.15,
     "Food and non-alcoholic drinks": 0.09,
     "Everything else": 2.47
    }
   },
   {
    "month": "2027-04",
-   "cpi": 3.7,
+   "cpi": 3.61,
    "contributions": {
-    "Energy": 1.06,
+    "Energy": 0.98,
     "Food and non-alcoholic drinks": 0.11,
-    "Everything else": 2.54
+    "Everything else": 2.52
    }
   }
  ],
- "energy": "Energy: Electricity from Ofgem price cap to 2026-12, then our price cap assumption to 2027-03; gas from Ofgem price cap to 2026-12, then our price cap assumption to 2027-03; motor fuels from pump prices to 2026-11-16. Beyond those, Bank of England staff projections (November 2026 MPR).",
+ "energy": "Energy: Electricity from Ofgem price cap to 2026-12, then our price cap assumption to 2027-03; gas from Ofgem price cap to 2026-12, then our price cap assumption to 2027-03; motor fuels from pump prices to 2026-11-23. Beyond those, Bank of England staff projections (November 2026 MPR).",
  "overrides": [
   {
    "component": "07.3.1",
@@ -70,7 +70,7 @@
  "energy_sources": {
   "04.5.1": "Ofgem price cap to 2026-12, then our price cap assumption to 2027-03",
   "04.5.2": "Ofgem price cap to 2026-12, then our price cap assumption to 2027-03",
-  "07.2.2": "pump prices to 2026-11-16"
+  "07.2.2": "pump prices to 2026-11-23"
  },
  "price_cap_projections": [
   {

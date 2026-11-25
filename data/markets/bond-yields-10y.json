@@ -12,14 +12,14 @@
    "key": "uk",
    "label": "UK",
    "_source": "live",
-   "_date": "2026-11-20",
+   "_date": "2026-11-23",
    "source_url": "https://www.bankofengland.co.uk/boeapps/database/"
   },
   {
    "key": "us",
    "label": "US",
    "_source": "live",
-   "_date": "2026-11-23",
+   "_date": "2026-11-24",
    "source_url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates"
   },
   {
@@ -7626,14 +7626,14 @@
   },
   {
    "date": "2026-11-23",
-   "uk": null,
+   "uk": 5.1793,
    "us": 4.92,
    "de": 3.35
   },
   {
    "date": "2026-11-24",
    "uk": null,
-   "us": null,
+   "us": 4.91,
    "de": 3.31
   }
  ],

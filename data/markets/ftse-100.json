@@ -12,11 +12,11 @@
    "key": "ftse100",
    "label": "FTSE 100",
    "_source": "live",
-   "_date": "2026-11-24",
+   "_date": "2026-11-25",
    "source_url": "https://finance.yahoo.com/quote/%5EFTSE/"
   }
  ],
- "data_through": "2026-11-24",
+ "data_through": "2026-11-25",
  "next_release": null,
  "status": "ok",
  "data": [
@@ -4962,7 +4962,11 @@
   },
   {
    "date": "2026-11-24",
-   "ftse100": 10467.07
+   "ftse100": 10467.1
+  },
+  {
+   "date": "2026-11-25",
+   "ftse100": 10509.66
   }
  ],
  "theme": "blue-amber",

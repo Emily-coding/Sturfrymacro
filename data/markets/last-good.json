@@ -9946,10 +9946,14 @@
 [
 "2026-11-24",
 3.31
+],
+[
+"2026-11-25",
+3.27
 ]
 ],
 "source_url": "https://www.bundesbank.de/en/statistics/money-and-capital-markets/interest-rates-and-yields",
-"stored": "2026-11-24"
+"stored": "2026-11-25"
 },
 "bond-yields-10y/uk": {
 "obs": [
@@ -24743,7 +24747,7 @@
 ],
 [
 "2026-11-25",
-10509.66
+10426.94
 ]
 ],
 "source_url": "https://finance.yahoo.com/quote/%5EFTSE/",
@@ -29916,10 +29920,30 @@
 [
 "2026-11-17",
 92.94
+],
+[
+"2026-11-18",
+92.88
+],
+[
+"2026-11-19",
+95.17
+],
+[
+"2026-11-20",
+92.76
+],
+[
+"2026-11-23",
+91.2
+],
+[
+"2026-11-24",
+91.8
 ]
 ],
 "source_url": "https://www.eia.gov/dnav/pet/pet_pri_spt_s1_d.htm",
-"stored": "2026-11-19"
+"stored": "2026-11-25"
 },
 "oil-prices/wti": {
 "obs": [

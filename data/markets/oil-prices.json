@@ -12,7 +12,7 @@
    "key": "brent",
    "label": "Brent",
    "_source": "live",
-   "_date": "2026-11-17",
+   "_date": "2026-11-24",
    "source_url": "https://www.eia.gov/dnav/pet/pet_pri_spt_s1_d.htm"
   },
   {
@@ -23,7 +23,7 @@
    "source_url": "https://www.eia.gov/dnav/pet/pet_pri_spt_s1_d.htm"
   }
  ],
- "data_through": "2026-11-17",
+ "data_through": "2026-11-24",
  "next_release": null,
  "status": "ok",
  "data": [
@@ -6301,6 +6301,31 @@
    "date": "2026-11-17",
    "brent": 92.94,
    "wti": 89.53
+  },
+  {
+   "date": "2026-11-18",
+   "brent": 92.88,
+   "wti": null
+  },
+  {
+   "date": "2026-11-19",
+   "brent": 95.17,
+   "wti": null
+  },
+  {
+   "date": "2026-11-20",
+   "brent": 92.76,
+   "wti": null
+  },
+  {
+   "date": "2026-11-23",
+   "brent": 91.2,
+   "wti": null
+  },
+  {
+   "date": "2026-11-24",
+   "brent": 91.8,
+   "wti": null
   }
  ],
  "theme": "blue-amber",

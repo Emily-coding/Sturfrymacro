@@ -5,7 +5,7 @@
   {
    "slug": "bond-yields-10y",
    "title": "10-year government bond yields",
-   "data_through": "2026-11-24",
+   "data_through": "2026-11-25",
    "next_release": null,
    "status": "ok"
   },
@@ -19,7 +19,7 @@
   {
    "slug": "oil-prices",
    "title": "Crude oil prices",
-   "data_through": "2026-11-17",
+   "data_through": "2026-11-24",
    "next_release": null,
    "status": "ok"
   },

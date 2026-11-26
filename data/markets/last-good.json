@@ -19794,10 +19794,14 @@
 [
 "2026-11-24",
 4.91
+],
+[
+"2026-11-25",
+4.85
 ]
 ],
 "source_url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates",
-"stored": "2026-11-25"
+"stored": "2026-11-26"
 },
 "ftse-100/ftse100": {
 "obs": [
@@ -24747,11 +24751,11 @@
 ],
 [
 "2026-11-25",
-10426.94
+10426.9
 ]
 ],
 "source_url": "https://finance.yahoo.com/quote/%5EFTSE/",
-"stored": "2026-11-25"
+"stored": "2026-11-26"
 },
 "gas-price-uk/gas": {
 "obs": [
@@ -34818,10 +34822,30 @@
 [
 "2026-11-17",
 89.53
+],
+[
+"2026-11-18",
+86.81
+],
+[
+"2026-11-19",
+86.78
+],
+[
+"2026-11-20",
+87.59
+],
+[
+"2026-11-23",
+81.42
+],
+[
+"2026-11-24",
+82.24
 ]
 ],
 "source_url": "https://www.eia.gov/dnav/pet/pet_pri_spt_s1_d.htm",
-"stored": "2026-11-19"
+"stored": "2026-11-26"
 },
 "sterling/eur": {
 "obs": [

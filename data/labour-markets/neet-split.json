@@ -5,8 +5,8 @@
  "source": "ONS NEET table",
  "next_release": null,
  "status": "ok",
- "source_url": "https://www.ons.gov.uk/file?uri=/employmentandlabourmarket/peoplenotinwork/unemployment/datasets/youngpeoplenotineducationemploymentortrainingneettable1/current/notineducationemploymentortrainingaj26.xlsx",
- "data_through": "2026-Q2",
+ "source_url": "https://www.ons.gov.uk/file?uri=/employmentandlabourmarket/peoplenotinwork/unemployment/datasets/youngpeoplenotineducationemploymentortrainingneettable1/current/notineducationemploymentortrainingjs26.xlsx",
+ "data_through": "2026-Q3",
  "decimals": 1,
  "slug": "neet-split",
  "title": "NEETs aged 16-24: unemployed or inactive",
@@ -517,6 +517,11 @@
    "date": "2026-Q2",
    "inactive": 7.8,
    "unemployed": 5.21
+  },
+  {
+   "date": "2026-Q3",
+   "inactive": 7.88,
+   "unemployed": 4.8
   }
  ],
  "theme": "blue-amber",

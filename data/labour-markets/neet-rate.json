@@ -5,8 +5,8 @@
  "source": "ONS NEET table",
  "next_release": null,
  "status": "ok",
- "source_url": "https://www.ons.gov.uk/file?uri=/employmentandlabourmarket/peoplenotinwork/unemployment/datasets/youngpeoplenotineducationemploymentortrainingneettable1/current/notineducationemploymentortrainingaj26.xlsx",
- "data_through": "2026-Q2",
+ "source_url": "https://www.ons.gov.uk/file?uri=/employmentandlabourmarket/peoplenotinwork/unemployment/datasets/youngpeoplenotineducationemploymentortrainingneettable1/current/notineducationemploymentortrainingjs26.xlsx",
+ "data_through": "2026-Q3",
  "decimals": 1,
  "slug": "neet-rate",
  "title": "Young people not in education, employment or training (NEET)",
@@ -517,6 +517,11 @@
    "date": "2026-Q2",
    "a16_24": 13.01,
    "a18_24": 15.15
+  },
+  {
+   "date": "2026-Q3",
+   "a16_24": 12.68,
+   "a18_24": 14.63
   }
  ],
  "theme": "blue-amber",

@@ -2125,19 +2125,15 @@
 ],
 [
 "2026-Q1",
--6.778299371
+-6.758908749
 ],
 [
 "2026-Q2",
--6.594112148
-],
-[
-"2026-Q3",
--7.670089009
+-6.943085442
 ]
 ],
 "source_url": "https://data-explorer.oecd.org",
-"stored": "2026-11-26"
+"stored": "2026-11-27"
 },
 "investment-g7/fra": {
 "obs": [
@@ -2699,11 +2695,11 @@
 ],
 [
 "2026-Q3",
-26.170802522
+25.414423394
 ]
 ],
 "source_url": "https://data-explorer.oecd.org",
-"stored": "2026-11-26"
+"stored": "2026-11-27"
 },
 "investment-level/business": {
 "next_release": "2026-12-22",

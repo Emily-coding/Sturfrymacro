@@ -1,0 +1,18 @@
+# Public finances: the ONS monthly public sector finances release (dataset PUSF),
+# published around the 20th of each month. Borrowing is spending minus receipts
+# (it matches the ONS's own net borrowing series, J5II, which the ONS records with
+# the opposite sign), so only the two parts are fetched. Codes verified 2026-11-28.
+category: public-finances
+title: Public finances
+
+charts:
+  - slug: psf-monthly
+    title: Public sector receipts and spending, monthly
+    units: "£ million"
+    freq: M
+    start: "2024-04"
+    source: ONS Public sector finances
+    note: Excluding public sector banks; not seasonally adjusted. Recent months are revised, often by a few £ billion.
+    series:
+      - {source: ons, key: receipts, label: Current receipts, cdid: JW2O, dataset: PUSF}
+      - {source: ons, key: spending, label: Total managed expenditure, cdid: KX5Q, dataset: PUSF}

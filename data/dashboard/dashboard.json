@@ -3464,6 +3464,283 @@
    ]
   },
   {
+   "id": "public-finances",
+   "title": "Public finances",
+   "box": {
+    "latest": [
+     {
+      "label": "Borrowing so far this year",
+      "period": "April to October 2026",
+      "value": 111.3,
+      "prefix": "£",
+      "unit": "bn"
+     },
+     {
+      "label": "Borrowing",
+      "period": "October 2026",
+      "value": 17.0,
+      "prefix": "£",
+      "unit": "bn"
+     }
+    ],
+    "forecasts": [
+     {
+      "card": "Compared with the OBR",
+      "heading": "Borrowing, April to October 2026",
+      "release": "2026-12-22",
+      "prefix": "£",
+      "unit": "bn",
+      "decimals": 1,
+      "items": [
+       {
+        "who": "OBR profile (March 2026 EFO)",
+        "colour": "#27AB83",
+        "value": 108.0
+       },
+       {
+        "who": "October 2026 EFO (our rough profile)",
+        "colour": "#102A43",
+        "value": 114.9
+       }
+      ],
+      "note": "Actual £111.3bn: £3.2bn above the March 2026 profile (receipts £9.0bn above, spending £12.2bn above); £3.6bn below our rough profile for the October 2026 forecast."
+     },
+     {
+      "card": "Whole year",
+      "heading": "Borrowing in 2026-27",
+      "prefix": "£",
+      "unit": "bn",
+      "decimals": 1,
+      "items": [
+       {
+        "who": "March 2026 EFO",
+        "colour": "#27AB83",
+        "value": 115.5
+       },
+       {
+        "who": "October 2026 EFO",
+        "colour": "#102A43",
+        "value": 133.2
+       }
+      ]
+     }
+    ]
+   },
+   "charts": [
+    {
+     "title": "Borrowing so far in 2026-27",
+     "units": "£ billion, added up from April",
+     "freq": "M",
+     "month_axis": true,
+     "decimals": 0,
+     "lines": [
+      {
+       "name": "2026-27 so far (ONS)",
+       "kind": "outturn",
+       "colour": "#186FAF",
+       "data": [
+        [
+         "2026-04",
+         23.11
+        ],
+        [
+         "2026-05",
+         42.16
+        ],
+        [
+         "2026-06",
+         55.2
+        ],
+        [
+         "2026-07",
+         54.95
+        ],
+        [
+         "2026-08",
+         71.39
+        ],
+        [
+         "2026-09",
+         94.27
+        ],
+        [
+         "2026-10",
+         111.3
+        ]
+       ]
+      },
+      {
+       "name": "2025-26, same months",
+       "kind": "outturn",
+       "colour": "#9FB3C8",
+       "data": [
+        [
+         "2026-04",
+         20.17
+        ],
+        [
+         "2026-05",
+         38.43
+        ],
+        [
+         "2026-06",
+         62.72
+        ],
+        [
+         "2026-07",
+         64.22
+        ],
+        [
+         "2026-08",
+         79.59
+        ],
+        [
+         "2026-09",
+         102.37
+        ],
+        [
+         "2026-10",
+         118.56
+        ],
+        [
+         "2026-11",
+         128.5
+        ],
+        [
+         "2026-12",
+         141.44
+        ],
+        [
+         "2027-01",
+         109.48
+        ],
+        [
+         "2027-02",
+         122.31
+        ],
+        [
+         "2027-03",
+         134.33
+        ]
+       ]
+      },
+      {
+       "name": "OBR profile (March 2026 EFO)",
+       "kind": "forecast",
+       "colour": "#27AB83",
+       "data": [
+        [
+         "2026-04",
+         20.94
+        ],
+        [
+         "2026-05",
+         38.61
+        ],
+        [
+         "2026-06",
+         54.87
+        ],
+        [
+         "2026-07",
+         54.38
+        ],
+        [
+         "2026-08",
+         69.16
+        ],
+        [
+         "2026-09",
+         91.8
+        ],
+        [
+         "2026-10",
+         108.05
+        ],
+        [
+         "2026-11",
+         121.36
+        ],
+        [
+         "2026-12",
+         131.16
+        ],
+        [
+         "2027-01",
+         96.91
+        ],
+        [
+         "2027-02",
+         101.77
+        ],
+        [
+         "2027-03",
+         115.46
+        ]
+       ]
+      },
+      {
+       "name": "October 2026 EFO (our rough monthly profile)",
+       "kind": "forecast",
+       "colour": "#102A43",
+       "data": [
+        [
+         "2026-04",
+         23.11
+        ],
+        [
+         "2026-05",
+         42.16
+        ],
+        [
+         "2026-06",
+         55.2
+        ],
+        [
+         "2026-07",
+         54.95
+        ],
+        [
+         "2026-08",
+         71.39
+        ],
+        [
+         "2026-09",
+         96.4
+        ],
+        [
+         "2026-10",
+         114.89
+        ],
+        [
+         "2026-11",
+         130.38
+        ],
+        [
+         "2026-12",
+         142.4
+        ],
+        [
+         "2027-01",
+         110.03
+        ],
+        [
+         "2027-02",
+         117.03
+        ],
+        [
+         "2027-03",
+         133.2
+        ]
+       ]
+      }
+     ],
+     "note": "Public sector net borrowing excluding public sector banks, added up from April. Recent months are revised, often by a few £ billion. Comparing like months allows for the big seasonal swings (self-assessment tax in January and July, for example). The OBR hasn't yet published monthly profiles for its October 2026 forecast. Our rough one uses the ONS figures for the months it already knew (to August 2026) and spreads the rest of its annual receipts and spending in the earlier profile's pattern.",
+     "source": "ONS Public sector finances; OBR monthly profiles (March 2026 EFO) and October 2026 EFO"
+    }
+   ]
+  },
+  {
    "id": "markets",
    "title": "Financial markets",
    "box": {
@@ -3527,7 +3804,7 @@
        {
         "who": "OBR",
         "colour": "#27AB83",
-        "value": 78.0
+        "value": 78.1
        }
       ]
      }

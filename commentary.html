@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Market commentary · Sturfrymacro</title>
-<meta name="description" content="Fortnightly summary of external commentary on UK gilts, the Bank of England, fiscal policy and sterling.">
+<meta name="description" content="Weekly summary of external commentary on UK gilts, the Bank of England, fiscal policy and sterling.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:ital,opsz,wght@1,8..60,400&display=swap" rel="stylesheet">
 <style>
   /* Same house style as the dashboard (index.html): white page, Source Sans 3, blue-amber palette.
-     Layout: themes for the fortnight up top, then one row per note: who and when on the
+     Layout: themes for the week up top, then one row per note: who and when on the
      left, key points on the right. */
   :root {
     --ink: #102A43; --ink-2: #486581; --ink-3: #627D98; --grid: #D9E2EC;
@@ -24,6 +24,9 @@
   header { padding: 32px 0 12px; display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 16px; }
   h1 { font-size: 30px; font-weight: 700; margin: 0; letter-spacing: -0.01em; }
   .sub { color: var(--ink-2); margin: 4px 0 0; }
+  /* the "made by AI" disclaimer (same as assets/site.css) */
+  .credit { display: inline-block; margin: 10px 0 0; padding: 3px 10px; font-size: 13.5px; font-weight: 600;
+            color: var(--ink-2); background: var(--panel); border-radius: 999px; }
   nav { position: sticky; top: 0; background: rgba(255,255,255,0.96); border-bottom: 1px solid var(--grid); z-index: 5; }
   nav .wrap { display: flex; gap: 22px; padding-top: 10px; padding-bottom: 10px; }
   nav a { color: var(--ink-2); text-decoration: none; font-weight: 600; white-space: nowrap; }
@@ -71,11 +74,13 @@
 <header class="wrap">
   <div>
     <h1>Market commentary</h1>
-    <p class="sub" id="period">What external analysts said about UK markets, every fortnight.</p>
+    <p class="sub" id="period">What external analysts said about UK markets, every week.</p>
   </div>
-  <label class="picker" id="picker-wrap" hidden>Fortnight
+  <label class="picker" id="picker-wrap" hidden>Week
     <select id="picker"></select>
   </label>
+  <!-- disclaimer: how the site is made -->
+  <p class="credit">Made by AI in conjunction with economists. Figures may contain errors: not official statistics or financial advice.</p>
 </header>
 <nav><div class="wrap">
   <a href="./">Dashboard</a>
@@ -84,7 +89,7 @@
 <main class="wrap" id="main"><p class="state">Loading commentary…</p></main>
 <footer class="wrap">
   Summaries are in our own words, with a short quote and a link to each original. Free sources only;
-  paywalled research is not included. A new fortnight is added every other Tuesday.
+  paywalled research is not included. A new edition is added early every Friday.
   Built from <a href="https://github.com/Emily-coding/Sturfrymacro">github.com/Emily-coding/Sturfrymacro</a>
   (data in <code>data/commentary/editions.json</code>).
 </footer>
@@ -92,7 +97,7 @@
 <script>
 // Everything comes from data/commentary/editions.json: {editions: [{id, period_start,
 // period_end, themes: [{title, text}], entries: [{source, author, date, title, url, tag,
-// points: [...], quote}]}]}. A scheduled job adds a new edition every fortnight.
+// points: [...], quote}]}]}. A scheduled job adds a new edition every Friday.
 const $ = id => document.getElementById(id);
 const fmtDate = iso => new Date(iso + "T12:00:00").toLocaleDateString("en-GB", {day: "numeric", month: "short", year: "numeric"});
 const short = iso => new Date(iso + "T12:00:00").toLocaleDateString("en-GB", {day: "numeric", month: "long"});
@@ -105,7 +110,7 @@ function render(id) {
   $("period").textContent = `Summary: ${short(d.period_start)} to ${fmtDate(d.period_end)}`;
   const main = $("main"); main.replaceChildren();
   if ((d.themes || []).length) {
-    main.append(el("h2", null, "Themes this fortnight"));
+    main.append(el("h2", null, "Themes this week"));
     const grid = el("div", "themes");
     d.themes.forEach(t => { const c = el("div", "theme"); c.append(el("h3", null, t.title), el("p", null, t.text)); grid.append(c); });
     main.append(grid);

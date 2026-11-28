@@ -64,8 +64,12 @@
 
   const pct = factors => 100 * (factors.reduce((a, f) => a * (1 + f / 100), 1) - 1);
 
-  // a lever's path over the years: 0 before `start`, then rising to `size` over `phase` years
+  // a lever's path over the years: 0 before `start`, then rising to `size` over `phase` years;
+  // or, if the lever has `values`, one value per year (the "since the forecast" scenario
+  // sets levers this way; the last value carries on if the list is short)
   function path(lever, n) {
+    if (lever && Array.isArray(lever.values))
+      return Array.from({length: n}, (_, t) => lever.values[Math.min(t, lever.values.length - 1)] || 0);
     const {size = 0, start = 0, phase = 1} = lever || {};
     return Array.from({length: n}, (_, t) => t < start ? 0 : size * Math.min(1, (t - start + 1) / Math.max(1, phase)));
   }

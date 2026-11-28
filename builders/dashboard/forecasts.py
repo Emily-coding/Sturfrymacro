@@ -101,7 +101,10 @@ def obr_forecast() -> tuple[dict, dict]:
     # Market-derived assumptions (quarterly averages of futures prices and market
     # expectations at the OBR's cut-off). Equity prices are the FTSE All-Share index;
     # gas is in £ per therm, converted here to pence to match Ofgem's figures.
-    mkt = _obr_columns(wb["1.9"], {"bank_rate": "bank rate", "usd": "us$/£", "eur": "€/£",
+    # gilt_20y: the OBR's long-term interest rate assumption (20-year gilt yields), used by
+    # builders/dashboard/since.py to see how far market rates have moved since the forecast
+    mkt = _obr_columns(wb["1.9"], {"bank_rate": "bank rate", "gilt_20y": "long-term interest rates",
+                                   "usd": "us$/£", "eur": "€/£",
                                    "oil": "oil prices", "gas": "gas prices", "equities": "equity prices"})
     mkt["gas"] = [[q, v * 100] for q, v in mkt["gas"]]
     data = {k: {"obr": v} for k, v in {**gdp, **lab, **infl, **mkt}.items()}

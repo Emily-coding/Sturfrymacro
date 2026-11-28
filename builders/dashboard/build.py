@@ -35,6 +35,7 @@ REPO = HERE.parent.parent
 sys.path.insert(0, str(REPO))
 
 import forecasts  # noqa: E402
+import since  # noqa: E402
 import taylor  # noqa: E402
 
 OUT = REPO / "data" / "dashboard"
@@ -439,6 +440,124 @@ def day_label(d: str) -> str:
     return f"{int(d[8:])} {calendar.month_abbr[int(d[5:7])]} {d[:4]}"
 
 
+MONTHS_LONG = ["january", "february", "march", "april", "may", "june", "july", "august",
+               "september", "october", "november", "december"]
+
+
+def public_finances_section(fc, sources):
+    """Borrowing so far this financial year, against the OBR's monthly profile.
+
+    The OBR publishes, with each forecast, how it expects borrowing to be spread over
+    the months of the year (builders/public-finances/). Adding up the ONS monthly
+    figures and the profile over the same months shows whether borrowing is on track.
+    Until the OBR publishes profiles for its latest forecast, we also make a rough one
+    (clearly labelled as ours): the months whose figures were already out when that forecast
+    was made take the ONS figures, and the rest of the forecast's annual receipts and
+    spending is spread over the remaining months in the older profile's pattern."""
+    psf = chart_file("public-finances", "psf-monthly")
+    prof = json.loads((REPO / "data" / "public-finances" / "obr-profiles.json").read_text())
+    fy = prof["fiscal_year"]
+    y0 = int(fy[:4])
+    months = [f"{y0 + (m < 4)}-{m:02d}" for m in list(range(4, 13)) + [1, 2, 3]]   # April to March
+    prev_months = [f"{int(m[:4]) - 1}{m[4:]}" for m in months]
+    rows = {r["date"]: r for r in psf["data"] if r.get("receipts") is not None and r.get("spending") is not None}
+    bn = lambda r, k: r[k] / 1000                                     # £ million -> £ billion
+    import calendar
+    full_month = lambda m: f"{calendar.month_name[int(m[5:7])]} {m[:4]}"  # '2026-10' -> 'October 2026'
+    borrow = {d: bn(r, "spending") - bn(r, "receipts") for d, r in rows.items()}
+
+    def cumulative(values, dates):
+        out, total = [], 0.0
+        for d, v in zip(dates, values):
+            if v is None:
+                break
+            total += v
+            out.append([d, round(total, 2)])
+        return out
+
+    actual = cumulative([borrow.get(m) for m in months], months)
+    if not actual:
+        raise ValueError(f"no ONS data yet for {fy}")
+    n = len(actual)                                                   # months of data this year
+    last_year = cumulative([borrow.get(m) for m in prev_months], months)  # plotted on this year's months
+    profile = cumulative(prof["borrowing"]["months"], months)
+    obr_name = f"OBR profile ({prof['vintage']})"
+
+    # the latest forecast, if the profiles are older: a rough profile of our own
+    fiscal = json.loads((REPO / "data" / "fiscal" / "reckoner.json").read_text())["bases"]["oct26"]
+    latest_label = fiscal["label"].split(" (")[0]                    # e.g. 'October 2026 EFO'
+    spread = None
+    if latest_label != prof["vintage"] and fy in fiscal["years"]:
+        i = fiscal["years"].index(fy)
+        # months already published when the forecast was made: the ONS releases a month's
+        # figures about three weeks after it ends, and the OBR closes its forecast a few
+        # weeks before publishing, so an October forecast knew the figures to August
+        efo_month = MONTHS_LONG.index(latest_label.split()[0].lower()) + 1
+        known_to = f"{int(latest_label.split()[1]) - (efo_month <= 2)}-{(efo_month - 3) % 12 + 1:02d}"
+        k = sum(1 for m in months if m <= known_to and m in rows)
+        def fill(key, annual):
+            """ONS figures for the known months, then the rest of the annual forecast spread
+            over the remaining months in the older profile's pattern"""
+            known = [bn(rows[m], key) for m in months[:k]]
+            shape = prof[key]["months"][k:]
+            rest = (annual - sum(known)) / sum(shape)
+            return known + [v * rest for v in shape]
+        rec, tme = fiscal["lines"]["Public sector current receipts"][i], fiscal["lines"]["Total managed expenditure"][i]
+        r_m, s_m = fill("receipts", rec), fill("spending", tme)
+        spread = {"year": tme - rec, "months": [s - r for s, r in zip(s_m, r_m)], "known_to": known_to}
+    spread_name = f"{latest_label} (our rough monthly profile)"
+
+    # how far actual borrowing, receipts and spending are from the profile, months so far
+    ytd = actual[-1][1]
+    ytd_prof = profile[n - 1][1]
+    ytd_rec = sum(bn(rows[m], "receipts") for m in months[:n]) - sum(prof["receipts"]["months"][:n])
+    ytd_spend = sum(bn(rows[m], "spending") for m in months[:n]) - sum(prof["spending"]["months"][:n])
+    period = f"April to {full_month(months[n - 1])}" if n > 1 else full_month(months[0])
+    ytd_spread = sum(spread["months"][:n]) if spread else None
+    word = lambda v: f"£{abs(v):.1f}bn {'above' if v >= 0 else 'below'}"
+    teal, navy = FORECASTERS["obr"]["colour"], "#102A43"
+    ytd_items = [{"who": obr_name, "colour": teal, "value": round(ytd_prof, 1)}]
+    year_items = [{"who": prof["vintage"], "colour": teal, "value": round(prof["borrowing"]["year"], 1)}]
+    if spread:
+        ytd_items.append({"who": f"{latest_label} (our rough profile)", "colour": navy, "value": round(ytd_spread, 1)})
+        year_items.append({"who": latest_label, "colour": navy, "value": round(spread["year"], 1)})
+    box = {
+        "latest": [
+            {"label": "Borrowing so far this year", "period": period, "value": round(ytd, 1), "prefix": "£", "unit": "bn"},
+            {"label": "Borrowing", "period": full_month(months[n - 1]),
+             "value": round(borrow[months[n - 1]], 1), "prefix": "£", "unit": "bn"},
+        ],
+        "forecasts": [
+            {"card": "Compared with the OBR", "heading": f"Borrowing, {period}", "release": psf.get("next_release"),
+             "prefix": "£", "unit": "bn", "decimals": 1, "items": ytd_items,
+             "note": f"Actual £{ytd:.1f}bn: {word(ytd - ytd_prof)} the {prof['vintage'].replace(' EFO', '')} profile "
+                     f"(receipts {word(ytd_rec)}, spending {word(ytd_spend)})"
+                     + (f"; {word(ytd - ytd_spread)} our rough profile for the {latest_label.replace(' EFO', '')} forecast." if spread else ".")},
+            {"card": "Whole year", "heading": f"Borrowing in {fy}", "prefix": "£", "unit": "bn", "decimals": 1,
+             "items": year_items},
+        ],
+    }
+    lines = [line(f"{fy} so far (ONS)", actual, OUTTURN, "outturn"),
+             line(f"{y0 - 1}-{str(y0)[2:]}, same months", last_year, OUTTURN_SECOND, "outturn"),
+             line(obr_name, profile, teal, "forecast")]
+    if spread:
+        lines.append(line(spread_name, cumulative(spread["months"], months), navy, "forecast"))
+    note = ("Public sector net borrowing excluding public sector banks, added up from April. Recent months are revised, "
+            "often by a few £ billion. Comparing like months allows for the big seasonal swings (self-assessment tax "
+            "in January and July, for example).")
+    if spread:
+        note += (f" The OBR hasn't yet published monthly profiles for its {latest_label.replace(' EFO', '')} forecast. "
+                 f"Our rough one uses the ONS figures for the months it already knew (to {full_month(spread['known_to'])}) "
+                 "and spreads the rest of its annual receipts and spending in the earlier profile's pattern.")
+    return {
+        "id": "public-finances", "title": "Public finances", "box": box,
+        "charts": [{"title": f"Borrowing so far in {fy}", "units": "£ billion, added up from April", "freq": "M",
+                    "month_axis": True, "decimals": 0,
+                    "lines": [ln for ln in lines if ln], "note": note,
+                    "source": f"ONS Public sector finances; OBR monthly profiles ({prof['vintage']}) and {latest_label}"}],
+    }
+
+
 def markets_section(fc, sources):
     """Financial markets: daily prices (data/markets, builders/markets) with the
     market assumptions the Bank of England and OBR conditioned their forecasts on.
@@ -605,10 +724,17 @@ if __name__ == "__main__":
     OUT.mkdir(parents=True, exist_ok=True)
     sources, fc, ok = load_forecasts()
     write_if_changed(OUT / "forecasts.json", {"sources": sources, "data": fc})
+    # gaps between today's data (and the Bank's newer forecast) and the OBR's forecast,
+    # for the "since the forecast" scenario on fiscal.html (see since.py)
+    try:
+        write_if_changed(OUT / "since.json", since.build(fc, sources))
+    except Exception as e:  # noqa: BLE001
+        print(f"since failed: {e!r}", file=sys.stderr)
+        ok = False
     add_own_forecast(fc, sources)  # after saving: forecasts.json holds published forecasts only
     sections = []
     for build in (gdp_section, inflation_section, investment_section, labour_section, wages_section,
-                  markets_section):
+                  public_finances_section, markets_section):
         try:
             sections.append(build(fc, sources))
         except Exception as e:  # noqa: BLE001

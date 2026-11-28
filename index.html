@@ -35,6 +35,8 @@
 <header class="wrap">
   <h1>UK economy dashboard</h1>
   <p class="sub" id="sub">Latest data and published forecasts.</p>
+  <!-- disclaimer: how the site is made -->
+  <p class="credit">Made by AI in conjunction with economists. Figures may contain errors: not official statistics or financial advice.</p>
 </header>
 <nav><div class="wrap" id="nav"></div></nav>
 <main class="wrap" id="main"></main>
@@ -73,6 +75,10 @@ function renderLineChart(canvas, chart) {
   const pct = chart.type === "percentile";
   const toX = d => pct ? d : timeX(d);
   const xs = chart.lines.flatMap(l => l.data.map(p => toX(p[0])));
+  // charts over one financial year (public finances) label each month instead of each year
+  const monthTicks = chart.month_axis ? [...new Set(chart.lines.flatMap(l => l.data.map(p => p[0])))].sort() : null;
+  const monthOf = x => { const d = monthTicks.find(m => Math.abs(timeX(m) - x) < 0.01);
+                         return d ? new Date(+d.slice(0, 4), +d.slice(5, 7) - 1).toLocaleDateString("en-GB", {month: "short"}) : ""; };
   const datasets = chart.lines.map(l => {
     const sparse = l.kind === "forecast" && l.data.length <= 6;   // few points: show them
     return {
@@ -103,6 +109,11 @@ function renderLineChart(canvas, chart) {
              afterBuildTicks: axis => { axis.ticks = PCT_TICKS.map(v => ({value: v})); },
              ticks: {autoSkip: false, maxRotation: 0, callback: v => pctLabel(v)},
              title: {display: true, text: "Pay percentile (lower paid \u2192 higher paid)", color: "#486581"}}
+          : monthTicks
+          ? {type: "linear", min: Math.min(...xs) - 0.02, max: Math.max(...xs) + 0.02,
+             grid: {display: false}, border: {color: "#627D98"},
+             afterBuildTicks: axis => { axis.ticks = monthTicks.map(m => ({value: timeX(m)})); },
+             ticks: {autoSkip: false, maxRotation: 0, callback: v => monthOf(v)}}
           : {type: "linear", min: Math.floor(Math.min(...xs)), max: Math.ceil(Math.max(...xs)),
              grid: {display: false}, border: {color: "#627D98"},
              ticks: {stepSize: 1, callback: v => Number.isInteger(v) ? v : ""}},
@@ -203,10 +214,12 @@ fetch("data/dashboard/dashboard.json", {cache: "no-cache"})
     d.sections.forEach(s => {
       nav.append(el("a", null, s.title)); nav.lastChild.href = "#" + s.id;
     });
-    // separate page: fortnightly summary of external market commentary
+    // separate page: weekly summary of external market commentary
     nav.append(el("a", "nav-page", "Market commentary →")); nav.lastChild.href = "commentary.html";
     // separate page: the OBR ready reckoner (how the economy feeds through to the public finances)
     nav.append(el("a", null, "Public finances →")); nav.lastChild.href = "fiscal.html";
+    // separate page: HMRC's tax ready reckoner (what tax rises and cuts would raise or cost)
+    nav.append(el("a", null, "Tax changes →")); nav.lastChild.href = "tax.html";
     d.sections.forEach(s => {
       const sec = el("section"); sec.id = s.id;
       sec.append(el("h2", null, s.title));

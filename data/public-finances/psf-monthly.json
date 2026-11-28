@@ -1,0 +1,192 @@
+{
+ "slug": "psf-monthly",
+ "category": "public-finances",
+ "title": "Public sector receipts and spending, monthly",
+ "type": "line",
+ "freq": "M",
+ "units": "\u00a3 million",
+ "source": "ONS Public sector finances",
+ "note": "Excluding public sector banks; not seasonally adjusted. Recent months are revised, often by a few \u00a3 billion.",
+ "series": [
+  {
+   "key": "receipts",
+   "label": "Current receipts",
+   "_source": "live",
+   "_date": "2026-10",
+   "source_url": "https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/timeseries/jw2o/pusf"
+  },
+  {
+   "key": "spending",
+   "label": "Total managed expenditure",
+   "_source": "live",
+   "_date": "2026-10",
+   "source_url": "https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/timeseries/kx5q/pusf"
+  }
+ ],
+ "data_through": "2026-10",
+ "next_release": "2026-12-22",
+ "status": "ok",
+ "data": [
+  {
+   "date": "2024-04",
+   "receipts": 86252.0,
+   "spending": 105628.0
+  },
+  {
+   "date": "2024-05",
+   "receipts": 85677.0,
+   "spending": 103221.0
+  },
+  {
+   "date": "2024-06",
+   "receipts": 89569.0,
+   "spending": 104196.0
+  },
+  {
+   "date": "2024-07",
+   "receipts": 99782.0,
+   "spending": 103670.0
+  },
+  {
+   "date": "2024-08",
+   "receipts": 88483.0,
+   "spending": 103282.0
+  },
+  {
+   "date": "2024-09",
+   "receipts": 87865.0,
+   "spending": 106578.0
+  },
+  {
+   "date": "2024-10",
+   "receipts": 89329.0,
+   "spending": 108421.0
+  },
+  {
+   "date": "2024-11",
+   "receipts": 89634.0,
+   "spending": 102897.0
+  },
+  {
+   "date": "2024-12",
+   "receipts": 95099.0,
+   "spending": 113517.0
+  },
+  {
+   "date": "2025-01",
+   "receipts": 126490.0,
+   "spending": 111530.0
+  },
+  {
+   "date": "2025-02",
+   "receipts": 96329.0,
+   "spending": 107975.0
+  },
+  {
+   "date": "2025-03",
+   "receipts": 105990.0,
+   "spending": 119433.0
+  },
+  {
+   "date": "2025-04",
+   "receipts": 92023.0,
+   "spending": 112194.0
+  },
+  {
+   "date": "2025-05",
+   "receipts": 90942.0,
+   "spending": 109200.0
+  },
+  {
+   "date": "2025-06",
+   "receipts": 94172.0,
+   "spending": 118458.0
+  },
+  {
+   "date": "2025-07",
+   "receipts": 108612.0,
+   "spending": 110114.0
+  },
+  {
+   "date": "2025-08",
+   "receipts": 95200.0,
+   "spending": 110574.0
+  },
+  {
+   "date": "2025-09",
+   "receipts": 94336.0,
+   "spending": 117114.0
+  },
+  {
+   "date": "2025-10",
+   "receipts": 95940.0,
+   "spending": 112131.0
+  },
+  {
+   "date": "2025-11",
+   "receipts": 96570.0,
+   "spending": 106505.0
+  },
+  {
+   "date": "2025-12",
+   "receipts": 102096.0,
+   "spending": 115039.0
+  },
+  {
+   "date": "2026-01",
+   "receipts": 143408.0,
+   "spending": 111448.0
+  },
+  {
+   "date": "2026-02",
+   "receipts": 105710.0,
+   "spending": 118537.0
+  },
+  {
+   "date": "2026-03",
+   "receipts": 112262.0,
+   "spending": 124284.0
+  },
+  {
+   "date": "2026-04",
+   "receipts": 95396.0,
+   "spending": 118510.0
+  },
+  {
+   "date": "2026-05",
+   "receipts": 97748.0,
+   "spending": 116791.0
+  },
+  {
+   "date": "2026-06",
+   "receipts": 103070.0,
+   "spending": 116108.0
+  },
+  {
+   "date": "2026-07",
+   "receipts": 115080.0,
+   "spending": 114838.0
+  },
+  {
+   "date": "2026-08",
+   "receipts": 99772.0,
+   "spending": 116207.0
+  },
+  {
+   "date": "2026-09",
+   "receipts": 100177.0,
+   "spending": 123058.0
+  },
+  {
+   "date": "2026-10",
+   "receipts": 103155.0,
+   "spending": 120191.0
+  }
+ ],
+ "theme": "blue-amber",
+ "size_cm": [
+  25,
+  15
+ ],
+ "style_version": 10
+}

@@ -1,0 +1,13 @@
+{
+ "category": "public-finances",
+ "title": "Public finances",
+ "charts": [
+  {
+   "slug": "psf-monthly",
+   "title": "Public sector receipts and spending, monthly",
+   "data_through": "2026-10",
+   "next_release": "2026-12-22",
+   "status": "ok"
+  }
+ ]
+}

@@ -50,6 +50,15 @@ assets/reckoner.js       its calculations (tested against the OBR spreadsheet by
                          builders/fiscal/check_engine.py); reckoner-levers.js = lever assumptions
 builders/fiscal/         reads the OBR ready reckoner + latest EFO tables into
                          data/fiscal/reckoner.json; run by hand after each fiscal event
+builders/dashboard/since.py  "since the forecast" scenario for fiscal.html: gaps between today's data
+                         (plus the Bank's newer forecast) and the OBR's, by year, in
+                         data/dashboard/since.json; runs with the dashboard builder
+builders/public-finances/  ONS monthly receipts and spending, plus the OBR's monthly profiles
+                         (data/public-finances/); the dashboard's public finances section
+                         compares borrowing so far this year with the profile
+tax.html                 tax ready reckoner (HMRC's direct effects of illustrative tax changes)
+builders/tax/            reads HMRC's latest table into data/tax/reckoner.json, rescaled to the
+                         latest OBR forecast in data/fiscal/; run by hand after builders/fiscal
 scripts/check_sources.py one known-good request per source: run when something goes red
 .github/workflows/       one workflow per area, sharing _refresh.yml
 NEXT.md                  to-do list + "Decided against"
@@ -135,13 +144,15 @@ builder).
 ## Market commentary
 
 **https://emily-coding.github.io/Sturfrymacro/commentary.html** (linked from the dashboard
-nav). A fortnightly summary of free external commentary on gilts, the Bank of England,
+nav). A weekly summary of free external commentary on gilts, the Bank of England,
 fiscal policy and sterling: themes, then one row per note with key points in our own words,
 one short quote and a link to the original. Data live in `data/commentary/editions.json`.
 
-A Claude Code cloud routine ("Sturfrymacro market commentary (fortnightly)", manage at
-claude.ai/code/routines) fires every Tuesday at 07:00 UTC, adds an edition when the last one
-is at least 13 days old, and commits only that file. It has no connectors attached.
+A Claude Code cloud routine ("Sturfrymacro market commentary (weekly, Fridays)", manage at
+claude.ai/code/routines) fires every Friday at 03:00 UK time, adds an edition when the last one
+is at least 6 days old, and commits only that file. It has no connectors attached. Its cloud
+environment needs network access to the source sites (ING, IFS, Resolution Foundation, the
+Bank of England...): with the default restricted network it can't read them and publishes nothing.
 
 ## Short-term inflation forecast
 

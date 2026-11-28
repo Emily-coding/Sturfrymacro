@@ -64,28 +64,46 @@
   .note { color: var(--ink-3); font-size: 13px; }
   .caveats li { margin-bottom: 8px; max-width: 900px; }
   .picker { margin-bottom: 12px; }
+  /* the "since the forecast" panel */
+  .since { background: var(--panel); border-radius: 8px; padding: 12px 16px; margin: 0 0 20px; }
+  .since:empty { display: none; }
+  .since h3 { margin-top: 0; }
+  .since .opts { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 6px 0 10px; font-size: 14px; }
+  .since select { width: auto; }
+  .since td.na { color: var(--ink-3); }
+  .since td input { width: 64px; text-align: right; font-size: 13.5px; padding: 1px 4px; }
+  .since td .base { display: block; font-size: 11.5px; color: var(--ink-3); white-space: nowrap; line-height: 1.2; }
+  .modes { margin-bottom: 14px; }
+  .modes button { font-size: 15px; padding: 5px 14px; }
+  details.panel { padding: 4px 16px; margin-bottom: 12px; }
+  details.panel > summary { cursor: pointer; font-weight: 700; padding: 8px 0; }
+  details.panel > summary .note { font-weight: 400; }
+  #method details { margin-top: 8px; }
+  #method details > summary { cursor: pointer; margin-bottom: 8px; }
+  .lever .byyear { grid-column: 1 / -1; font-size: 13px; color: var(--blue); }
   button.link { font: inherit; font-size: 13.5px; color: var(--blue); background: none; border: 0; cursor: pointer; padding: 0; }
 </style>
 </head>
 <body>
 <header class="wrap">
   <h1>Public finances ready reckoner</h1>
-  <p class="sub">How changes in the economy feed through to tax, spending, borrowing and debt. Built on the
-    <a href="https://articles.obr.uk/the-obr-ready-reckoner/index.html">OBR's ready reckoner</a>: set the levers,
-    and the page translates them into the OBR's economic inputs and applies its elasticities. Results are
-    <b>changes from the OBR's forecast</b>, not forecasts in themselves.</p>
+  <p class="sub">How changes in the economy feed through to tax, spending, borrowing and debt, using the
+    <a href="https://articles.obr.uk/the-obr-ready-reckoner/index.html">OBR's ready reckoner</a>. Results are
+    <b>changes from the OBR's forecast</b>: add them to the OBR's own figures for borrowing, debt and headroom.</p>
+  <!-- disclaimer: how the site is made -->
+  <p class="credit">Made by AI in conjunction with economists. Figures may contain errors: not official statistics or financial advice.</p>
 </header>
 <nav><div class="wrap" id="nav"></div></nav>
 <main class="wrap" id="main">
   <section id="scenario">
-    <div class="picker" id="basis"></div>
+    <!-- two ways to use the page: what has changed since the forecast, or a shock of your own -->
+    <div class="picker modes" id="modes"></div>
+    <div class="since" id="since"></div>
     <div class="layout">
       <div>
-        <h2>Scenario</h2>
         <div class="presets picker" id="presets"></div>
-        <div class="panel" id="levers"></div>
-        <h3>Assumptions</h3>
-        <div class="panel" id="params"></div>
+        <details class="panel" id="levers-box" open><summary id="levers-sum">Levers</summary><div id="levers"></div></details>
+        <details class="panel"><summary>Advanced assumptions</summary><div id="params"></div></details>
       </div>
       <div>
         <h2>Effect on the public finances</h2>
@@ -103,18 +121,11 @@
     </div>
   </section>
 
-  <section id="lines">
-    <h2>Which taxes and spending lines move</h2>
-    <p class="intro">Change by line, £ billion (positive = more revenue or more spending).
-      Lines that don't move are left out.</p>
-    <div class="tablewrap"><table id="bylines"></table></div>
-  </section>
-
-  <section id="drivers">
-    <h2>What drives it</h2>
-    <p class="intro">Change in borrowing from each OBR input on its own, £ billion. These don't add up exactly to the
-      total: the triple lock, the rounding used for uprating and the GDP denominators aren't linear.</p>
-    <div class="tablewrap"><table id="contribs"></table></div>
+  <section id="breakdown">
+    <h2>What moves borrowing</h2>
+    <div class="picker" id="views"></div>
+    <p class="intro" id="view-intro"></p>
+    <div class="tablewrap"><table id="bytable"></table></div>
   </section>
 
   <section id="inputs-section">
@@ -132,6 +143,10 @@
   <section id="method">
     <h2>How it works, and what to watch out for</h2>
     <ul class="caveats" id="caveats"></ul>
+    <details><summary><b>Technical notes, and a check against the OBR's spreadsheet</b></summary>
+      <ul class="caveats" id="technical"></ul>
+      <div class="picker" id="basis"></div>
+    </details>
   </section>
 </main>
 <footer class="wrap">Elasticities: OBR ready reckoner (<span id="srcnote"></span>). Data built by
@@ -146,15 +161,18 @@ const COLOURS = {receipts: "#186FAF", spending: "#DE911D", interest: "#27AB83", 
 
 // Page state: which basis, the levers, the assumptions and any overridden input cells.
 // It is kept in the address (after #) so a scenario can be shared as a link.
-let DATA, state = {basis: null, levers: {}, params: {...DEFAULT_PARAMS}, delReal: false, overrides: {}};
+// state.since: which "since the forecast" option is applied (null = levers set by hand)
+let DATA, SINCE = null, state = {basis: null, levers: {}, params: {...DEFAULT_PARAMS}, delReal: false, overrides: {}, since: null};
 let chart;
+let view = "lines";   // "What moves borrowing": by tax and spending line, or by economic cause
 
 const nav = document.getElementById("nav");
-[["scenario", "Scenario"], ["lines", "By tax and spending line"], ["drivers", "Drivers"],
+[["scenario", "Scenario"], ["breakdown", "What moves borrowing"],
  ["inputs-section", "OBR inputs"], ["method", "Method and caveats"]].forEach(([id, t]) => {
   nav.append(el("a", null, t)); nav.lastChild.href = "#" + id;
 });
-nav.append(el("a", "nav-page", "← Dashboard")); nav.lastChild.href = "index.html";
+nav.append(el("a", "nav-page", "Tax changes →")); nav.lastChild.href = "tax.html";
+nav.append(el("a", null, "← Dashboard")); nav.lastChild.href = "index.html";
 
 const basis = () => DATA.bases[state.basis];
 const years = () => basis().years;
@@ -184,16 +202,27 @@ function buildLevers() {
   const box = document.getElementById("levers");
   box.innerHTML = "";
   for (const lv of LEVERS) {
-    const cur = state.levers[lv.id] || {size: 0, start: firstOpenYear(), phase: 1};
+    let cur = state.levers[lv.id] || {size: 0, start: firstOpenYear(), phase: 1};
     state.levers[lv.id] = cur;
     const row = el("div", "lever");
+    // a lever set year by year (by the "since the forecast" scenario) shows its values;
+    // typing a single number turns it back into an ordinary lever
+    const byYear = Array.isArray(cur.values);
+    const shown = byYear ? +cur.values[cur.values.length - 1].toFixed(2) : cur.size;
     row.innerHTML = `
       <label for="lv-${lv.id}">${lv.label} <span class="unit">${lv.unit}</span></label>
-      <input type="number" id="lv-${lv.id}" step="${lv.step}" min="${lv.min}" max="${lv.max}" value="${cur.size}">
+      <input type="number" id="lv-${lv.id}" step="${lv.step}" min="${lv.min}" max="${lv.max}" value="${shown}">
+      ${byYear ? `<div class="byyear">Year by year: ${cur.values.map(v => fmtSigned(v, 2)).join(", ")}</div>` : `
       <div class="timing">from <select data-k="start">${yearOptions(cur.start)}</select>
-        reached over <select data-k="phase">${[1, 2, 3, 4, 5].map(k => `<option value="${k}"${k === cur.phase ? " selected" : ""}>${k} year${k > 1 ? "s" : ""}</option>`).join("")}</select></div>
+        reached over <select data-k="phase">${[1, 2, 3, 4, 5].map(k => `<option value="${k}"${k === cur.phase ? " selected" : ""}>${k} year${k > 1 ? "s" : ""}</option>`).join("")}</select></div>`}
       <div class="help">${lv.help}</div>`;
-    row.querySelector("input").addEventListener("input", e => { cur.size = +e.target.value || 0; update(); });
+    row.querySelector("input").addEventListener("input", e => {
+      if (Array.isArray(cur.values)) {      // leaving the scenario: this lever becomes a flat change
+        cur = state.levers[lv.id] = {size: 0, start: firstOpenYear(), phase: 1};
+        leaveSince();
+      }
+      cur.size = +e.target.value || 0; update();
+    });
     row.querySelectorAll("select").forEach(s => s.addEventListener("change", e => { cur[s.dataset.k] = +e.target.value; update(); }));
     box.append(row);
   }
@@ -250,11 +279,8 @@ const SOURCE_HELP = {
 // one-click scenarios: each sets the levers from scratch
 const PRESETS = [
   ["1% more employment", {employment: 1}],
-  ["Productivity 1% lower", {productivity: -1}],
-  ["Productivity 1% higher over 5 years", {productivity: [1, 5]}],
+  ["Productivity 1% higher", {productivity: 1}],
   ["Inflation 1 point higher", {inflation: 1}],
-  ["Gilt yields 1 point higher", {gilt_rate: 1}],
-  ["House prices 10% lower", {house_prices: -10}],
 ];
 function buildPresets() {
   const box = document.getElementById("presets");
@@ -262,7 +288,7 @@ function buildPresets() {
   for (const [label, set] of PRESETS) {
     const b = el("button", null, label);
     b.onclick = () => {
-      state.levers = {}; state.overrides = {};
+      state.levers = {}; state.overrides = {}; state.since = null;
       for (const [id, v] of Object.entries(set)) {
         const [size, phase] = Array.isArray(v) ? v : [v, 1];
         state.levers[id] = {size, start: firstOpenYear(), phase};
@@ -272,25 +298,219 @@ function buildPresets() {
     box.append(b);
   }
   const reset = el("button", null, "Reset");
-  reset.onclick = () => { state.levers = {}; state.overrides = {}; state.params = {...DEFAULT_PARAMS}; state.delReal = false;
+  reset.onclick = () => { state.levers = {}; state.overrides = {}; state.params = {...DEFAULT_PARAMS}; state.delReal = false; state.since = null;
                           buildLevers(); buildParams(); update(); };
   box.append(reset);
+}
+
+/* Two ways to use the page. "What's changed since the forecast" sets the levers from the data
+ * (the panel above is then where you change things, so the levers fold away); "Try a shock"
+ * shows the one-click shocks and the levers. Editing a lever by hand also moves you to "Try a shock". */
+let lastMode = null, lastSince = null;
+function buildModes() {
+  const box = document.getElementById("modes");
+  box.innerHTML = "";
+  if (!SINCE) return;                       // no scenario data: the page is just the levers
+  const since = el("button", null, `What's changed since the ${SINCE.obr.replace(" EFO", "")} forecast`);
+  since.onclick = () => { if (!state.since) applySince(lastSince || SINCE.default); };
+  const shock = el("button", null, "Try a shock");
+  shock.onclick = () => {
+    if (!state.since) return;
+    state.since = null; state.levers = {}; state.overrides = {};
+    buildLevers(); update();
+  };
+  box.append(since, shock);
+}
+function syncMode() {
+  const mode = state.since ? "since" : "shock";
+  if (state.since) lastSince = state.since;
+  const [since, shock] = document.querySelectorAll("#modes button");
+  if (since) { since.setAttribute("aria-pressed", mode === "since"); shock.setAttribute("aria-pressed", mode === "shock"); }
+  document.getElementById("presets").style.display = mode === "since" ? "none" : "";
+  document.getElementById("levers-sum").innerHTML = mode === "since"
+    ? `Levers set by the scenario <span class="note">(show)</span>` : "Levers";
+  if (mode !== lastMode) document.getElementById("levers-box").open = mode === "shock";  // fold away only on a change
+  lastMode = mode;
+}
+
+// "What moves borrowing": one table, two ways of splitting the total
+const VIEWS = {
+  lines: ["By tax and spending line", "Change by line, £ billion (positive = more revenue or more spending). Lines that don't move are left out."],
+  drivers: ["By economic cause", "Change in borrowing from each of the OBR's economic inputs on its own, £ billion. These don't add up exactly " +
+            "to the total: the triple lock, the rounding used for uprating and the GDP denominators aren't linear."],
+};
+function buildViews() {
+  const box = document.getElementById("views");
+  box.innerHTML = "";
+  for (const [key, [label]] of Object.entries(VIEWS)) {
+    const b = el("button", null, label);
+    b.setAttribute("aria-pressed", key === view);
+    b.onclick = () => { view = key; buildViews(); update(); };
+    box.append(b);
+  }
+  document.getElementById("view-intro").textContent = VIEWS[view][1];
 }
 
 function buildBasisPicker() {
   const box = document.getElementById("basis");
   box.innerHTML = "";
   for (const [key, b] of Object.entries(DATA.bases)) {
-    const btn = el("button", null, key === "oct26" ? "Latest forecast (rescaled)" : "OBR reckoner as published");
+    const btn = el("button", null, key === DATA.default_basis ? "Latest forecast (rescaled): the default" : `OBR reckoner as published (${b.label.split(" EFO")[0]})`);
     btn.setAttribute("aria-pressed", key === state.basis);
     btn.title = b.label;
     btn.onclick = () => {
       if (state.basis === key) return;
       state.basis = key; state.overrides = {};
-      for (const lv of Object.values(state.levers)) { lv.start = Math.min(lv.start, years().length - 1); }
+      if (state.since && key !== SINCE.basis) { state.since = null; state.levers = {}; }
+      for (const lv of Object.values(state.levers)) { if (lv.start != null) lv.start = Math.min(lv.start, years().length - 1); }
       buildBasisPicker(); buildLevers(); update();
     };
     box.append(btn);
+  }
+}
+
+// ---------------------------------------------------------------- since the forecast
+/* The "since the forecast" scenario (data/dashboard/since.json, built by
+ * builders/dashboard/since.py): for each year, how far today's data, market prices and
+ * the Bank of England's newer forecast are from what the OBR assumed. Here those gaps
+ * become lever settings. GDP, employment, inflation and earnings gaps are turned into
+ * the employment, productivity, inflation and pay levers by undoing the same formulas
+ * translate() uses (so they depend on the assumptions below, and are redone when those change). */
+let sinceEarnings = null;
+// the blank option: people type their own differences from the OBR's forecast (state.custom)
+const CUSTOM = "custom", CUSTOM_LABEL = "none: enter your own figures (starts blank)";
+// '2026-Q3' -> '2026-27' (April to March)
+const fiscalYearOf = q => { const y = +q.slice(0, 4) - (q.endsWith("Q1") ? 1 : 0); return `${y}-${String(y + 1).slice(2)}`; };
+
+/* The year-by-year gaps for the chosen option. For the blank option they are what the
+ * person typed (blank = no difference), with employment worked out from unemployment as
+ * the builder does (labour force unchanged: employment = labour force x (1 - unemployment rate)). */
+function sinceTargets() {
+  if (state.since !== CUSTOM) return SINCE.targets[state.since];
+  const T = {};
+  for (const v of SINCE.variables) T[v.id] = SINCE.years.map((y, t) => (state.custom[v.id] || [])[t] || 0);
+  const u = (SINCE.variables.find(v => v.id === "unemployment") || {}).obr_fy;
+  if (T.unemployment && u) T.employment = T.unemployment.map((du, t) => -du / (1 - (u.values[t] ?? 4.5) / 100));
+  return T;
+}
+
+function sinceLevers() {
+  const T = sinceTargets(), p = state.params;
+  const get = id => years().map(y => { const i = SINCE.years.indexOf(y); return i < 0 || !T[id] ? 0 : T[id][i]; });
+  const gdp = get("gdp"), emp = get("employment"), cpi = get("cpi"), earn = get("earnings");
+  const g = x => 1 + x / 100;
+  // productivity: real GDP = (output of extra workers) x (output per worker)
+  const prod = gdp.map((v, t) => 100 * (g(v) / g(p.newWorkerPay * emp[t]) - 1));
+  // price level from the extra inflation each year
+  const price = []; cpi.reduce((lvl, i, t) => (price[t] = 100 * (g(lvl) * g(i) - 1)), 0);
+  // pay: what is left of the earnings gap after composition, productivity and prices.
+  // After the year of the latest earnings data, this "pay surprise" stays where it is, so
+  // earnings then move with prices and productivity (the Bank doesn't forecast earnings,
+  // and holding them still while prices follow the Bank would imply an unforecast real pay cut).
+  // In the "fade" option every gap shrinks together, and in the blank option people set
+  // earnings themselves, so in those the earnings gap is used as it is.
+  const comp = emp.map(e => 100 * (g(p.newWorkerPay * e) / g(e) - 1));
+  const pay = earn.map((e, t) => 100 * (g(e) / (g(comp[t]) * g(p.wagePassThrough * prod[t]) * g(price[t])) - 1));
+  const lastEarn = SINCE.variables.find(v => v.id === "earnings");
+  const dataYear = lastEarn ? years().indexOf(fiscalYearOf(lastEarn.latest.quarter)) : -1;
+  if (!["fade", CUSTOM].includes(state.since) && dataYear >= 0)
+    for (let t = dataYear + 1; t < pay.length; t++) pay[t] = pay[dataYear];
+  // the earnings gap these levers imply, for the panel
+  sinceEarnings = pay.map((v, t) => 100 * (g(comp[t]) * g(p.wagePassThrough * prod[t]) * g(v) * g(price[t]) - 1));
+  const set = {employment: emp, productivity: prod, pay, inflation: cpi, bank_rate: get("bank_rate"),
+               gilt_rate: get("gilt"), oil_price: get("oil"), gas_price: get("gas"), equity_prices: get("equities")};
+  state.levers = {};
+  for (const [id, values] of Object.entries(set))
+    state.levers[id] = values.some(v => Math.abs(v) > 1e-6) ? {values: values.map(v => +v.toFixed(3))} : {size: 0, start: firstOpenYear(), phase: 1};
+}
+
+function applySince(option) {
+  state.since = option; state.basis = SINCE.basis; state.overrides = {};
+  if (option === CUSTOM && !state.custom) state.custom = {};
+  // market prices already include any response to inflation or incomes: don't add it twice
+  state.params.rateRule = false; state.params.assetsFollowIncomes = false;
+  // the position before any new tax or spending decisions: policy as in the OBR's forecast,
+  // so departmental budgets stay fixed in cash, as the OBR assumes ahead of a fiscal event
+  state.delReal = false;
+  document.getElementById("since").dataset.mode = "";   // redraw the panel
+  buildBasisPicker(); buildParams(); update();
+}
+
+// a lever changed by hand: the levers stay where they are, but no longer track the data
+function leaveSince() { state.since = null; }
+
+const SINCE_UNIT = {"%": "%", pt: " pt", "$/barrel": " $", "p/therm": "p"};
+const fmtGap = (v, u) => fmtSigned(v, u === "$/barrel" || u === "p/therm" ? 1 : 2) + (SINCE_UNIT[u] || "");
+
+function renderSince() {
+  const box = document.getElementById("since");
+  if (!state.since) { box.innerHTML = ""; box.dataset.mode = ""; return; }
+  const T = sinceTargets(), ys = SINCE.years, custom = state.since === CUSTOM;
+  // while someone is typing figures in, only refresh the cells worked out from them
+  // (redrawing the table would take the cursor out of the box they are typing in)
+  if (custom && box.dataset.mode === CUSTOM) {
+    box.querySelectorAll("td[data-derived]").forEach(td => { td.textContent = fmtGap(T.employment[+td.dataset.t], "%"); });
+    return;
+  }
+  box.dataset.mode = state.since;
+  const bank = v => v.bank && ["newest", "average"].includes(state.since);
+  // the OBR's own forecast for a year, shown under each blank box
+  const obrNote = (v, t) => {
+    const x = v.obr_fy && v.obr_fy.values[t];
+    if (x == null) return "";
+    return `<span class="base">OBR: ${v.obr_fy.kind === "growth" ? fmt(x, 1) + "% growth" : fmt(x, 2)}</span>`;
+  };
+  const rows = [];
+  for (const v of SINCE.variables) {
+    const L = v.latest;
+    const was = L.outturn != null ? ` <span class="note">(${fmt(L.outturn, 2)} vs ${fmt(L.obr, 2)})</span>` : "";
+    const vals = v.id === "earnings" && sinceEarnings && !custom ? sinceEarnings : T[v.id];
+    const cells = custom
+      ? ys.map((y, t) => `<td><input type="number" step="0.1" data-v="${v.id}" data-t="${t}" placeholder="0"
+            value="${(state.custom[v.id] || [])[t] ?? ""}" aria-label="${v.label}, ${y}">${obrNote(v, t)}</td>`).join("")
+      : vals.map(x => `<td>${fmtGap(x, v.unit)}</td>`).join("");
+    rows.push(`<tr><td>${v.label}${bank(v) ? " †" : ""} <span class="note">${SINCE_UNIT[v.unit].trim()}</span></td>
+      <td>${fmtGap(L.gap, v.unit)} in ${niceLabel(L.quarter)}${was}</td>${cells}</tr>`);
+    if (v.id === "unemployment" && T.employment)
+      rows.push(`<tr><td class="note">so employment (level)</td><td class="na">labour force unchanged</td>${
+        T.employment.map((x, t) => `<td${custom ? ` data-derived data-t="${t}"` : ""}>${fmtGap(x, "%")}</td>`).join("")}</tr>`);
+  }
+  const boe = SINCE.boe_newer ? `, market prices and the Bank of England's ${SINCE.boe.replace(" MPR", "")} forecast` : " and market prices";
+  const intro = custom
+    ? `Enter your own figures as differences from the OBR's forecast (blank = the same); the OBR's own figure is under each box.`
+    : `The table compares today's data${boe} with the OBR's assumptions.`;
+  const options = {...SINCE.options, [CUSTOM]: CUSTOM_LABEL};
+  box.innerHTML = `
+    <h3>Economy changes since the OBR's ${SINCE.obr.replace(" EFO", "")} forecast</h3>
+    <p>Based on outturn and changes to projections since the OBR's forecast, using the OBR ready reckoner.</p>
+    <p class="note">${intro} The levers are set to match, year by year. <b>This is the position before any new tax or
+      spending decisions.</b> <a href="#method">How it's worked out</a>.</p>
+    <div class="opts"><label for="since-opt">After the latest data:</label>
+      <select id="since-opt">${Object.entries(options).map(([k, t]) => `<option value="${k}"${k === state.since ? " selected" : ""}>${t}</option>`).join("")}</select>
+      ${custom ? `<button class="link" id="since-fill">Fill in with the newest-forecast figures</button>
+                  <button class="link" id="since-clear">Clear</button>` : ""}</div>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Difference from the OBR's forecast</th><th>Latest data</th>${ys.map(y => `<th>${y}</th>`).join("")}</tr></thead>
+      <tbody>${rows.join("")}</tbody></table></div>
+    ${SINCE.boe_newer && ["newest", "average"].includes(state.since) ? `<p class="note">† follows the Bank's forecast after the
+      latest data; the rest stay as far from the OBR's forecast as in the latest data.</p>` : ""}`;
+  document.getElementById("since-opt").addEventListener("change", e => applySince(e.target.value));
+  if (custom) {
+    box.querySelectorAll("input[data-v]").forEach(inp => inp.addEventListener("input", () => {
+      const row = state.custom[inp.dataset.v] = state.custom[inp.dataset.v] || ys.map(() => null);
+      row[+inp.dataset.t] = inp.value === "" ? null : +inp.value;
+      update();
+    }));
+    document.getElementById("since-fill").onclick = () => {
+      // copy the newest-forecast option, including earnings as it treats them (moving with
+      // prices and productivity after the latest data), so the starting point matches it exactly
+      const N = SINCE.targets[SINCE.default];
+      state.since = SINCE.default; sinceLevers();
+      state.custom = Object.fromEntries(SINCE.variables.map(v =>
+        [v.id, (v.id === "earnings" ? sinceEarnings : N[v.id]).map(x => +x.toFixed(2))]));
+      applySince(CUSTOM);
+    };
+    document.getElementById("since-clear").onclick = () => { state.custom = {}; applySince(CUSTOM); };
   }
 }
 
@@ -304,14 +524,23 @@ function scenarioInputs() {
   return x;
 }
 
-// years beyond the OBR workbook (the rescaled basis repeats its final-year elasticities)
-const extrapolated = () => state.basis === "oct26" ? years().map(y => +y.slice(0, 4) > 2029) : years().map(() => false);
+// years beyond the OBR workbook (the rescaled basis repeats the workbook's final-year
+// elasticities): any year the as-published basis doesn't have
+function extrapolated() {
+  if (state.basis !== DATA.default_basis) return years().map(() => false);
+  const workbook = new Set(Object.entries(DATA.bases).filter(([k]) => k !== DATA.default_basis).flatMap(([, b]) => b.years));
+  return years().map(y => !workbook.has(y));
+}
 
 function update() {
+  if (state.since) { sinceLevers(); buildLevers(); }
+  renderSince();
   saveState();
   const b = basis(), x = scenarioInputs();
   const r = Reckoner.compute(b, x, {delReal: state.delReal});
-  renderCards(r); renderChart(r); renderSummary(r); renderLines(r); renderContribs(x); renderInputs(x); renderWarnings(x);
+  syncMode();
+  renderCards(r); renderChart(r); renderSummary(r); renderInputs(x); renderWarnings(x);
+  if (view === "lines") renderLines(r); else renderContribs(x);
 }
 
 // ---------------------------------------------------------------- output
@@ -374,13 +603,13 @@ function renderSummary(r) {
     rows.push(`<tr><td>${k}</td>${cells(v, 2)}</tr>`);
   table("summary", ["Change, £ billion", ...years()], rows);
   const ex = extrapolated().some(Boolean);
-  document.getElementById("basisnote").innerHTML = `Basis: ${basis().label}.` +
-    (ex ? " Shaded years go beyond the OBR's workbook: they reuse its final-year elasticities." : "");
+  document.getElementById("basisnote").innerHTML = (state.basis !== DATA.default_basis ? `Basis: ${basis().label}. ` : "") +
+    (ex ? "Shaded years go beyond the OBR's workbook: they reuse its final-year elasticities." : "");
 }
 
 function renderLines(r) {
   const rows = [];
-  const section = (title, lines, sortKey) => {
+  const section = (title, lines) => {
     const entries = Object.entries(lines).filter(([, v]) => v.some(z => Math.abs(z) > 0.005))
       .sort((a, b) => Math.abs(b[1].at(-1)) - Math.abs(a[1].at(-1)));
     if (!entries.length) return;
@@ -390,7 +619,7 @@ function renderLines(r) {
   section("Receipts", r.lines.receipts);
   section("Spending", {...r.lines.spending, "Debt interest": r.lines.debt_interest});
   if (!rows.length) rows.push(`<tr><td colspan="${years().length + 1}" class="note">Set a lever to see the effects.</td></tr>`);
-  table("bylines", ["£ billion", ...years()], rows);
+  table("bytable", ["£ billion", ...years()], rows);
 }
 
 function renderContribs(x) {
@@ -400,7 +629,7 @@ function renderContribs(x) {
     .sort((a, b) => Math.abs(b[1].at(-1)) - Math.abs(a[1].at(-1)))
     .map(([id, v]) => `<tr><td>${labels[id] || id}</td>${cells(v, 2)}</tr>`);
   if (!rows.length) rows.push(`<tr><td colspan="${years().length + 1}" class="note">Nothing set yet.</td></tr>`);
-  table("contribs", ["Change in borrowing, £ billion", ...years()], rows);
+  table("bytable", ["Change in borrowing, £ billion", ...years()], rows);
 }
 
 // typical sizes beyond which a linear elasticity is a stretch (OBR: estimated from ~1% changes)
@@ -458,15 +687,22 @@ function renderInputs(x) {
 }
 document.getElementById("clear").onclick = () => { state.overrides = {}; update(); };
 
+// is a lever set at all (a single size, or year-by-year values from the scenario)?
+const leverOn = id => { const lv = state.levers[id] || {}; return Array.isArray(lv.values) ? lv.values.some(v => v) : !!lv.size; };
+
 function renderWarnings(x) {
   const w = [];
+  if (state.since && (state.params.rateRule || state.params.assetsFollowIncomes))
+    w.push("The scenario already uses today's market prices, which include any response of interest rates and asset prices: " +
+           "the advanced assumptions now add another response on top, counting it twice.");
   const n = Object.keys(state.overrides).length;
   if (n) w.push(`${n} OBR input${n > 1 ? "s are" : " is"} overridden by hand (amber in the inputs table): the levers no longer keep the scenario consistent there.`);
   const big = DATA.inputs.filter(i => (x[i.id] || []).some(v => Math.abs(v) > (LARGE[i.unit] ?? 3))).map(i => i.label);
   if (big.length) w.push(`Large changes in ${big.join(", ")}: the OBR's elasticities come from ~1% changes and assume a straight-line response, so treat the results as rough.`);
-  if (state.params.employmentSource === "population" && (state.levers.employment || {}).size)
+  if (state.params.employmentSource === "population" && leverOn("employment"))
     w.push("Population-driven employment: the reckoner counts the extra tax but not the extra demand for public services.");
-  if ((state.levers.inflation || {}).size && !state.delReal)
+  // (not in the scenario: its panel already says policy, including cash budgets, is as the OBR assumed)
+  if (leverOn("inflation") && !state.delReal && !state.since)
     w.push("Departmental budgets are fixed in cash (the OBR convention), so part of any gain from higher inflation is a real-terms cut to public services. Try the 'held in real terms' switch.");
   document.getElementById("warnings").innerHTML = w.map(s => `<div>${s}</div>`).join("");
 }
@@ -476,22 +712,29 @@ function renderCaveats() {
     `<b>What it is.</b> The OBR's ready reckoner applies elasticities from HMRC, DWP and OBR models to changes in about 30 economic
       inputs. Each tax or spending line responds in a straight line to each input, and the responses add up. The OBR uses it for quick
       estimates and scenarios, and says it is a guide, not a substitute for its full forecast.`,
-    `<b>Checked against the OBR's spreadsheet.</b> On the "as published" basis, this page reproduces the OBR workbook to rounding error,
-      line by line, for single shocks and for random scenarios moving every input at once.`,
-    `<b>Latest forecast (rescaled).</b> The elasticities are consistent with the March 2025 EFO and only the OBR can re-estimate them. The
-      default basis keeps them as percentages of each tax and applies them to the latest EFO's forecast for that tax. Welfare is scaled by
-      total welfare spending, and debt interest is matched to the latest published debt interest ready reckoner. GDP, prices, debt and the
-      triple lock come from the latest forecast. What can't be updated is any change in tax structure since March 2025: for example,
-      frozen thresholds make income tax more responsive to earnings than these elasticities assume.`,
+    `<b>What's changed since the forecast.</b> The OBR forecasts twice a year. This scenario sets the levers to how far today's data,
+      market prices and (where it is newer) the Bank of England's forecast are from the OBR's assumptions, year by year. Real GDP and
+      share prices are compared after setting both series equal shortly before the forecast (they're in different units); earnings
+      growth is built up into a level and, after the latest data, earnings move with prices and productivity. Market prices use the
+      average of the last 10 working days, as the OBR does. Policy stays as in the OBR's forecast, so this is the position before any
+      new tax or spending decisions. It leaves out house prices and property sales, tax receipts coming in above or below forecast
+      for reasons other than the economy, and policy changes. It is rebuilt whenever new data arrive (<code>builders/dashboard/since.py</code>).`,
+    `<b>Elasticities rescaled to the latest forecast.</b> The elasticities are consistent with the March 2025 EFO and only the OBR can
+      re-estimate them. The page keeps them as percentages of each tax and applies them to the latest EFO's forecast for that tax.
+      Welfare is scaled by total welfare spending, and debt interest is matched to the latest published debt interest ready reckoner.
+      GDP, prices, debt and the triple lock come from the latest forecast. What can't be updated is any change in tax structure since
+      March 2025: for example, frozen thresholds make income tax more responsive to earnings than these elasticities assume.`,
     `<b>Not a model of the economy.</b> The fiscal changes don't feed back into the economy (no multipliers), and there is no Bank of England
-      response unless you switch on the interest rate rule. The levers below the reckoner are a simple, long-run translation: see the
-      assumptions panel and <code>assets/reckoner-levers.js</code>.`,
+      response unless you switch on the interest rate rule. The levers are a simple, long-run translation: see the advanced
+      assumptions and <code>assets/reckoner-levers.js</code>.`,
     `<b>Composition matters.</b> Income tax is progressive, so whose pay rises matters, not just how much. The reckoner can't tell
       the difference.`,
-    `<b>Departmental spending is fixed in cash.</b> That is the OBR's convention for budgets already set. It makes higher inflation look
-      good for the public finances; the switch above shows the alternative.`,
-    `<b>Changes, not levels.</b> Everything is shown relative to the OBR's forecast. Borrowing levels, headroom and so on are in the OBR's
-      Economic and fiscal outlook; add these changes to them.`,
+    `<b>Departmental spending is fixed in cash</b>, the OBR's convention for budgets already set; the advanced assumptions can hold it in
+      real terms instead.`,
+  ];
+  const technical = [
+    `<b>Checked against the OBR's spreadsheet.</b> On the "as published" basis (below), this page reproduces the OBR workbook to rounding
+      error, line by line, for single shocks and for random scenarios moving every input at once.`,
     `<b>Quirks in the OBR workbook</b>, kept on the "as published" basis so it matches: its triple lock uses financial-year CPI inflation
       where the legislation uses September's (the rescaled basis uses September's); its headline "current deficit" change has the wrong
       sign (we calculate it directly); and its borrowing elasticities, labelled per £10 billion, are in fact per £1 billion (the arithmetic
@@ -500,19 +743,27 @@ function renderCaveats() {
       data were out before the forecast, and levers start in the first year not already in the data by default.`,
   ];
   document.getElementById("caveats").innerHTML = items.map(s => `<li>${s}</li>`).join("");
+  document.getElementById("technical").innerHTML = technical.map(s => `<li>${s}</li>`).join("");
 }
 
 // ---------------------------------------------------------------- start
-fetch("data/fiscal/reckoner.json", {cache: "no-cache"}).then(r => r.json()).then(d => {
+Promise.all([
+  fetch("data/fiscal/reckoner.json", {cache: "no-cache"}).then(r => r.json()),
+  fetch("data/dashboard/since.json", {cache: "no-cache"}).then(r => r.ok ? r.json() : null).catch(() => null),
+]).then(([d, since]) => {
   DATA = d;
+  SINCE = since && d.bases[since.basis] ? since : null;
   state.basis = d.default_basis;
+  const fromLink = location.hash.length > 1;   // a shared link carries its own scenario
   loadState();
   if (!DATA.bases[state.basis]) state.basis = d.default_basis;
+  if (state.since && (!SINCE || !(SINCE.targets[state.since] || state.since === CUSTOM))) { state.since = null; state.levers = {}; }
   document.getElementById("srcnote").innerHTML = `<a href="${d.source.workbook}">workbook</a>, <a href="${d.source.article}">article</a>; data built ${d.generated}`;
-  buildBasisPicker(); buildPresets(); buildLevers(); buildParams(); renderCaveats();
+  buildModes(); buildViews(); buildBasisPicker(); buildPresets(); buildLevers(); buildParams(); renderCaveats();
   const src = document.getElementById("p-src"), srcHelp = () => { document.getElementById("p-src-help").textContent = SOURCE_HELP[src.value]; };
   src.addEventListener("change", srcHelp); srcHelp();
-  update();
+  // a fresh visit opens on what has changed since the forecast, the page's main use
+  if (!fromLink && SINCE) applySince(SINCE.default); else update();
 }).catch(e => { document.getElementById("main").innerHTML = `<p class="error">Couldn't load the reckoner data: ${e}</p>`; });
 </script>
 </body>

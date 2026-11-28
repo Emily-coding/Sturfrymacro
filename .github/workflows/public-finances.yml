@@ -1,0 +1,17 @@
+name: public-finances
+
+# ONS public sector finances (out around the 20th of each month) and the OBR's monthly
+# profiles. Runs every weekday; it only commits when one of them has changed.
+on:
+  schedule:
+    - cron: "30 7 * * 1-5"   # weekdays, after the ONS 07:00 release slot
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    uses: ./.github/workflows/_refresh.yml
+    with:
+      category: public-finances

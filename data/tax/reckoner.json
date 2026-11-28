@@ -1,0 +1,3610 @@
+{
+ "generated": "2026-11-28",
+ "source": {
+  "page": "https://www.gov.uk/government/statistics/direct-effects-of-illustrative-tax-changes",
+  "ods": "https://assets.publishing.service.gov.uk/media/68552862b46781eacfd71d71/June_2025_TRR_ODS__1_.ods",
+  "edition": "Direct effects of illustrative tax changes (June 2025)",
+  "implementation": "April 2026"
+ },
+ "chart_groups": [
+  "Income tax",
+  "National Insurance",
+  "VAT and duties",
+  "Business, wealth, property and Child Benefit"
+ ],
+ "levers": [
+  {
+   "id": "basic_rate",
+   "group": "Income tax",
+   "chart": "Income tax",
+   "label": "Basic rate",
+   "unit": "pence",
+   "step": 0.5,
+   "help": "On non-savings, non-dividend income (England and Northern Ireland; Scotland sets its own).",
+   "scale": "it",
+   "sizes": [
+    1
+   ],
+   "cuts": true
+  },
+  {
+   "id": "higher_rate",
+   "group": "Income tax",
+   "chart": "Income tax",
+   "label": "Higher rate",
+   "unit": "pence",
+   "step": 0.5,
+   "help": "",
+   "scale": "it",
+   "sizes": [
+    1
+   ],
+   "cuts": true
+  },
+  {
+   "id": "additional_rate",
+   "group": "Income tax",
+   "chart": "Income tax",
+   "label": "Additional rate",
+   "unit": "pence",
+   "step": 0.5,
+   "help": "HMRC estimates a cut costs more than a rise raises: top earners respond strongly to this rate.",
+   "scale": "it",
+   "sizes": [
+    1
+   ],
+   "cuts": true
+  },
+  {
+   "id": "personal_allowance",
+   "group": "Income tax",
+   "chart": "Income tax",
+   "label": "Personal allowance",
+   "unit": "%",
+   "step": 1,
+   "help": "Per cent change in the tax-free allowance. Not a straight line: HMRC gives 1% and 10%. A \u00a3100 change is roughly 0.8%.",
+   "scale": "it",
+   "sizes": [
+    1,
+    10
+   ],
+   "cuts": true
+  },
+  {
+   "id": "basic_rate_limit",
+   "group": "Income tax",
+   "chart": "Income tax",
+   "label": "Basic rate limit",
+   "unit": "%",
+   "step": 1,
+   "help": "Per cent change in the band of income taxed at the basic rate (raising it means fewer higher-rate taxpayers).",
+   "scale": "it",
+   "sizes": [
+    1,
+    10
+   ],
+   "cuts": true
+  },
+  {
+   "id": "all_thresholds",
+   "group": "Income tax",
+   "chart": "Income tax",
+   "label": "All main allowances and limits together",
+   "unit": "%",
+   "step": 1,
+   "help": "Personal allowance, starting and basic rate limits moved together, e.g. an extra 1% uprating (or a freeze worth \u22121%). Don't combine with the two levers above: they overlap.",
+   "scale": "it",
+   "sizes": [
+    1,
+    10
+   ],
+   "cuts": true
+  },
+  {
+   "id": "dividend_allowance",
+   "group": "Income tax",
+   "chart": "Income tax",
+   "label": "Dividend allowance",
+   "unit": "\u00a3",
+   "step": 100,
+   "help": "",
+   "scale": "it",
+   "sizes": [
+    100
+   ],
+   "cuts": true
+  },
+  {
+   "id": "savings_allowance",
+   "group": "Income tax",
+   "chart": "Income tax",
+   "label": "Personal savings allowance",
+   "unit": "\u00a3 (basic rate)",
+   "step": 100,
+   "help": "Change for basic-rate taxpayers; higher-rate taxpayers get half.",
+   "scale": "it",
+   "sizes": [
+    100
+   ],
+   "cuts": true
+  },
+  {
+   "id": "savings_starting_rate",
+   "group": "Income tax",
+   "chart": "Income tax",
+   "label": "Starting rate for savings",
+   "unit": "pence",
+   "step": 1,
+   "help": "",
+   "scale": "it",
+   "sizes": [
+    1
+   ],
+   "cuts": true
+  },
+  {
+   "id": "savings_starting_limit",
+   "group": "Income tax",
+   "chart": "Income tax",
+   "label": "Starting rate limit for savings",
+   "unit": "\u00a3",
+   "step": 100,
+   "help": "",
+   "scale": "it",
+   "sizes": [
+    100
+   ],
+   "cuts": true
+  },
+  {
+   "id": "ee_main",
+   "group": "National Insurance",
+   "chart": "National Insurance",
+   "label": "Employee main rate (Class 1)",
+   "unit": "points",
+   "step": 0.5,
+   "help": "",
+   "scale": "nics",
+   "sizes": [
+    1
+   ],
+   "cuts": true
+  },
+  {
+   "id": "ee_additional",
+   "group": "National Insurance",
+   "chart": "National Insurance",
+   "label": "Employee additional rate (Class 1)",
+   "unit": "points",
+   "step": 0.5,
+   "help": "On earnings above the upper earnings limit.",
+   "scale": "nics",
+   "sizes": [
+    1
+   ],
+   "cuts": true
+  },
+  {
+   "id": "er_rate",
+   "group": "National Insurance",
+   "chart": "National Insurance",
+   "label": "Employer rate (Class 1)",
+   "unit": "points",
+   "step": 0.5,
+   "help": "",
+   "scale": "nics",
+   "sizes": [
+    1
+   ],
+   "cuts": true
+  },
+  {
+   "id": "c4_main",
+   "group": "National Insurance",
+   "chart": "National Insurance",
+   "label": "Self-employed main rate (Class 4)",
+   "unit": "points",
+   "step": 0.5,
+   "help": "",
+   "scale": "nics",
+   "sizes": [
+    1
+   ],
+   "cuts": true
+  },
+  {
+   "id": "c4_additional",
+   "group": "National Insurance",
+   "chart": "National Insurance",
+   "label": "Self-employed additional rate (Class 4)",
+   "unit": "points",
+   "step": 0.5,
+   "help": "",
+   "scale": "nics",
+   "sizes": [
+    1
+   ],
+   "cuts": true
+  },
+  {
+   "id": "ee_threshold",
+   "group": "National Insurance",
+   "chart": "National Insurance",
+   "label": "Employee threshold",
+   "unit": "\u00a3 a week",
+   "step": 1,
+   "help": "Where employees start paying.",
+   "scale": "nics",
+   "sizes": [
+    2
+   ],
+   "cuts": true
+  },
+  {
+   "id": "er_threshold",
+   "group": "National Insurance",
+   "chart": "National Insurance",
+   "label": "Employer threshold",
+   "unit": "\u00a3 a week",
+   "step": 1,
+   "help": "Where employers start paying on an employee's earnings.",
+   "scale": "nics",
+   "sizes": [
+    2
+   ],
+   "cuts": true
+  },
+  {
+   "id": "uel",
+   "group": "National Insurance",
+   "chart": "National Insurance",
+   "label": "Upper earnings limit",
+   "unit": "\u00a3 a week",
+   "step": 1,
+   "help": "Above it employees pay the lower additional rate, so raising it raises money.",
+   "scale": "nics",
+   "sizes": [
+    10
+   ],
+   "cuts": true
+  },
+  {
+   "id": "lpl",
+   "group": "National Insurance",
+   "chart": "National Insurance",
+   "label": "Lower profits limit (Class 4)",
+   "unit": "\u00a3 a year",
+   "step": 52,
+   "help": "",
+   "scale": "nics",
+   "sizes": [
+    104
+   ],
+   "cuts": true
+  },
+  {
+   "id": "upl",
+   "group": "National Insurance",
+   "chart": "National Insurance",
+   "label": "Upper profits limit (Class 4)",
+   "unit": "\u00a3 a year",
+   "step": 52,
+   "help": "Above it the self-employed pay the lower additional rate, so raising it raises money.",
+   "scale": "nics",
+   "sizes": [
+    520
+   ],
+   "cuts": true
+  },
+  {
+   "id": "ct",
+   "group": "Business and wealth taxes",
+   "chart": "Business, wealth, property and Child Benefit",
+   "label": "Corporation tax main rate",
+   "unit": "points",
+   "step": 1,
+   "help": "",
+   "scale": "ct",
+   "sizes": [
+    1
+   ],
+   "cuts": true
+  },
+  {
+   "id": "cgt_lower",
+   "group": "Business and wealth taxes",
+   "chart": "Business, wealth, property and Child Benefit",
+   "label": "Capital gains tax lower rate",
+   "unit": "points",
+   "step": 1,
+   "help": "Rises only. Not a straight line: HMRC gives 1, 5 and 10 points, and big rises lose money as people delay selling.",
+   "scale": "cgt",
+   "sizes": [
+    1,
+    5,
+    10
+   ],
+   "cuts": false
+  },
+  {
+   "id": "cgt_higher",
+   "group": "Business and wealth taxes",
+   "chart": "Business, wealth, property and Child Benefit",
+   "label": "Capital gains tax higher rate",
+   "unit": "points",
+   "step": 1,
+   "help": "Rises only. HMRC gives 1, 5 and 10 points; the bigger rises lose money as people delay selling.",
+   "scale": "cgt",
+   "sizes": [
+    1,
+    5,
+    10
+   ],
+   "cuts": false
+  },
+  {
+   "id": "badr",
+   "group": "Business and wealth taxes",
+   "chart": "Business, wealth, property and Child Benefit",
+   "label": "Business Asset Disposal Relief rate",
+   "unit": "points",
+   "step": 1,
+   "help": "Rises only (HMRC gives 1 and 5 points).",
+   "scale": "cgt",
+   "sizes": [
+    1,
+    5
+   ],
+   "cuts": false
+  },
+  {
+   "id": "aea",
+   "group": "Business and wealth taxes",
+   "chart": "Business, wealth, property and Child Benefit",
+   "label": "Capital gains annual exempt amount",
+   "unit": "\u00a3",
+   "step": 100,
+   "help": "For individuals (trusts get half).",
+   "scale": "cgt",
+   "sizes": [
+    500
+   ],
+   "cuts": true
+  },
+  {
+   "id": "iht_rate",
+   "group": "Business and wealth taxes",
+   "chart": "Business, wealth, property and Child Benefit",
+   "label": "Inheritance tax rate",
+   "unit": "points",
+   "step": 1,
+   "help": "",
+   "scale": "iht",
+   "sizes": [
+    1
+   ],
+   "cuts": true
+  },
+  {
+   "id": "nrb",
+   "group": "Business and wealth taxes",
+   "chart": "Business, wealth, property and Child Benefit",
+   "label": "Inheritance tax nil rate band",
+   "unit": "\u00a3",
+   "step": 1000,
+   "help": "",
+   "scale": "iht",
+   "sizes": [
+    5000
+   ],
+   "cuts": true
+  },
+  {
+   "id": "rnrb",
+   "group": "Business and wealth taxes",
+   "chart": "Business, wealth, property and Child Benefit",
+   "label": "Residence nil rate band",
+   "unit": "\u00a3",
+   "step": 1000,
+   "help": "",
+   "scale": "iht",
+   "sizes": [
+    5000
+   ],
+   "cuts": true
+  },
+  {
+   "id": "sdlt_2",
+   "group": "Stamp duty land tax",
+   "chart": "Business, wealth, property and Child Benefit",
+   "label": "Residential 2% band",
+   "unit": "points",
+   "step": 1,
+   "help": "",
+   "scale": "sdlt",
+   "sizes": [
+    1
+   ],
+   "cuts": true
+  },
+  {
+   "id": "sdlt_5",
+   "group": "Stamp duty land tax",
+   "chart": "Business, wealth, property and Child Benefit",
+   "label": "Residential 5% band",
+   "unit": "points",
+   "step": 1,
+   "help": "",
+   "scale": "sdlt",
+   "sizes": [
+    1
+   ],
+   "cuts": true
+  },
+  {
+   "id": "sdlt_10",
+   "group": "Stamp duty land tax",
+   "chart": "Business, wealth, property and Child Benefit",
+   "label": "Residential 10% band",
+   "unit": "points",
+   "step": 1,
+   "help": "",
+   "scale": "sdlt",
+   "sizes": [
+    1
+   ],
+   "cuts": true
+  },
+  {
+   "id": "sdlt_12",
+   "group": "Stamp duty land tax",
+   "chart": "Business, wealth, property and Child Benefit",
+   "label": "Residential 12% band",
+   "unit": "points",
+   "step": 1,
+   "help": "HMRC estimates a rise loses money (fewer top-end sales), and a cut raises it.",
+   "scale": "sdlt",
+   "sizes": [
+    1
+   ],
+   "cuts": true
+  },
+  {
+   "id": "sdlt_surcharge",
+   "group": "Stamp duty land tax",
+   "chart": "Business, wealth, property and Child Benefit",
+   "label": "Surcharge on additional dwellings",
+   "unit": "points",
+   "step": 1,
+   "help": "",
+   "scale": "sdlt",
+   "sizes": [
+    1
+   ],
+   "cuts": true
+  },
+  {
+   "id": "sdlt_nonresident",
+   "group": "Stamp duty land tax",
+   "chart": "Business, wealth, property and Child Benefit",
+   "label": "Non-resident surcharge",
+   "unit": "points",
+   "step": 1,
+   "help": "",
+   "scale": "sdlt",
+   "sizes": [
+    1
+   ],
+   "cuts": true
+  },
+  {
+   "id": "sdlt_nonres5",
+   "group": "Stamp duty land tax",
+   "chart": "Business, wealth, property and Child Benefit",
+   "label": "Non-residential 5% band",
+   "unit": "points",
+   "step": 1,
+   "help": "Commercial property.",
+   "scale": "sdlt",
+   "sizes": [
+    1
+   ],
+   "cuts": true
+  },
+  {
+   "id": "vat_standard",
+   "group": "VAT and duties",
+   "chart": "VAT and duties",
+   "label": "VAT standard rate",
+   "unit": "points",
+   "step": 1,
+   "help": "",
+   "scale": "vat",
+   "sizes": [
+    1
+   ],
+   "cuts": true
+  },
+  {
+   "id": "vat_reduced",
+   "group": "VAT and duties",
+   "chart": "VAT and duties",
+   "label": "VAT reduced rate",
+   "unit": "points",
+   "step": 1,
+   "help": "E.g. domestic energy.",
+   "scale": "vat",
+   "sizes": [
+    1
+   ],
+   "cuts": true
+  },
+  {
+   "id": "ipt_standard",
+   "group": "VAT and duties",
+   "chart": "VAT and duties",
+   "label": "Insurance premium tax standard rate",
+   "unit": "points",
+   "step": 1,
+   "help": "",
+   "scale": "ipt",
+   "sizes": [
+    1
+   ],
+   "cuts": true
+  },
+  {
+   "id": "ipt_higher",
+   "group": "VAT and duties",
+   "chart": "VAT and duties",
+   "label": "Insurance premium tax higher rate",
+   "unit": "points",
+   "step": 1,
+   "help": "",
+   "scale": "ipt",
+   "sizes": [
+    1
+   ],
+   "cuts": true
+  },
+  {
+   "id": "fuel",
+   "group": "VAT and duties",
+   "chart": "VAT and duties",
+   "label": "Fuel duty",
+   "unit": "%",
+   "step": 1,
+   "help": "Per cent change in the duty rates, on top of any uprating already planned.",
+   "scale": "fuel",
+   "sizes": [
+    1
+   ],
+   "cuts": true
+  },
+  {
+   "id": "beer_cider",
+   "group": "VAT and duties",
+   "chart": "VAT and duties",
+   "label": "Beer and cider duty",
+   "unit": "%",
+   "step": 1,
+   "help": "Per cent change in the duty rates, on top of any uprating already planned.",
+   "scale": "alcohol",
+   "sizes": [
+    1
+   ],
+   "cuts": true
+  },
+  {
+   "id": "wine",
+   "group": "VAT and duties",
+   "chart": "VAT and duties",
+   "label": "Wine duty",
+   "unit": "%",
+   "step": 1,
+   "help": "Per cent change in the duty rates, on top of any uprating already planned.",
+   "scale": "alcohol",
+   "sizes": [
+    1
+   ],
+   "cuts": true
+  },
+  {
+   "id": "spirits",
+   "group": "VAT and duties",
+   "chart": "VAT and duties",
+   "label": "Spirits duty",
+   "unit": "%",
+   "step": 1,
+   "help": "Per cent change in the duty rates, on top of any uprating already planned.",
+   "scale": "alcohol",
+   "sizes": [
+    1
+   ],
+   "cuts": true
+  },
+  {
+   "id": "tobacco",
+   "group": "VAT and duties",
+   "chart": "VAT and duties",
+   "label": "Tobacco duty",
+   "unit": "%",
+   "step": 1,
+   "help": "Per cent change in the duty rates. Small, because more smuggling and cross-border shopping offset much of it.",
+   "scale": "tobacco",
+   "sizes": [
+    1
+   ],
+   "cuts": true
+  },
+  {
+   "id": "ccl",
+   "group": "VAT and duties",
+   "chart": "VAT and duties",
+   "label": "Climate change levy",
+   "unit": "%",
+   "step": 1,
+   "help": "Per cent change in the duty rates, on top of any uprating already planned.",
+   "scale": "ccl",
+   "sizes": [
+    1
+   ],
+   "cuts": true
+  },
+  {
+   "id": "cps",
+   "group": "VAT and duties",
+   "chart": "VAT and duties",
+   "label": "Carbon price support",
+   "unit": "%",
+   "step": 1,
+   "help": "Per cent change in the duty rates, on top of any uprating already planned.",
+   "scale": "ccl",
+   "sizes": [
+    1
+   ],
+   "cuts": true
+  },
+  {
+   "id": "aggregates",
+   "group": "VAT and duties",
+   "chart": "VAT and duties",
+   "label": "Aggregates levy",
+   "unit": "%",
+   "step": 1,
+   "help": "Per cent change in the duty rates, on top of any uprating already planned.",
+   "scale": null,
+   "sizes": [
+    1
+   ],
+   "cuts": true
+  },
+  {
+   "id": "ved",
+   "group": "VAT and duties",
+   "chart": "VAT and duties",
+   "label": "Vehicle excise duty",
+   "unit": "\u00a3 a car",
+   "step": 1,
+   "help": "Change per car (and van, lorry...) a year; motorbikes change by a fifth as much.",
+   "scale": "ved",
+   "sizes": [
+    5
+   ],
+   "cuts": true
+  },
+  {
+   "id": "apd",
+   "group": "VAT and duties",
+   "chart": "VAT and duties",
+   "label": "Air passenger duty, reduced rate",
+   "unit": "\u00a3 a passenger",
+   "step": 1,
+   "help": "Economy-class short-haul flights.",
+   "scale": "apd",
+   "sizes": [
+    1
+   ],
+   "cuts": true
+  },
+  {
+   "id": "cb_first",
+   "group": "Child Benefit",
+   "chart": "Business, wealth, property and Child Benefit",
+   "label": "Child Benefit, eldest child",
+   "unit": "\u00a3 a week",
+   "step": 0.5,
+   "help": "",
+   "scale": null,
+   "sizes": [
+    1
+   ],
+   "cuts": true
+  },
+  {
+   "id": "cb_other",
+   "group": "Child Benefit",
+   "chart": "Business, wealth, property and Child Benefit",
+   "label": "Child Benefit, other children",
+   "unit": "\u00a3 a week",
+   "step": 0.5,
+   "help": "",
+   "scale": null,
+   "sizes": [
+    1
+   ],
+   "cuts": true
+  }
+ ],
+ "bases": {
+  "latest": {
+   "label": "October 2026 EFO: HMRC's figures rescaled to the latest OBR forecast",
+   "years": [
+    "2026-27",
+    "2027-28",
+    "2028-29",
+    "2029-30",
+    "2030-31",
+    "2031-32"
+   ],
+   "gdp": [
+    3179.9,
+    3291.1,
+    3414.2,
+    3543.0,
+    3673.1,
+    3801.9
+   ],
+   "extrapolated": [
+    false,
+    false,
+    false,
+    true,
+    true,
+    true
+   ],
+   "points": {
+    "basic_rate": {
+     "up": [
+      [
+       1,
+       [
+        7055.3,
+        8525.6,
+        8567.5,
+        9099.0,
+        9479.0,
+        9884.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -7055.3,
+        -8525.6,
+        -8567.5,
+        -9099.0,
+        -9479.0,
+        -9884.0
+       ]
+      ]
+     ]
+    },
+    "higher_rate": {
+     "up": [
+      [
+       1,
+       [
+        1636.0,
+        2221.8,
+        2194.1,
+        2330.2,
+        2427.6,
+        2531.3
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -1636.0,
+        -2221.8,
+        -2194.1,
+        -2330.2,
+        -2427.6,
+        -2531.3
+       ]
+      ]
+     ]
+    },
+    "additional_rate": {
+     "up": [
+      [
+       1,
+       [
+        148.3,
+        273.9,
+        240.3,
+        255.2,
+        265.9,
+        277.2
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -178.9,
+        -346.2,
+        -313.4,
+        -332.9,
+        -346.8,
+        -361.6
+       ]
+      ]
+     ]
+    },
+    "personal_allowance": {
+     "up": [
+      [
+       1,
+       [
+        -1022.5,
+        -1240.1,
+        -1149.3,
+        -1220.6,
+        -1271.6,
+        -1325.9
+       ]
+      ],
+      [
+       10,
+       [
+        -10225.0,
+        -12039.2,
+        -12015.5,
+        -12760.8,
+        -13293.7,
+        -13861.7
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        1022.5,
+        1240.1,
+        1149.3,
+        1220.6,
+        1271.6,
+        1325.9
+       ]
+      ],
+      [
+       10,
+       [
+        10225.0,
+        12039.2,
+        12015.5,
+        12760.8,
+        13293.7,
+        13861.7
+       ]
+      ]
+     ]
+    },
+    "basic_rate_limit": {
+     "up": [
+      [
+       1,
+       [
+        -506.1,
+        -687.2,
+        -700.0,
+        -743.5,
+        -774.5,
+        -807.6
+       ]
+      ],
+      [
+       10,
+       [
+        -4703.5,
+        -6458.8,
+        -6268.9,
+        -6657.8,
+        -6935.9,
+        -7232.2
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        506.1,
+        687.2,
+        700.0,
+        743.5,
+        774.5,
+        807.6
+       ]
+      ],
+      [
+       10,
+       [
+        5521.5,
+        7440.5,
+        7261.5,
+        7711.9,
+        8034.0,
+        8377.3
+       ]
+      ]
+     ]
+    },
+    "all_thresholds": {
+     "up": [
+      [
+       1,
+       [
+        -1482.6,
+        -1911.8,
+        -1880.7,
+        -1997.3,
+        -2080.8,
+        -2169.6
+       ]
+      ],
+      [
+       10,
+       [
+        -14724.0,
+        -18291.3,
+        -18075.4,
+        -19196.6,
+        -19998.4,
+        -20852.7
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        1482.6,
+        1911.8,
+        1880.7,
+        1997.3,
+        2080.8,
+        2169.6
+       ]
+      ],
+      [
+       10,
+       [
+        16462.3,
+        20358.1,
+        20217.3,
+        21471.4,
+        22368.1,
+        23323.7
+       ]
+      ]
+     ]
+    },
+    "dividend_allowance": {
+     "up": [
+      [
+       100,
+       [
+        0.0,
+        -72.3,
+        -67.9,
+        -72.1,
+        -75.1,
+        -78.3
+       ]
+      ]
+     ],
+     "down": [
+      [
+       100,
+       [
+        -0.0,
+        72.3,
+        67.9,
+        72.1,
+        75.1,
+        78.3
+       ]
+      ]
+     ]
+    },
+    "savings_allowance": {
+     "up": [
+      [
+       100,
+       [
+        0.0,
+        -31.0,
+        -26.1,
+        -27.7,
+        -28.9,
+        -30.1
+       ]
+      ]
+     ],
+     "down": [
+      [
+       100,
+       [
+        -0.0,
+        31.0,
+        26.1,
+        27.7,
+        28.9,
+        30.1
+       ]
+      ]
+     ]
+    },
+    "savings_starting_rate": {
+     "up": [
+      [
+       1,
+       [
+        0.0,
+        10.3,
+        5.2,
+        5.5,
+        5.8,
+        6.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -0.0,
+        -10.3,
+        -5.2,
+        -5.5,
+        -5.8,
+        -6.0
+       ]
+      ]
+     ]
+    },
+    "savings_starting_limit": {
+     "up": [
+      [
+       100,
+       [
+        0.0,
+        -5.2,
+        -5.2,
+        -5.5,
+        -5.8,
+        -6.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       100,
+       [
+        -0.0,
+        5.2,
+        5.2,
+        5.5,
+        5.8,
+        6.0
+       ]
+      ]
+     ]
+    },
+    "ee_main": {
+     "up": [
+      [
+       1,
+       [
+        5540.7,
+        5495.9,
+        5623.8,
+        5918.3,
+        6137.8,
+        6339.3
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -5540.7,
+        -5495.9,
+        -5623.8,
+        -5918.3,
+        -6137.8,
+        -6339.3
+       ]
+      ]
+     ]
+    },
+    "ee_additional": {
+     "up": [
+      [
+       1,
+       [
+        2071.3,
+        2073.9,
+        2135.0,
+        2246.7,
+        2330.1,
+        2406.6
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -2071.3,
+        -2073.9,
+        -2135.0,
+        -2246.7,
+        -2330.1,
+        -2406.6
+       ]
+      ]
+     ]
+    },
+    "er_rate": {
+     "up": [
+      [
+       1,
+       [
+        11547.3,
+        11665.8,
+        12028.7,
+        12658.5,
+        13128.2,
+        13559.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -11547.3,
+        -11665.8,
+        -12028.7,
+        -12658.5,
+        -13128.2,
+        -13559.0
+       ]
+      ]
+     ]
+    },
+    "c4_main": {
+     "up": [
+      [
+       1,
+       [
+        455.7,
+        544.4,
+        463.4,
+        487.7,
+        505.8,
+        522.4
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -455.7,
+        -544.4,
+        -463.4,
+        -487.7,
+        -505.8,
+        -522.4
+       ]
+      ]
+     ]
+    },
+    "c4_additional": {
+     "up": [
+      [
+       1,
+       [
+        305.5,
+        368.1,
+        333.3,
+        350.7,
+        363.7,
+        375.7
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -305.5,
+        -368.1,
+        -333.3,
+        -350.7,
+        -363.7,
+        -375.7
+       ]
+      ]
+     ]
+    },
+    "ee_threshold": {
+     "up": [
+      [
+       2,
+       [
+        -217.5,
+        -238.5,
+        -260.4,
+        -274.0,
+        -284.2,
+        -293.5
+       ]
+      ]
+     ],
+     "down": [
+      [
+       2,
+       [
+        217.5,
+        238.5,
+        260.4,
+        274.0,
+        284.2,
+        293.5
+       ]
+      ]
+     ]
+    },
+    "er_threshold": {
+     "up": [
+      [
+       2,
+       [
+        -435.0,
+        -445.9,
+        -489.5,
+        -515.1,
+        -534.2,
+        -551.8
+       ]
+      ]
+     ],
+     "down": [
+      [
+       2,
+       [
+        435.0,
+        445.9,
+        489.5,
+        515.1,
+        534.2,
+        551.8
+       ]
+      ]
+     ]
+    },
+    "uel": {
+     "up": [
+      [
+       10,
+       [
+        227.8,
+        228.1,
+        208.3,
+        219.2,
+        227.3,
+        234.8
+       ]
+      ]
+     ],
+     "down": [
+      [
+       10,
+       [
+        -227.8,
+        -228.1,
+        -208.3,
+        -219.2,
+        -227.3,
+        -234.8
+       ]
+      ]
+     ]
+    },
+    "lpl": {
+     "up": [
+      [
+       104,
+       [
+        -15.5,
+        -15.6,
+        -20.8,
+        -21.9,
+        -22.7,
+        -23.5
+       ]
+      ]
+     ],
+     "down": [
+      [
+       104,
+       [
+        15.5,
+        15.6,
+        20.8,
+        21.9,
+        22.7,
+        23.5
+       ]
+      ]
+     ]
+    },
+    "upl": {
+     "up": [
+      [
+       520,
+       [
+        10.4,
+        10.4,
+        10.4,
+        11.0,
+        11.4,
+        11.7
+       ]
+      ]
+     ],
+     "down": [
+      [
+       520,
+       [
+        -10.4,
+        -10.4,
+        -10.4,
+        -11.0,
+        -11.4,
+        -11.7
+       ]
+      ]
+     ]
+    },
+    "ct": {
+     "up": [
+      [
+       1,
+       [
+        3788.3,
+        4139.0,
+        4305.6,
+        4490.1,
+        4673.8,
+        4858.7
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -3788.3,
+        -4139.0,
+        -4305.6,
+        -4490.1,
+        -4673.8,
+        -4858.7
+       ]
+      ]
+     ]
+    },
+    "cgt_lower": {
+     "up": [
+      [
+       1,
+       [
+        -6.6,
+        14.5,
+        7.0,
+        7.4,
+        8.2,
+        8.9
+       ]
+      ],
+      [
+       5,
+       [
+        -52.8,
+        29.0,
+        -14.0,
+        -14.8,
+        -16.3,
+        -17.9
+       ]
+      ],
+      [
+       10,
+       [
+        -171.5,
+        -79.6,
+        -189.5,
+        -200.0,
+        -220.6,
+        -241.5
+       ]
+      ]
+     ],
+     "down": null
+    },
+    "cgt_higher": {
+     "up": [
+      [
+       1,
+       [
+        -19.8,
+        115.8,
+        -42.1,
+        -44.4,
+        -49.0,
+        -53.7
+       ]
+      ],
+      [
+       5,
+       [
+        -224.2,
+        -340.3,
+        -1221.0,
+        -1288.7,
+        -1421.5,
+        -1556.1
+       ]
+      ],
+      [
+       10,
+       [
+        -712.2,
+        -2982.8,
+        -5003.2,
+        -5280.8,
+        -5824.9,
+        -6376.3
+       ]
+      ]
+     ],
+     "down": null
+    },
+    "badr": {
+     "up": [
+      [
+       1,
+       [
+        13.2,
+        195.5,
+        252.6,
+        266.6,
+        294.1,
+        321.9
+       ]
+      ],
+      [
+       5,
+       [
+        52.8,
+        919.4,
+        1178.9,
+        1244.3,
+        1372.5,
+        1502.4
+       ]
+      ]
+     ],
+     "down": null
+    },
+    "aea": {
+     "up": [
+      [
+       500,
+       [
+        0.0,
+        -50.7,
+        -42.1,
+        -44.4,
+        -49.0,
+        -53.7
+       ]
+      ]
+     ],
+     "down": [
+      [
+       500,
+       [
+        -0.0,
+        50.7,
+        42.1,
+        44.4,
+        49.0,
+        53.7
+       ]
+      ]
+     ]
+    },
+    "iht_rate": {
+     "up": [
+      [
+       1,
+       [
+        95.3,
+        220.9,
+        268.1,
+        289.0,
+        310.5,
+        330.2
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -95.3,
+        -220.9,
+        -268.1,
+        -289.0,
+        -310.5,
+        -330.2
+       ]
+      ]
+     ]
+    },
+    "nrb": {
+     "up": [
+      [
+       5000,
+       [
+        -54.5,
+        -128.9,
+        -152.6,
+        -164.4,
+        -176.7,
+        -187.9
+       ]
+      ]
+     ],
+     "down": [
+      [
+       5000,
+       [
+        54.5,
+        128.9,
+        152.6,
+        164.4,
+        176.7,
+        187.9
+       ]
+      ]
+     ]
+    },
+    "rnrb": {
+     "up": [
+      [
+       5000,
+       [
+        -22.7,
+        -50.6,
+        -60.1,
+        -64.8,
+        -69.6,
+        -74.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       5000,
+       [
+        22.7,
+        50.6,
+        60.1,
+        64.8,
+        69.6,
+        74.0
+       ]
+      ]
+     ]
+    },
+    "sdlt_2": {
+     "up": [
+      [
+       1,
+       [
+        388.5,
+        381.4,
+        433.6,
+        462.8,
+        494.7,
+        527.7
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -416.3,
+        -412.8,
+        -464.6,
+        -495.8,
+        -530.1,
+        -565.4
+       ]
+      ]
+     ]
+    },
+    "sdlt_5": {
+     "up": [
+      [
+       1,
+       [
+        633.7,
+        610.3,
+        721.3,
+        769.7,
+        822.9,
+        877.8
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -716.9,
+        -713.5,
+        -831.9,
+        -887.8,
+        -949.1,
+        -1012.4
+       ]
+      ]
+     ]
+    },
+    "sdlt_10": {
+     "up": [
+      [
+       1,
+       [
+        32.4,
+        13.5,
+        22.1,
+        23.6,
+        25.2,
+        26.9
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -37.0,
+        -22.4,
+        -31.0,
+        -33.1,
+        -35.3,
+        -37.7
+       ]
+      ]
+     ]
+    },
+    "sdlt_12": {
+     "up": [
+      [
+       1,
+       [
+        -23.1,
+        -53.8,
+        -53.1,
+        -56.7,
+        -60.6,
+        -64.6
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        9.3,
+        35.9,
+        31.0,
+        33.1,
+        35.3,
+        37.7
+       ]
+      ]
+     ]
+    },
+    "sdlt_surcharge": {
+     "up": [
+      [
+       1,
+       [
+        -41.6,
+        -116.7,
+        -44.2,
+        -47.2,
+        -50.5,
+        -53.9
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -83.3,
+        -4.5,
+        -88.5,
+        -94.4,
+        -101.0,
+        -107.7
+       ]
+      ]
+     ]
+    },
+    "sdlt_nonresident": {
+     "up": [
+      [
+       1,
+       [
+        -9.3,
+        -22.4,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -9.3,
+        4.5,
+        -22.1,
+        -23.6,
+        -25.2,
+        -26.9
+       ]
+      ]
+     ]
+    },
+    "sdlt_nonres5": {
+     "up": [
+      [
+       1,
+       [
+        138.8,
+        166.0,
+        203.5,
+        217.2,
+        232.2,
+        247.7
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -282.1,
+        -318.6,
+        -362.8,
+        -387.2,
+        -414.0,
+        -441.6
+       ]
+      ]
+     ]
+    },
+    "vat_standard": {
+     "up": [
+      [
+       1,
+       [
+        8748.3,
+        9217.7,
+        9635.9,
+        10043.3,
+        10440.6,
+        10827.1
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -8748.3,
+        -9217.7,
+        -9635.9,
+        -10043.3,
+        -10440.6,
+        -10827.1
+       ]
+      ]
+     ]
+    },
+    "vat_reduced": {
+     "up": [
+      [
+       1,
+       [
+        487.1,
+        480.9,
+        484.3,
+        504.8,
+        524.8,
+        544.2
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -487.1,
+        -480.9,
+        -484.3,
+        -504.8,
+        -524.8,
+        -544.2
+       ]
+      ]
+     ]
+    },
+    "ipt_standard": {
+     "up": [
+      [
+       1,
+       [
+        622.9,
+        639.3,
+        663.2,
+        679.5,
+        693.7,
+        708.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -622.9,
+        -639.3,
+        -663.2,
+        -679.5,
+        -693.7,
+        -708.0
+       ]
+      ]
+     ]
+    },
+    "ipt_higher": {
+     "up": [
+      [
+       1,
+       [
+        19.8,
+        20.0,
+        20.1,
+        20.6,
+        21.0,
+        21.5
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -19.8,
+        -20.0,
+        -20.1,
+        -20.6,
+        -21.0,
+        -21.5
+       ]
+      ]
+     ]
+    },
+    "fuel": {
+     "up": [
+      [
+       1,
+       [
+        212.5,
+        221.0,
+        223.7,
+        221.1,
+        215.1,
+        205.6
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -212.5,
+        -221.0,
+        -223.7,
+        -221.1,
+        -215.1,
+        -205.6
+       ]
+      ]
+     ]
+    },
+    "beer_cider": {
+     "up": [
+      [
+       1,
+       [
+        23.4,
+        27.4,
+        26.8,
+        27.5,
+        27.8,
+        28.2
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -23.4,
+        -27.4,
+        -26.8,
+        -27.5,
+        -27.8,
+        -28.2
+       ]
+      ]
+     ]
+    },
+    "wine": {
+     "up": [
+      [
+       1,
+       [
+        37.4,
+        36.5,
+        35.8,
+        36.6,
+        37.1,
+        37.6
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -37.4,
+        -36.5,
+        -35.8,
+        -36.6,
+        -37.1,
+        -37.6
+       ]
+      ]
+     ]
+    },
+    "spirits": {
+     "up": [
+      [
+       1,
+       [
+        37.4,
+        36.5,
+        40.2,
+        41.2,
+        41.7,
+        42.3
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -37.4,
+        -36.5,
+        -40.2,
+        -41.2,
+        -41.7,
+        -42.3
+       ]
+      ]
+     ]
+    },
+    "tobacco": {
+     "up": [
+      [
+       1,
+       [
+        4.6,
+        9.0,
+        13.2,
+        12.6,
+        12.2,
+        11.7
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -4.6,
+        -9.0,
+        -13.2,
+        -12.6,
+        -12.2,
+        -11.7
+       ]
+      ]
+     ]
+    },
+    "ccl": {
+     "up": [
+      [
+       1,
+       [
+        14.4,
+        14.3,
+        12.8,
+        13.2,
+        13.7,
+        13.9
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -14.4,
+        -14.3,
+        -12.8,
+        -13.2,
+        -13.7,
+        -13.9
+       ]
+      ]
+     ]
+    },
+    "cps": {
+     "up": [
+      [
+       1,
+       [
+        4.8,
+        4.8,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -4.8,
+        -4.8,
+        -0.0,
+        -0.0,
+        -0.0,
+        -0.0
+       ]
+      ]
+     ]
+    },
+    "aggregates": {
+     "up": [
+      [
+       1,
+       [
+        5.0,
+        5.0,
+        5.0,
+        5.0,
+        5.0,
+        5.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -5.0,
+        -5.0,
+        -5.0,
+        -5.0,
+        -5.0,
+        -5.0
+       ]
+      ]
+     ]
+    },
+    "ved": {
+     "up": [
+      [
+       5,
+       [
+        201.7,
+        210.8,
+        239.8,
+        255.8,
+        272.9,
+        291.1
+       ]
+      ]
+     ],
+     "down": [
+      [
+       5,
+       [
+        -201.7,
+        -210.8,
+        -239.8,
+        -255.8,
+        -272.9,
+        -291.1
+       ]
+      ]
+     ]
+    },
+    "apd": {
+     "up": [
+      [
+       1,
+       [
+        103.2,
+        112.3,
+        116.9,
+        123.8,
+        130.2,
+        137.5
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -103.2,
+        -112.3,
+        -116.9,
+        -123.8,
+        -130.2,
+        -137.5
+       ]
+      ]
+     ]
+    },
+    "cb_first": {
+     "up": [
+      [
+       1,
+       [
+        -335.0,
+        -335.0,
+        -330.0,
+        -330.0,
+        -330.0,
+        -330.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        335.0,
+        355.0,
+        345.0,
+        345.0,
+        345.0,
+        345.0
+       ]
+      ]
+     ]
+    },
+    "cb_other": {
+     "up": [
+      [
+       1,
+       [
+        -230.0,
+        -240.0,
+        -245.0,
+        -245.0,
+        -245.0,
+        -245.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        230.0,
+        225.0,
+        220.0,
+        220.0,
+        220.0,
+        220.0
+       ]
+      ]
+     ]
+    }
+   },
+   "index": {
+    "it": [
+     365.847,
+     388.237,
+     406.713,
+     431.941,
+     449.981,
+     469.205
+    ],
+    "nics": [
+     214.231,
+     220.802,
+     228.574,
+     240.541,
+     249.466,
+     257.652
+    ],
+    "ct": [
+     107.223,
+     113.615,
+     120.731,
+     125.905,
+     131.057,
+     136.242
+    ],
+    "cgt": [
+     25.59,
+     29.199,
+     32.387,
+     34.184,
+     37.706,
+     41.275
+    ],
+    "iht": [
+     9.11,
+     10.784,
+     12.3,
+     13.258,
+     14.245,
+     15.146
+    ],
+    "sdlt": [
+     21.6,
+     23.635,
+     25.943,
+     27.686,
+     29.598,
+     31.573
+    ],
+    "vat": [
+     186.355,
+     196.223,
+     204.509,
+     213.155,
+     221.587,
+     229.79
+    ],
+    "ipt": [
+     9.216,
+     9.487,
+     9.724,
+     9.963,
+     10.171,
+     10.381
+    ],
+    "fuel": [
+     23.95,
+     25.713,
+     26.581,
+     26.267,
+     25.551,
+     24.432
+    ],
+    "alcohol": [
+     12.763,
+     13.056,
+     13.39,
+     13.704,
+     13.889,
+     14.063
+    ],
+    "tobacco": [
+     7.39,
+     7.306,
+     7.052,
+     6.772,
+     6.534,
+     6.291
+    ],
+    "ccl": [
+     1.775,
+     1.714,
+     1.493,
+     1.545,
+     1.599,
+     1.626
+    ],
+    "none": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "ved": [
+     9.408,
+     10.078,
+     11.736,
+     12.515,
+     13.355,
+     14.242
+    ],
+    "apd": [
+     4.863,
+     5.185,
+     5.485,
+     5.81,
+     6.106,
+     6.45
+    ]
+   }
+  },
+  "hmrc": {
+   "label": "Direct effects of illustrative tax changes (June 2025), as published by HMRC (OBR forecast of March 2025)",
+   "years": [
+    "2026-27",
+    "2027-28",
+    "2028-29"
+   ],
+   "gdp": [
+    3101.3,
+    3219.7,
+    3339.5
+   ],
+   "extrapolated": [
+    false,
+    false,
+    false
+   ],
+   "points": {
+    "basic_rate": {
+     "up": [
+      [
+       1,
+       [
+        6900.0,
+        8250.0,
+        8200.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -6900.0,
+        -8250.0,
+        -8200.0
+       ]
+      ]
+     ]
+    },
+    "higher_rate": {
+     "up": [
+      [
+       1,
+       [
+        1600.0,
+        2150.0,
+        2100.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -1600.0,
+        -2150.0,
+        -2100.0
+       ]
+      ]
+     ]
+    },
+    "additional_rate": {
+     "up": [
+      [
+       1,
+       [
+        145.0,
+        265.0,
+        230.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -175.0,
+        -335.0,
+        -300.0
+       ]
+      ]
+     ]
+    },
+    "personal_allowance": {
+     "up": [
+      [
+       1,
+       [
+        -1000.0,
+        -1200.0,
+        -1100.0
+       ]
+      ],
+      [
+       10,
+       [
+        -10000.0,
+        -11650.0,
+        -11500.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        1000.0,
+        1200.0,
+        1100.0
+       ]
+      ],
+      [
+       10,
+       [
+        10000.0,
+        11650.0,
+        11500.0
+       ]
+      ]
+     ]
+    },
+    "basic_rate_limit": {
+     "up": [
+      [
+       1,
+       [
+        -495.0,
+        -665.0,
+        -670.0
+       ]
+      ],
+      [
+       10,
+       [
+        -4600.0,
+        -6250.0,
+        -6000.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        495.0,
+        665.0,
+        670.0
+       ]
+      ],
+      [
+       10,
+       [
+        5400.0,
+        7200.0,
+        6950.0
+       ]
+      ]
+     ]
+    },
+    "all_thresholds": {
+     "up": [
+      [
+       1,
+       [
+        -1450.0,
+        -1850.0,
+        -1800.0
+       ]
+      ],
+      [
+       10,
+       [
+        -14400.0,
+        -17700.0,
+        -17300.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        1450.0,
+        1850.0,
+        1800.0
+       ]
+      ],
+      [
+       10,
+       [
+        16100.0,
+        19700.0,
+        19350.0
+       ]
+      ]
+     ]
+    },
+    "dividend_allowance": {
+     "up": [
+      [
+       100,
+       [
+        0.0,
+        -70.0,
+        -65.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       100,
+       [
+        -0.0,
+        70.0,
+        65.0
+       ]
+      ]
+     ]
+    },
+    "savings_allowance": {
+     "up": [
+      [
+       100,
+       [
+        0.0,
+        -30.0,
+        -25.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       100,
+       [
+        -0.0,
+        30.0,
+        25.0
+       ]
+      ]
+     ]
+    },
+    "savings_starting_rate": {
+     "up": [
+      [
+       1,
+       [
+        0.0,
+        10.0,
+        5.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -0.0,
+        -10.0,
+        -5.0
+       ]
+      ]
+     ]
+    },
+    "savings_starting_limit": {
+     "up": [
+      [
+       100,
+       [
+        0.0,
+        -5.0,
+        -5.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       100,
+       [
+        -0.0,
+        5.0,
+        5.0
+       ]
+      ]
+     ]
+    },
+    "ee_main": {
+     "up": [
+      [
+       1,
+       [
+        5350.0,
+        5300.0,
+        5400.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -5350.0,
+        -5300.0,
+        -5400.0
+       ]
+      ]
+     ]
+    },
+    "ee_additional": {
+     "up": [
+      [
+       1,
+       [
+        2000.0,
+        2000.0,
+        2050.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -2000.0,
+        -2000.0,
+        -2050.0
+       ]
+      ]
+     ]
+    },
+    "er_rate": {
+     "up": [
+      [
+       1,
+       [
+        11150.0,
+        11250.0,
+        11550.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -11150.0,
+        -11250.0,
+        -11550.0
+       ]
+      ]
+     ]
+    },
+    "c4_main": {
+     "up": [
+      [
+       1,
+       [
+        440.0,
+        525.0,
+        445.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -440.0,
+        -525.0,
+        -445.0
+       ]
+      ]
+     ]
+    },
+    "c4_additional": {
+     "up": [
+      [
+       1,
+       [
+        295.0,
+        355.0,
+        320.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -295.0,
+        -355.0,
+        -320.0
+       ]
+      ]
+     ]
+    },
+    "ee_threshold": {
+     "up": [
+      [
+       2,
+       [
+        -210.0,
+        -230.0,
+        -250.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       2,
+       [
+        210.0,
+        230.0,
+        250.0
+       ]
+      ]
+     ]
+    },
+    "er_threshold": {
+     "up": [
+      [
+       2,
+       [
+        -420.0,
+        -430.0,
+        -470.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       2,
+       [
+        420.0,
+        430.0,
+        470.0
+       ]
+      ]
+     ]
+    },
+    "uel": {
+     "up": [
+      [
+       10,
+       [
+        220.0,
+        220.0,
+        200.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       10,
+       [
+        -220.0,
+        -220.0,
+        -200.0
+       ]
+      ]
+     ]
+    },
+    "lpl": {
+     "up": [
+      [
+       104,
+       [
+        -15.0,
+        -15.0,
+        -20.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       104,
+       [
+        15.0,
+        15.0,
+        20.0
+       ]
+      ]
+     ]
+    },
+    "upl": {
+     "up": [
+      [
+       520,
+       [
+        10.0,
+        10.0,
+        10.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       520,
+       [
+        -10.0,
+        -10.0,
+        -10.0
+       ]
+      ]
+     ]
+    },
+    "ct": {
+     "up": [
+      [
+       1,
+       [
+        3600.0,
+        3900.0,
+        4000.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -3600.0,
+        -3900.0,
+        -4000.0
+       ]
+      ]
+     ]
+    },
+    "cgt_lower": {
+     "up": [
+      [
+       1,
+       [
+        -5.0,
+        10.0,
+        5.0
+       ]
+      ],
+      [
+       5,
+       [
+        -40.0,
+        20.0,
+        -10.0
+       ]
+      ],
+      [
+       10,
+       [
+        -130.0,
+        -55.0,
+        -135.0
+       ]
+      ]
+     ],
+     "down": null
+    },
+    "cgt_higher": {
+     "up": [
+      [
+       1,
+       [
+        -15.0,
+        80.0,
+        -30.0
+       ]
+      ],
+      [
+       5,
+       [
+        -170.0,
+        -235.0,
+        -870.0
+       ]
+      ],
+      [
+       10,
+       [
+        -540.0,
+        -2060.0,
+        -3565.0
+       ]
+      ]
+     ],
+     "down": null
+    },
+    "badr": {
+     "up": [
+      [
+       1,
+       [
+        10.0,
+        135.0,
+        180.0
+       ]
+      ],
+      [
+       5,
+       [
+        40.0,
+        635.0,
+        840.0
+       ]
+      ]
+     ],
+     "down": null
+    },
+    "aea": {
+     "up": [
+      [
+       500,
+       [
+        0.0,
+        -35.0,
+        -30.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       500,
+       [
+        -0.0,
+        35.0,
+        30.0
+       ]
+      ]
+     ]
+    },
+    "iht_rate": {
+     "up": [
+      [
+       1,
+       [
+        105.0,
+        240.0,
+        290.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -105.0,
+        -240.0,
+        -290.0
+       ]
+      ]
+     ]
+    },
+    "nrb": {
+     "up": [
+      [
+       5000,
+       [
+        -60.0,
+        -140.0,
+        -165.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       5000,
+       [
+        60.0,
+        140.0,
+        165.0
+       ]
+      ]
+     ]
+    },
+    "rnrb": {
+     "up": [
+      [
+       5000,
+       [
+        -25.0,
+        -55.0,
+        -65.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       5000,
+       [
+        25.0,
+        55.0,
+        65.0
+       ]
+      ]
+     ]
+    },
+    "sdlt_2": {
+     "up": [
+      [
+       1,
+       [
+        420.0,
+        425.0,
+        490.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -450.0,
+        -460.0,
+        -525.0
+       ]
+      ]
+     ]
+    },
+    "sdlt_5": {
+     "up": [
+      [
+       1,
+       [
+        685.0,
+        680.0,
+        815.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -775.0,
+        -795.0,
+        -940.0
+       ]
+      ]
+     ]
+    },
+    "sdlt_10": {
+     "up": [
+      [
+       1,
+       [
+        35.0,
+        15.0,
+        25.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -40.0,
+        -25.0,
+        -35.0
+       ]
+      ]
+     ]
+    },
+    "sdlt_12": {
+     "up": [
+      [
+       1,
+       [
+        -25.0,
+        -60.0,
+        -60.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        10.0,
+        40.0,
+        35.0
+       ]
+      ]
+     ]
+    },
+    "sdlt_surcharge": {
+     "up": [
+      [
+       1,
+       [
+        -45.0,
+        -130.0,
+        -50.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -90.0,
+        -5.0,
+        -100.0
+       ]
+      ]
+     ]
+    },
+    "sdlt_nonresident": {
+     "up": [
+      [
+       1,
+       [
+        -10.0,
+        -25.0,
+        0.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -10.0,
+        5.0,
+        -25.0
+       ]
+      ]
+     ]
+    },
+    "sdlt_nonres5": {
+     "up": [
+      [
+       1,
+       [
+        150.0,
+        185.0,
+        230.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -305.0,
+        -355.0,
+        -410.0
+       ]
+      ]
+     ]
+    },
+    "vat_standard": {
+     "up": [
+      [
+       1,
+       [
+        8800.0,
+        9200.0,
+        9550.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -8800.0,
+        -9200.0,
+        -9550.0
+       ]
+      ]
+     ]
+    },
+    "vat_reduced": {
+     "up": [
+      [
+       1,
+       [
+        490.0,
+        480.0,
+        480.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -490.0,
+        -480.0,
+        -480.0
+       ]
+      ]
+     ]
+    },
+    "ipt_standard": {
+     "up": [
+      [
+       1,
+       [
+        630.0,
+        640.0,
+        660.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -630.0,
+        -640.0,
+        -660.0
+       ]
+      ]
+     ]
+    },
+    "ipt_higher": {
+     "up": [
+      [
+       1,
+       [
+        20.0,
+        20.0,
+        20.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -20.0,
+        -20.0,
+        -20.0
+       ]
+      ]
+     ]
+    },
+    "fuel": {
+     "up": [
+      [
+       1,
+       [
+        240.0,
+        235.0,
+        230.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -240.0,
+        -235.0,
+        -230.0
+       ]
+      ]
+     ]
+    },
+    "beer_cider": {
+     "up": [
+      [
+       1,
+       [
+        25.0,
+        30.0,
+        30.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -25.0,
+        -30.0,
+        -30.0
+       ]
+      ]
+     ]
+    },
+    "wine": {
+     "up": [
+      [
+       1,
+       [
+        40.0,
+        40.0,
+        40.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -40.0,
+        -40.0,
+        -40.0
+       ]
+      ]
+     ]
+    },
+    "spirits": {
+     "up": [
+      [
+       1,
+       [
+        40.0,
+        40.0,
+        45.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -40.0,
+        -40.0,
+        -45.0
+       ]
+      ]
+     ]
+    },
+    "tobacco": {
+     "up": [
+      [
+       1,
+       [
+        5.0,
+        10.0,
+        15.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -5.0,
+        -10.0,
+        -15.0
+       ]
+      ]
+     ]
+    },
+    "ccl": {
+     "up": [
+      [
+       1,
+       [
+        15.0,
+        15.0,
+        15.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -15.0,
+        -15.0,
+        -15.0
+       ]
+      ]
+     ]
+    },
+    "cps": {
+     "up": [
+      [
+       1,
+       [
+        5.0,
+        5.0,
+        0.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -5.0,
+        -5.0,
+        -0.0
+       ]
+      ]
+     ]
+    },
+    "aggregates": {
+     "up": [
+      [
+       1,
+       [
+        5.0,
+        5.0,
+        5.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -5.0,
+        -5.0,
+        -5.0
+       ]
+      ]
+     ]
+    },
+    "ved": {
+     "up": [
+      [
+       5,
+       [
+        205.0,
+        210.0,
+        215.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       5,
+       [
+        -205.0,
+        -210.0,
+        -215.0
+       ]
+      ]
+     ]
+    },
+    "apd": {
+     "up": [
+      [
+       1,
+       [
+        115.0,
+        125.0,
+        130.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        -115.0,
+        -125.0,
+        -130.0
+       ]
+      ]
+     ]
+    },
+    "cb_first": {
+     "up": [
+      [
+       1,
+       [
+        -335.0,
+        -335.0,
+        -330.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        335.0,
+        355.0,
+        345.0
+       ]
+      ]
+     ]
+    },
+    "cb_other": {
+     "up": [
+      [
+       1,
+       [
+        -230.0,
+        -240.0,
+        -245.0
+       ]
+      ]
+     ],
+     "down": [
+      [
+       1,
+       [
+        230.0,
+        225.0,
+        220.0
+       ]
+      ]
+     ]
+    }
+   },
+   "index": {}
+  }
+ },
+ "default_basis": "latest"
+}

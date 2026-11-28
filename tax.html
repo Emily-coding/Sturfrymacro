@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tax ready reckoner</title>
+<meta name="description" content="What raising or cutting UK taxes would raise or cost, using HMRC's direct effects of illustrative tax changes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/site.js"></script>
+<style>
+  /* page-specific; the rest is assets/site.css (same look as fiscal.html) */
+  .sub, .intro { color: var(--ink-2); max-width: 820px; }
+  .intro { margin: 0 0 18px; }
+  .layout { display: grid; grid-template-columns: minmax(0, 420px) minmax(0, 1fr); gap: 32px; align-items: start; }
+  @media (max-width: 900px) { .layout { grid-template-columns: minmax(0, 1fr); } }
+  .panel { background: var(--panel); border-radius: 8px; padding: 4px 16px; margin-bottom: 10px; }
+  details.panel > summary { cursor: pointer; font-weight: 700; padding: 10px 0; list-style-position: inside; }
+  details.panel > summary .count { color: var(--blue); font-weight: 600; font-size: 13.5px; margin-left: 6px; }
+  .lever { display: grid; grid-template-columns: minmax(0, 1fr) 84px; gap: 2px 10px; align-items: center;
+           padding: 8px 0; border-top: 1px solid var(--grid); }
+  .lever label { font-weight: 600; }
+  .lever .unit { color: var(--ink-3); font-weight: 400; font-size: 13.5px; }
+  .lever .help { grid-column: 1 / -1; color: var(--ink-3); font-size: 13px; }
+  .lever .per { grid-column: 1 / -1; color: var(--ink-2); font-size: 13px; }
+  .lever.on label { color: var(--blue); }
+  input[type=number], select { font: inherit; font-size: 14.5px; color: var(--ink); background: #FFFFFF;
+           border: 1px solid var(--grid); border-radius: 6px; padding: 3px 6px; width: 100%; min-width: 0; }
+  .opts { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; margin: 0 0 14px; font-size: 14px; color: var(--ink-2); }
+  .opts select { width: auto; }
+  .presets { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 14px; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr)); gap: 12px; margin-bottom: 18px; }
+  .card { background: var(--panel); border-radius: 8px; padding: 12px 14px; }
+  .card .k { color: var(--ink-2); font-size: 13.5px; }
+  .card .v { font-size: 26px; font-weight: 700; line-height: 1.15; margin-top: 2px; }
+  .card .s { color: var(--ink-3); font-size: 13px; }
+  .good { color: #1F7A5C; } .bad { color: #BA2525; }
+  .tablewrap { overflow-x: auto; margin-bottom: 8px; }
+  table { border-collapse: collapse; font-size: 14px; width: 100%; font-variant-numeric: tabular-nums; }
+  th, td { padding: 5px 8px; border-bottom: 1px solid var(--grid); text-align: right; white-space: nowrap; }
+  th:first-child, td:first-child { text-align: left; white-space: normal; min-width: 200px; }
+  thead th { color: var(--ink-2); font-weight: 600; border-bottom: 1px solid var(--ink-3); }
+  tr.group td { font-weight: 700; padding-top: 12px; color: var(--ink); border-bottom: 0; }
+  tr.total td { font-weight: 700; border-top: 1px solid var(--ink-3); }
+  td.extrap, th.extrap { background: #FBF6EC; }
+  .warn { background: #FDF3E1; border-left: 3px solid #DE911D; border-radius: 4px; padding: 8px 12px; margin: 0 0 10px; font-size: 14px; }
+  .warn:empty { display: none; }
+  .warn p { margin: 0 0 4px; } .warn p:last-child { margin: 0; }
+  .note { color: var(--ink-3); font-size: 13px; }
+  .caveats li { margin-bottom: 8px; max-width: 900px; }
+  .picker { margin-bottom: 12px; }
+</style>
+</head>
+<body>
+<header class="wrap">
+  <h1>Tax ready reckoner</h1>
+  <p class="sub">What raising or cutting the main UK taxes would raise or cost, built on HMRC's
+    <a href="https://www.gov.uk/government/statistics/direct-effects-of-illustrative-tax-changes">direct effects of
+    illustrative tax changes</a>. Set any number of changes and the page adds up HMRC's estimates.
+    Figures are <b>changes in receipts</b> compared with current policy, including how people respond to the
+    change, but not the wider effects on the economy.</p>
+  <!-- disclaimer: how the site is made -->
+  <p class="credit">Made by AI in conjunction with economists. Figures may contain errors: not official statistics or financial advice.</p>
+</header>
+<nav><div class="wrap" id="nav"></div></nav>
+<main class="wrap" id="main">
+  <section id="scenario">
+    <div class="picker" id="basis"></div>
+    <div class="layout">
+      <div>
+        <h2>Tax changes</h2>
+        <div class="presets picker" id="presets"></div>
+        <div class="opts" id="opts"></div>
+        <div id="levers"></div>
+      </div>
+      <div>
+        <h2>Effect on receipts</h2>
+        <div class="warn" id="warnings"></div>
+        <div class="cards" id="cards"></div>
+        <figure>
+          <h4>Money raised, by tax</h4>
+          <div class="units"><span>£ billion; positive = more money for the Exchequer</span></div>
+          <div class="legend" id="legend"></div>
+          <div class="canvas"><canvas id="chart"></canvas></div>
+        </figure>
+        <p class="note" id="basisnote"></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="measures">
+    <h2>By measure</h2>
+    <p class="intro">Money raised by each change, £ billion (negative = costs money). The total is a simple sum:
+      HMRC warns that big packages interact, so treat it as a guide.</p>
+    <div class="tablewrap"><table id="bymeasure"></table></div>
+  </section>
+
+  <section id="method">
+    <h2>How it works, and what to watch out for</h2>
+    <ul class="caveats" id="caveats"></ul>
+  </section>
+</main>
+<footer class="wrap">Costings: HMRC, <span id="srcnote"></span>. Data built by <code>builders/tax/build.py</code> into
+  <code>data/tax/reckoner.json</code>; latest OBR forecast from <code>data/fiscal/reckoner.json</code>.
+  Built from <a href="https://github.com/Emily-coding/Sturfrymacro">github.com/Emily-coding/Sturfrymacro</a>.</footer>
+
+<script>
+"use strict";
+// series colours in the house order (assets/colour-scheme.md): one per chart group, navy for the total
+const COLOURS = ["#186FAF", "#DE911D", "#27AB83", "#BA2525"], TOTAL = "#102A43";
+
+// Page state: which basis, the size of each change, and when changes start.
+// Kept in the address (after #) so a package can be shared as a link.
+let DATA, state = {basis: null, levers: {}, start: 0};
+let chart;
+
+const nav = document.getElementById("nav");
+[["scenario", "Tax changes"], ["measures", "By measure"], ["method", "Method and caveats"]].forEach(([id, t]) => {
+  nav.append(el("a", null, t)); nav.lastChild.href = "#" + id;
+});
+nav.append(el("a", "nav-page", "Public finances →")); nav.lastChild.href = "fiscal.html";
+nav.append(el("a", null, "← Dashboard")); nav.lastChild.href = "index.html";
+
+const basis = () => DATA.bases[state.basis];
+const years = () => basis().years;
+const fmtSigned = (v, dp = 1) => Math.abs(v) < 0.5 * 10 ** -dp ? fmt(0, dp) : (v > 0 ? "+" : "") + fmt(v, dp);
+
+function saveState() {
+  try { history.replaceState(null, "", "#" + btoa(JSON.stringify(state))); } catch (e) { /* ignore */ }
+}
+function loadState() {
+  try {
+    const s = JSON.parse(atob(location.hash.slice(1)));
+    if (s && s.basis) state = {...state, ...s};
+  } catch (e) { /* no saved package */ }
+}
+
+// ---------------------------------------------------------------- the arithmetic
+/* Revenue effect (£ million, by year) of changing one lever by x (in its own units).
+ * HMRC publishes the effect at one or more sizes (e.g. 1p; or 1% and 10%) for a rise and,
+ * usually, a cut. We draw straight lines between those points, starting from zero. Past the
+ * largest published size we carry on along the last line. Returns {vals, beyond}: beyond is
+ * true when that extrapolation matters (a measure HMRC says isn't a straight line). */
+function effect(lv, x) {
+  const n = years().length, zero = Array(n).fill(0);
+  if (!x) return {vals: zero, beyond: false};
+  const p = basis().points[lv.id], side = x > 0 ? p.up : p.down;
+  if (!side) return {vals: zero, beyond: false};       // no cut published (the input stops at 0 anyway)
+  const a = Math.abs(x), pts = [[0, zero], ...side];
+  let i = pts.findIndex(([s]) => s >= a);
+  if (i === -1) i = pts.length - 1;                    // past the last point: extend the last segment
+  const [s0, v0] = pts[i - 1], [s1, v1] = pts[i], w = (a - s0) / (s1 - s0);
+  return {vals: v0.map((v, t) => v + w * (v1[t] - v)), beyond: a > side.at(-1)[0] && side.length > 1};
+}
+
+/* Starting a year later (April 2027 rather than HMRC's April 2026): each year gets the
+ * previous year's effect, grown with that tax's receipts in the latest forecast. This keeps
+ * HMRC's build-up (e.g. self-assessment paid a year late) but is only an approximation. */
+function shift(vals, lv) {
+  if (!state.start) return vals;
+  const idx = basis().index[lv.scale || "none"];
+  return vals.map((v, t) => t === 0 ? 0 : vals[t - 1] * idx[t] / idx[t - 1]);
+}
+
+function compute() {
+  const rows = [];
+  for (const lv of DATA.levers) {
+    const x = state.levers[lv.id];
+    if (!x) continue;
+    const e = effect(lv, x);
+    rows.push({lv, x, bn: shift(e.vals, lv).map(v => v / 1000), beyond: e.beyond});
+  }
+  const n = years().length;
+  const total = Array(n).fill(0), byChart = Object.fromEntries(DATA.chart_groups.map(g => [g, Array(n).fill(0)]));
+  for (const r of rows) r.bn.forEach((v, t) => { total[t] += v; byChart[r.lv.chart][t] += v; });
+  return {rows, total, byChart};
+}
+
+// ---------------------------------------------------------------- controls
+// a size in the lever's own units: "1p", "1 point", "2%", "£100", "£2 a week"
+function fmtSize(lv, s) {
+  const n = fmt(s, s % 1 ? 1 : 0);
+  if (lv.unit.startsWith("£")) return "£" + fmt(s, s % 1 ? 2 : 0) + lv.unit.slice(1);
+  if (lv.unit === "pence") return n + "p";
+  if (lv.unit === "%") return n + "%";
+  return `${n} ${s === 1 ? lv.unit.replace(/s$/, "") : lv.unit}`;
+}
+// signed money: +£3.2bn, −£0.4bn
+const money = (v, dp = 1) => { const z = fmtSigned(v, dp); return z.replace(/^([+−]?)/, "$1£") + "bn"; };
+
+function buildLevers() {
+  const box = document.getElementById("levers");
+  box.innerHTML = "";
+  const groups = [...new Set(DATA.levers.map(l => l.group))];
+  const last = years().length - 1;
+  for (const g of groups) {
+    const det = el("details", "panel");
+    const active = DATA.levers.filter(l => l.group === g && state.levers[l.id]).length;
+    det.open = g === "Income tax" || active > 0;
+    det.innerHTML = `<summary>${g}<span class="count">${active ? active + " set" : ""}</span></summary>`;
+    for (const lv of DATA.levers.filter(l => l.group === g)) {
+      const x = state.levers[lv.id] || 0;
+      // what HMRC's smallest published change is worth, in the last year: a quick sense of scale
+      const p = basis().points[lv.id].up[0];
+      const per = `${fmtSize(lv, p[0])} higher: ${money(p[1][last] / 1000, 2)} in ${years()[last]}`;
+      const row = el("div", "lever" + (x ? " on" : ""));
+      row.innerHTML = `
+        <label for="lv-${lv.id}">${lv.label} <span class="unit">${lv.unit}</span></label>
+        <input type="number" id="lv-${lv.id}" step="${lv.step}" ${lv.cuts ? "" : 'min="0"'} value="${x}">
+        <div class="per">${per}</div>
+        ${lv.help ? `<div class="help">${lv.help}</div>` : ""}`;
+      row.querySelector("input").addEventListener("input", e => {
+        let v = +e.target.value || 0;
+        if (!lv.cuts && v < 0) { v = 0; e.target.value = 0; }
+        if (v) state.levers[lv.id] = v; else delete state.levers[lv.id];
+        row.classList.toggle("on", !!v);
+        const c = DATA.levers.filter(l => l.group === g && state.levers[l.id]).length;
+        det.querySelector(".count").textContent = c ? c + " set" : "";
+        update();
+      });
+      det.append(row);
+    }
+    box.append(det);
+  }
+}
+
+function buildOpts() {
+  const box = document.getElementById("opts");
+  const canShift = state.basis === "latest";
+  if (!canShift) state.start = 0;
+  box.innerHTML = `<label>Changes start in <select id="start" ${canShift ? "" : "disabled"}>
+      <option value="0">April 2026 (as HMRC assumes)</option>
+      <option value="1">April 2027 (shifted a year)</option></select></label>` +
+    (canShift ? "" : `<span class="note">Shifting a year needs the longer, rescaled basis.</span>`);
+  const s = document.getElementById("start");
+  s.value = state.start;
+  s.addEventListener("change", () => { state.start = +s.value; update(); });
+}
+
+// one-click packages: each sets the levers from scratch
+const PRESETS = [
+  ["1p on the basic rate", {basic_rate: 1}],
+  ["1p on income tax, 1 point off employee NICs", {basic_rate: 1, higher_rate: 1, additional_rate: 1, ee_main: -1, ee_additional: -1}],
+  ["Thresholds 1% lower (longer freeze)", {all_thresholds: -1}],
+  ["VAT up 1 point", {vat_standard: 1}],
+  ["Employer NICs up 1 point", {er_rate: 1}],
+  ["Corporation tax up 1 point", {ct: 1}],
+  ["Fuel duty up 5%", {fuel: 5}],
+  ["CGT higher rate up 5 points", {cgt_higher: 5}],
+];
+function buildPresets() {
+  const box = document.getElementById("presets");
+  box.innerHTML = "";
+  for (const [label, set] of PRESETS) {
+    const b = el("button", null, label);
+    b.onclick = () => { state.levers = {...set}; buildLevers(); update(); };
+    box.append(b);
+  }
+  const reset = el("button", null, "Reset");
+  reset.onclick = () => { state.levers = {}; buildLevers(); update(); };
+  box.append(reset);
+}
+
+function buildBasisPicker() {
+  const box = document.getElementById("basis");
+  box.innerHTML = "";
+  for (const [key, b] of Object.entries(DATA.bases)) {
+    const btn = el("button", null, key === "latest" ? "Latest OBR forecast (rescaled)" : "HMRC as published");
+    btn.setAttribute("aria-pressed", key === state.basis);
+    btn.title = b.label;
+    btn.onclick = () => {
+      if (state.basis === key) return;
+      state.basis = key;
+      buildBasisPicker(); buildOpts(); buildLevers(); update();
+    };
+    box.append(btn);
+  }
+}
+
+// ---------------------------------------------------------------- output
+// years beyond HMRC's table (shaded)
+const extrapolated = () => basis().extrapolated;
+
+function update() {
+  saveState();
+  const r = compute();
+  renderCards(r); renderChart(r); renderTable(r); renderWarnings(r);
+}
+
+function renderCards(r) {
+  // the headline year is HMRC's last year (2028-29), so both bases can be compared;
+  // the rescaled basis also shows its final year
+  const ys = years(), hy = DATA.bases.hmrc.years.at(-1), n = ys.indexOf(hy), last = ys.length - 1;
+  const gdp = basis().gdp;
+  const cls = v => v > 0.05 ? "good" : v < -0.05 ? "bad" : "";
+  const card = (k, v, s, c) => `<div class="card"><div class="k">${k}</div><div class="v ${c}">${v}</div><div class="s">${s}</div></div>`;
+  // the package expressed as pence on the basic rate (what 1p raises that year)
+  const bp = effect(DATA.levers.find(l => l.id === "basic_rate"), 1).vals;
+  const bpv = shift(bp, DATA.levers.find(l => l.id === "basic_rate"))[n] / 1000;
+  let html = card(`Raised in ${hy}`, money(r.total[n]), fmtSigned(100 * r.total[n] / gdp[n], 2) + "% of GDP", cls(r.total[n])) +
+    card(`Same as`, fmtSigned(bpv ? r.total[n] / bpv : 0, 1) + "p", `on the basic rate of income tax, ${hy}`, "");
+  if (last !== n)
+    html += card(`Raised in ${ys[last]}`, money(r.total[last]), fmtSigned(100 * r.total[last] / gdp[last], 2) + "% of GDP (beyond HMRC's years)", cls(r.total[last]));
+  html += card(`Total over ${ys[0]} to ${ys[last]}`, money(r.total.reduce((a, b) => a + b, 0), 0), `${ys.length} years added up`, cls(r.total.reduce((a, b) => a + b, 0)));
+  document.getElementById("cards").innerHTML = html;
+}
+
+function renderChart(r) {
+  const clean = a => a.map(v => Math.abs(v) < 1e-9 ? 0 : v);
+  const sets = DATA.chart_groups.map((g, i) => ({label: g, data: clean(r.byChart[g]), backgroundColor: COLOURS[i], stack: "s"}))
+    .filter(s => s.data.some(v => v !== 0));
+  if (sets.length > 1 || !sets.length)
+    sets.push({label: "Total", data: clean(r.total), type: "line", borderColor: TOTAL, backgroundColor: TOTAL,
+               borderWidth: 2, pointRadius: 3, order: -1});
+  const quiet = sets.every(s => s.data.every(v => v === 0));
+  document.getElementById("legend").innerHTML = sets.map(s =>
+    `<span><i class="${s.type === "line" ? "" : "dot"}" style="border-color:${s.backgroundColor};background:${s.type === "line" ? "transparent" : s.backgroundColor}"></i>${s.label}</span>`).join("");
+  if (chart) chart.destroy();
+  chart = new Chart(document.getElementById("chart"), {
+    type: "bar", data: {labels: years(), datasets: sets},
+    options: {
+      maintainAspectRatio: false, animation: false,
+      plugins: {legend: {display: false},
+                tooltip: {callbacks: {label: c => `${c.dataset.label}: £${fmtSigned(c.parsed.y, 2)}bn`}}},
+      scales: {x: {stacked: true, grid: {display: false}},
+               y: {stacked: true, grid: {color: "#D9E2EC"}, ticks: {callback: v => fmt(v, Number.isInteger(v) ? 0 : 1)},
+                   ...(quiet ? {min: -10, max: 10} : {})}},
+    },
+  });
+  const ex = extrapolated().some(Boolean);
+  document.getElementById("basisnote").innerHTML = `Basis: ${basis().label}.` +
+    (ex ? " Shaded years in the table go beyond HMRC's three years: they carry its last year on in line with each tax's receipts." : "") +
+    (state.start ? " Changes start in April 2027: HMRC's profile is moved a year later, so treat the timing as approximate." : "");
+}
+
+function renderTable(r) {
+  const ex = extrapolated(), ys = years();
+  const td = (v, t, dp = 2) => `<td class="${ex[t] ? "extrap" : ""}">${fmtSigned(v, dp)}</td>`;
+  const head = `<thead><tr><th>£ billion</th>${ys.map((y, t) => `<th class="${ex[t] ? "extrap" : ""}">${y}</th>`).join("")}</tr></thead>`;
+  const body = [];
+  let group = null;
+  for (const row of r.rows) {
+    if (row.lv.group !== group) {
+      group = row.lv.group;
+      body.push(`<tr class="group"><td>${group}</td>${ys.map(() => "<td></td>").join("")}</tr>`);
+    }
+    const size = (row.x > 0 ? "+" : "−") + fmtSize(row.lv, Math.abs(row.x));
+    body.push(`<tr><td>${row.lv.label} <span class="note">(${size})</span></td>${row.bn.map((v, t) => td(v, t)).join("")}</tr>`);
+  }
+  if (!r.rows.length) body.push(`<tr><td colspan="${ys.length + 1}" class="note">Set a change on the left, or pick a package above.</td></tr>`);
+  else {
+    body.push(`<tr class="total"><td>Total</td>${r.total.map((v, t) => td(v, t)).join("")}</tr>`);
+    body.push(`<tr><td>Per cent of GDP</td>${r.total.map((v, t) => td(100 * v / basis().gdp[t], t)).join("")}</tr>`);
+  }
+  document.getElementById("bymeasure").innerHTML = head + `<tbody>${body.join("")}</tbody>`;
+}
+
+function renderWarnings(r) {
+  const w = [], on = id => !!state.levers[id], L = state.levers;
+  if (on("all_thresholds") && (on("personal_allowance") || on("basic_rate_limit")))
+    w.push("'All main allowances and limits' already includes the personal allowance and basic rate limit: setting both counts them twice.");
+  const allowanceUp = ["personal_allowance", "basic_rate_limit", "all_thresholds"].some(id => (L[id] || 0) > 0);
+  const rateCut = ["basic_rate", "higher_rate", "additional_rate"].some(id => (L[id] || 0) < 0);
+  if (allowanceUp && rateCut)
+    w.push("Higher allowances plus lower income tax rates: HMRC notes the rate cut costs less once allowances rise, so the sum overstates the cost.");
+  const beyond = r.rows.filter(x => x.beyond).map(x => x.lv.label);
+  if (beyond.length)
+    w.push(`${beyond.join(", ")}: beyond the largest change HMRC publishes. These don't move in a straight line, so the figure is a rough extension.`);
+  const big = r.rows.filter(x => !x.beyond && Math.abs(x.x) > 5 * x.lv.sizes.at(-1) && /points|pence|%/.test(x.lv.unit)).map(x => x.lv.label);
+  if (big.length)
+    w.push(`Large changes in ${big.join(", ")}: HMRC's figures scale roughly for modest changes, but behaviour shifts more as changes get bigger.`);
+  document.getElementById("warnings").innerHTML = w.map(s => `<p>${s}</p>`).join("");
+}
+
+function renderCaveats() {
+  const s = DATA.source;
+  const items = [
+    `<b>What it is.</b> HMRC's ${s.edition} table of what a 1p, 1 point, 1% (or similar) change in each tax would raise or cost
+      in each of three years. HMRC says the figures can be scaled for small changes and roughly added together. This page draws
+      straight lines between HMRC's published points (for income tax allowances and capital gains tax it gives several,
+      because those aren't straight lines) and adds the results up.`,
+    `<b>Direct effects only.</b> The figures include how people respond to the tax itself (working, selling assets, smuggling
+      and so on) but not the knock-on effects on the wider economy, such as inflation or growth. The OBR's official costing of a
+      real policy can differ, and includes extra uncertainty about behaviour.`,
+    `<b>Baseline: policy as at the Spring Statement 2025.</b> HMRC's latest edition was built on the OBR's March 2025 forecast and
+      tax policy as announced up to then. Later decisions, such as the longer freeze in income tax thresholds announced in November 2025,
+      aren't in HMRC's figures, and some starting points (like rates already changed since) may differ from today's.`,
+    `<b>Latest OBR forecast (rescaled).</b> Each measure is scaled by the latest OBR forecast for that tax relative to the March 2025
+      forecast HMRC used, year by year, and carried on beyond HMRC's last year in line with that tax's receipts. This puts the figures
+      on today's tax bases, but can't capture changes in a tax's structure since (e.g. more people pulled into higher-rate tax by
+      frozen thresholds would make a higher-rate change worth more). Child Benefit and the aggregates levy aren't rescaled.`,
+    `<b>Timing.</b> HMRC assumes every change takes effect in April 2026, which has passed. On the rescaled basis you can move the
+      start to April 2027: each year takes the previous year's figure, grown with receipts. That keeps the build-up (some taxes are
+      paid a year or more late) but is only approximate.`,
+    `<b>Income tax is for England and Northern Ireland.</b> The rates and bands for most income in Scotland, and partly in Wales,
+      are set by their governments. HMRC's figures include the effect on the Scottish and Welsh block grants.`,
+    `<b>National accounts basis.</b> Tax is counted when the liability arises, except for self-assessment income tax, capital gains
+      tax and inheritance tax, which are counted when paid. That is why some changes build up over the years.`,
+    `<b>Child Benefit is spending</b>, run by HMRC. It's shown on the same basis: raising it costs money (negative).`,
+  ];
+  document.getElementById("caveats").innerHTML = items.map(s => `<li>${s}</li>`).join("");
+}
+
+// ---------------------------------------------------------------- start
+fetch("data/tax/reckoner.json", {cache: "no-cache"}).then(r => r.json()).then(d => {
+  DATA = d;
+  state.basis = d.default_basis;
+  loadState();
+  if (!DATA.bases[state.basis]) state.basis = d.default_basis;
+  document.getElementById("srcnote").innerHTML =
+    `<a href="${d.source.page}">${d.source.edition}</a> (<a href="${d.source.ods}">spreadsheet</a>); data built ${d.generated}`;
+  buildBasisPicker(); buildPresets(); buildOpts(); buildLevers(); renderCaveats();
+  update();
+}).catch(e => { document.getElementById("main").innerHTML = `<p class="error">Couldn't load the tax data: ${e}</p>`; });
+</script>
+</body>
+</html>

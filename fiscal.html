@@ -57,7 +57,7 @@
   #inputs td input:hover, #inputs td input:focus { border-color: var(--grid); background: #FFFFFF; }
   #inputs td.over input { background: #FDE8C8; border-color: #DE911D; font-weight: 600; }
   #inputs td.big input { color: #BA2525; }
-  /* the OBR's own forecast, in brackets under each cell */
+  /* the OBR's own forecast, under each cell */
   #inputs td .base { display: block; font-size: 11.5px; color: var(--ink-3); white-space: nowrap; line-height: 1.2; }
   .warn { background: #FDF3E1; border-left: 3px solid #DE911D; border-radius: 4px; padding: 8px 12px; margin: 0 0 10px; font-size: 14px; }
   .warn:empty { display: none; }
@@ -133,9 +133,10 @@
     <p class="intro">What the levers imply for each of the OBR's economic inputs, year by year. You can override any cell
       (amber); the levers then leave it alone. Overriding breaks the consistency the levers provide, so check the
       scenario still hangs together. Red values are large enough that the OBR's linear elasticities may not hold.
-      In brackets under each cell is the OBR's own forecast you are varying from (earnings and house prices as growth on
-      a year earlier; employment and unemployment as 16+ rates; durables as a share of consumer spending and imports as
-      a share of GDP; n/a where the EFO does not publish it).
+      The box in each cell is the change from the OBR's forecast; the grey line under it is the OBR's own forecast for
+      that year, for reference (earnings and house prices as growth on a year earlier; employment and unemployment as
+      16+ rates; durables as a share of consumer spending and imports as a share of GDP). The two answer different
+      questions, so they needn't move together.
       <button class="link" id="clear">Clear all overrides</button></p>
     <div class="tablewrap"><table id="inputs"></table></div>
   </section>
@@ -635,7 +636,7 @@ function renderContribs(x) {
 // typical sizes beyond which a linear elasticity is a stretch (OBR: estimated from ~1% changes)
 // (unemployment: the OBR's elasticity is per 100,000; 1% of employment is ~350,000)
 const LARGE = {pct: 3, pt: 2, millions: 0.6, "$/barrel": 20, "p/therm": 40, "£/MWh": 30, $: 0.15};
-/* The OBR's forecast of an input, in brackets under the scenario cell, in the units of
+/* The OBR's forecast of an input, shown under the scenario cell, in the units of
  * the OBR workbook. Earnings and house prices are indices there, so they show growth. */
 const BASE_FMT = {
   growth: ["earnings", "house_prices"],
@@ -644,10 +645,10 @@ const BASE_FMT = {
        "profits_financial", "pnfc_investment", "personal_deposits"],
 };
 function showBase(id, v) {
-  if (v == null || !Number.isFinite(v)) return "(n/a)";
+  if (v == null || !Number.isFinite(v)) return "OBR forecast: not published";
   const n = (z, dp) => z.toLocaleString("en-GB", {minimumFractionDigits: dp, maximumFractionDigits: dp});
   let s;
-  if (BASE_FMT.growth.includes(id)) s = `${v >= 0 ? "+" : "−"}${n(Math.abs(v), 1)}%`;
+  if (BASE_FMT.growth.includes(id)) s = `${v >= 0 ? "+" : "−"}${n(Math.abs(v), 1)}% growth`;
   else if (BASE_FMT.bn.includes(id)) s = `£${n(v, 0)}bn`;
   else if (id === "employment") s = `${n(v, 1)}% rate`;          // 16+ employment rate
   else if (id === "unemployment") s = `${n(v, 1)}% rate`;        // ILO unemployment rate
@@ -660,7 +661,7 @@ function showBase(id, v) {
   else if (id === "electricity_price") s = `£${n(v, 0)}`;
   else if (id === "usd_gbp") s = `$${n(v, 2)}`;
   else s = `${n(v, 1)}%`;                                        // inflation, growth and interest rates
-  return `(${s})`;
+  return `OBR forecast: ${s}`;
 }
 function renderInputs(x) {
   const t = document.getElementById("inputs");
@@ -678,7 +679,7 @@ function renderInputs(x) {
     }).join("");
     rows.push(`<tr><td title="${inp.help}">${inp.label} <span class="note">${unit}</span></td>${tds}</tr>`);
   }
-  table("inputs", ["Difference from the OBR's forecast", ...years()], rows);
+  table("inputs", ["Change from the OBR's forecast (OBR's own forecast underneath)", ...years()], rows);
   t.querySelectorAll("input").forEach(e => e.addEventListener("change", () => {
     const v = parseFloat(e.value);
     if (Number.isFinite(v)) state.overrides[e.dataset.key] = v; else delete state.overrides[e.dataset.key];

@@ -133,11 +133,11 @@
     <p class="intro">What the levers imply for each of the OBR's economic inputs, year by year. You can override any cell
       (amber); the levers then leave it alone. Overriding breaks the consistency the levers provide, so check the
       scenario still hangs together. Red values are large enough that the OBR's linear elasticities may not hold.
-      The box in each cell is the change from the OBR's forecast; the grey line under it is the OBR's own forecast for
-      that year, for reference (earnings and house prices as growth on a year earlier; employment and unemployment as
-      16+ rates; durables as a share of consumer spending and imports as a share of GDP). The two answer different
-      questions, so they needn't move together.
-      <button class="link" id="clear">Clear all overrides</button></p>
+      The box in each cell is the change from the OBR's forecast. The grey line under it shows, as chosen below, either
+      the OBR's own forecast for that year or the new forecast (the OBR's plus the change), in more familiar units:
+      earnings and house prices as growth on a year earlier, employment and unemployment as 16+ rates, imports as a share
+      of GDP. <button class="link" id="clear">Clear all overrides</button></p>
+    <div class="picker" id="baseview"></div>
     <div class="tablewrap"><table id="inputs"></table></div>
   </section>
 
@@ -644,8 +644,8 @@ const BASE_FMT = {
        "nominal_gdp_cy", "nominal_gdp_march", "dwelling_investment", "profits_nonfinancial",
        "profits_financial", "pnfc_investment", "personal_deposits"],
 };
-function showBase(id, v) {
-  if (v == null || !Number.isFinite(v)) return "OBR forecast: not published";
+function showBase(id, v, label = "OBR forecast") {
+  if (v == null || !Number.isFinite(v)) return `${label}: not published`;
   const n = (z, dp) => z.toLocaleString("en-GB", {minimumFractionDigits: dp, maximumFractionDigits: dp});
   let s;
   if (BASE_FMT.growth.includes(id)) s = `${v >= 0 ? "+" : "−"}${n(Math.abs(v), 1)}% growth`;
@@ -661,25 +661,63 @@ function showBase(id, v) {
   else if (id === "electricity_price") s = `£${n(v, 0)}`;
   else if (id === "usd_gbp") s = `$${n(v, 2)}`;
   else s = `${n(v, 1)}%`;                                        // inflation, growth and interest rates
-  return `OBR forecast: ${s}`;
+  return `${label}: ${s}`;
 }
+
+/* Under each cell: the OBR's own forecast, or the new forecast = the OBR's plus the change.
+ * The change (the box) and the OBR's figure (in familiar units) aren't always in the same
+ * units, so each input needs its own conversion. */
+let baseView = "obr";
+function newForecast(id, k, x, obr) {
+  const ch = t => (x[id] || [])[t] || 0, g = v => 1 + v / 100;
+  if (obr == null || !Number.isFinite(obr)) return null;
+  if (BASE_FMT.growth.includes(id))                    // growth on a year earlier, from level changes
+    return 100 * (g(obr) * g(ch(k)) / g(k ? ch(k - 1) : 0) - 1);
+  if (id === "unemployment") {                         // a rate, from a change in millions of people
+    const emp = basis().baseline.employment[k + 1] / 1000;           // millions in work
+    return obr + 100 * ch(k) / (emp / (1 - obr / 100));               // labour force = employment / (1 - rate)
+  }
+  if (id === "imports") return obr * g(ch(k)) / g((x.nominal_gdp_fy || [])[k] || 0);           // share of GDP
+  if (id === "durables") return obr * g(ch(k)) / g((x.nominal_consumption || [])[k] || 0);    // share of spending
+  const inp = DATA.inputs.find(i => i.id === id);
+  return inp.unit === "pct" ? obr * g(ch(k)) : obr + ch(k);       // per cent changes scale; the rest add on
+}
+
+// the readings used to uprate benefits and pensions: worked out from the levers, shown last under their own heading
+const UPRATING = ["earnings_growth_q2", "earnings_growth_q3", "cpi_q3", "rpi_q2"];
+const UPRATING_GROUP = "Used for uprating benefits and pensions (worked out from the levers above)";
+
+function buildBaseView() {
+  const box = document.getElementById("baseview");
+  box.innerHTML = '<span class="note">Under each cell, show: </span>';
+  for (const [key, label] of [["obr", "the OBR's forecast"], ["new", "the new forecast (OBR plus the change)"]]) {
+    const b = el("button", null, label);
+    b.setAttribute("aria-pressed", key === baseView);
+    b.onclick = () => { baseView = key; buildBaseView(); update(); };
+    box.append(b);
+  }
+}
+
 function renderInputs(x) {
   const t = document.getElementById("inputs");
   const shown = basis().shown || {};
   let group = null;
   const rows = [];
-  for (const inp of DATA.inputs) {
-    if (inp.group !== group) { group = inp.group; rows.push(`<tr class="group"><td>${group}</td>${years().map(() => "<td></td>").join("")}</tr>`); }
+  const ordered = DATA.inputs.filter(i => !UPRATING.includes(i.id)).concat(DATA.inputs.filter(i => UPRATING.includes(i.id)));
+  const label = baseView === "new" ? "new forecast" : "OBR forecast";
+  for (const inp of ordered) {
+    const g = UPRATING.includes(inp.id) ? UPRATING_GROUP : inp.group;
+    if (g !== group) { group = g; rows.push(`<tr class="group"><td>${group}</td>${years().map(() => "<td></td>").join("")}</tr>`); }
     const unit = {pct: "%", pt: "points", millions: "millions"}[inp.unit] || inp.unit;
     const tds = years().map((_, k) => {
       const key = inp.id + "|" + k, v = (x[inp.id] || [])[k] || 0;
       const cls = [key in state.overrides ? "over" : "", Math.abs(v) > (LARGE[inp.unit] ?? 3) ? "big" : "", extrapolated()[k] ? "extrap" : ""].join(" ");
       return `<td class="${cls}"><input data-key="${key}" value="${Math.abs(v) < 5e-4 ? "0" : +v.toFixed(3)}" inputmode="decimal">`
-        + `<span class="base">${showBase(inp.id, (shown[inp.id] || [])[k])}</span></td>`;
+        + `<span class="base">${showBase(inp.id, baseView === "new" ? newForecast(inp.id, k, x, (shown[inp.id] || [])[k]) : (shown[inp.id] || [])[k], label)}</span></td>`;
     }).join("");
     rows.push(`<tr><td title="${inp.help}">${inp.label} <span class="note">${unit}</span></td>${tds}</tr>`);
   }
-  table("inputs", ["Change from the OBR's forecast (OBR's own forecast underneath)", ...years()], rows);
+  table("inputs", [`Change from the OBR's forecast (${baseView === "new" ? "new" : "OBR's own"} forecast underneath)`, ...years()], rows);
   t.querySelectorAll("input").forEach(e => e.addEventListener("change", () => {
     const v = parseFloat(e.value);
     if (Number.isFinite(v)) state.overrides[e.dataset.key] = v; else delete state.overrides[e.dataset.key];
@@ -760,7 +798,7 @@ Promise.all([
   if (!DATA.bases[state.basis]) state.basis = d.default_basis;
   if (state.since && (!SINCE || !(SINCE.targets[state.since] || state.since === CUSTOM))) { state.since = null; state.levers = {}; }
   document.getElementById("srcnote").innerHTML = `<a href="${d.source.workbook}">workbook</a>, <a href="${d.source.article}">article</a>; data built ${d.generated}`;
-  buildModes(); buildViews(); buildBasisPicker(); buildPresets(); buildLevers(); buildParams(); renderCaveats();
+  buildModes(); buildViews(); buildBaseView(); buildBasisPicker(); buildPresets(); buildLevers(); buildParams(); renderCaveats();
   const src = document.getElementById("p-src"), srcHelp = () => { document.getElementById("p-src-help").textContent = SOURCE_HELP[src.value]; };
   src.addEventListener("change", srcHelp); srcHelp();
   // a fresh visit opens on what has changed since the forecast, the page's main use
